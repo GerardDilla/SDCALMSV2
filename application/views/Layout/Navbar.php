@@ -191,8 +191,8 @@
                 <figure class="profile-picture">
                     <img src="<?php echo base_url(); ?>assets/images/!logged-user.jpg" class="img-circle" data-lock-picture="<?php echo base_url(); ?>assets/images/!logged-user.jpg" />
                 </figure>
-                <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-                    <span class="name">John Doe Junior</span>
+                <div class="profile-info" data-lock-name="<?php echo $this->session->userdata['LoginData']['First_Name'].' '.$this->session->userdata['LoginData']['Last_Name']; ?>" data-lock-email="johndoe@JSOFT.com">
+                    <span class="name"><?php echo $this->session->userdata['LoginData']['First_Name'].' '.$this->session->userdata['LoginData']['Last_Name']; ?></span>
                     <span class="role">administrator</span>
                 </div>
 

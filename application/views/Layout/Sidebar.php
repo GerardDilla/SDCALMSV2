@@ -20,18 +20,84 @@
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
                     <li class="nav-active">
-                        <a href="index.html">
+                        <a href="<?php echo base_url(); ?>index.php/Main/sample">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="mailbox-folder.html">
-                            <span class="pull-right label label-primary">182</span>
+                        <a href="<?php echo base_url(); ?>index.php/Grades">
+                            <!--<span class="pull-right label label-primary">182</span>-->
                             <i class="fa fa-envelope" aria-hidden="true"></i>
-                            <span>Mailbox</span>
+                            <span>Grades</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="mailbox-folder.html">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Balance</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailbox-folder.html">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </li>
+                    <li class="nav-parent">
+                        <a>
+                            <i class="fa fa-copy" aria-hidden="true"></i>
+                            <span>Evaluation</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li>
+                                <a href="pages-signup.html">
+                                        Faculty Evaluation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pages-signin.html">
+                                        RMUSIC Evaluation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pages-recover-password.html">
+                                        Customer Evaluation
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="mailbox-folder.html">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Clearance Requirements</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailbox-folder.html">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Feedback</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailbox-folder.html">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Choose Student</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailbox-folder.html">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Balance(Basic Education)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailbox-folder.html">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Balance(Senior High)</span>
+                        </a>
+                    </li>
+                    <!--
                     <li class="nav-parent">
                         <a>
                             <i class="fa fa-copy" aria-hidden="true"></i>
@@ -394,9 +460,11 @@
                             <span>Front-End <em class="not-included">(Not Included)</em></span>
                         </a>
                     </li>
+                    -->
                 </ul>
             </nav>
 
+            <!--
             <hr class="separator" />
 
             <div class="sidebar-widget widget-tasks">
@@ -452,6 +520,9 @@
                     </ul>
                 </div>
             </div>
+            -->
+            <hr class="separator" />
+
         </div>
 
     </div>
