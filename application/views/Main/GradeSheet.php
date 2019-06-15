@@ -59,6 +59,9 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="message_box">
+                           
+                        </div>
                     </div>
                     <footer class="panel-footer">
                         <button type="button" class="btn btn-default" id="Grade_finder">View Grades</button>
@@ -134,6 +137,8 @@
     </div>
   
 </section>
+
+
 
 
 
