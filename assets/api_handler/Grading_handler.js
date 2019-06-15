@@ -1,21 +1,22 @@
 
 function Init_API(url='',refnum='')
 {   
-    console.log(url);
+    //console.log(url);
     if(url == ''){
-        console.log('You must provide the API URL');
+        message_handler('You must provide the API URL','warning','.message_box');
         return;
     }
     if(refnum == ''){
-        console.log('No Token found');
+       
+        message_handler('No Token found');
         return;
     }
     if($('#Grade_sy').val() == ''){
-        console.log('You must provide School Year');
+        message_handler('You must provide School Year');
         return;
     }
     if($('#Grade_sem').val() == ''){
-        console.log('You must provide Semester');
+        message_handler('You must provide Semester';
         return;
     }
 
@@ -30,10 +31,11 @@ function Init_API(url='',refnum='')
         success: function(response){
 
             result = JSON.parse(response);
-            if(length.result != 0){
-                console.log(result);
+            if(length.result  != 0){
+                console.log(result['Output']);
+                //message_handler(result['ErrorMessage'],'warning','.message_box');
             }else{
-                alert(result['ErrorMessage']);
+                message_handler(result['ErrorMessage']);
             }
 
         },
@@ -65,7 +67,7 @@ function trf_display(resultdata)
     $('#trf_course').html(resultdata['get_Advise'][0]['Course']);
     $('#trf_sy').html(resultdata['get_Advise'][0]['School_Year']);
     $('#trf_yl').html(resultdata['get_Advise'][0]['Year_Level']);
-    $('#trf_sec').html(resultdata['get_Advise'][0]['Section']);
+    $('#trf_sec').html(resultdata['get_Advise'][0]['Section']); 
 
     //Displays Payments
     $('#trf_tuition').html(resultdata['get_Advise'][0]['tuition_Fee']);
@@ -139,5 +141,15 @@ function trf_display(resultdata)
     $('#trf_total_subject').html(subjectcount);
 
     $('#regform').modal('show');
+
+}
+function message_handler(msg='',type='info',obj='.message_box'){
+    
+    var box = '';
+    box += '<div class="alert alert-'+type+'">';
+    box += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
+    box += msg;
+    box += '</div>'
+    $(obj).html(box);
 
 }
