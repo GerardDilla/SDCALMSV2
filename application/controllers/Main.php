@@ -11,7 +11,7 @@ class Main extends MY_Controller {
 		  $this->load->library('form_validation');
 		  $this->load->library('Set_custom_session');
 		  $this->load->model('Student_Model/Student_login');
-echo 'test';
+			echo 'test123';
 	}
 	public function index()
 	{
