@@ -1,4 +1,5 @@
 		
+		
         <!-- Vendor -->
 		<script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -105,7 +106,7 @@
 		requestAnimationFrame(update);
         </script>
 
-		<script src="<?php echo base_url(); ?>assets/api_handler/Grading_handler.js"></script>
+		<!-- Grading API -->
 		<script>
 		$(document).ready(function() {
 			$("#Grade_finder").click(function() {
@@ -113,3 +114,18 @@
 			});
 		});
 		</script>
+		<script src="<?php echo base_url(); ?>assets/api_handler/Grading_handler.js"></script>
+		<!-- Grading API -->
+
+		<!-- AJAX loading -->
+		<script>
+			$(document).ajaxStart(function() {
+			$(".searchloader").show();
+			});
+			$(document).ajaxStop(function() {
+			$(".searchloader").hide();
+			});
+		</script>
+		<!-- AJAX loading -->
+
+		
