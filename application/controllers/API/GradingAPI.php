@@ -77,7 +77,8 @@ class GradingAPI extends CI_Controller {
 
 			}else{
 
-				$this->data_input['Output'] = $grades_data;
+				//$test = array('data' => $grades_data);
+				$this->data_input['data'] = $grades_data;
 				$this->data_input['ResultCount'] = count($grades_data);
 				$this->Output($this->data_input);
 				
@@ -114,19 +115,20 @@ class GradingAPI extends CI_Controller {
 			$grade = $this->get_grades($grade_fetch);
 
 			$grading_array[$count] = array(
-				'Sched_Code' => $row['Sched_Code'],
-				'Reference_Number' => $row['Reference_Number'],
-				'Student_Number' => $row['Student_Number'],
+				//'Sched_Code' => $row['Sched_Code'],
+				//'Reference_Number' => $row['Reference_Number'],
+				//'Student_Number' => $row['Student_Number'],
+				'Course_Code' => $row['Course_Code'],
 				'Course_Title' => $row['Course_Title'],
-				'School_Year' => $row['School_Year'],
-				'Semester' => $row['Semester'],
+				//'School_Year' => $row['School_Year'],
+				//'Semester' => $row['Semester'],
 				'Prelim' => count($grade) <= 0 ? '0.00' : $grade[0]['Prelim'],
 				'Midterm' => count($grade) <= 0 ? '0.00' : $grade[0]['Midterm'],
 				'Finals' => count($grade) <= 0 ? '0.00' : $grade[0]['Finals'],
-				'Final_grade_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['FG'],
-				'Final_grade_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['FG2'],
-				'remarks_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['R1'],
-				'remarks_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['R2'],
+				//'Final_grade_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['FG'],
+				//'Final_grade_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['FG2'],
+				//'remarks_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['R1'],
+				//'remarks_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['R2'],
 				'FINALGRADE' => count($grade) <= 0 ? '0.00' : $grade[0]['FINALGRADE'],
 				'REMARKS' => count($grade) <= 0 ? 'Not Encoded' : $grade[0]['REMARKS']
 			);
