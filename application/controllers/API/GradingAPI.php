@@ -16,7 +16,7 @@ class GradingAPI extends CI_Controller {
 		$this->data_input = array(
 			'Error' => 0,
 			'ResultCount' => 0,
-			'Output' => '',
+			'data' => '',
 			'Message' => '',
 			'Message_Array' => array(),
 			'ErrorMessage' => '',
