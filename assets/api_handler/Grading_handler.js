@@ -1,4 +1,10 @@
+function refresh_grading(){
 
+    $("#Grade_sy").select2("val", "");
+    $("#Grade_sem").select2("val", "");
+
+    return false; // prevent submitting
+}
 function Init_API(url='',refnum='')
 {   
     //console.log(url);
@@ -16,10 +22,11 @@ function Init_API(url='',refnum='')
         return;
     }
     if($('#Grade_sem').val() == ''){
-        message_handler('You must provide Semester';
+        message_handler('You must provide Semester');
         return;
     }
 
+    
     ajax = $.ajax({
         url: url,
         type: 'GET',
@@ -31,10 +38,33 @@ function Init_API(url='',refnum='')
         success: function(response){
 
             result = JSON.parse(response);
-            if(length.result  != 0){
-                console.log(result['Output']);
+            if(result['ResultCount']  != 0){
+                console.log(result);
+                //grading_display(result['Output']);
+
+                
+                $("#grading_main").dataTable().fnDestroy();
+                $('.message_box').html('');
+                $('#grading_main').DataTable({
+                    "data": result['data'],
+                    "type": "GET",
+                    "columns": [
+                        { "data": "Course_Code" },
+                        { "data": "Course_Title" },
+                        { "data": "Prelim" },
+                        { "data": "Midterm" },
+                        { "data": "Finals" },
+                        { "data": "FINALGRADE" },
+                        { "data": "REMARKS" }
+                    ]
+                })
+                $('html, body').animate({
+                    scrollTop: $('.table').offset().top
+                }, 500);
                 //message_handler(result['ErrorMessage'],'warning','.message_box');
             }else{
+                $("#grading_main").dataTable().fnDestroy()
+                $("#grading_body").html('');
                 message_handler(result['ErrorMessage']);
             }
 
@@ -47,100 +77,39 @@ function Init_API(url='',refnum='')
         }
     });
     
+    
+
+    
 }
-function trf_display(resultdata)
+function grading_display(resultdata)
 {   
 
-    //Displays DATA
-    //Displays Basic Info
-    $('#trf_rn').html(resultdata['get_Advise'][0]['Reference_Number']);
-    $('#trf_name').html(resultdata['get_Advise'][0]['First_Name']+' '+resultdata['get_Advise'][0]['Middle_Name'][0]+' '+resultdata['get_Advise'][0]['Last_Name']);
-    $('#trf_address').html(
-        resultdata['get_Advise'][0]['Address_No']+', '+
-        resultdata['get_Advise'][0]['Address_Street']+', '+
-        resultdata['get_Advise'][0]['Address_Subdivision']+', '+
-        resultdata['get_Advise'][0]['Address_Barangay']+', '+
-        resultdata['get_Advise'][0]['Address_City']+', '+
-        resultdata['get_Advise'][0]['Address_Province']
-    );
-    $('#trf_sem').html(resultdata['get_Advise'][0]['Semester']);
-    $('#trf_course').html(resultdata['get_Advise'][0]['Course']);
-    $('#trf_sy').html(resultdata['get_Advise'][0]['School_Year']);
-    $('#trf_yl').html(resultdata['get_Advise'][0]['Year_Level']);
-    $('#trf_sec').html(resultdata['get_Advise'][0]['Section']); 
 
-    //Displays Payments
-    $('#trf_tuition').html(resultdata['get_Advise'][0]['tuition_Fee']);
-    $('#trf_misc').html(resultdata['get_miscfees'][0]['Fees_Amount']);
-    
-    $('#trf_other').html(resultdata['get_otherfees'][0]['Fees_Amount']);
-    $('#trf_initial').html(resultdata['get_Advise'][0]['InitialPayment']);
-    $('#trf_first').html(resultdata['get_Advise'][0]['First_Pay']);
-    $('#trf_second').html(resultdata['get_Advise'][0]['Second_Pay']);
-    $('#trf_third').html(resultdata['get_Advise'][0]['Third_Pay']);
-    $('#trf_fourth').html(resultdata['get_Advise'][0]['Fourth_Pay']);
-    $('#trf_scholar').html(resultdata['get_Advise'][0]['Scholarship']);
-    $('#trf_scholar').html(resultdata['get_Advise'][0]['Scholarship']);
-    //Lab Fees 
-    /*
-    labfee = 0;
-    $.each(resultdata['get_labfees'], function(index, labresult) 
-    {
-        labfee = labfee + parseFloat(labresult['Lab_Fee']);  
-    }); 
-    */
-    labfee = parseFloat(resultdata['get_labfees'][0]['Fees_Amount']);
-    $('#trf_lab').html(labfee.toFixed(2));
-
-    //Total Fees
-    total_fees = parseFloat(resultdata['get_Advise'][0]['tuition_Fee']) + 
-    parseFloat(resultdata['get_miscfees'][0]['Fees_Amount']) +
-    labfee +
-    parseFloat(resultdata['get_otherfees'][0]['Fees_Amount']);
-
-    $('#trf_total_fees').html(total_fees.toFixed(2));
-
-  
-    //Displays Sched
-    showtable = $('#temporary_regform_subjects');
+    //Displays Grades in container
+    showtable = $('#grading_table');
     //clears the table before append
     showtable.html('');
-    sched_checking = '';
-    units = 0;
-    subjectcount = 0;
-    $.each(resultdata['get_Advise'], function(index, result) 
+
+    $('.message_box').html('');
+
+    $.each(resultdata, function(index, result) 
     {
         row = $("<tr/>");
-        if(sched_checking != result['Sched_Code']){
-
-            //Set custom attribute 'sched-code'
-            units = units + (parseInt(result['Course_Lec_Unit']) + parseInt(result['Course_Lab_Unit']));
-            subjectcount++;
-            row.append($("<td/>").text(result['Sched_Code']).attr({valign:'top',width:'10%',style:'padding-right: 10px;  padding-top: 1px;'}));
-            row.append($("<td/>").text(result['Course_Code']).attr({valign:'top',width:'10%',style:'padding-right: 10px;  padding-top: 1px;'}));
-            row.append($("<td/>").text(result['Course_Title']).attr({valign:'top',width:'10%',style:'padding-right: 10px;  padding-top: 1px;'}));
-            row.append($("<td/>").text(parseInt(result['Course_Lec_Unit']) + parseInt(result['Course_Lab_Unit'])).attr({valign:'top',width:'10%',style:'padding-right: 10px;  padding-top: 1px;'}));
-            row.append($("<td/>").text(result['Day']).attr({valign:'top',width:'10%',style:'padding-right: 10px;  padding-top: 1px;', id:result['Sched_Code']+'_day'}));
-            row.append($("<td/>").text(result['START']+' - '+result['END']).attr({valign:'top',width:'10%',style:'padding-right: 10px;  padding-top: 1px;', id:result['Sched_Code']+'_time'}));   
-            row.append($("<td/>").text(result['Room']).attr({valign:'top',width:'10%',style:'padding-right: 10px;  padding-top: 1px;', id:result['Sched_Code']+'_room'}));
-        
-            
-        }else{
-            $('#'+result['Sched_Code']+'_day').append(' , '+result['Day']);
-            $('#'+result['Sched_Code']+'_time').append(' , '+result['START']+' - '+result['END']);
-            $('#'+result['Sched_Code']+'_room').append(' , '+result['Room']);
-        }
-        
+       
+        row.append($("<td/>").text(result['Course_Code']));
+        row.append($("<td/>").text(result['Course_Title']));
+        row.append($("<td/>").text(result['Prelim']));
+        row.append($("<td/>").text(result['Midterm']));
+        row.append($("<td/>").text(result['Finals']));
+        row.append($("<td/>").text(result['FINALGRADE']));
+        row.append($("<td/>").text(result['REMARKS']));
+    
         showtable.append(row);
-        sched_checking = result['Sched_Code'];
 
     });
+    
 
-    //Total Units and Subjects
-    $('#trf_total_units').html(units);
-    $('#trf_total_subject').html(subjectcount);
 
-    $('#regform').modal('show');
 
 }
 function message_handler(msg='',type='info',obj='.message_box'){
