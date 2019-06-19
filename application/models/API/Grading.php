@@ -56,7 +56,8 @@ class Grading extends CI_Model{
 		E.School_Year,
 		E.Semester,
 		Sc.Sched_Code, 
-		S.Course_Title
+		S.Course_Title,
+		S.Course_Code
 		');
 		$this->db->where('E.Student_Number',$array['Student_Number']);
 		$this->db->where('E.School_Year',$array['School_Year']);
