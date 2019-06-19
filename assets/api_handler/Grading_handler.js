@@ -9,20 +9,39 @@ function Init_API(url='',refnum='')
 {   
     //console.log(url);
     if(url == ''){
-        message_handler('You must provide the API URL','warning','.message_box');
+        config = {
+            'message':'You must provide the API URL',
+            'type':'warning'
+        }
+        message_handler(config);
         return;
     }
     if(refnum == ''){
        
-        message_handler('No Token found');
+        //message_handler('No Token found');
+        config = {
+            'message':'No Token found',
+            'type':'warning'
+        }
+        message_handler(config);
         return;
     }
     if($('#Grade_sy').val() == ''){
-        message_handler('You must provide School Year');
+        //message_handler('You must provide School Year');
+        config = {
+            'message':'You must provide School Year',
+            'type':'warning'
+        }
+        message_handler(config);
         return;
     }
     if($('#Grade_sem').val() == ''){
-        message_handler('You must provide Semester');
+        //message_handler('You must provide Semester');
+        config = {
+            'message':'You must provide Semester',
+            'type':'warning'
+        }
+        message_handler(config);
         return;
     }
 
@@ -65,7 +84,8 @@ function Init_API(url='',refnum='')
             }else{
                 $("#grading_main").dataTable().fnDestroy()
                 $("#grading_body").html('');
-                message_handler(result['ErrorMessage']);
+                message_handler({'message':result['ErrorMessage'],'type':'warning'});
+                //message_handler(result['ErrorMessage'],'warning');
             }
 
         },
@@ -112,13 +132,39 @@ function grading_display(resultdata)
 
 
 }
-function message_handler(msg='',type='info',obj='.message_box'){
+function message_handler(settings){
+
+
+    console.log(length.settings);
+    if(length.settings == 0 || settings == undefined){
+        settings = {
+            'type':'warning',
+            'message':'No Data passed to message_handler()',
+            'object':'.message_box',
+        };
+    }else{
+        if(settings.type == ''){
+            settings['type'] = 'info';
+          
+        }
+        if(settings.message == ''){
+            settings['message'] = '';
+            console.log('No Message provided for message_handler');
     
+        }
+        if(settings.object == ''){
+            settings['object'] = '.message_box';
+    
+        }
+    }
+
+    
+
     var box = '';
-    box += '<div class="alert alert-'+type+'">';
+    box += '<div class="alert alert-'+settings.type+'">';
     box += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
-    box += msg;
+    box += settings.message;
     box += '</div>'
-    $(obj).html(box);
+    $('.message_box').html(box);
 
 }
