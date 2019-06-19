@@ -16,3 +16,6 @@ ul.nav-main > li.nav-expanded > a {
 ul.nav-main li .nav-children{
     background:#660000 !important;
 }
+.searchloader{
+    display:none;
+}
