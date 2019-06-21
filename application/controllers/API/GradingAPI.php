@@ -61,7 +61,8 @@ class GradingAPI extends CI_Controller {
 			//Check if reference number is valid
 			$sn_result = $this->get_student_number($input_array);
 			if(empty($sn_result)){
-
+				
+				$this->data_input['Error'] = 1;
 				$this->data_input['ErrorMessage'] = 'Invalid Reference Number Key';
 				$this->Output($this->data_input);
 
@@ -72,6 +73,7 @@ class GradingAPI extends CI_Controller {
 			$grades_data = $this->grade_constructor($input_array);
 			if(empty($grades_data)){
 
+				$this->data_input['Error'] = 1;
 				$this->data_input['ErrorMessage'] = 'No Grading Data';
 				$this->Output($this->data_input);
 
@@ -88,7 +90,10 @@ class GradingAPI extends CI_Controller {
 
 		}
 		else{
-			
+
+			$this->data_input['Error'] = 1;
+			$this->data_input['ErrorMessage'] = $validate['All_Errors'];
+			$this->data_input['ErrorMessage_Array'] = $validate['Error'];
 			$this->Output($this->data_input);
 			
 		}
