@@ -42,17 +42,20 @@ class api_input_validator
 	public function validate_input($config){
 
 		$error = array();
+		$errorall = '';
 		$status = TRUE;
 		$count = 0;
 		foreach($config as $row){
 			if($row['value'] == '' || $row['value'] == NULL){
 				$error[$row['field']] = $this->errors_translate($row['rules'],$row['label']);
+				$errorall .= $error[$row['field']];
 				$status = FALSE;
 			}
 		}
 		return array(
 			'Status' => $status,
-			'Error' => $error
+			'Error' => $error,
+			'All_Errors' => $errorall
 		);
 
 	}
