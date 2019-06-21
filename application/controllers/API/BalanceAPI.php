@@ -62,33 +62,20 @@ class GradingAPI extends CI_Controller {
 			$sn_result = $this->get_student_number($input_array);
 			if(empty($sn_result)){
 
+				$this->data_input['Error'] = 1;
 				$this->data_input['ErrorMessage'] = 'Invalid Reference Number Key';
 				$this->Output($this->data_input);
 
 			}
 			$input_array['Student_Number'] = $sn_result[0]['Student_Number'];
 
-			//Get Grades
-			$grades_data = $this->grade_constructor($input_array);
-			if(empty($grades_data)){
-
-				$this->data_input['ErrorMessage'] = 'No Grading Data';
-				$this->Output($this->data_input);
-
-			}else{
-
-				//$test = array('data' => $grades_data);
-				$this->data_input['data'] = $grades_data;
-				$this->data_input['ResultCount'] = count($grades_data);
-				$this->Output($this->data_input);
-				
-			}
-
-			$this->Output($this->data_input);
 
 		}
 		else{
-			
+
+			$this->data_input['Error'] = 1;
+			$this->data_input['ErrorMessage'] = $validate['All_Errors'];
+			$this->data_input['ErrorMessage_Array'] = $validate['Error'];
 			$this->Output($this->data_input);
 			
 		}
@@ -96,65 +83,41 @@ class GradingAPI extends CI_Controller {
 		//echo json_encode($output['Output']);
 
 	}
-	private function grade_constructor($input_array){
-		//Gets all subjects then gets each of the subject's grades
-		$grading_array = array();
-		$count = 0;
-		$subjects = $this->get_subjects($input_array);
+	private function balance_constructor($input_array){
+
 		
-		foreach($subjects as $row){
+		$this->load->model('User_login');
+		$this->load->model('Balance_model');
+		$rn = $this->session->userdata('Reference_Number');
+		$latestbal = $this->Balance_model->GetLatestBalDate_query($rn)->result_array();
+		$sy = $latestbal[0]['schoolyear'];
+		$sem = $latestbal[0]['semester'];
 
-
-			//Gets Grade of Subject
-			$grade_fetch = array(
-				'Student_Number' => $row['Student_Number'],
-				'School_Year' => $row['School_Year'],
-				'Semester' => $row['Semester'],
-				'Sched_Code' => $row['Sched_Code']
-			);
-			$grade = $this->get_grades($grade_fetch);
-
-			$grading_array[$count] = array(
-				//'Sched_Code' => $row['Sched_Code'],
-				//'Reference_Number' => $row['Reference_Number'],
-				//'Student_Number' => $row['Student_Number'],
-				'Course_Code' => $row['Course_Code'],
-				'Course_Title' => $row['Course_Title'],
-				//'School_Year' => $row['School_Year'],
-				//'Semester' => $row['Semester'],
-				'Prelim' => count($grade) <= 0 ? '0.00' : $grade[0]['Prelim'],
-				'Midterm' => count($grade) <= 0 ? '0.00' : $grade[0]['Midterm'],
-				'Finals' => count($grade) <= 0 ? '0.00' : $grade[0]['Finals'],
-				//'Final_grade_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['FG'],
-				//'Final_grade_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['FG2'],
-				//'remarks_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['R1'],
-				//'remarks_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['R2'],
-				'FINALGRADE' => count($grade) <= 0 ? '0.00' : $grade[0]['FINALGRADE'],
-				'REMARKS' => count($grade) <= 0 ? 'Not Encoded' : $grade[0]['REMARKS']
-			);
-			
-			$count++;
-
+		//echo 'rn:'.$rn.'-sy:'.$sy.'-sem'.$sem;
+		
+		$outstanding = $this->Balance_model->getOutstandingbal($rn,$sy,$sem);
+		$totalpaid = $this->Balance_model->gettotalpaid($rn,$sy,$sem);
+		$sembalance = $this->Balance_model->semestralbalance($rn,$sy,$sem);
+		$totalpaidsem = $this->Balance_model->gettotalpaidsemester($rn,$sy,$sem);
+		foreach($outstanding->result_array() as $outstanding_row){
+			$ob = $outstanding_row['Fees'];
 		}
-		return $grading_array;
-
-	}
-	private function get_subjects($array){
-
-		$result = $this->Grading->Get_Subjects($array);
-		return $result;
-
-	}
-	private function get_grades($array){
-
-		$result = $this->Grading->Get_grades($array);
-		return $result;
-
-	}
-	private function get_student_number($array){
-
-		$result = $this->Student_info->Student_Info_byREF($array);
-		return $result;
+		foreach($totalpaid->result_array() as $totalpaid_row){
+			$tp = $totalpaid_row['AmountofPayment'];
+		}
+		foreach($sembalance->result_array() as $sembalance_row){
+			$sembal = $sembalance_row['Fees'];
+		}
+		foreach($totalpaidsem->result_array() as $totalpaidsem_row){
+			$sempaid = $totalpaidsem_row['AmountofPayment'];
+		}
+		
+		$data['Outstanding_Balance'] = $ob-$tp;
+		$data['Semestral_Balance'] = $sembal;
+		$data['Sem_total_Paid'] = $sempaid;
+		$data['Total_Paid'] = $sembal - $sempaid;
+		$data['Bal_Schoolyear'] = $sy;
+		$data['Bal_Semester'] = $sem;
 
 	}
 	private function Output($data = array()){
