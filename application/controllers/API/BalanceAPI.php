@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class GradingAPI extends CI_Controller {
+class BalanceAPI extends CI_Controller {
 
 	function __construct() 
 	{
@@ -10,6 +10,7 @@ class GradingAPI extends CI_Controller {
 		$this->load->library("api_input_validator");
 		$this->load->model("API/Grading");
 		$this->load->model("Student_model/Student_info");
+		$this->load->model('API/Balance');
 
 
 		//ONLY USE THE FOLLOWING INDEXES
@@ -43,7 +44,7 @@ class GradingAPI extends CI_Controller {
 			array(
 				'field' => 'Semester',
 				'label' => 'Semester',
-				'rules' => 'required',
+				'rules' => '',
 				'value' => $this->input->get('Semester')
 			)
 		);
@@ -58,18 +59,11 @@ class GradingAPI extends CI_Controller {
 
 			);
 
-			//Check if reference number is valid
-			$sn_result = $this->get_student_number($input_array);
-			if(empty($sn_result)){
+			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
-				$this->data_input['Error'] = 1;
-				$this->data_input['ErrorMessage'] = 'Invalid Reference Number Key';
-				$this->Output($this->data_input);
+			$this->balance_constructor($input_array);
 
-			}
-			$input_array['Student_Number'] = $sn_result[0]['Student_Number'];
-
-
+			$this->Output($this->data_input);
 		}
 		else{
 
@@ -86,39 +80,55 @@ class GradingAPI extends CI_Controller {
 	private function balance_constructor($input_array){
 
 		
-		$this->load->model('User_login');
-		$this->load->model('Balance_model');
-		$rn = $this->session->userdata('Reference_Number');
-		$latestbal = $this->Balance_model->GetLatestBalDate_query($rn)->result_array();
-		$sy = $latestbal[0]['schoolyear'];
-		$sem = $latestbal[0]['semester'];
-
-		//echo 'rn:'.$rn.'-sy:'.$sy.'-sem'.$sem;
+		$outstanding = $this->Balance->getOutstandingbal($input_array);
+		$totalpaid = $this->Balance->gettotalpaid($input_array);
+		$sembalance = $this->Balance->semestralbalance($input_array);
+		$totalpaidsem = $this->Balance->gettotalpaidsemester($input_array);
 		
-		$outstanding = $this->Balance_model->getOutstandingbal($rn,$sy,$sem);
-		$totalpaid = $this->Balance_model->gettotalpaid($rn,$sy,$sem);
-		$sembalance = $this->Balance_model->semestralbalance($rn,$sy,$sem);
-		$totalpaidsem = $this->Balance_model->gettotalpaidsemester($rn,$sy,$sem);
-		foreach($outstanding->result_array() as $outstanding_row){
-			$ob = $outstanding_row['Fees'];
-		}
-		foreach($totalpaid->result_array() as $totalpaid_row){
-			$tp = $totalpaid_row['AmountofPayment'];
-		}
-		foreach($sembalance->result_array() as $sembalance_row){
-			$sembal = $sembalance_row['Fees'];
-		}
-		foreach($totalpaidsem->result_array() as $totalpaidsem_row){
-			$sempaid = $totalpaidsem_row['AmountofPayment'];
-		}
+		print_r($outstanding);
+		echo '<hr>';
+		print_r($totalpaid);
+		echo '<hr>';
+		print_r($sembalance);
+		echo '<hr>';
+		print_r($totalpaidsem);
+		echo '<hr>';
+
+	
+		$ob = $outstanding[0]['Fees'];
+	
+		$tp = $totalpaid[0]['AmountofPayment'];
+	
+		$sembal = $sembalance[0]['Fees'];
+	
+		$sempaid = $totalpaidsem[0]['AmountofPayment'];
+		
 		
 		$data['Outstanding_Balance'] = $ob-$tp;
 		$data['Semestral_Balance'] = $sembal;
 		$data['Sem_total_Paid'] = $sempaid;
 		$data['Total_Paid'] = $sembal - $sempaid;
-		$data['Bal_Schoolyear'] = $sy;
-		$data['Bal_Semester'] = $sem;
+		$data['Bal_Schoolyear'] = $input_array['School_Year'];
+		$data['Bal_Semester'] = $input_array['Semester'];
 
+		$this->data_input['data'] = $data;
+		$this->data_input['ResultCount'] = count($data);
+		$this->Output($this->data_input);
+
+	}
+	private function validate_reference_number($input_array){
+
+		//Check if reference number is valid
+		$sn_result = $this->Student_info->Student_Info_byREF($input_array);
+		if(empty($sn_result)){
+			
+			$this->data_input['Error'] = 1;
+			$this->data_input['ErrorMessage'] = 'Invalid Reference Number Key';
+			$this->Output($this->data_input);
+
+		}
+		return $sn_result[0]['Student_Number'];
+		//$input_array['Student_Number'] = $sn_result[0]['Student_Number'];
 	}
 	private function Output($data = array()){
 
