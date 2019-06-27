@@ -1,7 +1,7 @@
 function refresh_grading(){
 
-    $("#Grade_sy").select2("val", "");
-    $("#Grade_sem").select2("val", "");
+    $("#Bal_sy").select2("val", "");
+    $("#Bal_sem").select2("val", "");
 
     return false; // prevent submitting
 }
@@ -26,24 +26,7 @@ function Init_API(url='',refnum='')
         message_handler(config);
         return;
     }
-    if($('#Grade_sy').val() == ''){
-        //message_handler('You must provide School Year');
-        config = {
-            'message':'You must provide School Year',
-            'type':'warning'
-        }
-        message_handler(config);
-        return;
-    }
-    if($('#Grade_sem').val() == ''){
-        //message_handler('You must provide Semester');
-        config = {
-            'message':'You must provide Semester',
-            'type':'warning'
-        }
-        message_handler(config);
-        return;
-    }
+
 
     
     ajax = $.ajax({
@@ -157,8 +140,6 @@ function message_handler(settings){
     
         }
     }
-
-    
 
     var box = '';
     box += '<div class="alert alert-'+settings.type+'">';

@@ -38,12 +38,12 @@
                                 <select data-plugin-selectTwo class="form-control populate" id="Grade_sy">
 
                                     <option selected value="">Select School Year</option>
-                                    <option>2012-2013</option>
-                                    <option>2014-2015</option>
-                                    <option>2015-2016</option>
-                                    <option>2017-2018</option>
-                                    <option>2018-2019</option>
-                                    <option>2019-2020</option>
+                                    
+                                    <?php foreach($this->data['SchoolYear_List'] as $row): ?>
+
+                                    <option><?php echo $row['School_Year']; ?></option>
+
+                                    <?php endForeach; ?>
 
                                 </select>
                             </div>
@@ -53,9 +53,11 @@
                             <div class="col-md-8">
                                 <select data-plugin-selectTwo class="form-control populate"  id="Grade_sem">
                                     <option selected value="">Select Semester</option>
-                                    <option value="FIRST">FIRST</option>
-                                    <option value="SECOND">SECOND</option>
-                                    <option value="SUMMER">SUMMER</option>
+                                    <?php foreach($this->data['Semester_List'] as $row): ?>
+
+                                    <option><?php echo $row['Semester']; ?></option>
+
+                                    <?php endForeach; ?>
                                 </select>
                             </div>
                         </div>

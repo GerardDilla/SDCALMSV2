@@ -19,6 +19,10 @@ class set_views
 	{
 		return $this->main.'/GradeSheet';
 	}
+	public function balance()
+	{
+		return $this->main.'/BalanceSheet';
+	}
 	
 
 
