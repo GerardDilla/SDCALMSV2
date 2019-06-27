@@ -43,7 +43,7 @@ class GradingAPI extends CI_Controller {
 			array(
 				'field' => 'Semester',
 				'label' => 'Semester',
-				'rules' => 'required',
+				'rules' => 'required|test',
 				'value' => $this->input->get('Semester')
 			)
 		);
@@ -58,35 +58,13 @@ class GradingAPI extends CI_Controller {
 
 			);
 
-			//Check if reference number is valid
-			$sn_result = $this->get_student_number($input_array);
-			if(empty($sn_result)){
-				
-				$this->data_input['Error'] = 1;
-				$this->data_input['ErrorMessage'] = 'Invalid Reference Number Key';
-				$this->Output($this->data_input);
+			//Validates reference number hash and returns student number
+			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
-			}
-			$input_array['Student_Number'] = $sn_result[0]['Student_Number'];
-
-			//Get Grades
+			//Constructs and displays grades
 			$grades_data = $this->grade_constructor($input_array);
-			if(empty($grades_data)){
 
-				$this->data_input['Error'] = 1;
-				$this->data_input['ErrorMessage'] = 'No Grading Data';
-				$this->Output($this->data_input);
 
-			}else{
-
-				//$test = array('data' => $grades_data);
-				$this->data_input['data'] = $grades_data;
-				$this->data_input['ResultCount'] = count($grades_data);
-				$this->Output($this->data_input);
-				
-			}
-
-			$this->Output($this->data_input);
 
 		}
 		else{
@@ -141,8 +119,36 @@ class GradingAPI extends CI_Controller {
 			$count++;
 
 		}
-		return $grading_array;
 
+		if(empty($grading_array)){
+
+			$this->data_input['Error'] = 1;
+			$this->data_input['ErrorMessage'] = 'No Grading Data';
+			$this->Output($this->data_input);
+
+		}else{
+
+			$this->data_input['data'] = $grading_array;
+			$this->data_input['ResultCount'] = count($grading_array);
+			$this->Output($this->data_input);
+			
+		}
+		//return $grading_array;
+
+	}
+	private function validate_reference_number($input_array){
+
+		//Check if reference number is valid
+		$sn_result = $this->Student_info->Student_Info_byREF($input_array);
+		if(empty($sn_result)){
+			
+			$this->data_input['Error'] = 1;
+			$this->data_input['ErrorMessage'] = 'Invalid Reference Number Key';
+			$this->Output($this->data_input);
+
+		}
+		return $sn_result[0]['Student_Number'];
+		//$input_array['Student_Number'] = $sn_result[0]['Student_Number'];
 	}
 	private function get_subjects($array){
 
@@ -153,12 +159,6 @@ class GradingAPI extends CI_Controller {
 	private function get_grades($array){
 
 		$result = $this->Grading->Get_grades($array);
-		return $result;
-
-	}
-	private function get_student_number($array){
-
-		$result = $this->Student_info->Student_Info_byREF($array);
 		return $result;
 
 	}

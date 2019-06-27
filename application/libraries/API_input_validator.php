@@ -46,12 +46,23 @@ class api_input_validator
 		$status = TRUE;
 		$count = 0;
 		foreach($config as $row){
-			if($row['value'] == '' || $row['value'] == NULL){
-				$error[$row['field']] = $this->errors_translate($row['rules'],$row['label']);
-				$errorall .= $error[$row['field']];
-				$status = FALSE;
+			if(array_key_exists("rules",$row)){
+				if($row['rules'] != '' || $row['rules'] != NULL){
+					$rules = explode("|",$row['rules']);
+					foreach($rules as $rule_row){
+						//echo $row['label'].'--error:'.$rule_row.'<br>';
+						if($row['value'] == '' || $row['value'] == NULL){
+							$error[$row['field']] = $this->errors_translate(trim($rule_row,' '),$row['label']);
+							//echo $error[$row['field']].'<hr>';
+							$errorall .= $error[$row['field']].'<br>';
+							$status = FALSE;
+						}
+					}
+				}
 			}
 		}
+		//print_r($error);
+		//echo '<hr>';
 		return array(
 			'Status' => $status,
 			'Error' => $error,
@@ -64,8 +75,11 @@ class api_input_validator
 			case "required":
 				return $label." is Required";
 				break;
+			case "test":
+				return $label." is a test";
+				break;
 			default:
-				return "Invalid Error";
+				return "Unknown Rule";
 		}
 	}
 
