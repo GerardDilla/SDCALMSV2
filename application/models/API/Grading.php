@@ -64,8 +64,8 @@ class Grading extends CI_Model{
 		$this->db->where('E.Semester',$array['Semester']);
 		$this->db->where('E.Dropped',0);
 		$this->db->where('E.Cancelled',0);
-		$this->db->join('Sched as Sc','E.Sched_Code = Sc.Sched_Code');
-		$this->db->join('Subject as S','Sc.Course_Code = S.Course_Code');
+		$this->db->join('Sched as Sc','E.Sched_Code = Sc.Sched_Code','left');
+		$this->db->join('Subject as S','Sc.Course_Code = S.Course_Code','left');
 		$result = $this->db->get('EnrolledStudent_Subjects as E');
 		return $result->result_array();
 	}
