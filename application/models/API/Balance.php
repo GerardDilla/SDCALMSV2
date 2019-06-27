@@ -90,7 +90,7 @@ class Balance extends CI_Model{
 		$this->db->where('SchoolYear',$array['School_Year']);
 		$this->db->where('Valid',1);
 		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
-		return $result->result_array();;
+		return $result->result_array();
 
 	}
 	/* OLD

@@ -94,15 +94,11 @@ class BalanceAPI extends CI_Controller {
 		print_r($totalpaidsem);
 		echo '<hr>';
 
-	
 		$ob = $outstanding[0]['Fees'];
-	
 		$tp = $totalpaid[0]['AmountofPayment'];
-	
 		$sembal = $sembalance[0]['Fees'];
-	
 		$sempaid = $totalpaidsem[0]['AmountofPayment'];
-		
+	
 		
 		$data['Outstanding_Balance'] = $ob-$tp;
 		$data['Semestral_Balance'] = $sembal;
