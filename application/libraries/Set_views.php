@@ -23,8 +23,11 @@ class set_views
 	{
 		return $this->main.'/BalanceSheet';
 	}
+	public function schedule()
+	{
+		return $this->main.'/ScheduleSheet';
+	}
 	
-
 
 }
 ?>

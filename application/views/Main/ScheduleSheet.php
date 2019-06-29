@@ -1,7 +1,7 @@
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2><i class="fa fa-tasks"></i> YOUR GRADES</h2>
+        <h2><i class="fa fa-tasks"></i> YOUR SCHEDULE</h2>
     
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -10,7 +10,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Grades</span></li>
+                <li><span>View Schedule</span></li>
             </ol>
             <a class="sidebar-right-toggle"></a>
             
@@ -26,7 +26,7 @@
                             <a href="#" class="fa fa-caret-down"></a>
                         </div>
 
-                        <h2 class="panel-title">Search Record</h2>
+                        <h2 class="panel-title">Search Specific Schedule</h2>
                         <p class="panel-subtitle">
                             Search By Choosing the Schoolyear and Semester.
                         </p>

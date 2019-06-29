@@ -1,13 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class GradingAPI extends CI_Controller {
+class ScheduleAPI extends CI_Controller {
 
 	function __construct() 
 	{
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->library("api_input_validator");
+		$this->load->model("API/Schedule");
 		$this->load->model("API/Grading");
 		$this->load->model("Student_model/Student_info");
 
@@ -60,8 +61,8 @@ class GradingAPI extends CI_Controller {
 			//Validates reference number hash and returns student number
 			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
-			//Constructs and displays grades
-			$grades_data = $this->grade_constructor($input_array);
+			//Constructs and displays the schedule
+			$sched_data = $this->sched_constructor($input_array);
 
 		}
 		else{
@@ -72,66 +73,63 @@ class GradingAPI extends CI_Controller {
 			$this->Output($this->data_input);
 			
 		}
-		//echo $Reference_Number = $this->input->get('Reference_Number');
-		//echo json_encode($output['Output']);
 
 	}
-	private function grade_constructor($input_array){
-		//Gets all subjects then gets each of the subject's grades
-		$grading_array = array();
+	private function sched_constructor($input_array){
+	
+		$subjects = $this->get_subjects($input_array);
+		
+		$sched_array = array();
 		$count = 0;
 		$subjects = $this->get_subjects($input_array);
 		
 		foreach($subjects as $row){
 
+			
+			$sched = $this->get_sched($row['Sched_Code']);
 
-			//Gets Grade of Subject
-			$grade_fetch = array(
-				'Student_Number' => $row['Student_Number'],
-				'School_Year' => $row['School_Year'],
-				'Semester' => $row['Semester'],
-				'Sched_Code' => $row['Sched_Code']
-			);
-			$grade = $this->get_grades($grade_fetch);
-
-			$grading_array[$count] = array(
-				//'Sched_Code' => $row['Sched_Code'],
-				//'Reference_Number' => $row['Reference_Number'],
-				//'Student_Number' => $row['Student_Number'],
+			$sched_array[$count] = array(
+				'Sched_Code' => $row['Sched_Code'],
 				'Course_Code' => $row['Course_Code'] != null ? $row['Course_Code'] : 'Available in Old Portal',
 				'Course_Title' => $row['Course_Title'] != null ? $row['Course_Title'] : '-',
-				//'School_Year' => $row['School_Year'],
-				//'Semester' => $row['Semester'],
-				'Prelim' => count($grade) <= 0 ? '0.00' : $grade[0]['Prelim'],
-				'Midterm' => count($grade) <= 0 ? '0.00' : $grade[0]['Midterm'],
-				'Finals' => count($grade) <= 0 ? '0.00' : $grade[0]['Finals'],
-				//'Final_grade_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['FG'],
-				//'Final_grade_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['FG2'],
-				//'remarks_raw' => count($grade) <= 0 ? '0.00' : $grade[0]['R1'],
-				//'remarks_completion' => count($grade) <= 0 ? '0.00' : $grade[0]['R2'],
-				'FINALGRADE' => count($grade) <= 0 ? '0.00' : $grade[0]['FINALGRADE'],
-				'REMARKS' => count($grade) <= 0 ? 'Not Encoded' : $grade[0]['REMARKS']
+				'Day' => '',
+				'Time' => '',
+				'End_Time' => '',
+				'Instructor' => '',
+				'sched_display_id' => ''
 			);
+			$separator = '';
+			$sched_count = 0;
+			foreach($sched as $schedrow){
 
+				$separator = $sched_count != 0 ? ' | ' : $separator;
+				$sched_array[$count]['Day'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['Day'] : '-';
+				$sched_array[$count]['Time'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['stime'].' - '.$schedrow['etime'] : '-';
+				//$sched_array[$count]['End_Time'] .= $separator.''.$schedrow['etime'];
+				$sched_array[$count]['Instructor'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['Instructor_Name'] : '-';
+				$sched_array[$count]['sched_display_id'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['sched_display_id'] : '-';
+				$sched_count++;
+			}
 			
-			$count++;
+			$sched_array[$count]['Schedule_Array'] = $sched;
 
+			$count++;	
 		}
 
-		if(empty($grading_array)){
+		if(empty($subjects)){
 
 			$this->data_input['Error'] = 1;
-			$this->data_input['ErrorMessage'] = 'No Grading Data';
+			$this->data_input['ErrorMessage'] = 'No Schedule Data';
 			$this->Output($this->data_input);
 
 		}else{
 
-			$this->data_input['data'] = $grading_array;
-			$this->data_input['ResultCount'] = count($grading_array);
+			$this->data_input['data'] = $sched_array;
+			$this->data_input['ResultCount'] = count($sched_array);
 			$this->Output($this->data_input);
 			
 		}
-		//return $grading_array;
+		//return $sched_array;
 
 	}
 	private function validate_reference_number($input_array){
@@ -146,7 +144,7 @@ class GradingAPI extends CI_Controller {
 
 		}
 		return $sn_result[0]['Student_Number'];
-		//$input_array['Student_Number'] = $sn_result[0]['Student_Number'];
+		
 	}
 	private function get_subjects($array){
 
@@ -154,9 +152,9 @@ class GradingAPI extends CI_Controller {
 		return $result;
 
 	}
-	private function get_grades($array){
+	private function get_sched($SchedCode){
 
-		$result = $this->Grading->Get_grades($array);
+		$result = $this->Schedule->Get_sched_info($SchedCode);
 		return $result;
 
 	}

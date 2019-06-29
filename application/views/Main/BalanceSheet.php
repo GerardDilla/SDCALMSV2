@@ -20,8 +20,8 @@
     <div class="row">
 
         <!--Legends input -->
-        <input type="hidden" name="SYlegend" id="SYlegend" value="2016-2017"> 
-        <input type="hidden" name="Semlegend" id="Semlegend" value="FIRST"> 
+        <input type="hidden" name="SYlegend" id="SYlegend" value="<?php echo $this->legends['School_Year']; ?>"> 
+        <input type="hidden" name="Semlegend" id="Semlegend" value="<?php echo $this->legends['Semester']; ?>"> 
         <!--Legends input -->
 
         <h3 class="message_box"></h3>
