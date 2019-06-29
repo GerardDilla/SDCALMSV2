@@ -43,9 +43,15 @@ class GradingAPI extends CI_Controller {
 			array(
 				'field' => 'Semester',
 				'label' => 'Semester',
-				'rules' => 'required|test',
+				'rules' => 'required',
 				'value' => $this->input->get('Semester')
-			)
+			),
+			array(
+				'field' => 'IncludeSchedule',
+				'label' => 'Schedule Switch',
+				'rules' => 'boolean',
+				'value' => $this->input->get('IncludeSchedule')
+			),
 		);
 		$validate = $this->api_input_validator->validate_input($Value);
 		if($validate['Status'] == TRUE){

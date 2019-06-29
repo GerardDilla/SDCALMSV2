@@ -1,16 +1,10 @@
-function refresh_grading(){
 
-    $("#Bal_sy").select2("val", "");
-    $("#Bal_sem").select2("val", "");
-
-    return false; // prevent submitting
-}
-function Init_API(url='',refnum='')
+function Init_BalanceAPI(url='',refnum='')
 {   
     //console.log(url);
     if(url == ''){
         config = {
-            'message':'You must provide the API URL',
+            'message':'Error: You must provide the API URL',
             'type':'warning'
         }
         message_handler(config);
@@ -20,7 +14,23 @@ function Init_API(url='',refnum='')
        
         //message_handler('No Token found');
         config = {
-            'message':'No Token found',
+            'message':'Error: No Token found',
+            'type':'warning'
+        }
+        message_handler(config);
+        return;
+    }
+    if($('#SYlegend').val() == ''){
+        config = {
+            'message':'Error: No School Year passed',
+            'type':'warning'
+        }
+        message_handler(config);
+        return;
+    }
+    if($('#Semlegend').val() == ''){
+        config = {
+            'message':'Error: No Semester passed',
             'type':'warning'
         }
         message_handler(config);
@@ -28,49 +38,30 @@ function Init_API(url='',refnum='')
     }
 
 
-    
     ajax = $.ajax({
         url: url,
         type: 'GET',
         data: {
             Reference_Number: refnum,
-            School_Year: $('#Grade_sy').val(),
-            Semester: $('#Grade_sem').val()
+            School_Year: $('#SYlegend').val(),
+            Semester: $('#Semlegend').val()
         },
         success: function(response){
 
             result = JSON.parse(response);
-            if(result['ResultCount']  != 0){
-                console.log(result);
-                //grading_display(result['Output']);
+            console.log(result);
+            if(result['Error'] == 0){
+                balance_display(result['data']);
 
-                
-                $("#grading_main").dataTable().fnDestroy();
-                $('.message_box').html('');
-                $('#grading_main').DataTable({
-                    "data": result['data'],
-                    "type": "GET",
-                    "columns": [
-                        { "data": "Course_Code" },
-                        { "data": "Course_Title" },
-                        { "data": "Prelim" },
-                        { "data": "Midterm" },
-                        { "data": "Finals" },
-                        { "data": "FINALGRADE" },
-                        { "data": "REMARKS" }
-                    ]
-                })
-                $('html, body').animate({
-                    scrollTop: $('.table').offset().top
-                }, 500);
-                //message_handler(result['ErrorMessage'],'warning','.message_box');
             }else{
-                $("#grading_main").dataTable().fnDestroy()
-                $("#grading_body").html('');
-                message_handler({'message':result['ErrorMessage'],'type':'warning'});
-                //message_handler(result['ErrorMessage'],'warning');
+                config = {
+                    'message':result['ErrorMessage'],
+                    'type':'warning'
+                }
+                message_handler(config);
+                return;
             }
-
+            
         },
         fail: function(){
 
@@ -84,35 +75,14 @@ function Init_API(url='',refnum='')
 
     
 }
-function grading_display(resultdata)
+function balance_display(resultdata)
 {   
 
-
-    //Displays Grades in container
-    showtable = $('#grading_table');
-    //clears the table before append
-    showtable.html('');
-
-    $('.message_box').html('');
-
-    $.each(resultdata, function(index, result) 
-    {
-        row = $("<tr/>");
-       
-        row.append($("<td/>").text(result['Course_Code']));
-        row.append($("<td/>").text(result['Course_Title']));
-        row.append($("<td/>").text(result['Prelim']));
-        row.append($("<td/>").text(result['Midterm']));
-        row.append($("<td/>").text(result['Finals']));
-        row.append($("<td/>").text(result['FINALGRADE']));
-        row.append($("<td/>").text(result['REMARKS']));
-    
-        showtable.append(row);
-
-    });
-    
-
-
+    $('#sem_balance').html(resultdata['Semestral_Balance']);
+    $('#sem_paid').html(resultdata['Semestral_Paid']);
+    $('#sem_total_balance').html(resultdata['Semestral_Total']);
+    $('#previous_balance').html(resultdata['Outstanding_Balance_SemSy_Excluded']);
+    $('#outstanding_balance').html(resultdata['Outstanding_Balance']);
 
 }
 function message_handler(settings){
@@ -145,7 +115,7 @@ function message_handler(settings){
     box += '<div class="alert alert-'+settings.type+'">';
     box += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
     box += settings.message;
-    box += '</div>'
+    box += '</div>';
     $('.message_box').html(box);
 
 }

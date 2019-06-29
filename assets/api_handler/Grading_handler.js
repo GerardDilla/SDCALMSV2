@@ -5,7 +5,7 @@ function refresh_grading(){
 
     return false; // prevent submitting
 }
-function Init_API(url='',refnum='')
+function Init_GradingAPI(url='',refnum='')
 {   
     //console.log(url);
     if(url == ''){

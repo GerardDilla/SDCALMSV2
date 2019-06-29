@@ -42,3 +42,6 @@
 
 		<!-- Head Libs -->
 		<script src="<?php echo base_url(); ?>assets/vendor/modernizr/modernizr.js"></script>
+
+		<!-- Calls Jquery -->
+		<script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.js"></script>

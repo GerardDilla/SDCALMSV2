@@ -9,7 +9,11 @@ class Balance extends MY_Controller {
 
 		  $this->load->library("set_views");
 		  $this->load->library("Set_custom_session");
+		  $this->load->model("Legends");
 		  $this->student_data = $this->set_custom_session->student_session();
+
+		  //Gets Legends
+		  $this->legends = $this->Legends->Get_Legends("Legends")[0];
 
 	}
 	public function index()

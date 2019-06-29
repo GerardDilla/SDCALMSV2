@@ -1,7 +1,7 @@
 		
 		
         <!-- Vendor -->
-		<script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.js"></script>
+		<!--<script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.js"></script>-->
 		<script src="<?php echo base_url(); ?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/nanoscroller/nanoscroller.js"></script>
@@ -106,16 +106,11 @@
 		requestAnimationFrame(update);
         </script>
 
-		<!-- Grading API -->
-		<script>
-		$(document).ready(function() {
-			$("#Grade_finder").click(function() {
-				Init_API('<?php echo base_url(); ?>index.php/API/GradingAPI','<?php echo $this->student_data['Reference_Number']; ?>');
-			});
-		});
-		</script>
+
+		<!-- API HANDLERS -->
 		<script src="<?php echo base_url(); ?>assets/api_handler/Grading_handler.js"></script>
-		<!-- Grading API -->
+		<script src="<?php echo base_url(); ?>assets/api_handler/Balance_handler.js"></script>
+		<!-- API HANDLERS -->
 
 		<!-- AJAX loading -->
 		<script>
