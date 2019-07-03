@@ -58,11 +58,19 @@ class Balance extends CI_Model{
 		Fees_Enrolled_College_Item AS fees_item',
 		'Fees.id = fees_item.Fees_Enrolled_College_Id`
 		','inner');
+<<<<<<< Updated upstream
 		$this->db->where('md5(Fees.Reference_Number)',$array['Reference_Number']);
 		$this->db->where('Fees.semester',$array['Semester']);
 		$this->db->where('Fees.schoolyear',$array['School_Year']);
 		$result = $this->db->get('Fees_Enrolled_College AS Fees');
 		return $result->result_array();
+=======
+		$this->db->where('Fees.Reference_Number',$array['Reference_Number']);
+		$this->db->where('Fees.semester',$array['Semester']);
+		$this->db->where('Fees.schoolyear',$array['School_Year']);
+		$result = $this->db->get('Fees_Enrolled_College AS Fees');
+		return $result;
+>>>>>>> Stashed changes
 
 	}
 	/*
@@ -85,12 +93,20 @@ class Balance extends CI_Model{
 		$this->db->select('
 		SUM(AmountofPayment) AS AmountofPayment,semester, schoolyear
 		');
+<<<<<<< Updated upstream
 		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
+=======
+		$this->db->where('Reference_Number',$array['Reference_Number']);
+>>>>>>> Stashed changes
 		$this->db->where('Semester',$array['Semester']);
 		$this->db->where('SchoolYear',$array['School_Year']);
 		$this->db->where('Valid',1);
 		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
+<<<<<<< Updated upstream
 		return $result->result_array();
+=======
+		return $result;
+>>>>>>> Stashed changes
 
 	}
 	/* OLD
@@ -143,9 +159,15 @@ class Balance extends CI_Model{
 			semester, 
 			schoolyear
 		');
+<<<<<<< Updated upstream
 		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
 		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
 		return $result->result_array();
+=======
+		$this->db->where('Reference_Number',$array['Reference_Number']);
+		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
+		return $result;
+>>>>>>> Stashed changes
 
 	}
 	

@@ -70,7 +70,7 @@ a:active {
 
 /* Layout Base - Page Header */
 .page-header {
-	background: #34495e;
+	background: #D50000;
 	border-bottom: none;
 	border-left: 1px solid #3a3a3a;
 	box-shadow: 1px 3px 0 1px #cccccc;
@@ -83,7 +83,7 @@ a:active {
 .sidebar-left {
 	background: #34495e;
 	box-shadow: -5px 0 0 #2f3139 inset;
-	color: #777777;
+	color: #fff;
 	display: table-cell;
 	position: relative;
 	vertical-align: top;
@@ -1544,7 +1544,7 @@ html.header-dark .header .input-search .input-group-btn .btn-default {
 	right: 0;
 	width: 73px;
 	height: 50px;
-	background-color: #171717;
+	background-color: #37474F;
 	border-radius: 0 0 0 5px;
 	text-align: center;
 	cursor: pointer;
@@ -2349,7 +2349,7 @@ ul.nav-main > li.nav-expanded > a {
 ul.nav-main li a {
 	font-size: 13px;
 	font-size: 1.3rem;
-	color: #abb4be;
+	color: #ffff;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
@@ -2511,7 +2511,7 @@ ul.nav-main li .nav-children .nav-children .nav-children li a {
 
 .page-header .breadcrumbs a,
 .page-header .breadcrumbs span {
-	color: #c3c3c3;
+	color: #fff;
 	display: inline-block;
 	font-size: 14px;
 	font-size: 1.4rem;

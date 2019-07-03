@@ -191,6 +191,7 @@
                 <figure class="profile-picture">
                     <img src="<?php echo base_url(); ?>assets/images/!logged-user.jpg" class="img-circle" data-lock-picture="<?php echo base_url(); ?>assets/images/!logged-user.jpg" />
                 </figure>
+
                 <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
                     <span class="name"><?php echo $this->student_data['Full_Name']; ?></span>
                     <span class="role"><?php echo $this->student_data['Student_Number']; ?></span>
