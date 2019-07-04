@@ -43,7 +43,7 @@ class GradingAPI extends CI_Controller {
 			array(
 				'field' => 'Semester',
 				'label' => 'Semester',
-				'rules' => 'required',
+				'rules' => 'required|test',
 				'value' => $this->input->get('Semester')
 			)
 		);
@@ -60,8 +60,18 @@ class GradingAPI extends CI_Controller {
 			//Validates reference number hash and returns student number
 			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
+<<<<<<< Updated upstream
 			//Constructs and displays grades
 			$grades_data = $this->grade_constructor($input_array);
+=======
+			//Validates reference number hash and returns student number
+			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
+
+			//Constructs and displays grades
+			$grades_data = $this->grade_constructor($input_array);
+
+
+>>>>>>> Stashed changes
 
 		}
 		else{

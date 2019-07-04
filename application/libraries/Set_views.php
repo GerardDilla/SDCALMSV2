@@ -29,5 +29,46 @@ class set_views
 	}
 	
 
+<<<<<<< Updated upstream
+=======
+
+
+	///Student Portal Dashboard
+
+		public function student_dashboard()
+		{
+			return $this->main.'/Dashboard';
+		}
+		
+	///Student Portal Dashboard
+
+
+	///Student Portal Prof Evaluation
+
+		public function prof_evaluation()
+		{
+			return $this->main.'/Prof_Evaluation';
+		}
+		
+		///Student Portal Prof Evaluation
+
+
+	///Parent Dashboard
+
+	public function parent_dashboard()
+	{
+		return $this->main.'/ParentDashboard';
+	}
+
+	///Parent Dashboard
+
+
+
+
+
+
+
+
+>>>>>>> Stashed changes
 }
 ?>
