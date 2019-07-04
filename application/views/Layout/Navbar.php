@@ -12,6 +12,7 @@
     <!-- start: search & user box -->
     <div class="header-right">
 
+        <!--
         <form action="pages-search-results.html" class="search nav-form">
             <div class="input-group input-search">
                 <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
@@ -20,57 +21,51 @@
                 </span>
             </div>
         </form>
+        -->
 
         <span class="separator"></span>
-
+  
         <ul class="notifications">
             <li>
                 <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
-                    <i class="fa fa-tasks"></i>
-                    <span class="badge">3</span>
+                    <i class="fa fa-facebook-square"></i>
+                </a>
+
+                <div class="dropdown-menu notification-menu large" style="width:425px;">
+                    <div class="notification-title">
+                        SDCA Facebook Page
+                    </div>
+
+                    <div class="content">
+                        <div class="fb-page"  data-href="https://www.facebook.com/stdominiccollege/" data-tabs="timeline" data-width="400" data-height="340" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                            <blockquote cite="https://www.facebook.com/stdominiccollege/" class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/stdominiccollege/">
+                                    St. Dominic College of Asia
+                                </a>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+            <li>
+                <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                    <i class="fa  fa-twitter-square"></i>
                 </a>
 
                 <div class="dropdown-menu notification-menu large">
                     <div class="notification-title">
-                        <span class="pull-right label label-default">3</span>
-                        Tasks
+                        SDCA Student Council Twitter Page
                     </div>
 
                     <div class="content">
-                        <ul>
-                            <li>
-                                <p class="clearfix mb-xs">
-                                    <span class="message pull-left">Generating Sales Report</span>
-                                    <span class="message pull-right text-dark">60%</span>
-                                </p>
-                                <div class="progress progress-xs light">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <p class="clearfix mb-xs">
-                                    <span class="message pull-left">Importing Contacts</span>
-                                    <span class="message pull-right text-dark">98%</span>
-                                </p>
-                                <div class="progress progress-xs light">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100" style="width: 98%;"></div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <p class="clearfix mb-xs">
-                                    <span class="message pull-left">Uploading something big</span>
-                                    <span class="message pull-right text-dark">33%</span>
-                                </p>
-                                <div class="progress progress-xs light mb-xs">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="width: 33%;"></div>
-                                </div>
-                            </li>
-                        </ul>
+                        <a class="twitter-timeline" data-height="340" data-theme="light" data-link-color="#19CF86" href="https://twitter.com/SDCA_SSC?ref_src=twsrc%5Etfw">Tweets by SDCA_SSC</a> 
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
                 </div>
+
             </li>
+            <!--
             <li>
                 <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                     <i class="fa fa-envelope"></i>
@@ -182,16 +177,17 @@
                     </div>
                 </div>
             </li>
+            -->
         </ul>
-
+        
         <span class="separator"></span>
 
         <div id="userbox" class="userbox">
             <a href="#" data-toggle="dropdown">
                 <figure class="profile-picture">
-                    <img src="<?php echo base_url(); ?>assets/images/!logged-user.jpg" class="img-circle" data-lock-picture="<?php echo base_url(); ?>assets/images/!logged-user.jpg" />
+                    <img src="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" class="img-circle" data-lock-picture="<?php echo base_url(); ?>assets/images/!logged-user.jpg" />
                 </figure>
-                <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
+                <div class="profile-info" data-lock-name="<?php echo $this->student_data['Full_Name']; ?>" data-lock-email="<?php echo $this->student_data['Student_Number']; ?>">
                     <span class="name"><?php echo $this->student_data['Full_Name']; ?></span>
                     <span class="role"><?php echo $this->student_data['Student_Number']; ?></span>
                 </div>
@@ -205,9 +201,11 @@
                     <li>
                         <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
                     </li>
+                    <!--
                     <li>
                         <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
                     </li>
+                    -->
                     <li>
                         <a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/Main/logout"><i class="fa fa-power-off"></i> Logout</a>
                     </li>

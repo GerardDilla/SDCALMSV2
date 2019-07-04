@@ -94,7 +94,6 @@ class ScheduleAPI extends CI_Controller {
 				'Course_Title' => $row['Course_Title'] != null ? $row['Course_Title'] : '-',
 				'Day' => '',
 				'Time' => '',
-				'End_Time' => '',
 				'Instructor' => '',
 				'sched_display_id' => ''
 			);
@@ -102,15 +101,17 @@ class ScheduleAPI extends CI_Controller {
 			$sched_count = 0;
 			foreach($sched as $schedrow){
 
-				$separator = $sched_count != 0 ? ' | ' : $separator;
+				$separator = $sched_count != 0 ? ' , ' : $separator;
 				$sched_array[$count]['Day'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['Day'] : '-';
 				$sched_array[$count]['Time'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['stime'].' - '.$schedrow['etime'] : '-';
-				//$sched_array[$count]['End_Time'] .= $separator.''.$schedrow['etime'];
 				$sched_array[$count]['Instructor'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['Instructor_Name'] : '-';
 				$sched_array[$count]['sched_display_id'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['sched_display_id'] : '-';
 				$sched_count++;
+
 			}
-			
+			$sched_array[$count]['Day'] = $sched_array[$count]['Day'] != '' ? $sched_array[$count]['Day'] : '-'; 
+			$sched_array[$count]['Time'] = $sched_array[$count]['Time'] != '' ? $sched_array[$count]['Time'] : '-'; 
+			$sched_array[$count]['Instructor'] = $sched_array[$count]['Instructor'] != '' ? $sched_array[$count]['Instructor'] : '-'; 
 			$sched_array[$count]['Schedule_Array'] = $sched;
 
 			$count++;	

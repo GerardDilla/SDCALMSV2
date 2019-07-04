@@ -1,7 +1,7 @@
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2><i class="fa fa-tasks"></i> YOUR GRADES</h2>
+        <h2><i class="fa fa-tasks"></i>  GRADES</h2>
     
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
