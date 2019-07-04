@@ -9,16 +9,19 @@ class Dashboard extends MY_Controller {
 
 		  $this->load->library("set_views");
 		  $this->load->library("Set_custom_session");
+		  $this->load->model('Grading');
+		  $this->load->model("Legends");
 		  $this->student_data = $this->set_custom_session->student_session();
 
+		  //Gets Legends
+		  $this->legends = $this->Legends->Get_Legends("Legends")[0];
+		  
 	}
-
 	public function index()
 	{
-		//$this->load->view('welcome_message');
-		$this->template($this->set_views->student_dashboard());
-
+		
+		$this->template($this->set_views->dashboard());
+		
 	}
-	
 	
 }

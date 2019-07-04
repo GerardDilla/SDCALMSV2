@@ -120,6 +120,7 @@
 		<!-- API HANDLERS -->
 		<script src="<?php echo base_url(); ?>assets/api_handler/Grading_handler.js"></script>
 		<script src="<?php echo base_url(); ?>assets/api_handler/Balance_handler.js"></script>
+		<script src="<?php echo base_url(); ?>assets/api_handler/Schedule_handler.js"></script>
 		<!-- API HANDLERS -->
 
 		<!-- AJAX loading -->
@@ -132,5 +133,14 @@
 			});
 		</script>
 		<!-- AJAX loading -->
+
+		<script>(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+			js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1';
+			fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
 
 		

@@ -20,11 +20,72 @@
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
                     <li class="nav-active">
-                        <a href="index.html">
+                        <a href="<?php echo site_url('Grades'); ?>">
                             <i class="fa fa-home" aria-hidden="true"></i>
-                            <span>Dashboard</span>
+                            <span>Home</span>
                         </a>
                     </li>
+
+                    <li class="nav">
+                        <a href="<?php echo site_url('Grades'); ?>">
+                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                            <span>Grades</span>
+                        </a>
+                    </li>
+
+                    <li class="nav">
+                        <a href="<?php echo site_url('Balance'); ?>">
+                            <i class="fa fa-list-alt" aria-hidden="true"></i>
+                            <span>Balance</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav">
+                        <a href="<?php echo site_url('Schedule'); ?>">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </li>
+
+                    <li class="nav disabled">
+                        <a href="#">
+                            <i class="fa fa-mortar-board" aria-hidden="true"></i>
+                            <span>My Classroom</span>
+                        </a>
+                    </li>
+
+                    <li class="nav disabled">
+                        <a href="#">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <span>Assessments</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-parent">
+                        <a>
+                            <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
+                            <span>Evaluation</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li>
+                                <a href="pages-signup.html">
+                                        Faculty Evaluation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pages-signin.html">
+                                        Customer Satisfaction
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pages-recover-password.html">
+                                        RMUSIC Evaluation
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!--
                     <li>
                         <a href="mailbox-folder.html">
                             <span class="pull-right label label-primary">182</span>
@@ -394,6 +455,8 @@
                             <span>Front-End <em class="not-included">(Not Included)</em></span>
                         </a>
                     </li>
+                    -->
+
                 </ul>
             </nav>
 
@@ -401,18 +464,50 @@
 
             <div class="sidebar-widget widget-tasks">
                 <div class="widget-header">
-                    <h6>Projects</h6>
-                    <div class="widget-toggle">+</div>
+                    <h6 style="color:#fff">Tools</h6>
+                    <div class="widget-toggle" style="color:#fff">+</div>
                 </div>
                 <div class="widget-content">
-                    <ul class="list-unstyled m-none">
-                        <li><a href="#">JSOFT HTML5 Template</a></li>
-                        <li><a href="#">Tucson Template</a></li>
-                        <li><a href="#">JSOFT Admin</a></li>
+                    <ul class="nav nav-main">
+                        <li>
+                            <a target="_blank" href="https://drive.google.com/drive/my-drive">Google Drive</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://docs.google.com/document">Google Docs</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://www.google.com/sheets">Google Sheets</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://www.google.com/slides">Google Slides</a>
+                        </li>
                     </ul>
                 </div>
             </div>
 
+            <hr class="separator" />
+
+            <div class="sidebar-widget widget-tasks">
+                <div class="widget-header">
+                    <h6 style="color:#fff">Related Sites</h6>
+                    <div class="widget-toggle" style="color:#fff">+</div>
+                </div>
+                <div class="widget-content">
+                    <ul class="list-unstyled m-none">
+                        <li><a target="_blank" href="http://portal.stdominiccollege.edu.ph/">SDCA Old Portal</a></li>
+                        <li><a target="_blank" href="http://www.stdominiccollege.edu.ph/index.php/research">RDO Microsite</a></li>
+                        <li><a target="_blank" href="http://www.stdominiccollege.edu.ph">St. Dominic College Of Asia Website</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="separator" />
+            
+            <ul class="nav nav-main">
+                <li class="nav">
+                <a href="https://drive.google.com/drive/my-drive">Privacy Policy</a>
+                </li>
+            </ul>
+            <!--
             <hr class="separator" />
 
             <div class="sidebar-widget widget-stats">
@@ -452,9 +547,12 @@
                     </ul>
                 </div>
             </div>
+            -->
+
         </div>
 
     </div>
 
 </aside>
 <!-- end: sidebar -->
+

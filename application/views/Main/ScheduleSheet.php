@@ -1,7 +1,7 @@
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2><i class="fa fa-tasks"></i> YOUR SCHEDULE</h2>
+        <h2><i class="fa fa-table"></i> SCHEDULE</h2>
     
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">School Year</label>
                             <div class="col-md-8">
-                                <select data-plugin-selectTwo class="form-control populate" id="Grade_sy">
+                                <select data-plugin-selectTwo class="form-control populate" id="Sched_sy">
 
                                     <option selected value="">Select School Year</option>
                                     
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Semester</label>
                             <div class="col-md-8">
-                                <select data-plugin-selectTwo class="form-control populate"  id="Grade_sem">
+                                <select data-plugin-selectTwo class="form-control populate"  id="Sched_sem">
                                     <option selected value="">Select Semester</option>
                                     <?php foreach($this->data['Semester_List'] as $row): ?>
 
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <footer class="panel-footer">
-                        <button type="button" class="btn btn-default" id="Grade_finder">View Grades</button>
+                        <button type="button" class="btn btn-default" id="Sched_finder">View Schedule</button>
                         <button type="button" onclick="refresh_grading()" class="btn btn-default"><i class="fa fa-refresh"></i></button>
                         <span class="searchloader">
                             <img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
@@ -87,19 +87,17 @@
         <div class="col-md-12">
             <section class="panel shadowed-box">
                 <div class="panel-body">
-                <table class="table table-bordered table-striped mb-none" id="grading_main">
+                <table class="table table-bordered table-striped mb-none" id="schedule_main">
                     <thead>
                         <tr>
                             <th>Course Code</th>
                             <th>Course Title</th>
-                            <th>Prelim</th>
-                            <th>Midterm</th>
-                            <th>Finals</th>
-                            <th>Final Grade</th>
-                            <th>Remarks</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Instructor</th>
                         </tr>
                     </thead>
-                    <tbody id="grading_body">
+                    <tbody id="schedule_body">
 
                     </tbody>
                 </table>
@@ -113,8 +111,8 @@
 
 <script>
     $(document).ready(function() {
-        $("#Grade_finder").click(function() {
-            Init_GradingAPI('<?php echo base_url(); ?>index.php/API/GradingAPI','<?php echo $this->student_data['Reference_Number']; ?>');
+        $("#Sched_finder").click(function() {
+            Init_ScheduleAPI('<?php echo base_url(); ?>index.php/API/ScheduleAPI','<?php echo $this->student_data['Reference_Number']; ?>');
         });
     });
 </script>

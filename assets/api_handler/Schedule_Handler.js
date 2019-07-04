@@ -1,11 +1,11 @@
 function refresh_grading(){
 
-    $("#Grade_sy").select2("val", "");
-    $("#Grade_sem").select2("val", "");
+    $("#Sched_sy").select2("val", "");
+    $("#Sched_sem").select2("val", "");
 
     return false; // prevent submitting
 }
-function Init_GradingAPI(url='',refnum='')
+function Init_ScheduleAPI(url='',refnum='')
 {   
     //console.log(url);
     if(url == ''){
@@ -51,8 +51,8 @@ function Init_GradingAPI(url='',refnum='')
         type: 'GET',
         data: {
             Reference_Number: refnum,
-            School_Year: $('#Grade_sy').val(),
-            Semester: $('#Grade_sem').val()
+            School_Year: $('#Sched_sy').val(),
+            Semester: $('#Sched_sem').val()
         },
         success: function(response){
 
@@ -62,19 +62,17 @@ function Init_GradingAPI(url='',refnum='')
                 //grading_display(result['Output']);
 
                 
-                $("#grading_main").dataTable().fnDestroy();
+                $("#schedule_main").dataTable().fnDestroy();
                 $('.message_box').html('');
-                $('#grading_main').DataTable({
+                $('#schedule_main').DataTable({
                     "data": result['data'],
                     "type": "GET",
                     "columns": [
                         { "data": "Course_Code" },
                         { "data": "Course_Title" },
-                        { "data": "Prelim" },
-                        { "data": "Midterm" },
-                        { "data": "Finals" },
-                        { "data": "FINALGRADE" },
-                        { "data": "REMARKS" }
+                        { "data": "Day" },
+                        { "data": "Time" },
+                        { "data": "Instructor" }
                     ]
                 })
                 $('html, body').animate({
@@ -82,8 +80,8 @@ function Init_GradingAPI(url='',refnum='')
                 }, 500);
                 //message_handler(result['ErrorMessage'],'warning','.message_box');
             }else{
-                $("#grading_main").dataTable().fnDestroy()
-                $("#grading_body").html('');
+                $("#schedule_main").dataTable().fnDestroy()
+                $("#schedule_body").html('');
                 message_handler({'message':result['ErrorMessage'],'type':'warning'});
                 //message_handler(result['ErrorMessage'],'warning');
             }
@@ -97,40 +95,6 @@ function Init_GradingAPI(url='',refnum='')
         }
     });
     
-    
-
-    
-}
-function grading_display(resultdata)
-{   
-
-
-    //Displays Grades in container
-    showtable = $('#grading_table');
-    //clears the table before append
-    showtable.html('');
-
-    $('.message_box').html('');
-
-    $.each(resultdata, function(index, result) 
-    {
-        row = $("<tr/>");
-       
-        row.append($("<td/>").text(result['Course_Code']));
-        row.append($("<td/>").text(result['Course_Title']));
-        row.append($("<td/>").text(result['Prelim']));
-        row.append($("<td/>").text(result['Midterm']));
-        row.append($("<td/>").text(result['Finals']));
-        row.append($("<td/>").text(result['FINALGRADE']));
-        row.append($("<td/>").text(result['REMARKS']));
-    
-        showtable.append(row);
-
-    });
-    
-
-
-
 }
 function message_handler(settings){
 
