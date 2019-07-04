@@ -49,7 +49,6 @@ class api_input_validator
 			if(array_key_exists("rules",$row)){
 				if($row['rules'] != '' || $row['rules'] != NULL){
 					$rules = explode("|",$row['rules']);
-<<<<<<< Updated upstream
 
 					//Place Conditions inside the foreach below followed by setting the error message in the errors_translate() function
 					foreach($rules as $rule_row){
@@ -81,16 +80,6 @@ class api_input_validator
 						}
 						//---Required
 
-=======
-					foreach($rules as $rule_row){
-						//echo $row['label'].'--error:'.$rule_row.'<br>';
-						if($row['value'] == '' || $row['value'] == NULL){
-							$error[$row['field']] = $this->errors_translate(trim($rule_row,' '),$row['label']);
-							//echo $error[$row['field']].'<hr>';
-							$errorall .= $error[$row['field']].'<br>';
-							$status = FALSE;
-						}
->>>>>>> Stashed changes
 					}
 				}
 			}
@@ -110,13 +99,8 @@ class api_input_validator
 			case "required":
 				return $label." is Required";
 				break;
-<<<<<<< Updated upstream
 			case "boolean":
 				return $label." only accepts boolean values";
-=======
-			case "test":
-				return $label." is a test";
->>>>>>> Stashed changes
 				break;
 			default:
 				return "Unknown Rule";
