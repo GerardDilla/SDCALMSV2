@@ -94,13 +94,13 @@
   
 </section>
 
-<!-- Grading API Handler -->
+<!-- Balance API Handler -->
 <script>
 $(document).ready(function() {
     Init_BalanceAPI('<?php echo base_url(); ?>index.php/API/BalanceAPI','<?php echo $this->student_data['Reference_Number']; ?>');
 });
 </script>
-<!-- Grading API Handler -->
+<!-- Balance API Handler -->
 
 
 

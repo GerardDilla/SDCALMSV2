@@ -66,7 +66,7 @@ class Main extends MY_Controller {
 					);
 					//print_r($this->session->userdata['LoginData']);
 					$this->session->set_userdata('LoginData',$account_session);
-					redirect('Grades');
+					redirect('Dashboard');
 
 				}
 

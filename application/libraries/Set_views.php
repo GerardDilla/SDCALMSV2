@@ -29,8 +29,6 @@ class set_views
 	}
 	
 
-<<<<<<< Updated upstream
-=======
 
 
 	///Student Portal Dashboard
@@ -69,6 +67,5 @@ class set_views
 
 
 
->>>>>>> Stashed changes
 }
 ?>

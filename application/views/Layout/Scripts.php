@@ -121,6 +121,7 @@
 		<script src="<?php echo base_url(); ?>assets/api_handler/Grading_handler.js"></script>
 		<script src="<?php echo base_url(); ?>assets/api_handler/Balance_handler.js"></script>
 		<script src="<?php echo base_url(); ?>assets/api_handler/Schedule_handler.js"></script>
+		<script src="<?php echo base_url(); ?>assets/api_handler/Dashboard_Manager.js"></script>
 		<!-- API HANDLERS -->
 
 		<!-- AJAX loading -->
