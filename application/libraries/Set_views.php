@@ -29,8 +29,6 @@ class set_views
 	}
 	
 
-<<<<<<< Updated upstream
-=======
 
 
 	///Student Portal Dashboard
@@ -45,12 +43,31 @@ class set_views
 
 	///Student Portal Prof Evaluation
 
-		public function prof_evaluation()
-		{
-			return $this->main.'/Prof_Evaluation';
-		}
+	public function prof_evaluation()
+	{
+		return $this->main.'/Prof_Evaluation';
+	}
 		
-		///Student Portal Prof Evaluation
+	public function faculty()
+	{
+		return $this->main.'/Faculty';
+	}
+	  
+	  ///Student Portal Prof Evaluation
+
+	  /// Admin Faculty Evaluation
+
+	public function Admin_Faculty()
+	{
+		return $this->main.'/Faculty_Evluation_Admin/Search_student';
+	}
+	public function Admin_Set_Evaluation()
+	{
+		return $this->main.'/Faculty_Evluation_Admin/Set_Evaluation';
+	}
+
+
+	 /// Admin Faculty Evaluation
 
 
 	///Parent Dashboard
@@ -69,6 +86,5 @@ class set_views
 
 
 
->>>>>>> Stashed changes
 }
 ?>

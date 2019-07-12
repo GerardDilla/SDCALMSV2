@@ -15,27 +15,6 @@ ul.nav-main li .nav-children{
 .searchloader{
     display:none;
 }
-<<<<<<< Updated upstream
-.balance_table{
-    color:#666 !important;
-
-}
-.balance_table tbody{
-    font-size:120%
-}
-.balance_upper td{
-    background-color:#16A085; color:#FFF;
-}
-.balance_lower td{
-    background-color: #999999; color:#FFF; text-align: center;
-}
-.balance_upper_value{
-    font-weight: 700; color: #ff0000;
-}
-.balance_lower_value{
-    background-color: #999999; color:#FFF; text-align:center; font-weight: 700;
-}
-=======
 
 .fa-times{
  color: red !important
@@ -96,4 +75,8 @@ color: #000;
 .parent-announcement{
     height:  30vh;
 }
->>>>>>> Stashed changes
+
+.heading-title{
+    background-color:#D3D3D3; 
+     color:#FFF;
+}
