@@ -20,7 +20,7 @@
                        <div class="col-md-7">
                             <section class="panel">
 								<header class="panel-heading">
-									<h2 class="panel-title red-bold" >  <i class="fa fa-graduation-cap black"  aria-hidden="true"></i> Academics</h2>	
+									<h2 class="panel-title red-bold" >  <i class="fa fa-graduation-cap black"  aria-hidden="true"></i> Academic Info</h2>	
 								</header>
 								<div class="panel-body">
 									 <div class="col-md-5">
@@ -53,7 +53,10 @@
                             
                             <section class="panel">
 								<header class="panel-heading">
-									<h2 class="panel-title blue">  <i class="fa  fa-list-alt black"  aria-hidden="true"></i> Classes</h2>	
+									<h2 class="panel-title blue">  <i class="fa  fa-list-alt black"  aria-hidden="true"></i> Classes</h2>
+									<span class="searchloader">
+										<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
+									</span>
 								</header>
 								<div class="panel-body">
 								        <div class="table-responsive" id="Schedule_dash">
@@ -75,7 +78,10 @@
 
 							<section class="panel">
 								<header class="panel-heading">
-									<h2 class="panel-title green">  <i class="fa fa-money black"  aria-hidden="true"></i> Balance</h2>	
+									<h2 class="panel-title green">  <i class="fa fa-money black"  aria-hidden="true"></i> Balance</h2>
+									<span class="searchloader">
+										<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
+									</span>
 								</header>
 								<div class="panel-body">
 								        <div class="table-responsive">

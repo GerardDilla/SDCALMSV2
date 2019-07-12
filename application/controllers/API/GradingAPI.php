@@ -5,6 +5,11 @@ class GradingAPI extends CI_Controller {
 
 	function __construct() 
 	{
+
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE, OPTIONS');
+		header('Access-Control-Request-Headers: Content-Type');
+		
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->library("api_input_validator");

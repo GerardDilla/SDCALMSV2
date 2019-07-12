@@ -21,36 +21,27 @@ class Mailertest extends MY_Controller {
 	public function index()
 	{
 
-
-		$config['protocol']    = 'mail';
-
-		$config['mailpath']     = "/usr/sbin/sendmail";
-
-		$config['smtp_host']    = 'http://stdominiccollege.edu.ph';
-
-		$config['smtp_port']    = '465';
-
-		$config['smtp_timeout'] = '7';
-
-		$config['smtp_user']    = 'gpdilla@sdca.edu.ph';
-
-		$config['smtp_pass']    = 'senpai1320';
-
-		$config['charset']    = 'utf-8';
-
-		$config['mailtype'] = 'html'; 
-
-		$config['validation'] = TRUE;
+		$config['protocol'] = 'smtp';
+		$config['smtp_host'] = 'mail.smtp2go.com';
+		$config['smtp_port'] = '2525'; 
+		$config['smtp_crypto'] = 'tls';
+		$config['smtp_user'] = 'gpdilla@sdca.edu.ph';
+		$config['smtp_pass'] = 'o7RYFpgxdTtX';
+		$config['charset'] = 'utf-8';
+		$config['mailtype'] = 'html';
+		$config['newline'] = "rn";
 
 		$this->email->initialize($config);
 
 		$this->email->set_newline("\r\n");  
 		
 		
-		$this->email->from('gpdilla@sdca.edu.ph', 'St. Dominic College of Asia');
-		$this->email->to('gpdilla@sdca.edu.ph'); 
+		$this->email->from('webmailer@sdca.edu.ph', 'St. Dominic College of Asia');
+		$this->email->to('gerarddilla@gmail.com'); 
 		$this->email->subject('Test Mail from portal');
-		$this->email->message('Dear Gerard,
+		$this->email->message('
+		<img src="'.base_url().'assets/images/logo-default3.png" height="50">
+		Dear Gerard,
 		    Thank you for choosing St. Dominic College of Asia. Your application for enrollment have been considered. Please print the copy of your application by clicking on the link below:
             You can use your reference number to process your enrollment application thru our Main Office or mobile enrollment kiosk located at SM Molino. Should you have any question fell free to visit the School or call us anytime. We are happy to be of service with you and be part of your future success.
 

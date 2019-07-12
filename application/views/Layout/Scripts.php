@@ -127,10 +127,14 @@
 		<!-- AJAX loading -->
 		<script>
 			$(document).ajaxStart(function() {
-			$(".searchloader").show();
+
+				$(".searchloader").show();
+
 			});
 			$(document).ajaxStop(function() {
-			$(".searchloader").hide();
+
+				$(".searchloader").hide();
+				
 			});
 		</script>
 		<!-- AJAX loading -->
