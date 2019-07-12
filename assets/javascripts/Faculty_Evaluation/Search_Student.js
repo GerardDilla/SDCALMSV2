@@ -44,7 +44,7 @@ function Get_Students(){
           data:array,
           success:function(data)
           {        
-              $("#Section").html('');
+              $("#Search_Student").html('');
                result = JSON.parse(data);
                Display_Students(result);
       }
@@ -52,7 +52,7 @@ function Get_Students(){
 
 }
 function Display_Students(result){
-  $('#Section').append('<option selected value="">Select Section:</option>');
+
   $.each(result, function(index, result) 
    {
       $('#Section').append('<option>'+result['SN']+'</option>');

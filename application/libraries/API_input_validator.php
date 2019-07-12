@@ -49,14 +49,37 @@ class api_input_validator
 			if(array_key_exists("rules",$row)){
 				if($row['rules'] != '' || $row['rules'] != NULL){
 					$rules = explode("|",$row['rules']);
+
+					//Place Conditions inside the foreach below followed by setting the error message in the errors_translate() function
 					foreach($rules as $rule_row){
-						//echo $row['label'].'--error:'.$rule_row.'<br>';
-						if($row['value'] == '' || $row['value'] == NULL){
-							$error[$row['field']] = $this->errors_translate(trim($rule_row,' '),$row['label']);
-							//echo $error[$row['field']].'<hr>';
-							$errorall .= $error[$row['field']].'<br>';
-							$status = FALSE;
+
+						//For 'Boolean' rule
+						if($rule_row == 'boolean'){
+							//Condition
+							if($row['value'] != '' || $row['value'] != NULL){
+								if($row['value'] != 1){
+									if($row['value'] != 0){
+										$error[$row['field']] = $this->errors_translate(trim($rule_row,' '),$row['label']);
+										$errorall .= $error[$row['field']].'<br>';
+										$status = FALSE;
+									} 
+								}
+							}
 						}
+						//---Boolean
+
+						//For 'Required' rule
+						if($rule_row == 'required'){
+							//Condition
+							if($row['value'] == '' || $row['value'] == NULL){
+								$error[$row['field']] = $this->errors_translate(trim($rule_row,' '),$row['label']);
+								//echo $error[$row['field']].'<hr>';
+								$errorall .= $error[$row['field']].'<br>';
+								$status = FALSE;
+							}
+						}
+						//---Required
+
 					}
 				}
 			}
@@ -76,8 +99,8 @@ class api_input_validator
 			case "required":
 				return $label." is Required";
 				break;
-			case "test":
-				return $label." is a test";
+			case "boolean":
+				return $label." only accepts boolean values";
 				break;
 			default:
 				return "Unknown Rule";
