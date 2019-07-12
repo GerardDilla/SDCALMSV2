@@ -5,6 +5,11 @@ class GradingAPI extends CI_Controller {
 
 	function __construct() 
 	{
+
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE, OPTIONS');
+		header('Access-Control-Request-Headers: Content-Type');
+		
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->library("api_input_validator");
@@ -60,6 +65,7 @@ class GradingAPI extends CI_Controller {
 			//Validates reference number hash and returns student number
 			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
+<<<<<<< HEAD
 			//Validates reference number hash and returns student number
 			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
@@ -67,6 +73,10 @@ class GradingAPI extends CI_Controller {
 			$grades_data = $this->grade_constructor($input_array);
 
 
+=======
+			//Constructs and displays grades
+			$grades_data = $this->grade_constructor($input_array);
+>>>>>>> 5a3f36486057f3dbd3f3bfeaf3139eeadf7c7530
 
 		}
 		else{

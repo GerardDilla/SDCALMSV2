@@ -26,7 +26,7 @@ function Init_ScheduleAPI(url='',refnum='')
         message_handler(config);
         return;
     }
-    if($('#Grade_sy').val() == ''){
+    if($('#Sched_sy').val() == ''){
         //message_handler('You must provide School Year');
         config = {
             'message':'You must provide School Year',
@@ -35,7 +35,7 @@ function Init_ScheduleAPI(url='',refnum='')
         message_handler(config);
         return;
     }
-    if($('#Grade_sem').val() == ''){
+    if($('#Sched_sem').val() == ''){
         //message_handler('You must provide Semester');
         config = {
             'message':'You must provide Semester',
@@ -61,7 +61,6 @@ function Init_ScheduleAPI(url='',refnum='')
                 console.log(result);
                 //grading_display(result['Output']);
 
-                
                 $("#schedule_main").dataTable().fnDestroy();
                 $('.message_box').html('');
                 $('#schedule_main').DataTable({

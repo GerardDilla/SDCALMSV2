@@ -79,6 +79,7 @@
 
 			},
 			events: [
+				/*
 				{
 					title: 'All Day Event',
 					start: new Date(y, m, 1)
@@ -124,6 +125,7 @@
 					end: new Date(y, m, 29),
 					url: 'http://google.com/'
 				}
+				*/
 			]
 		});
 

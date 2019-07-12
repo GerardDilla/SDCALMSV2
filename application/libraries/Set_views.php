@@ -15,6 +15,10 @@ class set_views
 	{
 		return $this->main.'/Login';
 	}
+	public function registration()
+	{
+		return $this->main.'/Registration';
+	}
 	public function grade()
 	{
 		return $this->main.'/GradeSheet';

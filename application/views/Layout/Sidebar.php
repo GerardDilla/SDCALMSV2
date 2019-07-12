@@ -20,7 +20,7 @@
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
                     <li class="nav-active">
-                        <a href="<?php echo site_url('Grades'); ?>">
+                        <a href="<?php echo site_url('Dashboard'); ?>">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>Home</span>
                         </a>

@@ -123,15 +123,20 @@
 		<script src="<?php echo base_url(); ?>assets/api_handler/Grading_handler.js"></script>
 		<script src="<?php echo base_url(); ?>assets/api_handler/Balance_handler.js"></script>
 		<script src="<?php echo base_url(); ?>assets/api_handler/Schedule_handler.js"></script>
+		<script src="<?php echo base_url(); ?>assets/api_handler/Dashboard_Manager.js"></script>
 		<!-- API HANDLERS -->
 
 		<!-- AJAX loading -->
 		<script>
 			$(document).ajaxStart(function() {
-			$(".searchloader").show();
+
+				$(".searchloader").show();
+
 			});
 			$(document).ajaxStop(function() {
-			$(".searchloader").hide();
+
+				$(".searchloader").hide();
+				
 			});
 		</script>
 		<!-- AJAX loading -->
