@@ -21,6 +21,8 @@ class Student_login extends CI_Model{
 		');
 		$this->db->where('A.Student_Number',$array['student_id']);
 		$this->db->where('A.Password',$array['student_password']);
+		$this->db->where('A.Student_Number <>',NULL);
+		$this->db->where('A.Student_Number <>','0');
 		$this->db->join('Student_Info AS B','A.Student_Number = B.Student_Number');
 		$result = $this->db->get('highered_accounts AS A');
 		return $result->result_array();

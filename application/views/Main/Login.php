@@ -49,7 +49,7 @@
                     <div class="col-sm-8">
                         <div class="checkbox-custom checkbox-default">
                             <input id="RememberMe" name="rememberme" type="checkbox"/>
-                            <label for="RememberMe">Remember Me</label>
+                            <label for="RememberMe">ReAmember Me</label>
                         </div>
                     </div>
                     <div class="col-sm-4 text-right">
@@ -69,7 +69,7 @@
                 </div>
                 -->
 
-                <p class="text-center">Don't have an account yet? <a href="pages-signup.html">Activate your account!</a>
+                <p class="text-center">Don't have an account yet? <a href="<?php echo site_url('Registration'); ?>">Activate your account!</a>
 
             </form>
         </div>
