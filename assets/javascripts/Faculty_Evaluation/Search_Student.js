@@ -38,6 +38,7 @@ function Get_Students(){
        Section:$('#Section').val(),
        EvaluateStudent:$('#EvaluateStudent').val(),
        YearLevel:$('#yrlvl').val()
+       
      }
 
      if ($('#EvaluateStudent').val() == 1) {

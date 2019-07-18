@@ -97,7 +97,8 @@
 		<!-- stats.js -->
 		<script src="<?php echo base_url(); ?>assets/javascripts/particles/lib/stats.js"></script>
 		<script src="<?php echo base_url(); ?>assets/javascripts/ui-elements/examples.modals.js"></script>
-	
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/node_modules/simple-pagination.js/jquery.simplePagination.js"></script>
+
 		<script>
 		var count_particles, stats, update;
 		stats = new Stats;

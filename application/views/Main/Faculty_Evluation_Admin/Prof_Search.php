@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <footer class="panel-footer">
-                        <button type="button" class="btn btn-default" onclick="Get_Studentsproff()" >View Students</button>
+                        <button type="button" class="btn btn-success" onclick="Get_Studentsproff()" >View Students</button>
                         <button type="button" class="btn btn-default"><i class="fa fa-refresh"></i></button>
                         <span class="searchloader">
                             <img src="http://10.0.0.65/SDCALMSv2/assets/images/loading.gif" height="42" width="42">

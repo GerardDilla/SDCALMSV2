@@ -9,6 +9,7 @@ class Admin_Faculty extends MY_Controller {
 
 		  $this->load->library("set_views");
 		  $this->load->library("Set_custom_session");
+		  $this->load->library('pagination');
 		  $this->load->model('Student_model/Student_info');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Search_Student_Model');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Prof_Search_Model');
@@ -135,21 +136,69 @@ class Admin_Faculty extends MY_Controller {
 		} 
 		
 	///Professor Active or De active Module
-
+   // Professor View
 	public function Professor()
 	{
-
-		$this->template($this->set_views->Admin_Professor());
-     
+	 $this->template($this->set_views->Admin_Professor());
 	}
 
-
-	function fetch_professor()
-	{
-					
-			$resultdata = $this->Proffesor_Model->Get_Prof();
-			echo json_encode($resultdata);
+	//Get Prof Active
+	function fetch_professorActive()
+	{		
+	 $Proffesor   = $this->input->get('Proffesor');		
+	 $resultdata = $this->Proffesor_Model->Get_active_Prof($Proffesor);
+	 echo json_encode($resultdata);
 	} 
+	//Get Prof Not Active
+	function fetch_professorNotActive()
+	{	
+	 $Proffesor   = $this->input->get('Proffesor');		
+	 $resultdata = $this->Proffesor_Model->Get_notactive_Prof($Proffesor);
+	 echo json_encode($resultdata);
+	} 
+
+	//Get Prof All
+	function fetch_professor()
+	{	
+		$array = array(
+			'Proffesor'         => $this->input->get('Proffesor'),
+			'ActiveDeactive'    => $this->input->get('ActiveDeactive'),
+			'offset'            => $this->input->get('offset'),
+			'perpage'           => $this->input->get('perpage')
+		  );
+
+	$resultdata = $this->Proffesor_Model->Get_all_Profs($array);
+	echo json_encode($resultdata);
+	} 
+
+	//Get Prof All
+	function fetch_professors()
+	{	
+		$array = array(
+			'Proffesor'         => $this->input->get('Proffesor'),
+			'ActiveDeactive'    => $this->input->get('ActiveDeactive')
+		  );
+
+	$resultdata = $this->Proffesor_Model->Get_all_Profss($array);
+	echo $resultdata;
+	} 
+
+	//Change Active to Deactive
+	function fetch_Active()
+	{	
+	$id   = $this->input->get('id');		
+	$this->Proffesor_Model->UpdateDeactive($id);
+	} 
+	//Change Deactive to Active
+	function fetch_Deactive()
+	{	
+	$id   = $this->input->get('id');		
+	$this->Proffesor_Model->UpdateActive($id);
+	} 
+	
+	
+	
+	
 	
 
 
