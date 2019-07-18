@@ -10,7 +10,7 @@
         </div>
         <div class="panel-body">
             <?php if($this->session->flashdata('message')): ?>
-                <div class="alert alert-info">
+                <div class="alert alert-info" style="color:#ff0000">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <strong><?php echo $this->session->flashdata('message'); ?></strong>
                 </div>

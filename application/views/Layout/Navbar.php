@@ -185,13 +185,13 @@
         <div id="userbox" class="userbox">
             <a href="#" data-toggle="dropdown">
                 <figure class="profile-picture">
-                    <img src="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" class="img-circle" data-lock-picture="<?php echo base_url(); ?>assets/images/!logged-user.jpg" />
+                    <img src="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" class="img-circle" data-lock-picture="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" />
                 </figure>
-                <div class="profile-info" data-lock-name="<?php echo $this->student_data['Full_Name']; ?>" data-lock-email="<?php echo $this->student_data['Student_Number']; ?>">
+                <div class="profile-info" data-lock-baseurl="<?php echo base_url(); ?>" data-lock-name="<?php echo $this->student_data['Full_Name']; ?>" data-lock-studentnumber="<?php echo $this->student_data['Student_Number']; ?>">
                     <span class="name"><?php echo $this->student_data['Full_Name']; ?></span>
                     <span class="role"><?php echo $this->student_data['Student_Number']; ?></span>
                 </div>
-
+        
                 <i class="fa custom-caret"></i>
             </a>
 
@@ -201,11 +201,9 @@
                     <li>
                         <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
                     </li>
-                    <!--
                     <li>
                         <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
                     </li>
-                    -->
                     <li>
                         <a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/Main/logout"><i class="fa fa-power-off"></i> Logout</a>
                     </li>

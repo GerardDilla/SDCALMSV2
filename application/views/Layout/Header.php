@@ -35,6 +35,7 @@
 	    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/fullcalendar/fullcalendar.css" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/fullcalendar/fullcalendar.print.css" media="print" />
+		
 
 
 
@@ -55,3 +56,5 @@
 
 		<!--Google recaptcha-->
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+		

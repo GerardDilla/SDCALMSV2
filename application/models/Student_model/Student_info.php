@@ -29,10 +29,78 @@ class Student_info extends CI_Model{
 		$this->db->where('A.Student_Number',$array['Student_Number']);
 		$this->db->where('A.Student_Number <>',NULL);
 		$this->db->where('A.Student_Number <>','0');
+		$this->db->where('B.Active','1');
 		$this->db->join('highered_accounts AS B','A.Student_Number = B.Student_Number');
 		$result = $this->db->get('Student_Info AS A');
 		return $result->result_array();
 		
+	}
+	public function ValidateActivationCode($array)
+	{
+
+		$this->db->where('Student_Number',$array['Student_Number']);
+		$this->db->where('Activation_Code',$array['Activation_Code']);
+		$this->db->where('Student_Number <>',NULL);
+		$this->db->where('Student_Number <>','0');
+		$this->db->where('valid','1');
+		$result = $this->db->get('portal_activationcode');
+		return $result->result_array();
+		
+	}
+	public function CheckExistingCodeData($array)
+	{
+
+		$this->db->where('Student_Number',$array['Student_Number']);
+		$this->db->where('Student_Number <>',NULL);
+		$this->db->where('Student_Number <>','0');
+		$this->db->where('valid','1');
+		$result = $this->db->get('portal_activationcode');
+		return $result->result_array();
+		
+	}
+	public function CheckCodeAvailability($array)
+	{
+
+		$this->db->where('Activation_Code',$array['draft']);
+		$this->db->where('valid','1');
+		$result = $this->db->get('portal_activationcode');
+		return $result->result_array();
+		
+	}
+	public function ValidatedCurrentEnrollment($array){
+
+		$this->db->where('A.Student_Number',$array['Student_Number']);
+		$this->db->where('A.Dropped','0');
+		$this->db->where('A.Cancelled','0');
+		$this->db->join('Legend AS L','A.School_Year = L.School_Year AND A.Semester = L.Semester');
+		$result = $this->db->get('EnrolledStudent_Subjects AS A');
+		return $result->result_array();
+
+	}
+	public function InsertCode($array){
+
+		$this->db->insert('portal_activationcode',$array);
+		return $this->db->insert_id();
+	}
+	public function UpdateCode($array,$id){
+
+		$this->db->where('ID',$id);
+		$this->db->update('portal_activationcode',$array);
+		return $this->db->affected_rows();
+
+	}
+	public function InsertNewAccount($array){
+
+		$this->db->insert('highered_accounts',$array);
+		return $this->db->insert_id();
+	}
+	public function VerifyEmail($array){
+
+		$this->db->where('Student_Number',$array['Student_Number']);
+		$this->db->where('Active',1);
+		$this->db->update('highered_accounts',$array);
+		return $this->db->affected_rows();
+
 	}
 	
 }

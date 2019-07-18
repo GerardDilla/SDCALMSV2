@@ -19,6 +19,14 @@ class set_views
 	{
 		return $this->main.'/Registration';
 	}
+	public function keygen()
+	{
+		return $this->main.'/Keygen';
+	}
+	public function verification()
+	{
+		return $this->main.'/Verification';
+	}
 	public function grade()
 	{
 		return $this->main.'/GradeSheet';

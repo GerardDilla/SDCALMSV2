@@ -676,18 +676,21 @@ window.theme = {};
 			var $info,
 				picture,
 				name,
-				email;
+				student_number,
+				baseurl;
 
 			// always search in case something is changed through ajax
 			$info    = $( '#userbox' );
 			picture  = $info.find( '.profile-picture img' ).attr( 'data-lock-picture' );
 			name     = $info.find( '.profile-info' ).attr( 'data-lock-name' );
-			email    = $info.find( '.profile-info' ).attr( 'data-lock-email' );
+			student_number    = $info.find( '.profile-info' ).attr( 'data-lock-studentnumber' );
+			baseurl = $info.find( '.profile-info' ).attr( 'data-lock-baseurl' );
 
 			return {
 				picture: picture,
 				username: name,
-				email: email
+				student_number: student_number,
+				baseurl: baseurl
 			};
 		},
 
@@ -695,33 +698,34 @@ window.theme = {};
 			return [
 					'<section id="LockScreenInline" class="body-sign body-locked body-locked-inline">',
 						'<div class="center-sign">',
-							'<div class="panel panel-sign">',
+							'<div class="panel panel-sign" style="max-width: 600px;">',
 								'<div class="panel-body">',
 									'<form>',
 										'<div class="current-user text-center">',
 											'<img id="LockUserPicture" src="{{picture}}" alt="John Doe" class="img-circle user-image" />',
 											'<h2 id="LockUserName" class="user-name text-dark m-none">{{username}}</h2>',
-											'<p  id="LockUserEmail" class="user-email m-none">{{email}}</p>',
+											'<p  id="LockUserEmail" class="user-email m-none">{{student_number}}</p>',
 										'</div>',
-										'<div class="form-group mb-lg">',
-											'<div class="input-group input-group-icon">',
-												'<input id="pwd" name="pwd" type="password" class="form-control input-lg" placeholder="Password" />',
-												'<span class="input-group-addon">',
-													'<span class="icon icon-lg">',
-														'<i class="fa fa-lock"></i>',
-													'</span>',
-												'</span>',
-											'</div>',
-										'</div>',
-
 										'<div class="row">',
-											'<div class="col-xs-6">',
-												'<p class="mt-xs mb-none">',
-													'<a href="#">Not John Doe?</a>',
-												'</p>',
-											'</div>',
-											'<div class="col-xs-6 text-right">',
-												'<button type="submit" class="btn btn-primary">Unlock</button>',
+											'<div class="col-xs-12">',
+												'<h4>WELCOME {{name}}! <br><br><span style="color:green">It seems you haven\'t verified your Email yet.</span> <br><br>To proceed, enter your <span style="color:green">Email address</span> below and click \'<u style="color:green">Send</u>\'. <br><br>You will receive an email containing the link to activate your account.</h4>',
+												'<hr>',
+												'<div class="form-group mb-lg">',
+													'<div class="input-group input-group-icon">',
+														'<input id="student_email" name="student_email" type="email" class="form-control input-lg" value="" placeholder="Email" />',
+														'<span class="input-group-addon">',
+															'<span class="icon icon-lg">',
+																'<i class="fa fa-lock"></i>',
+															'</span>',
+														'</span>',
+													'</div>',
+												'</div>',
+												'<div class="row">',
+													'<div class="col-xs-12 text-right">',
+														'<a href="{{baseurl}}index.php/Main/logout" class="btn btn-default">Logout</a>',
+														'<button type="submit" class="btn btn-primary">Send</button>',
+													'</div>',
+												'</div>',
 											'</div>',
 										'</div>',
 									'</form>',
@@ -733,7 +737,9 @@ window.theme = {};
 				.join( '' )
 				.replace( /\{\{picture\}\}/, userinfo.picture )
 				.replace( /\{\{username\}\}/, userinfo.username )
-				.replace( /\{\{email\}\}/, userinfo.email );
+				.replace( /\{\{name\}\}/, userinfo.username )
+				.replace( /\{\{baseurl\}\}/, userinfo.baseurl )
+				.replace( /\{\{student_number\}\}/, userinfo.student_number );
 		}
 
 	};

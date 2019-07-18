@@ -3,8 +3,6 @@
 
 class Student_login extends CI_Model{
 	
-
-	// STUDENT
 	public function verify_login($array)
 	{
 		$this->db->select('
@@ -20,9 +18,10 @@ class Student_login extends CI_Model{
 		B.Major
 		');
 		$this->db->where('A.Student_Number',$array['student_id']);
-		$this->db->where('A.Password',$array['student_password']);
+		$this->db->where('A.Password',MD5($array['student_password']));
 		$this->db->where('A.Student_Number <>',NULL);
 		$this->db->where('A.Student_Number <>','0');
+		$this->db->where('A.Active','1');
 		$this->db->join('Student_Info AS B','A.Student_Number = B.Student_Number');
 		$result = $this->db->get('highered_accounts AS A');
 		return $result->result_array();

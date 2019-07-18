@@ -32,6 +32,18 @@
                 </div>
 
                 <div class="form-group mb-lg">
+                    <label>Activation Code</label>
+                    <div class="input-group input-group-icon">
+                        <input name="activation_code" type="text" class="form-control input-lg" value="<?php echo $this->session->flashdata('prev_activation_code'); ?>" placeholder="XXXXXXXXX" />
+                        <span class="input-group-addon">
+                            <span class="icon icon-lg">
+                                <i class="fa fa-user"></i>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-lg">
                     <label>SDCA Email</label>
                     <div class="input-group input-group-icon">
                         <input name="student_email" type="text" class="form-control input-lg" value="<?php echo $this->session->flashdata('prev_student_email'); ?>" placeholder="Ex: johndoe@sdca.edu.ph" />
@@ -76,16 +88,16 @@
                         <div style="text-align: center;">
                             <div class="g-recaptcha" data-sitekey="6LdiwqwUAAAAAC2PAa16nKnU_a5KUDcK-zl0hb29" style="display: inline-block;"></div>
                             <br/>
-                            <button type="submit" name="login_submit" value="1" class="btn btn-primary btn-lg">Activate Account</button>
+                            <button type="submit" name="login_submit" value="1" style="background:#00cc00; border:0px; color:#000" class="btn btn-primary btn-lg">Proceed</button>
                         </div>
                     </div>
                 </div>
+                
 
             </form>
         </div>
     </div>
 
-    
 </div>
 
 <script>
