@@ -51,10 +51,15 @@ class Mailertest extends MY_Controller {
 		// You need to pass FALSE while sending in order for the email data
 		// to not be cleared - if that happens, print_debugger() would have
 		// nothing to output.
-		$this->email->send(FALSE);
+		//$this->email->send(FALSE);
+
+		if(!$this->email->send())
+		{
+			echo 'An Error occured while sending you your verification link. Please contact our MIS team for assistance';
+		}
 
 		// Will only print the email headers, excluding the message subject and body
-		echo $this->email->print_debugger(array('headers'));
+		//echo $this->email->print_debugger(array('headers'));
 		
 	}
 	

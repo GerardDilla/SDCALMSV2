@@ -1,6 +1,8 @@
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
+		<meta name="google-signin-client_id" content="847942725256-rmnn0muilein5vsh5dnl28p3k4arujg2.apps.googleusercontent.com">
+
 		<!-- Web Fonts  -->
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
