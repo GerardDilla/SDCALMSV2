@@ -65,18 +65,8 @@ class GradingAPI extends CI_Controller {
 			//Validates reference number hash and returns student number
 			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
-<<<<<<< HEAD
-			//Validates reference number hash and returns student number
-			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
-
 			//Constructs and displays grades
 			$grades_data = $this->grade_constructor($input_array);
-
-
-=======
-			//Constructs and displays grades
-			$grades_data = $this->grade_constructor($input_array);
->>>>>>> 5a3f36486057f3dbd3f3bfeaf3139eeadf7c7530
 
 		}
 		else{

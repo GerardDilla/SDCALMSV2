@@ -97,7 +97,7 @@
 		<!-- stats.js -->
 		<script src="<?php echo base_url(); ?>assets/javascripts/particles/lib/stats.js"></script>
 		<script src="<?php echo base_url(); ?>assets/javascripts/ui-elements/examples.modals.js"></script>
-		<script src="<?php echo base_url(); ?>assets/javascripts/Faculty_Evaluation/Search_Student.js"></script>
+	
 		<script>
 		var count_particles, stats, update;
 		stats = new Stats;
