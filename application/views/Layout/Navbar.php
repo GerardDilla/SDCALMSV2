@@ -187,7 +187,22 @@
                 <figure class="profile-picture">
                     <img src="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" class="img-circle" data-lock-picture="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" />
                 </figure>
-                <div class="profile-info" data-lock-baseurl="<?php echo base_url(); ?>" data-lock-name="<?php echo $this->student_data['Full_Name']; ?>" data-lock-studentnumber="<?php echo $this->student_data['Student_Number']; ?>">
+
+                <!--Set 'status' to '1' if unverified, set 2 if not set, set 0 if none-->
+                <div class="profile-info" 
+                    
+                    data-lock-baseurl="<?php echo base_url(); ?>" 
+                    
+                    data-lock-name="<?php echo $this->student_data['Full_Name']; ?>" 
+                    
+                    data-lock-studentnumber="<?php echo $this->student_data['Student_Number']; ?>"
+
+                    data-lock-status="<?php echo $this->student_data['Verified']; ?>"
+
+                    data-lock-email="<?php echo $this->student_data['Email']; ?>"
+
+                >
+
                     <span class="name"><?php echo $this->student_data['Full_Name']; ?></span>
                     <span class="role"><?php echo $this->student_data['Student_Number']; ?></span>
                 </div>
@@ -207,6 +222,9 @@
                     <li>
                         <a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/Main/logout"><i class="fa fa-power-off"></i> Logout</a>
                     </li>
+                    <li>
+                        <a class="mb-xs mt-xs mr-xs modal-with-move-anim btn btn-default" href="#emailverification">Open with fade-slide animation</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -214,3 +232,5 @@
     <!-- end: search & user box -->
 </header>
 <!-- end: header -->
+
+

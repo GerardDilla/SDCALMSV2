@@ -677,7 +677,11 @@ window.theme = {};
 				picture,
 				name,
 				student_number,
-				baseurl;
+				baseurl,
+				status,
+				statusmessage,
+				button,
+				email;
 
 			// always search in case something is changed through ajax
 			$info    = $( '#userbox' );
@@ -685,12 +689,43 @@ window.theme = {};
 			name     = $info.find( '.profile-info' ).attr( 'data-lock-name' );
 			student_number    = $info.find( '.profile-info' ).attr( 'data-lock-studentnumber' );
 			baseurl = $info.find( '.profile-info' ).attr( 'data-lock-baseurl' );
+			status = $info.find( '.profile-info' ).attr( 'data-lock-status' );
+			email = $info.find( '.profile-info' ).attr( 'data-lock-email' );
+			button = '';
+
+			if(email == ''){
+
+				statusmessage = '\
+				<span style="color:green">It seems you haven\'t set your Email yet.</span> \
+				<br><br>To proceed, enter your <span style="color:green">Email address</span> \
+				below and click \'<u style="color:green">Send</u>\'.\
+				';
+				statusmessage += '<br><br>You will receive an email containing the link to activate your account.</h4>';
+
+				button = '<button type="submit" class="btn btn-primary">Send</button>';
+
+			}else if(status == 0){
+
+				statusmessage = '\
+				<span style="color:green">It seems you haven\'t verified your Email yet.</span> \
+				<br><br>To proceed:<br><br>Check your email <u>'+$info.find( '.profile-info' ).attr( 'data-lock-email' )+'</u>, click on the activation link we sent you, and try to login again.\
+				';
+				button = '<button type="submit" class="btn btn-primary">Resend</button>';
+
+			}else{
+
+				statusmessage = '<span style="color:green">Your email is already verified '+status+'</span>';
+
+			}
 
 			return {
 				picture: picture,
 				username: name,
 				student_number: student_number,
-				baseurl: baseurl
+				baseurl: baseurl,
+				status: statusmessage,
+				button: button,
+				email: email,
 			};
 		},
 
@@ -698,7 +733,7 @@ window.theme = {};
 			return [
 					'<section id="LockScreenInline" class="body-sign body-locked body-locked-inline">',
 						'<div class="center-sign">',
-							'<div class="panel panel-sign" style="max-width: 600px;">',
+							'<div class="panel panel-sign" style="">',
 								'<div class="panel-body">',
 									'<form>',
 										'<div class="current-user text-center">',
@@ -708,22 +743,25 @@ window.theme = {};
 										'</div>',
 										'<div class="row">',
 											'<div class="col-xs-12">',
-												'<h4>WELCOME {{name}}! <br><br><span style="color:green">It seems you haven\'t verified your Email yet.</span> <br><br>To proceed, enter your <span style="color:green">Email address</span> below and click \'<u style="color:green">Send</u>\'. <br><br>You will receive an email containing the link to activate your account.</h4>',
+												'<h4>WELCOME {{name}}!',
+												'<br><br>{{status}}',
 												'<hr>',
 												'<div class="form-group mb-lg">',
 													'<div class="input-group input-group-icon">',
-														'<input id="student_email" name="student_email" type="email" class="form-control input-lg" value="" placeholder="Email" />',
+														'<input id="student_email" name="student_email" type="email" class="form-control input-lg" value="{{email}}" placeholder="Email" />',
 														'<span class="input-group-addon">',
 															'<span class="icon icon-lg">',
-																'<i class="fa fa-lock"></i>',
+																'<i class="fa fa-envelope-square"></i>',
 															'</span>',
 														'</span>',
 													'</div>',
 												'</div>',
 												'<div class="row">',
-													'<div class="col-xs-12 text-right">',
+													'<div class="col-xs-6 text-left">',
 														'<a href="{{baseurl}}index.php/Main/logout" class="btn btn-default">Logout</a>',
-														'<button type="submit" class="btn btn-primary">Send</button>',
+													'</div>',
+													'<div class="col-xs-6 text-right">',
+														'{{button}}',
 													'</div>',
 												'</div>',
 											'</div>',
@@ -739,7 +777,10 @@ window.theme = {};
 				.replace( /\{\{username\}\}/, userinfo.username )
 				.replace( /\{\{name\}\}/, userinfo.username )
 				.replace( /\{\{baseurl\}\}/, userinfo.baseurl )
-				.replace( /\{\{student_number\}\}/, userinfo.student_number );
+				.replace( /\{\{student_number\}\}/, userinfo.student_number )
+				.replace( /\{\{status\}\}/, userinfo.status )
+				.replace( /\{\{email\}\}/, userinfo.email )
+				.replace( /\{\{button\}\}/, userinfo.button );
 		}
 
 	};

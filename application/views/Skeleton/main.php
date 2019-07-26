@@ -43,5 +43,10 @@
     <!--Script-->
     <?php if ($script) echo $script; ?>
     <!--/Script-->
+
+    <!--Script-->
+    <?php if ($modal) echo $modal; ?>
+    <!--/Script-->
+
 	</body>
 </html>

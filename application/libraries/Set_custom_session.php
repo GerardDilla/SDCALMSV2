@@ -26,6 +26,10 @@ class Set_custom_session
 				'Middle_Name' => $this->CI->session->userdata('LoginData')['Middle_Name'],
 				'Last_Name' => $this->CI->session->userdata('LoginData')['Last_Name'],
 				'Full_Name' => $this->CI->session->userdata('LoginData')['First_Name'].' '.$this->CI->session->userdata('LoginData')['Middle_Name'].' '.$this->CI->session->userdata('LoginData')['Last_Name'],
+				'Email' => $this->CI->session->userdata('LoginData')['Email'],
+				'ViaRegistration' => $this->CI->session->userdata('LoginData')['ViaRegistration'],
+				'Verified' => $this->CI->session->userdata('LoginData')['Verified'],
+				
 			);
 			return $data;
 		}

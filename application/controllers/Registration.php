@@ -10,6 +10,7 @@ class Registration extends MY_Controller {
 		  $this->load->library("set_views");
 		  $this->load->library('form_validation');
 		  $this->load->library('Set_custom_session');
+		  $this->load->library("api_input_validator");
 		  $this->load->library('email');
 		  $this->load->model('Student_model/Student_login');
 		  $this->load->model('Student_model/Student_info');
@@ -58,7 +59,6 @@ class Registration extends MY_Controller {
 
 	}
 	public function AccountVerify(){
-
 		
 		if($this->input->get('activate')){
 			$verifyarray = array(
@@ -67,7 +67,7 @@ class Registration extends MY_Controller {
 			);
 			$this->Init_VerifyAccount($verifyarray);
 		}
-		$this->loginpage($this->set_views->verification());
+		$this->loginpage($this->set_views->verification_final());
 
 	}
 	private function Init_Registration(){
@@ -109,6 +109,16 @@ class Registration extends MY_Controller {
 
 		}
 
+		//Validate if email is already taken
+		$email_status = $this->EmailDuplicateValidate($inputarray);
+		if(!empty($email_status)){
+
+			$message = 'The email you chose is already taken';
+			$this->message_handler($message);
+			$this->RedirectWithInput();
+
+		}
+
 		//Validate Activation Code
 		$code_status = $this->ActivateCodeCheck($inputarray);
 		if(empty($code_status)){
@@ -133,6 +143,7 @@ class Registration extends MY_Controller {
 			'Email' => $inputarray['Email'],
 			'Password' => md5($inputarray['Password']),
 			'DateActivated' => $this->logdate,
+			'ViaRegistration' => 1,
 		);
 		if($this->RegisterStudent($insertarray)){
 
@@ -158,10 +169,9 @@ class Registration extends MY_Controller {
 
 		//Sets up inputs
 		$inputarray = array(
-			'Student_Number' => $this->input->post('student_id'),
+			'Student_Number' => $this->input->get_post('student_id'),
 			'DateGiven' => $this->logdate,
 		);
-
 
 		//Validate input rules
 		$config = array(
@@ -222,6 +232,99 @@ class Registration extends MY_Controller {
 		
 
 	}
+	public function Init_AjaxVerification(){
+
+		$array = array(
+			'Success' => 0,
+			'Message' => '',
+			'Error' => '',
+		);
+		
+		$config = array(
+			array(
+				'field' => 'Student_Number',
+				'label' => 'Student Number',
+				'rules' => 'required',
+				'value' => $this->input->get_post('Student_Number')
+			),
+			array(
+				'field' => 'Email',
+				'label' => 'Email',
+				'rules' => 'required|email',
+				'value' => $this->input->get_post('Email')
+			)
+		);
+		$validate = $this->api_input_validator->validate_input($config);
+		if($validate['Status'] == TRUE){
+
+
+			//Sets up inputs
+			$inputarray = array(
+				'Student_Number' => $this->input->get_post('Student_Number'),
+				'DateGiven' => $this->logdate,
+			);
+
+			//Validate if Student number exists
+			$studentnumber_status = $this->StudentNumberValidate($inputarray);
+			if(empty($studentnumber_status)){
+
+				$array['Error'] = 'This Student Number does not exist.';
+				echo json_encode($array);
+				return;
+
+			}
+
+			//Get a Unique key
+			$inputarray['Activation_Code'] = $this->ProduceUniqueKey($this->Keylength);
+
+			//Inserting or updating of ActivationCode
+			$code_status = $this->CheckExistingCodeData($inputarray);
+			if(empty($code_status)){
+
+				//Inserts new row in portal_activationcode table
+				$this->InsertActivationCode($inputarray);
+
+			}else{
+
+				//Updates row in portal_activationcode table
+				$this->UpdateActivationCode($inputarray,$code_status[0]['ID']);
+
+			}
+
+			$inputarray['Email'] = $this->input->get_post('Email');
+
+			
+			//Send Activation Mail
+			//Send Email with Verification code
+			$mail_status = $this->SendActivationMail($inputarray);
+
+			if($mail_status == 0)
+			{	
+
+				$array['Error'] = 'An Error occured while sending you your verification link. Please contact our MIS team for assistance';
+				echo json_encode($array);
+				return;
+
+			}else{
+	
+				$array['Success'] = 1;
+				$array['Message'] = 'We\'ve sent you and email containing the activation link for your account.';
+				echo json_encode($array);
+				return;
+
+			}
+
+			
+
+		}else{
+
+			$array['Error'] = $validate['All_Errors'];
+			echo json_encode($array);
+			return;
+		}
+
+
+	}
 	private function Init_VerifyAccount($verifyarray){
 
 		//Validate Activation Code
@@ -252,6 +355,18 @@ class Registration extends MY_Controller {
 
 		}
 		
+
+	}
+	public function Email_Verification_check(){
+		
+		//Ajax
+		$array['Student_Number'] = $this->input->get('Student_Number');
+		$result = $this->Student_info->Check_Verification_Stat($array);
+		$array = array(
+			'resultcount' => $result->num_rows(),
+			'resultarray' => $result->result_array()
+		);
+		echo json_encode($array);
 
 	}
 	private function SendActivationMail($inputarray){
@@ -296,7 +411,6 @@ class Registration extends MY_Controller {
 		Report this to the MIS office if you think this is not your doing, Thank you.
 
 		');
-
 		if(!$this->email->send())
 		{
 			$mail_status == 0;
@@ -365,9 +479,10 @@ class Registration extends MY_Controller {
 	}
 	private function Recaptcha(){
 
+		$response = $this->input->get_post('g-recaptcha-response') != '' ? $this->input->get_post('g-recaptcha-response') : $this->input->get_post('g_recaptcha_response');
 
 		//Get verified response data from google
-		$param = "https://www.google.com/recaptcha/api/siteverify?secret=".$this->secretkey."&response=".$this->input->post('g-recaptcha-response');
+		$param = "https://www.google.com/recaptcha/api/siteverify?secret=".$this->secretkey."&response=".$response;
 		$verifyResponse = file_get_contents($param);
 		$responseData = json_decode($verifyResponse);
 
@@ -421,6 +536,11 @@ class Registration extends MY_Controller {
 	private function StudentNumberValidate($inputarray){
 
 		return $this->Student_info->ValidateStudentNumber($inputarray);
+
+	}
+	private function EmailDuplicateValidate($inputarray){
+
+		return $this->Student_info->ValidateEmailDuplicate($inputarray);
 
 	}
 	private function ActivateCodeCheck($inputarray){

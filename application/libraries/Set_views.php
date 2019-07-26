@@ -27,6 +27,10 @@ class set_views
 	{
 		return $this->main.'/Verification';
 	}
+	public function verification_final()
+	{
+		return $this->main.'/Verification_Final';
+	}
 	public function grade()
 	{
 		return $this->main.'/GradeSheet';

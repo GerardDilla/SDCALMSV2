@@ -12,17 +12,23 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
         
         $this->data['message'] = '';
-
         
     }
 	
 
-    public function template($middleParam = '')
+    public function template($middleParam = '',$modal='')
     {
+        $this->load->library('Set_custom_session');
+        $this->student_data = $this->set_custom_session->student_session();
+        $this->data['Verified'] = $this->student_data['Verified'];
 
         if ($middleParam == '')
         {
             $middleParam = $this->middle;
+        }
+        if($this->data['Verified'] == 0){
+
+            $modal = $this->load->view('Main/Verification.php', $this->data, true);
         }
         //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
         $this->template['title'] = 'SDCALMS';
@@ -32,6 +38,10 @@ class MY_Controller extends CI_Controller {
         $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
         $this->template['footer'] = '';//$this->load->view('Layout/Scripts.php', $this->data, true);
         $this->template['script'] = $this->load->view('Layout/Scripts.php', $this->data, true);
+        $this->template['modal'] = $modal;
+
+
+
         $this->load->view('Skeleton/main', $this->template);
 
     }
@@ -44,7 +54,7 @@ class MY_Controller extends CI_Controller {
             $middleParam = $this->middle;
         }
         //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
-        $this->template['title'] = 'SDCALMS Login';
+        $this->template['title'] = 'SDCALMS';
         $this->template['header'] = $this->load->view('Layout/Header.php', $this->data, true);
         $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
         $this->template['footer'] = '';//$this->load->view('Layout/Scripts.php', $this->data, true);

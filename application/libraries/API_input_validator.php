@@ -80,6 +80,22 @@ class api_input_validator
 						}
 						//---Required
 
+						//For 'Email' rule
+						if($rule_row == 'email'){
+
+							if (!filter_var($row['value'], FILTER_VALIDATE_EMAIL)) {
+
+								$error[$row['field']] = $this->errors_translate(trim($rule_row,' '),$row['label']);
+								//echo $error[$row['field']].'<hr>';
+								$errorall .= $error[$row['field']].'<br>';
+								$status = FALSE;
+
+								$emailErr = "Invalid Email"; 
+							}
+
+						}
+
+
 					}
 				}
 			}
@@ -97,10 +113,13 @@ class api_input_validator
 	private function errors_translate($error,$label){
 		switch ($error) {
 			case "required":
-				return $label." is Required";
+				return $label." is Required.";
 				break;
 			case "boolean":
-				return $label." only accepts boolean values";
+				return $label." only accepts boolean values.";
+				break;
+			case "email":
+				return $label." must be valid.";
 				break;
 			default:
 				return "Unknown Rule";

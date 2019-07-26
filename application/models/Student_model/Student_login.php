@@ -9,13 +9,15 @@ class Student_login extends CI_Model{
 		B.Student_Number,
 		MD5(B.Reference_Number) AS Reference_Number,
 		A.Account_Picture,
-		IF(A.Email = "","None",A.Email) AS Email,
+		IF(A.Email = "","N/A",A.Email) AS Email,
 		CONCAT(B.First_Name,\' \',B.`Middle_Name`,\' \',B.`Last_Name`) AS FULLNAME,
 		B.`First_Name`,
 		B.`Middle_Name`,
 		B.`Last_Name`,
 		B.Course,
-		B.Major
+		B.Major,
+		A.Verified,
+		A.ViaRegistration
 		');
 		$this->db->where('A.Student_Number',$array['student_id']);
 		$this->db->where('A.Password',MD5($array['student_password']));

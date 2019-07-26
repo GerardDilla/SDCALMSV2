@@ -49,7 +49,7 @@
                     <div class="col-sm-8">
                         <div class="checkbox-custom checkbox-default">
                             <input id="RememberMe" name="rememberme" type="checkbox"/>
-                            <label for="RememberMe">ReAmember Me</label>
+                            <label for="RememberMe">Remember Me</label>
                         </div>
                     </div>
                     <div class="col-sm-4 text-right">

@@ -62,7 +62,10 @@ class Main extends MY_Controller {
 						'Reference_Number' => $result[0]['Reference_Number'],
 						'First_Name' => $result[0]['First_Name'],
 						'Middle_Name' => $result[0]['Middle_Name'],
-						'Last_Name' => $result[0]['Last_Name']
+						'Last_Name' => $result[0]['Last_Name'],
+						'Email' => $result[0]['Email'],
+						'ViaRegistration' => $result[0]['ViaRegistration'],
+						'Verified' => $result[0]['Verified'],
 					);
 					//print_r($this->session->userdata['LoginData']);
 					$this->session->set_userdata('LoginData',$account_session);

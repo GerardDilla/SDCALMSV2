@@ -22,6 +22,14 @@ class Student_info extends CI_Model{
 		return $result->result_array();
 
 	}
+	public function ValidateEmailDuplicate($array){
+
+		$this->db->where('Email',$array['Email']);
+		$this->db->where('Active',1);
+		$result = $this->db->get('highered_Accounts');
+		return $result->result_array();
+
+	}
 	public function ValidateAccountExists($array)
 	{
 
@@ -101,6 +109,14 @@ class Student_info extends CI_Model{
 		$this->db->update('highered_accounts',$array);
 		return $this->db->affected_rows();
 
+	}
+	public function Check_Verification_Stat($array){
+
+		$this->db->where('Student_Number',$array['Student_Number']);
+		$this->db->where('Verified',1);
+		$this->db->where('Active',1);
+		$result = $this->db->get('highered_accounts');
+		return $result;
 	}
 	
 }
