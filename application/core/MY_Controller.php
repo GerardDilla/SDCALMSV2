@@ -12,15 +12,21 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
         
         $this->data['message'] = '';
+        $this->load->model('Student_info');
         
     }
 	
 
     public function template($middleParam = '',$modal='')
     {
+        //Get status of email verification
         $this->load->library('Set_custom_session');
         $this->student_data = $this->set_custom_session->student_session();
         $this->data['Verified'] = $this->student_data['Verified'];
+
+        //Get Status of privacy policy agreement
+        $privacy_data = $this->Student_info->Check_privacy_agreement();
+
 
         if ($middleParam == '')
         {
@@ -29,6 +35,12 @@ class MY_Controller extends CI_Controller {
         if($this->data['Verified'] == 0){
 
             $modal = $this->load->view('Main/Verification.php', $this->data, true);
+
+        }
+        else if($privacy_data == 0){
+
+            $modal = $this->load->view('Main/Verification.php', $this->data, true);
+
         }
         //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
         $this->template['title'] = 'SDCALMS';

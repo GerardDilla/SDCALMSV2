@@ -112,6 +112,7 @@ $(document).ready(function() {
         </footer>
     </section>
 </div>
+<!-- End Modal -->
 
 <script>
 function open_verification_modal(){

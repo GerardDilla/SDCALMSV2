@@ -118,6 +118,14 @@ class Student_info extends CI_Model{
 		$result = $this->db->get('highered_accounts');
 		return $result;
 	}
-	
+	public function Check_privacy_agreement($array){
+
+		$this->db->where('Student_Number',$array['Student_Number']);
+		$this->db->where('System','HEI Portal');
+		$this->db->where('active',1);
+		$result = $this->db->get('privacy_policy_agreement');
+		return $result->num_rows();
+		
+	}
 }
 ?>
