@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class api_input_validator 
 {
+	//Made this because codeigniter's form validation does not work with ajax
 	/*
 		1. Call this library in controller: $this->load->library("api_input_validator");
 		2. Make and array with indexes: field, label, rules, and value. All indexes must have a value
@@ -82,7 +83,6 @@ class api_input_validator
 
 						//For 'Email' rule
 						if($rule_row == 'email'){
-
 							if (!filter_var($row['value'], FILTER_VALIDATE_EMAIL)) {
 
 								$error[$row['field']] = $this->errors_translate(trim($rule_row,' '),$row['label']);
@@ -92,7 +92,6 @@ class api_input_validator
 
 								$emailErr = "Invalid Email"; 
 							}
-
 						}
 
 

@@ -306,7 +306,7 @@ class Registration extends MY_Controller {
 				return;
 
 			}else{
-	
+				
 				$array['Success'] = 1;
 				$array['Message'] = 'We\'ve sent you and email containing the activation link for your account.';
 				echo json_encode($array);
@@ -343,6 +343,9 @@ class Registration extends MY_Controller {
 		);
 		if($this->VerifyFinal($updatearray)){
 
+			//Resets student session data
+			$this->verify_session_reset();
+
 			$message = '<h3>Successfully verified your account! <br><br>Sign in <a href="'.base_url().'index.php/Registration/RedirectWithInput/Main">Here</a><h3>';
 
 			$this->message_handler($message);
@@ -372,6 +375,7 @@ class Registration extends MY_Controller {
 	private function SendActivationMail($inputarray){
 
 		$mail_status = 1;
+		//Using SMTP2GO // For local use
 
 		$config['protocol'] = 'smtp';
 		$config['smtp_host'] = 'mail.smtp2go.com';
@@ -382,10 +386,34 @@ class Registration extends MY_Controller {
 		$config['charset'] = 'utf-8';
 		$config['mailtype'] = 'html';
 		$config['newline'] = "rn";
+		
+
+		//Server's SMTP config
+		/*
+		$config['protocol']    = 'smtp';
+
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+
+        $config['smtp_port']    = '465';
+
+        $config['smtp_timeout'] = '7';
+
+        $config['smtp_user']    = 'webmailer@sdca.edu.ph';
+
+        $config['smtp_pass']    = 'sdca2017';
+
+        $config['charset']    = 'utf-8';
+
+        $config['newline']    = "\r\n";
+
+        $config['mailtype'] = 'html'; // or html or text
+
+        $config['validation'] = TRUE; // bool whether to validate email or not      
 
 		$this->email->initialize($config);
 
-		$this->email->set_newline("\r\n");  
+		$this->email->set_newline("\r\n");
+		*/
 		
 		
 		$this->email->from('webmailer@sdca.edu.ph', 'St. Dominic College of Asia');
@@ -526,6 +554,22 @@ class Registration extends MY_Controller {
 		$this->form_validation->set_rules($config);
 
 		return $this->form_validation->run();
+
+	}
+	private function verify_session_reset(){
+
+		$student_data = array(
+			'Verified' => 1,
+			'Student_Number' => $this->session->userdata('LoginData')['Student_Number'],
+			'Reference_Number' => $this->session->userdata('LoginData')['Reference_Number'],
+			'First_Name' => $this->session->userdata('LoginData')['First_Name'],
+			'Middle_Name' => $this->session->userdata('LoginData')['Middle_Name'],
+			'Last_Name' => $this->session->userdata('LoginData')['Last_Name'],
+			'Full_Name' => $this->session->userdata('LoginData')['First_Name'].' '.$this->session->userdata('LoginData')['Middle_Name'].' '.$this->session->userdata('LoginData')['Last_Name'],
+			'Email' => $this->session->userdata('LoginData')['Email'],
+			'ViaRegistration' => $this->session->userdata('LoginData')['ViaRegistration']
+		);
+		$this->session->set_userdata('LoginData',$student_data);
 
 	}
 	private function AccountValidate($inputarray){

@@ -22,6 +22,14 @@ class Student_info extends CI_Model{
 		return $result->result_array();
 
 	}
+	public function GetReference_Decrypt($array){
+
+		$this->db->select('A.Reference_Number');
+		$this->db->where('md5(A.Reference_Number)',$array['Reference_Number']);
+		$result = $this->db->get('Student_Info AS A');
+		return $result->result_array();
+
+	}
 	public function ValidateEmailDuplicate($array){
 
 		$this->db->where('Email',$array['Email']);
@@ -120,12 +128,18 @@ class Student_info extends CI_Model{
 	}
 	public function Check_privacy_agreement($array){
 
-		$this->db->where('Student_Number',$array['Student_Number']);
-		$this->db->where('System','HEI Portal');
+		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
+		$this->db->where('System',$array['System']);
 		$this->db->where('active',1);
 		$result = $this->db->get('privacy_policy_agreement');
 		return $result->num_rows();
-		
+
+	}
+	public function Insert_PrivacyPolicy($array){
+
+		$this->db->insert('privacy_policy_agreement',$array);
+		return $this->db->insert_id();
+
 	}
 }
 ?>

@@ -12,7 +12,7 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
         
         $this->data['message'] = '';
-        $this->load->model('Student_info');
+        $this->load->model('Student_model/Student_info');
         
     }
 	
@@ -25,12 +25,17 @@ class MY_Controller extends CI_Controller {
         $this->data['Verified'] = $this->student_data['Verified'];
 
         //Get Status of privacy policy agreement
-        $privacy_data = $this->Student_info->Check_privacy_agreement();
-
+        $array = array(
+            'Reference_Number' => $this->student_data['Reference_Number'],
+            'System' => 'HEI Portal'
+        );
+        $privacy_data = $this->Student_info->Check_privacy_agreement($array);
 
         if ($middleParam == '')
         {
+
             $middleParam = $this->middle;
+
         }
         if($this->data['Verified'] == 0){
 
@@ -39,7 +44,7 @@ class MY_Controller extends CI_Controller {
         }
         else if($privacy_data == 0){
 
-            $modal = $this->load->view('Main/Verification.php', $this->data, true);
+            $modal = $this->load->view('Main/Privacy_Policy.php', $this->data, true);
 
         }
         //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
