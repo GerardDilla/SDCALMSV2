@@ -82,7 +82,6 @@
 		<script src="<?php echo base_url(); ?>assets/javascripts/theme.init.js"></script>
 
 		<!-- Examples -->
-		<script src="<?php echo base_url(); ?>assets/javascripts/dashboard/examples.dashboard.js"></script>
 		<script src="<?php echo base_url(); ?>assets/javascripts/forms/examples.advanced.form.js"></script>
 
 
@@ -93,30 +92,13 @@
 		<!-- scripts -->
 		<script src="<?php echo base_url(); ?>assets/javascripts/particles/particles.js"></script>
 		<script src="<?php echo base_url(); ?>assets/javascripts/particles/app.js"></script>
+		<!-- Examples -->
+		<script src="<?php echo base_url(); ?>assets/javascripts/forms/examples.advanced.form.js" /></script>
 
 		<!-- stats.js -->
-		<script src="<?php echo base_url(); ?>assets/javascripts/particles/lib/stats.js"></script>
+		
 		<script src="<?php echo base_url(); ?>assets/javascripts/ui-elements/examples.modals.js"></script>
 		<script src="<?php echo base_url(); ?>assets/javascripts/Faculty_Evaluation/Search_Student.js"></script>
-		<script>
-		var count_particles, stats, update;
-		stats = new Stats;
-		stats.setMode(0);
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.left = '0px';
-		stats.domElement.style.top = '0px';
-		document.body.appendChild(stats.domElement);
-		count_particles = document.querySelector('.js-count-particles');
-		update = function() {
-			stats.begin();
-			stats.end();
-			if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-			count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-			}
-			requestAnimationFrame(update);
-		};
-		requestAnimationFrame(update);
-        </script>
 
 
 		<!-- API HANDLERS -->
@@ -149,3 +131,5 @@
 			fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
 		</script>
+
+

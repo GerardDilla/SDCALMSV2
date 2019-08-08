@@ -11,6 +11,10 @@ class set_views
 	{
 		return $this->main.'/Dashboard';
 	}
+	public function portfolio()
+	{
+		return $this->main.'/Portfolio';
+	}
 	public function login()
 	{
 		return $this->main.'/Login';
@@ -48,9 +52,6 @@ class set_views
 		return $this->main.'/ErrorPage';
 	}
 	
-
-
-
 	///Student Portal Dashboard
 
 		public function student_dashboard()

@@ -3,7 +3,7 @@
     <header class="page-header">
         <h2><i class="fa <?php echo isset($this->data['Page_icon']) ? $this->data['Page_icon'] : ''; ?>"></i> <?php echo isset($this->data['Page_title']) ? $this->data['Page_title'] : ''; ?></h2>
     
-        <div class="right-wrapper pull-right">
+        <div class="right-wrapper pull-right" style="padding-right:20px">
             <ol class="breadcrumbs">
                 <li>
                     <a href="index.html">

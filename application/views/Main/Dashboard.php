@@ -2,7 +2,7 @@
 	<header class="page-header">
 		<h2>Dashboard</h2>
 					
-			<div class="right-wrapper pull-right">
+			<div class="right-wrapper pull-right" style="padding-right:20px">
 				<ol class="breadcrumbs">
 					<li>
 						<a href="index.html">
@@ -11,7 +11,6 @@
 					</li>
 					<li><span>Dashboard</span></li>
 				</ol>
-				<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 			</div>
 	</header>
 	<div id="particles-js"></div>
@@ -27,7 +26,7 @@
 										<div id="userbox" class="userbox">
 												<a href="#" data-toggle="dropdown">
 													<figure class="profile-picture">
-														<img src="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" />
+														<img src="<?php echo base_url(); ?>personaldata/Profilepicture/default.png" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" />
 													</figure>
 													<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
 														<span class="name"><?php echo $this->student_data['Full_Name']; ?></span>

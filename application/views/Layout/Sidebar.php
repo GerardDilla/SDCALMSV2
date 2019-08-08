@@ -26,6 +26,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-active">
+                        <a href="<?php echo site_url('Portfolio'); ?>">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>My Portfolio</span>
+                        </a>
+                    </li>
+
                     <li class="nav">
                         <a href="<?php echo site_url('Grades'); ?>">
                             <i class="fa fa-tasks" aria-hidden="true"></i>

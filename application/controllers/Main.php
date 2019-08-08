@@ -16,7 +16,7 @@ class Main extends MY_Controller {
 	{
 		//$this->load->view('welcome_message');
 		if($this->session->has_userdata('LoginData')){
-			redirect('Grades');
+			redirect('Dashboard');
 		}
 		$this->loginpage($this->set_views->login());
 

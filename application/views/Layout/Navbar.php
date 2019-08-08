@@ -185,7 +185,7 @@
         <div id="userbox" class="userbox">
             <a href="#" data-toggle="dropdown">
                 <figure class="profile-picture">
-                    <img src="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" class="img-circle" data-lock-picture="<?php echo base_url(); ?>personaldata/Turtlebutt.gif" />
+                    <img src="<?php echo base_url(); ?>personaldata/Profilepicture/default.png" class="img-circle" data-lock-picture="<?php echo base_url(); ?>personaldata/Profilepicture/default.png" />
                 </figure>
 
                 <!--Set 'status' to '1' if unverified, set 2 if not set, set 0 if none-->
@@ -214,7 +214,7 @@
                 <ul class="list-unstyled">
                     <li class="divider"></li>
                     <li>
-                        <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
+                        <a role="menuitem" tabindex="-1" href="<?php echo site_url('Portfolio'); ?>"><i class="fa fa-user"></i> My Profile</a>
                     </li>
                     <li>
                         <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
@@ -222,9 +222,11 @@
                     <li>
                         <a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/Main/logout"><i class="fa fa-power-off"></i> Logout</a>
                     </li>
+                    <!--
                     <li>
                         <a class="mb-xs mt-xs mr-xs modal-with-move-anim btn btn-default" href="#emailverification">Open with fade-slide animation</a>
                     </li>
+                    -->
                 </ul>
             </div>
         </div>
