@@ -19,14 +19,31 @@ class Portfolio extends MY_Controller {
 		  //Defines log date
 		  $this->logdate = date("Y/m/d");
 
+		  $this->sectionlimit = 5;
+
 		  
 		  
 	}
 	public function index()
 	{
-		
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Search' => '',
+			'Limit' => $this->sectionlimit
+		);
+		$this->data['CertificateList'] = $this->PortfolioModel->GetCertificates($array);
 		$this->template($this->set_views->portfolio());
 		
+	}
+	public function Ajax_GetCertNumber(){
+
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Limit' => $this->input->get_post('Limit'),
+			'Search' => $this->input->get_post('Search'),
+		);
+		echo json_encode($this->PortfolioModel->GetCertificates($array));
+
 	}
 	public function certificate_upload(){
 
@@ -66,7 +83,7 @@ class Portfolio extends MY_Controller {
 				$certID = $this->PortfolioModel->Insert_certificate($array);
 				
 				//Updates thew file extension of the file
-				$extensionupdate = $this->PortfolioModel->updare_certificate_extension($certID,array('Extension' => $this->upload->data('file_ext')));
+				$extensionupdate = $this->PortfolioModel->update_certificate_extension($certID,array('Extension' => $this->upload->data('file_ext')));
 
 				if($extensionupdate == TRUE){
 
@@ -95,6 +112,18 @@ class Portfolio extends MY_Controller {
 
 
 		echo json_encode($result);
+	}
+	public function remove_certificate(){
+
+		$info = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'ID' => $this->input->get_post('ID')
+		);
+		$array = array(
+			'Valid' => 0,
+		);
+		$this->PortfolioModel->remove_certificate($info,$array);
+		
 	}
 	
 }

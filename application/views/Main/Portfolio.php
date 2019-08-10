@@ -1,4 +1,4 @@
-<section role="main" class="content-body">
+<section role="main" class="content-body" data-base_url='<?php echo base_url(); ?>'>
 		<header class="page-header">
 			<h2>My Portfolio <i class="fa fa-home"></i></h2>
 		
@@ -85,56 +85,34 @@
 						<h2 class="panel-title">Achievements</h2>
 					</header>
 					<div class="panel-body">
-						<ul class="simple-post-list">
-							<li>
-								<div class="post-image">
-									<div class="img-thumbnail">
-										<a class="lightbox" href="<?php echo base_url(); ?>assets/images/projects/post-thumb-1.jpg" data-plugin-options='{ "type":"image" }'>
-											<img src="<?php echo base_url(); ?>assets/images/post-thumb-1.jpg" alt="">
-										</a>
+						<ul class="simple-post-list" id="AchievementSummary">
+						<?php if($this->data['CertificateList']): ?>
+							<?php foreach($this->data['CertificateList'] as $row): ?>
+								<li>
+									<div class="post-image">
+										<div class="img-thumbnail cert_thumbnail">
+											<a class="lightbox" href="<?php echo base_url(); ?>personaldata/Certificates/<?php echo $row['Certificate'].''.$row['Extension'] ?>" data-plugin-options='{ "type":"image" }'>
+												<img class="cert_img" src="<?php echo base_url(); ?>personaldata/Certificates/<?php echo $row['Certificate'].''.$row['Extension'] ?>" alt="">
+											</a>
+										</div>
 									</div>
-								</div>
-								<div class="post-info">
-									<a href="#">Best in Thesis</a>
-									<div class="post-meta">
-										 Jan 10, 2013
+									<div class="post-info">
+										<a class="lightbox cert_link" href="<?php echo base_url(); ?>personaldata/Certificates/<?php echo $row['Certificate'].''.$row['Extension'] ?>" data-plugin-options='{ "type":"image" }'><?php echo $row['Title']; ?></a>
+										<div class="post-meta">
+											<?php echo $row['Date']; ?>
+										</div>
 									</div>
-								</div>
-							</li>
-							<li>
-								<div class="post-image">
-									<div class="img-thumbnail">
-										<a class="lightbox" href="<?php echo base_url(); ?>assets/images/projects/post-thumb-1.jpg" data-plugin-options='{ "type":"image" }'>
-											<img src="<?php echo base_url(); ?>assets/images/post-thumb-1.jpg" alt="">
-										</a>
-									</div>
-								</div>
-								<div class="post-info">
-									<a href="#">OJT Certificate</a>
-									<div class="post-meta">
-										 Jan 10, 2013
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="post-image">
-									<div class="img-thumbnail">
-										<a class="lightbox" href="<?php echo base_url(); ?>assets/images/projects/post-thumb-1.jpg" data-plugin-options='{ "type":"image" }'>
-											<img src="<?php echo base_url(); ?>assets/images/post-thumb-1.jpg" alt="">
-										</a>
-									</div>
-								</div>
-								<div class="post-info">
-									<a href="#">Research Congress</a>
-									<div class="post-meta">
-										 Jan 10, 2013
-									</div>
-								</div>
-							</li>
+								</li>
+							<?php endForeach; ?>
+						<?php else: ?>
+							<?php echo 'No Achievement posted'; ?>
+						<?php endIf; ?>
 						</ul>
 						<hr class="dotted short">
 						<div class="text-right">
-							<a class="text-uppercase text-muted" href="#">(View All)</a>
+						<?php if($this->data['CertificateList']): ?>
+							<a class="text-uppercase text-muted" href="#" onclick="cert_viewall()">(View All)</a>
+						<?php endIf; ?>
 						</div>
 					</div>
 				</section>
@@ -537,87 +515,56 @@
 		</div>
 		<!-- end: page -->
 	</section>
-	<script>
 
-	function display_image(file){
-		imagelink = (window.URL ? URL : webkitURL).createObjectURL(file.files[0]);
-		$('#cert_thumbnail')[0].src = imagelink;
-		$('#cert_lightbox').attr("href", imagelink);
-	}
-	$(document).ready(function(){
-			$('#cert_form').submit(function(e){
-				e.preventDefault(); 
-					$.ajax({
-						url: $(this).attr('action'),
-						type: $(this).attr('method'),
-						data:new FormData(this),
-						processData:false,
-						contentType:false,
-						cache:false,
-						async:false,
-						success: function(data){
+	<div id="Certmanage" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">
 
-							result = JSON.parse(data);
-							if(result['Status'] == 1){
+                Manage Achievements / Certificates
+                <span class="searchloader">
+                    <img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+				</span>
+				
 
-								$('#CertFile').val('');
-								$('#CertName').val('');
-								$('#cert_thumbnail')[0].src = '<?php echo base_url(); ?>assets/images/cert_icon.png';
-								$('#cert_lightbox').attr("href", '<?php echo base_url(); ?>assets/images/cert_icon.png');
+            </h2>
 
-								config = {
-									'message':result['Message'],
-									'type':'success',
-									'object':'#certificate_message',
-								}
-								portfolio_message_handler(config);
+        </header>
+        <div class="panel-body">
+            <div class="modal-wrapper">
+                <div class="modal-text row">
 
-							}else{
+					<div class="form-group">
+						<label class="col-md-3 control-label">Search</label>
+						<div class="col-md-7">
+							<input type="text"  class="form-control" id="cert_manager_search" autofocus placeholder="Search with Title..">
+						</div>
+						<button style="height:34px" class="col-md-1 btn btn-sm btn-default" onclick="search_cert()"><i class="fa fa-search"></i></button>
+					</div>
 
-								config = {
-									'message':result['Message'],
-									'type':'info',
-									'object':'#certificate_message',
-								}
-								portfolio_message_handler(config);
-								
-							}
-							console.log(data);
-							
-						}
-					});
-				});
-		});
+					<div class="table-responsive col-md-12" style="max-height:600px; min-height:600px; overflow:auto">
+						<table class="table table-striped mb-none">
+							<tbody id="cert_manager">
 
-	function portfolio_message_handler(settings){
 
-		console.log(settings);
-		if(length.settings == 0 || settings == undefined){
-			settings = {
-				'type':'warning',
-				'message':'',
-				'object':'.message_box',
-			};
-		}else{
-			if(settings.type == ''){
-				settings['type'] = 'info';
-			}
-			if(settings.message == ''){
-				settings['message'] = '';
-				console.log('No Message provided for message_handler');
-			}
-			if(settings.object == ''){
-				settings['object'] = '.message_box';
-			}
-		}
 
-		var box = '';
-		box += '<div class="alert alert-'+settings.type+'">';
-		box += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
-		box += settings.message;
-		box += '</div>';
-		$(settings.object).html(box);
 
-	}
+							</tbody>
+						</table>
+					</div>
 
-	</script>
+                </div>
+            </div>
+        </div>
+        <footer class="panel-footer">
+			<div class="row">
+                <div class="col-md-12 text-right">
+					<button class="btn btn-default modal-dismiss pull-right">Close</button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</div>
+
+	<!-- JS for portfolio page -->
+	<script src="<?php echo base_url(); ?>assets/javascripts/portfolio.js"></script>
