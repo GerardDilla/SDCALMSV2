@@ -626,8 +626,9 @@ class Registration extends MY_Controller {
 
 			while($stop < 1){
 
+				$code['draft'] = strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit));
 				if(empty($this->Student_info->CheckCodeAvailability($code))){
-					
+					$code['final'] = $code['draft'];
 					$stop++;
 				}
 

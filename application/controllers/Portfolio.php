@@ -69,11 +69,12 @@ class Portfolio extends MY_Controller {
 				'Student_Number' => $this->student_data['Student_Number'],
 				'Title' => $this->input->post('CertName'),
 				'Date' => $this->logdate,
-				'Certificate' => md5($this->student_data['Student_Number'].'_'.trim($this->input->post('CertName'))),
+				'Certificate' => $this->Get_Unique_CertName($this->student_data['Student_Number'].'_'.trim($this->input->post('CertName')),5),
 			);
 			$config['upload_path']= './personaldata/Certificates/';
 			$config['allowed_types']='jpg|png';
 			$config['file_name'] = $array['Certificate'];
+			
 			
 			//Upload File of Cert
 			$this->load->library('upload',$config);
@@ -110,8 +111,37 @@ class Portfolio extends MY_Controller {
 
 		}
 
-
 		echo json_encode($result);
+		
+	}
+	public function Get_Unique_CertName($name,$limit){
+
+
+		//md5($name.'_'.$UniqueCode))
+
+		$data['Certificate'] = md5($name.'_'.strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit)));
+		$stop = 0;
+		//Check availability of code
+		if(empty($this->PortfolioModel->Check_Certname_Availability($data))){
+
+			$data['final'] = $data['Certificate'];
+		
+
+		}else{
+
+			while($stop < 1){
+
+				$name['Certificate'] = md5($name.'_'.strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit)));
+				if(empty($this->PortfolioModel->Check_Certname_Availability($data))){
+					$data['final'] = $data['Certificate'];
+					$stop++;
+				}
+
+			}
+
+		}
+		return $data['final'];
+
 	}
 	public function remove_certificate(){
 

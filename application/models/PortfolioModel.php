@@ -50,6 +50,14 @@ class PortfolioModel extends CI_Model{
                 return $this->db->trans_status();
 	
         }
+        public function Check_Certname_Availability($array)
+	{	
+                $this->db->where('Certificate',$array['Certificate']);
+                $this->db->where('Valid',1);
+                $result = $this->db->get('studentportfolio_certificates');
+                return $result->result_array();
+
+        }
 
 
 

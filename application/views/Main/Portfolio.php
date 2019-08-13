@@ -361,6 +361,7 @@
 										</form>
 									</div>
 								</section>
+
 								<section class="panel">
 									<header class="panel-heading">
 										<div class="panel-actions">
@@ -387,6 +388,34 @@
 
 									</div>
 								</section>
+
+								<section class="panel">
+									<header class="panel-heading">
+										<div class="panel-actions">
+										</div>
+										<h5>Volunteer Experience</h5>
+									</header>
+									<div class="panel-body">
+
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
+												<div class="col-md-8">
+													<input type="text"  class="form-control" placeholder="Ex: Student Council">
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
+												<div class="col-md-8">
+													<input type="text"  class="form-control" placeholder="">
+												</div>
+											</div>
+											<br />
+											<input class="btn btn-success pull-right" type="submit" value="Submit" />
+
+									</div>
+								</section>
+								
 
 								<hr class="dotted tall">
 								<h4 class="mb-xlg">Change Password</h4>
@@ -543,7 +572,7 @@
 					</div>
 
 					<div class="table-responsive col-md-12" style="max-height:600px; min-height:600px; overflow:auto">
-						<table class="table table-striped mb-none">
+						<table class="table mb-none">
 							<tbody id="cert_manager">
 
 
