@@ -56,7 +56,112 @@
 
 		<div class="row">
 
-			<div class="col-md-6 col-lg-6 col-xl-3" style="margin-bottom:30px">
+			<div class="col-md-4" style="margin-bottom:30px">
+				<a href="#" class="panel" style="color:black;" >
+					<header class="panel-heading bg-white">
+						<div class="panel-heading-icon bg-primary mt-sm">
+							<i class="fa fa-pencil"></i>
+						</div>
+					</header>
+					<div class="panel-body">
+						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
+						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
+						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-md-4" style="margin-bottom:30px">
+				<a href="#" class="panel" style="color:black;" >
+					<header class="panel-heading bg-white">
+						<div class="panel-heading-icon bg-primary mt-sm">
+							<i class="fa fa-pencil"></i>
+						</div>
+					</header>
+					<div class="panel-body">
+						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
+						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
+						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-md-4" style="margin-bottom:30px">
+				<a href="#" class="panel" style="color:black;" >
+					<header class="panel-heading bg-white">
+						<div class="panel-heading-icon bg-primary mt-sm">
+							<i class="fa fa-pencil"></i>
+						</div>
+					</header>
+					<div class="panel-body">
+						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
+						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
+						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-md-4" style="margin-bottom:30px">
+				<a href="#" class="panel" style="color:black;" >
+					<header class="panel-heading bg-white">
+						<div class="panel-heading-icon bg-primary mt-sm">
+							<i class="fa fa-pencil"></i>
+						</div>
+					</header>
+					<div class="panel-body">
+						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
+						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
+						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-md-4" style="margin-bottom:30px">
+				<a href="#" class="panel" style="color:black;" >
+					<header class="panel-heading bg-white">
+						<div class="panel-heading-icon bg-primary mt-sm">
+							<i class="fa fa-pencil"></i>
+						</div>
+					</header>
+					<div class="panel-body">
+						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
+						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
+						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-md-4" style="margin-bottom:30px">
+				<a href="#" class="panel" style="color:black;" >
+					<header class="panel-heading bg-white">
+						<div class="panel-heading-icon bg-primary mt-sm">
+							<i class="fa fa-pencil"></i>
+						</div>
+					</header>
+					<div class="panel-body">
+						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
+						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
+						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-md-4" style="margin-bottom:30px">
+				<a href="#" class="panel" style="color:black;" >
+					<header class="panel-heading bg-white">
+						<div class="panel-heading-icon bg-primary mt-sm">
+							<i class="fa fa-pencil"></i>
+						</div>
+					</header>
+					<div class="panel-body">
+						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
+						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
+						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-md-4" style="margin-bottom:30px">
 				<a href="#" class="panel" style="color:black;" >
 					<header class="panel-heading bg-white">
 						<div class="panel-heading-icon bg-primary mt-sm">
