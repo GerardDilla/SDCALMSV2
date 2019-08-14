@@ -47,6 +47,18 @@ class set_views
 	{
 		return $this->main.'/ScheduleSheet';
 	}
+	public function assessment()
+	{
+		return $this->main.'/Assessment';
+	}
+	public function classroom()
+	{
+		return $this->main.'/ScheduleSheet';
+	}
+	public function rubrics()
+	{
+		return $this->main.'/ScheduleSheet';
+	}
 	public function error()
 	{
 		return $this->main.'/ErrorPage';
