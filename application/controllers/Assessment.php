@@ -27,7 +27,7 @@ class Assessment extends MY_Controller {
 	public function index()
 	{
 
-		$this->template($this->set_views->assessment());
+		$this->template($this->set_views->assessmentlist());
 		
 	}
 }

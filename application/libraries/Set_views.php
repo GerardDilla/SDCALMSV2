@@ -47,9 +47,13 @@ class set_views
 	{
 		return $this->main.'/ScheduleSheet';
 	}
-	public function assessment()
+	public function assessmentlist()
 	{
-		return $this->main.'/Assessment';
+		return $this->main.'/AssessmentList';
+	}
+	public function assessmentstart()
+	{
+		return $this->main.'/AssessmentList';
 	}
 	public function classroom()
 	{

@@ -19,7 +19,7 @@
 		<div id="particles-js"></div>
 		<!-- start: page -->
 
-		<h3 class="mt-lg">MY ASSESSMENTS</h3>
+		<h3 class="mt-lg">TAKEN ASSESSMENTS</h3>
 
 		<p class="mb-lg">Quizess and Tests made by instructors that are assigned to you.</p>
 
@@ -33,15 +33,14 @@
 					</span>
 				</div>
 			</div>
-+
 			<div class="col-md-2">
 				<div class="input-group btn-group" style="width:100%" >
 					<span class="input-group-addon">
 						<i class="fa fa-th-list"></i>
 					</span>
 					<select class="form-control" multiple="multiple" data-plugin-multiselect="" id="ms_example4" style="display: none;">
-						<option value="finished">Finished</option>
 						<option value="pending">Pending</option>
+						<option value="finished">Finished</option>
 						<option value="pending">Passed</option>
 						<option value="pending">Failed</option>
 					</select>
@@ -49,8 +48,6 @@
 			</div>
 
 		</div>
-
-
 
 		<hr>
 
