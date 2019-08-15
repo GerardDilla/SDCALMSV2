@@ -53,125 +53,40 @@
 
 		<div class="row">
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
-						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+			<form action="<?php echo base_url(); ?>index.php/Assessment/PreAssessment" method="post">
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
-						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+				<?php if($this->data['Assessment_List']): ?>
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
-						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+					<?php foreach($this->data['Assessment_List'] as $row): ?>
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
+						<div class="col-md-4" style="margin-bottom:30px">
+							<div href="#" class="panel assessmentlinks thumb-info mb-md" style="color:black;" >
+								<header class="panel-heading bg-white">
+									<div class="panel-heading-icon bg-primary mt-sm">
+										<i class="fa fa-pencil"></i>
+									</div>
+								</header>
+								<div class="panel-body">
+									<h3 class="text-semibold mt-none text-center"><?php echo $row['AssessmentName']; ?></h3>
+									<h6 class="text-center" style="color:ccc"><?php echo $row['Instructor_Name']; ?></h6>
+									<p class="text-center highlight">ASSESSMENT CODE: <u><?php echo $row['AssessmentCode']; ?></u></p>
+									<hr>
+									<div class="text-center">
+										<a class="btn btn-default nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $row['AssessmentCode']; ?>">Take Exam (Temporary)</a>
+										<a class="btn btn-success nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $row['AssessmentCode']; ?>">Review Result</a>
+									</div>
+								</div>
+							</div>
 						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+					<?php endForeach; ?>
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
-						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+				<?php else: ?>
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
-						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+					<h2>You Havent Taken Any Assessments Yet.</h2>
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
-						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+				<?php endIf; ?>
 
-			<div class="col-md-4" style="margin-bottom:30px">
-				<a href="#" class="panel" style="color:black;" >
-					<header class="panel-heading bg-white">
-						<div class="panel-heading-icon bg-primary mt-sm">
-							<i class="fa fa-pencil"></i>
-						</div>
-					</header>
-					<div class="panel-body">
-						<h3 class="text-semibold mt-none text-center">Programming 101</h3>
-						<h6 class="text-center" style="color:ccc">Gerard pogi</h6>
-						<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-					</div>
-				</a>
-			</div>
+			</form>
 			
 		</div>
 		<!-- end: page -->

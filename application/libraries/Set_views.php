@@ -51,9 +51,14 @@ class set_views
 	{
 		return $this->main.'/AssessmentList';
 	}
-	public function assessmentstart()
+	public function preassessment()
 	{
-		return $this->main.'/AssessmentList';
+		return $this->main.'/PreAssessment';
+	}
+	public function examination(){
+
+		return $this->main.'/Examination';
+
 	}
 	public function classroom()
 	{

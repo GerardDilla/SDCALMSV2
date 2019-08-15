@@ -304,7 +304,7 @@ function INIT_CertRemoval(id){
 
 
                 target = $('ul#AchievementSummary');
-                refresh_cert_summary(target,base_url);
+                //refresh_cert_summary(target,base_url);
         
             });
 

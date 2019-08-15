@@ -80,6 +80,22 @@ class MY_Controller extends CI_Controller {
 
     }
 
+    public function assessmentpage($middleParam = '')
+    {
+
+        if ($middleParam == '')
+        {
+            $middleParam = $this->middle;
+        }
+        //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
+        $this->template['title'] = 'SDCALMS';
+        $this->template['header'] = $this->load->view('Layout/Header.php', $this->data, true);
+        $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
+        $this->template['script'] = $this->load->view('Layout/Scripts.php', $this->data, true);
+        $this->load->view('Skeleton/assessment', $this->template);
+
+    }
+
  
 
 		
