@@ -26,7 +26,7 @@
                         <div class="panel-actions">
                             <a href="#" class="fa fa-caret-down"></a>
                         </div>
-                        <h2 class="panel-title">Search Student</h2>
+                        <h2 class="panel-title text-success bold">Search Student</h2>
                         <p class="panel-subtitle">
                         </p>
                     </header>
@@ -58,9 +58,10 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label"></label>
 									<div class="col-md-8">
-										<select data-plugin-selectTwo class="form-control populate">	
-											<option value="AK">Evaluate</option>
-											<option value="HI">Non Evaluate</option>
+										<select data-plugin-selectTwo class="form-control populate" id="EvaluateStudent">	
+										    <option selected value="">Select Evaluatee:</option>
+											<option value="1">Evaluate</option>
+											<option value="2">Non Evaluate</option>
 										</select>
 									</div>
 								</div>
@@ -89,14 +90,15 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label">Year Level:</label>
 									<div class="col-md-8">
-									      <select data-plugin-selectTwo class="form-control populate" name="yrlvl" id="yrlvl">
-												<option selected value="">Select Level:</option>
+									   <select data-plugin-selectTwo class="form-control populate" name="yrlvl" id="yrlvl">
+												<option selected value="">Select Year Level:</option>
 												<?php foreach($this->data['get_yrlvl'] as $row): ?>
-												<option><?php echo $row['Program_Duration']; ?></option>
+											  	<option><?php echo $row['YearLevel']; ?></option>
 												<?php endForeach; ?>
-										 </select>   
+										</select>  
 									</div>
 								</div>
+								
 							</div>
                          </div>
                       
@@ -105,7 +107,7 @@
                         </div>
                     </div>
                     <footer class="panel-footer">
-                        <button type="button" class="btn btn-default" onclick="Get_Students()" >View Students</button>
+                        <button type="button" class="btn btn-success" onclick="Get_Students()" >View Students</button>
                         <button type="button" class="btn btn-default"><i class="fa fa-refresh"></i></button>
                         <span class="searchloader">
                             <img src="http://10.0.0.65/SDCALMSv2/assets/images/loading.gif" height="42" width="42">
@@ -121,7 +123,7 @@
 						<div class="panel-body">
 						<table class="table table-bordered table-striped mb-none">
 							<thead>
-								<tr>
+								<tr class="danger">
 									<th>#</th>
 									<th>Student Number</th>
 									<th>Name </th>
@@ -143,3 +145,4 @@
 </section>    
 
 
+<script src="<?php echo base_url(); ?>assets/javascripts/Faculty_Evaluation/Search_Student.js"></script>

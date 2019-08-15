@@ -37,6 +37,7 @@
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/fullcalendar/fullcalendar.print.css" media="print" />
 		
 
+		<link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>assets/node_modules/simple-pagination.js/simplePagination.css"/>  
 
 
 		<!-- Theme CSS -->
