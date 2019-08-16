@@ -66,7 +66,7 @@ class AssessmentModel extends CI_Model{
         return $query->result_array();
         
     }
-    public function GetAssessmentLayout($assessment_code){
+    public function GetAssessmentLayout($array){
 
         $this->db->select('
         
@@ -86,17 +86,15 @@ class AssessmentModel extends CI_Model{
         B.Points,
         C.QuestionType,
         C.QuestionTypeID,
-        D.FirstName,
-        D.MiddleName,
-        D.LastName
+        D.Instructor_Name
         ');
         $this->db->join('lms_assessment_questions as B', 'A.AssessmentCode = B.AssessmentCode');
         $this->db->join('lms_assessment_question_types as C', 'B.QuestionType = C.QuestionTypeID');
-        $this->db->join('lms_accounts as D', 'A.Account_ID = D.Account_ID');
+        $this->db->join('Instructor as D', 'A.InstructorID = D.ID');
         $this->db->where('A.Active', '1');
-        $this->db->where('A.AssessmentCode', $assessment_code);
+        $this->db->where('A.AssessmentCode', $array['AssessmentCode']);
 		$query = $this->db->get('lms_assessment as A');
-		return $query;
+		return $query->result_array();
     }
     public function TimeRecord($ac,$uid,$start,$end){
         

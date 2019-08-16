@@ -37,15 +37,59 @@ class Assessment extends MY_Controller {
 	}
 	public function Examination(){
 
-		$Assessment_Code = $this->input->post('AssessmentCode');
-		$this->display_assessment($Assessment_Code);
+		$AssessmentCode = $this->input->post('AssessmentCode');
+		$this->session->set_userdata('AssessmentCode',$AssessmentCode);
+		$this->display_assessment();
 			
 
 	}
-	private function display_assessment($Assessment_Code){
+	private function display_assessment(){
 
-		echo $Assessment_Code;
+		$this->data['AssessmentData'] = $this->AssessmentModel->GetAssessmentLayout(array('AssessmentCode' => $this->session->userdata('AssessmentCode')));
+		$this->data['AssessmentQuestions'] = array();
+		$count = 0; 
+		$questiondata = array();
+		foreach($this->data['AssessmentData'] as $question){
+
+			$questiondata = array(
+				'Data' => $question,
+				'Number' => $count + 1
+			);
+
+			$this->data['AssessmentQuestions'][$count] = $this->get_question_format($questiondata);
+			$count++;
+		}
+		
 		$this->assessmentpage($this->set_views->examination());
+
+	}
+	private function get_question_format($questiondata){
+
+		//echo json_encode($data);
+		if($questiondata['Data']['QuestionTypeID'] == 1){
+
+			return $this->load->view('QuestionTypes/MultipleChoice',$questiondata,true);
+
+		}
+		if($questiondata['Data']['QuestionTypeID'] == 2){
+
+			return $this->load->view('QuestionTypes/TrueOrFalse',$questiondata,true);
+
+		}
+		if($questiondata['Data']['QuestionTypeID'] == 3){
+
+			return $this->load->view('QuestionTypes/Identification',$questiondata,true);
+
+		}
+		if($questiondata['Data']['QuestionTypeID'] == 4){
+
+			return $this->load->view('QuestionTypes/Essay',$questiondata,true);
+
+		}else{
+
+			return '';
+
+		}
 
 	}
 }
