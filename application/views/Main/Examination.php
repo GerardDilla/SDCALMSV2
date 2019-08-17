@@ -51,6 +51,14 @@
 
 				<?php endForeach; ?>	
 
+				<div class="col-md-12">
+					<section class="panel shadowed-box" style="">
+						<div class="panel-body" style="text-align:center; padding-left:20%; padding-right:20%">
+							<button type="button" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary btn-block">SUBMIT</button>
+						</div>
+					</section> 
+				</div>
+
 			</div>
 			</form>
 

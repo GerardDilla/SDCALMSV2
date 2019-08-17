@@ -48,14 +48,13 @@
 								<td>End Time:</td>
 								<td><u> <?php echo $this->data['Assessment_Data'][0]['EndDate']; ?></span></u></td>
 							</tr>
-
 							<tr>
 								<td>Time Limit:</td>
 								<td><u> <?php echo $this->data['Assessment_Data'][0]['Timelimit']; ?> Minutes</span></u></td>
 							</tr>
 						</table>
 						<br><br>
-						<form action="<?php echo base_url(); ?>index.php/Assessment/Examination" method="POST">
+						<form action="" method="POST">
 
 							<button class="btn btn-lg btn-default" name="AssessmentCode" value="<?php echo $this->data['Assessment_Data'][0]['AssessmentCode']; ?>">Take Exam <i class="fa fa-play"></i></button>
 

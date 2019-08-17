@@ -69,7 +69,6 @@
 								<div class="panel-body">
 									<h3 class="text-semibold mt-none text-center"><?php echo $row['AssessmentName']; ?></h3>
 									<h6 class="text-center" style="color:ccc"><?php echo $row['Instructor_Name']; ?></h6>
-									<p class="text-center highlight">ASSESSMENT CODE: <u><?php echo $row['AssessmentCode']; ?></u></p>
 									<hr>
 									<div class="text-center">
 										<a class="btn btn-default nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $row['AssessmentCode']; ?>">Take Exam (Temporary)</a>

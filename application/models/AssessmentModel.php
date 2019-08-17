@@ -96,17 +96,10 @@ class AssessmentModel extends CI_Model{
 		$query = $this->db->get('lms_assessment as A');
 		return $query->result_array();
     }
-    public function TimeRecord($ac,$uid,$start,$end){
+    public function TimeRecord($array){
         
-        $data = array(
-            'AssessmentCode' => $ac,
-            'Account_ID' => $uid,
-            'TimeStarted' => $start,
-            'TimeEnd' => $end,
-        );
-        $this->db->insert('lms_assessment_timer', $data);
-         
-
+        $this->db->insert('lms_assessment_timer', $array);
+       
     }
     public function SubmitAnswer($ac,$qid,$uid,$ans,$date){
         
@@ -169,13 +162,35 @@ class AssessmentModel extends CI_Model{
         }
 
     }
-    public function CheckTimer($assessment_code,$user_id){
+    public function CheckTimerSession($array){
 
-        $this->db->where('AssessmentCode', $assessment_code);
-        $this->db->where('Account_ID', $user_id);
+        $this->db->where('AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('Student_Number', $array['Student_Number']);
         $this->db->where('Active', '1');
 		$query = $this->db->get('lms_assessment_timer');
-		return $query;
+        return $query->result_array();
+        
+    }
+    public function CheckTimerDifference($array){
+
+        $this->db->select('TimeEnd');
+        $this->db->select('TIMESTAMPDIFF(MINUTE, \''.$array['TimeStarted'].'\', TimeEnd) AS Remaining');
+        $this->db->where('AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('Student_Number', $array['Student_Number']);
+        $this->db->where('Active', '1');
+		$query = $this->db->get('lms_assessment_timer');
+        return $query->result_array();
+
+    }
+    public function CheckAssessmentTime($array){
+
+        $this->db->where('AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('StartDate <=', $array['TimeStarted']);
+        $this->db->where('EndDate >=', $array['TimeStarted']);
+        $this->db->where('Active', '1');
+        $query = $this->db->get('lms_assessment');
+		return $query->result_array();
+
     }
 
 	
