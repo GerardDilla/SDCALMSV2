@@ -18,7 +18,7 @@ class Balance extends CI_Model{
 	}
 	public function semestralbalance($array){
 
-		$this->db->select('
+		$this->db->select('Fees.InitialPayment, Fees.First_Pay, Fees.Second_Pay, Fees.Third_Pay,
 		Fees.tuition_Fee + SUM(fees_item.Fees_Amount) AS Fees
 		');
 		$this->db->join('

@@ -5,6 +5,11 @@ class BalanceAPI extends CI_Controller {
 
 	function __construct() 
 	{
+
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE, OPTIONS');
+		header('Access-Control-Request-Headers: Content-Type');
+		
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->library("api_input_validator");
@@ -99,6 +104,73 @@ class BalanceAPI extends CI_Controller {
 		//Outstanding balance excluding balance of chosen semester and schoolyear
 		$data['Outstanding_Balance_SemSy_Excluded'] = number_format((float)($outstanding[0]['Fees'] - $totalpaid[0]['AmountofPayment'])-($sembalance[0]['Fees'] - $totalpaidsem[0]['AmountofPayment']), 2, '.', '');
 		$data['Total_Paid_SemSy_Excluded'] = number_format((float)$outstanding[0]['Fees'] - $totalpaid[0]['AmountofPayment'], 2, '.', '');
+
+		//Upon Registration, Prelim, Midterm, and Finals Fees
+		$data['UponRegistration'] = number_format((float)$sembalance[0]['InitialPayment'] == null ? 0.00 : $sembalance[0]['InitialPayment'],2,'.', '');
+		$data['Prelim'] = number_format((float)$sembalance[0]['First_Pay'] == null ? 0.00 : $sembalance[0]['First_Pay'],2,'.', '');
+		$data['Midterm'] = number_format((float)$sembalance[0]['Second_Pay'] == null ? 0.00 : $sembalance[0]['Second_Pay'],2,'.', '');
+		$data['Finals'] = number_format((float)$sembalance[0]['Third_Pay'] == null ? 0.00 : $sembalance[0]['Third_Pay'],2,'.', '');
+
+
+		//periodical balance
+		$Payment_distribute = number_format((float)40000,2,'.','');//$data['Semestral_Paid'];
+
+		//Upon registration balance
+		$data['dist'] = $Payment_distribute;
+		if(($Payment_distribute - $data['UponRegistration']) >= 0){
+			
+			$data['UponRegistrationBalance'] = number_format((float)0.00,2,'.', '');
+			$Payment_distribute = number_format((float)$Payment_distribute - $data['UponRegistration'],2,'.','');
+			
+		}else{
+
+			$data['UponRegistrationBalance'] = number_format((float)$data['UponRegistration'] - $Payment_distribute,2,'.','');
+			$Payment_distribute = number_format((float)0.00,2,'.', '');
+
+		}
+
+		//PrelimBalance
+		$data['dist1'] = $Payment_distribute;
+		if(($Payment_distribute - $data['Prelim']) >= 0){
+			
+			$data['PrelimBalance'] = number_format((float)0.00,2,'.', '');
+			$Payment_distribute = number_format((float)$Payment_distribute - $data['Prelim'],2,'.','');
+			
+		}else{
+
+			$data['PrelimBalance'] = number_format((float)$data['Prelim'] - $Payment_distribute,2,'.','');
+			$Payment_distribute = number_format((float)0.00,2,'.', '');
+
+		}
+
+		//MidtermBalance
+		$data['dist2'] = $Payment_distribute;
+		if(($Payment_distribute - $data['Midterm']) >= 0){
+			
+			$data['MidtermBalance'] = number_format((float)0.00,2,'.', '');
+			$Payment_distribute = number_format((float)$Payment_distribute - $data['Midterm'],2,'.','');
+			
+		}else{
+
+			$data['MidtermBalance'] = number_format((float)$data['Midterm'] - $Payment_distribute,2,'.','');
+			$Payment_distribute = number_format((float)0.00,2,'.', '');
+
+		}
+
+		//FinalBalance
+		$data['dist1'] = $Payment_distribute;
+		if(($Payment_distribute - $data['Finals']) >= 0){
+			
+			$data['FinalsBalance'] = number_format((float)0.00,2,'.', '');
+			$Payment_distribute = number_format((float)$Payment_distribute - $data['Finals'],2,'.','');
+			
+		}else{
+
+			$data['FinalsBalance'] = number_format((float)$data['Finals'] - $Payment_distribute,2,'.','');
+			$Payment_distribute = number_format((float)0.00,2,'.', '');
+
+		}
+
 
 		//Chosen Schoolyear and Semester
 		$data['Chosen_Schoolyear'] = $input_array['School_Year'] != null ? $input_array['School_Year'] : 'None';
