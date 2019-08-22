@@ -29,37 +29,40 @@
 						</h1>
 					</div>
 					<div class="col-md-9" style="text-align:left">
-						<h2 style="text-transform:uppercase">
-							<?php echo $this->data['Assessment_Data'][0]['AssessmentName']; ?>
-						</h2>
-							<p>BY: <?php echo $this->data['Assessment_Data'][0]['Instructor_Name']; ?></p>
-						<hr>
-							<p style="font-weight: normal;"><?php echo $this->data['Assessment_Data'][0]['Description']; ?></p>
-						<hr>
-						<h4 style="text-transform:uppercase">
-							<b>Details</b>
-						</h4>
-						<table cellpadding="100" style="font-size:15px; font-weight: normal;">
-							<tr>
-								<td>Start Time:</td>
-								<td><u> <?php echo $this->data['Assessment_Data'][0]['StartDate']; ?></span></u></td>
-							</tr>
-							<tr>
-								<td>End Time:</td>
-								<td><u> <?php echo $this->data['Assessment_Data'][0]['EndDate']; ?></span></u></td>
-							</tr>
-							<tr>
-								<td>Time Limit:</td>
-								<td><u> <?php echo $this->data['Assessment_Data'][0]['Timelimit']; ?> Minutes</span></u></td>
-							</tr>
-						</table>
-						<br><br>
-						<form action="" method="POST">
+						<?php if($this->data['Assessment_Data']): ?>
+							<h2 style="text-transform:uppercase">
+								<?php echo $this->data['Assessment_Data'][0]['AssessmentName']; ?>
+							</h2>
+								<p>BY: <?php echo $this->data['Assessment_Data'][0]['Instructor_Name']; ?></p>
+							<hr>
+								<p style="font-weight: normal;"><?php echo $this->data['Assessment_Data'][0]['Description']; ?></p>
+							<hr>
+							<h4 style="text-transform:uppercase">
+								<b>Details</b>
+							</h4>
+							<table cellpadding="100" style="font-size:15px; font-weight: normal;">
+								<tr>
+									<td>Start Time:</td>
+									<td><u> <?php echo $this->data['Assessment_Data'][0]['StartDate']; ?></span></u></td>
+								</tr>
+								<tr>
+									<td>End Time:</td>
+									<td><u> <?php echo $this->data['Assessment_Data'][0]['EndDate']; ?></span></u></td>
+								</tr>
+								<tr>
+									<td>Time Limit:</td>
+									<td><u> <?php echo $this->data['Assessment_Data'][0]['Timelimit']; ?> Minutes</span></u></td>
+								</tr>
+							</table>
+							<br><br>
+							<form action="" method="POST">
 
-							<button class="btn btn-lg btn-default" name="AssessmentCode" value="<?php echo $this->data['Assessment_Data'][0]['AssessmentCode']; ?>">Take Exam <i class="fa fa-play"></i></button>
+								<button class="btn btn-lg btn-default" name="AssessmentCode" value="<?php echo $this->data['Assessment_Data'][0]['AssessmentCode']; ?>">Take Exam <i class="fa fa-play"></i></button>
 
-						</form>
-						 
+							</form>
+						<?php else: ?>
+							<h1>Invalid Assessment Code</h1>
+						<?php endIf; ?>
 					</div>
 				</div>
 			</div>
