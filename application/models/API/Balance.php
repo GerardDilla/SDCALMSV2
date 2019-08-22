@@ -17,14 +17,18 @@ class Balance extends CI_Model{
 
 	}
 	public function semestralbalance($array){
-
+		/*
 		$this->db->select('Fees.InitialPayment, Fees.First_Pay, Fees.Second_Pay, Fees.Third_Pay,
 		Fees.tuition_Fee + SUM(fees_item.Fees_Amount) AS Fees
 		');
+		*/
+		$this->db->select('Fees.InitialPayment, Fees.First_Pay, Fees.Second_Pay, Fees.Third_Pay,
+		SUM(InitialPayment + First_Pay + Second_Pay + Third_Pay + Fourth_Pay) AS Fees
+		');
+		/*
 		$this->db->join('
-		Fees_Enrolled_College_Item AS fees_item',
-		'Fees.id = fees_item.Fees_Enrolled_College_Id`
-		','inner');
+		Fees_Enrolled_College_Item AS fees_item','Fees.id = fees_item.Fees_Enrolled_College_Id AND fees_item.valid = 1','inner');
+		*/
 		$this->db->where('md5(Fees.Reference_Number)',$array['Reference_Number']);
 		$this->db->where('Fees.semester',$array['Semester']);
 		$this->db->where('Fees.schoolyear',$array['School_Year']);
@@ -65,6 +69,7 @@ class Balance extends CI_Model{
 			schoolyear
 		');
 		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
+		$this->db->where('valid',1);
 		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
 		return $result->result_array();
 
