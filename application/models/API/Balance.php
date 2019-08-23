@@ -17,12 +17,8 @@ class Balance extends CI_Model{
 
 	}
 	public function semestralbalance($array){
-		/*
-		$this->db->select('Fees.InitialPayment, Fees.First_Pay, Fees.Second_Pay, Fees.Third_Pay,
-		Fees.tuition_Fee + SUM(fees_item.Fees_Amount) AS Fees
-		');
-		*/
-		$this->db->select('Fees.InitialPayment, Fees.First_Pay, Fees.Second_Pay, Fees.Third_Pay,
+
+		$this->db->select('Fees.InitialPayment, Fees.First_Pay, Fees.Second_Pay, Fees.Third_Pay,discount,
 		SUM(InitialPayment + First_Pay + Second_Pay + Third_Pay + Fourth_Pay) AS Fees
 		');
 		/*
@@ -44,7 +40,7 @@ class Balance extends CI_Model{
 		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
 		$this->db->where('Semester',$array['Semester']);
 		$this->db->where('SchoolYear',$array['School_Year']);
-		$this->db->where('Valid',1);
+		$this->db->where('valid',1);
 		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
 		return $result->result_array();
 
@@ -52,7 +48,7 @@ class Balance extends CI_Model{
 	public function getOutstandingbal($array){
 
 		$this->db->select('
-		SUM(InitialPayment + First_Pay + Second_Pay + Third_Pay + Fourth_Pay) AS Fees,
+		SUM(discount) as Discounts, SUM(InitialPayment + First_Pay + Second_Pay + Third_Pay + Fourth_Pay) AS Fees,
 		semester,
 		schoolyear
 		');

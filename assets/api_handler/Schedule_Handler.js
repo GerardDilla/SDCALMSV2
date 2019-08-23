@@ -61,26 +61,15 @@ function Init_ScheduleAPI(url='',refnum='')
                 console.log(result);
                 //grading_display(result['Output']);
 
-                $("#schedule_main").dataTable().fnDestroy();
-                $('.message_box').html('');
-                $('#schedule_main').DataTable({
-                    "data": result['data'],
-                    "type": "GET",
-                    "columns": [
-                        { "data": "Course_Code" },
-                        { "data": "Course_Title" },
-                        { "data": "Day" },
-                        { "data": "Time" },
-                        { "data": "Instructor" }
-                    ]
-                })
+                display_sched_table(result['data']);
+
                 $('html, body').animate({
                     scrollTop: $('.table').offset().top
                 }, 500);
                 //message_handler(result['ErrorMessage'],'warning','.message_box');
             }else{
-                $("#schedule_main").dataTable().fnDestroy()
-                $("#schedule_body").html('');
+                $('#schedule_main').dataTable().fnDestroy()
+                $('#schedule_body').html('');
                 message_handler({'message':result['ErrorMessage'],'type':'warning'});
                 //message_handler(result['ErrorMessage'],'warning');
             }
@@ -94,6 +83,24 @@ function Init_ScheduleAPI(url='',refnum='')
         }
     });
     
+}
+function display_sched_table(data){
+
+    $('#schedule_main').dataTable().fnDestroy();
+    $('.message_box').html('');
+    $('#schedule_main').DataTable({
+        "data": data,
+        "type": "GET",
+        "columns": [
+            { "data": "Course_Code" },
+            { "data": "Course_Title" },
+            { "data": "Day" },
+            { "data": "Time" },
+            { "data": "Instructor" }
+        ]
+    })
+
+
 }
 function message_handler(settings){
 

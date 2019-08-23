@@ -90,20 +90,22 @@ class BalanceAPI extends CI_Controller {
 		
 		//Total of all Balance and Payments since enrolled
 		$data['Overall_Fees'] = $outstanding[0]['Fees'];
+		$data['Overall_Discount'] = $outstanding[0]['Discounts'];
 		$data['Overall_Paid'] = $totalpaid[0]['AmountofPayment'];
 
-		//Overall Outstanding Balance
-		$outstanding_balance = number_format((float)$outstanding[0]['Fees'] - $totalpaid[0]['AmountofPayment'], 2, '.', '');
-		$data['Outstanding_Balance'] = $data['Overall_Fees'] <= $data['Overall_Paid'] ? 0.00 : $outstanding_balance;
 
 		//Semestral Balance Based on Chosen SY and Sem
 		$data['Semestral_Balance'] = number_format((float)$sembalance[0]['Fees'], 2, '.', '');
+		$data['Semestral_Discount'] = number_format((float)$sembalance[0]['discount'], 2, '.', '');
 		$data['Semestral_Paid'] = number_format((float)$totalpaidsem[0]['AmountofPayment'], 2, '.', '');
 		$data['Semestral_Total'] = number_format((float)$sembalance[0]['Fees'] - $totalpaidsem[0]['AmountofPayment'], 2, '.', '');
 
 		//Outstanding balance excluding balance of chosen semester and schoolyear
-		$data['Outstanding_Balance_SemSy_Excluded'] = number_format((float)($outstanding[0]['Fees'] - $totalpaid[0]['AmountofPayment']) - ($sembalance[0]['Fees'] - $totalpaidsem[0]['AmountofPayment']), 2, '.', '');
 		$data['Total_Paid_SemSy_Excluded'] = number_format((float)$outstanding[0]['Fees'] - $totalpaid[0]['AmountofPayment'], 2, '.', '');
+		$data['Total_Discount_SemSy_Excluded'] = number_format((float)$data['Overall_Discount'] - $data['Semestral_Discount'],2,'.','');
+		$semestral_balance = number_format((float)$outstanding[0]['Fees'] - $totalpaid[0]['AmountofPayment'] - $data['Semestral_Total'] - $data['Total_Discount_SemSy_Excluded'], 2, '.', '');
+		$data['Outstanding_Balance_SemSy_Excluded'] = number_format((float)$semestral_balance <= 0 ? 0.00 : $semestral_balance, 2, '.', '');
+
 
 		//Upon Registration, Prelim, Midterm, and Finals Fees
 		$data['UponRegistration'] = number_format((float)$sembalance[0]['InitialPayment'] == null ? 0.00 : $sembalance[0]['InitialPayment'],2,'.', '');
@@ -111,7 +113,10 @@ class BalanceAPI extends CI_Controller {
 		$data['Midterm'] = number_format((float)$sembalance[0]['Second_Pay'] == null ? 0.00 : $sembalance[0]['Second_Pay'],2,'.', '');
 		$data['Finals'] = number_format((float)$sembalance[0]['Third_Pay'] == null ? 0.00 : $sembalance[0]['Third_Pay'],2,'.', '');
 
-
+		//Overall Outstanding Balance
+		$outstanding_balance = number_format((float)$outstanding[0]['Fees'] - $totalpaid[0]['AmountofPayment'] - $data['Overall_Discount'], 2, '.', '');
+		$data['Outstanding_Balance'] = $data['Overall_Fees'] <= $data['Overall_Paid'] ? 0.00 : $outstanding_balance;
+		
 		//PERIODICAL BALANCE
 		$Payment_distribute = $data['Semestral_Paid'];
 		$data['dist1'] = $Payment_distribute;
