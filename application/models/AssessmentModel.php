@@ -165,7 +165,7 @@ class AssessmentModel extends CI_Model{
     public function CheckTimerSession($array){
 
         $this->db->where('AssessmentCode', $array['AssessmentCode']);
-        $this->db->where('Student_Number', $array['Student_Number']);
+        $this->db->where('md5(Student_Number)', $array['Student_Number']);
         $this->db->where('Active', '1');
 		$query = $this->db->get('lms_assessment_timer');
         return $query->result_array();

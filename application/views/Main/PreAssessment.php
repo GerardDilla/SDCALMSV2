@@ -29,6 +29,7 @@
 						</h1>
 					</div>
 					<div class="col-md-9" style="text-align:left">
+						<h3><?php echo $this->session->flashdata('message'); ?></h3>
 						<?php if($this->data['Assessment_Data']): ?>
 							<h2 style="text-transform:uppercase">
 								<?php echo $this->data['Assessment_Data'][0]['AssessmentName']; ?>
@@ -55,7 +56,7 @@
 								</tr>
 							</table>
 							<br><br>
-							<form action="" method="POST">
+							<form action="<?php echo base_url(); ?>index.php/Assessment/ExamStart" method="POST">
 
 								<button class="btn btn-lg btn-default" name="AssessmentCode" value="<?php echo $this->data['Assessment_Data'][0]['AssessmentCode']; ?>">Take Exam <i class="fa fa-play"></i></button>
 
