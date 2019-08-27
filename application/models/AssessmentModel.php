@@ -101,18 +101,21 @@ class AssessmentModel extends CI_Model{
         $this->db->insert('lms_assessment_timer', $array);
        
     }
-    public function SubmitAnswer($ac,$qid,$uid,$ans,$date){
+    public function SubmitAnswer($data){
         
-        $data = array(
-            'AssessmentCode' => $ac,
-            'QuestionID' => $qid,
-            'AccountID' => $uid,
-            'QuestionAnswer' => $ans,
-            'Date' => $date,
-        );
+    
         $this->db->insert('lms_assessment_answers', $data);
          
 
+    }
+    public function CheckAnswers($array){
+
+        $this->db->where('Student_Number',$array['Student_Number']);
+        $this->db->where('AssessmentCode',$array['AssessmentCode']);
+        $this->db->where('Active',1);
+        $query = $this->db->get('lms_assessment_answers');
+        return $query->result_array();
+        
     }
     public function GetAssessmentResult($ac,$uid){
         $date = $this->GetlatestAnswer($ac,$uid);
@@ -165,7 +168,7 @@ class AssessmentModel extends CI_Model{
     public function CheckTimerSession($array){
 
         $this->db->where('AssessmentCode', $array['AssessmentCode']);
-        $this->db->where('md5(Student_Number)', $array['Student_Number']);
+        $this->db->where('Student_Number', $array['Student_Number']);
         $this->db->where('Active', '1');
 		$query = $this->db->get('lms_assessment_timer');
         return $query->result_array();

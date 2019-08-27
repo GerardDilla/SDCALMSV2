@@ -29,7 +29,14 @@
 						</h1>
 					</div>
 					<div class="col-md-9" style="text-align:left">
-						<h3><?php echo $this->session->flashdata('message'); ?></h3>
+
+						<?php if($this->session->flashdata('message')): ?>
+							<div class="well warning">
+								<h3><?php echo $this->session->flashdata('message'); ?></h3>
+							</div>
+						<?php endIf; ?>
+
+
 						<?php if($this->data['Assessment_Data']): ?>
 							<h2 style="text-transform:uppercase">
 								<?php echo $this->data['Assessment_Data'][0]['AssessmentName']; ?>

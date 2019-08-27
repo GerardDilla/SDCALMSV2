@@ -11,7 +11,7 @@
 				<label class="rbcontainer">
 
 					<?php echo $Data['Choice_A']; ?>
-					<input type="radio" name="radio">
+					<input class="question" type="radio" name="<?php echo $Data['QuestionID']; ?>" value="<?php echo $Data['Choice_A']; ?>">
 					<span class="checkmark"></span>
 
 				</label>
@@ -19,7 +19,7 @@
 				<label class="rbcontainer">
 
 					<?php echo $Data['Choice_B']; ?>
-					<input type="radio" name="radio">
+					<input class="question" type="radio" name="<?php echo $Data['QuestionID']; ?>" value="<?php echo $Data['Choice_B']; ?>">
 					<span class="checkmark"></span>
 
 				</label>
@@ -27,7 +27,7 @@
 				<label class="rbcontainer">
 
 					<?php echo $Data['Choice_D']; ?>
-					<input type="radio" name="radio">
+					<input class="question" type="radio" name="<?php echo $Data['QuestionID']; ?>" value="<?php echo $Data['Choice_C']; ?>">
 					<span class="checkmark"></span>
 
 				</label>
@@ -35,7 +35,7 @@
 				<label class="rbcontainer">
 
 					<?php echo $Data['Choice_C']; ?>
-					<input type="radio" name="radio">
+					<input class="question" type="radio" name="<?php echo $Data['QuestionID']; ?>" value="<?php echo $Data['Choice_D']; ?>">
 					<span class="checkmark"></span>
 				</label>
 

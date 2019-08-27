@@ -42,7 +42,7 @@
 				</div>
 				<br>
 
-			<form action="" method="">
+			<form action="<?php echo base_url(); ?>index.php/Assessment/SubmitAssessment" method="POST" id="ExamForm">
 			<div class="row">
 
 				<?php foreach($this->data['AssessmentQuestions'] as $question): ?>
@@ -54,7 +54,7 @@
 				<div class="col-md-12">
 					<section class="panel shadowed-box" style="">
 						<div class="panel-body" style="text-align:center; padding-left:20%; padding-right:20%">
-							<button type="button" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary btn-block">SUBMIT</button>
+							<button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary btn-block" name="AssessmentCode" value="<?php echo $this->data['AssessmentData'][0]['AssessmentCode']; ?>">SUBMIT</button>
 						</div>
 					</section> 
 				</div>
@@ -70,4 +70,7 @@
 		
 		<!-- end: page -->
 </section>
+
+<!-- JS for portfolio page -->
+<script src="<?php echo base_url(); ?>assets/javascripts/examination.js"></script>
 

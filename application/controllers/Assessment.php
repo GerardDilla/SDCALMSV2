@@ -97,6 +97,19 @@ class Assessment extends MY_Controller {
 			return $status;
 		}
 
+		//Check if already answered
+		$AnswerStatus = $this->AssessmentModel->CheckAnswers($data);
+		if($AnswerStatus){
+
+			$status = array(
+				'Status' => 0,
+				'Message' => 'You already answered this Assessment'
+			);
+			return $status;
+			
+
+		}
+
 		//Check if theres an existing session
 		$session_status = $this->AssessmentModel->CheckTimerSession($data);
 		if(!$session_status){
@@ -120,12 +133,11 @@ class Assessment extends MY_Controller {
 
 			}
 
-			
-			$status = array(
-				'Status' => 1
-			);
-
 		}
+		$status = array(
+			'Status' => 1
+		);
+		/*
 		echo ('<hr>'); 
 		echo json_encode($data);
 		echo ('<hr>');
@@ -133,6 +145,7 @@ class Assessment extends MY_Controller {
 		echo ('<hr>');
 		echo 'Assessment Code: '.$data['AssessmentCode'];
 		echo ('<hr>');
+		*/
 		return $status;
 
 
@@ -141,16 +154,57 @@ class Assessment extends MY_Controller {
 
 		//$this->student_data;
 		if($Assessment_Code == ''){
+
 			redirect('Assessment');
+
 		}
 
 		$Session = $this->check_exam_session($Assessment_Code);
-		print_r($Session);
-		//$this->display_assessment($Assessment_Code);
+		if($Session['Status'] == 0){
+
+			$this->session->set_flashdata('message',$Session['Message']);
+			echo $Assessment_Code;
+			redirect('Assessment/PreAssessment/'.$Assessment_Code);
+
+		}
+		//print_r($Session);
+		$this->display_assessment($Assessment_Code);
 			
 
 	}
+	public function SubmitAssessment(){
 
+		$AssessmentCode = $this->input->post('AssessmentCode');
+		$AssessmentData = $this->AssessmentModel->GetAssessmentLayout(array('AssessmentCode' => $AssessmentCode));
+
+		$data = array(
+			//'CorrectAnswer' => $row['Answer'],
+			'Student_Number' => $this->student_data['Student_Number'],
+			'AssessmentCode' => $AssessmentCode
+		);
+
+		//Check if already answered
+		$AnswerStatus = $this->AssessmentModel->CheckAnswers($data);
+		if($AnswerStatus){
+
+				
+			$this->session->set_flashdata('message','You already answered this Assessment');
+			redirect('Assessment/PreAssessment/'.$AssessmentCode);
+
+		}
+
+		foreach($AssessmentData as $row){
+
+			$data['QuestionID'] = $row['QuestionID'];
+			$data['Answer'] = $this->input->post($row['QuestionID']) == '' ? null : $this->input->post($row['QuestionID']);
+
+			$this->AssessmentModel->SubmitAnswer($data);
+			print_r($data);
+			echo '<hr>';
+
+		}
+
+	}
 	private function check_exam_session($AssessmentCode){
 
 		//Sets the return data
@@ -180,6 +234,7 @@ class Assessment extends MY_Controller {
 			'Student_Number' => $this->student_data['Student_Number']
 
 		);
+		
 		//Check if needed data is present
 		if(!$data['Student_Number'] || !$data['AssessmentCode']){
 
@@ -201,6 +256,19 @@ class Assessment extends MY_Controller {
 			return $status;
 
 		}
+
+		//Check if already answered
+		$AnswerStatus = $this->AssessmentModel->CheckAnswers($data);
+		if($AnswerStatus){
+
+			$status = array(
+				'Status' => 0,
+				'Message' => 'You already answered this Assessment'
+			);
+			return $status;
+
+		}
+
 		//Check if time ran out
 		if($SessionStatus[0]['Remaining'] <= 0){
 
