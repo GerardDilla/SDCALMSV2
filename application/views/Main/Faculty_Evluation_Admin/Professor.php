@@ -48,10 +48,8 @@
 											<option value="2">Deactive</option>
 										</select>
 									</div>
-								</div>
-								
-								
-								
+							</div>
+							
 							</div>
                          </div>
                       
@@ -68,14 +66,17 @@
                     </footer>
                 </section>
 			  </div>
-
+			
 				   <div class="col-md-12">
 				       <section class="panel shadowed-box">
 						    <div class="panel-body">
+							     <div class="pull-right" id="professor_edit_pagination">
+				                 </div>
 								<table class="table table-bordered table-striped mb-none">
-									<thead>
+									<thead> 
 										<tr class="danger">
-											<th class="text-center">Name </th>
+										   <th># </th>
+											<th>Name </th>
 											<th>Department</th>
 											<th class="center"></th>
 										</tr>
@@ -85,8 +86,6 @@
 									</tbody>
 								</table>
 								<br>
-								<div id="professor_edit_pagination">
-								</div>
 						</section>
 			         </div>
 

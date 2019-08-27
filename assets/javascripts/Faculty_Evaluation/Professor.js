@@ -6,7 +6,7 @@ function Get_Pagination(){
   arrayData = {
       pageNumber: 1,
       //Pagination
-      perPage:10,
+      perPage:15,
       Proffesor: $("#Proffesor").val(),
       ActiveDeactive: $("#ActiveDeactive").val()
   };
@@ -58,7 +58,7 @@ function ajax_getsched(arrayData){
       success:function(response){
          
           result = JSON.parse(response);
-         Display_Professor(result);
+         Display_Professor(result,arrayData);
       }
   });
 }
@@ -66,8 +66,9 @@ function ajax_getsched(arrayData){
 
 
 
-function Display_Professor(result){
-   
+function Display_Professor(result,offset){
+     
+    var   count = 1;
       showtable = $('#Professor_Table');
       //Clears the table before append
       showtable.html('');
@@ -75,7 +76,7 @@ function Display_Professor(result){
       {
      
           row = $("<tr/>");
-          row.append($("<td/>").text());
+          row.append($("<td/>").text(count++));
           row.append($("<td/>").text(resultdata['Instructor_Name']).addClass('text-center'));
           row.append($("<td/>").text(resultdata['Instructor_Department']));
           if(resultdata['Active'] == 1){
@@ -83,7 +84,6 @@ function Display_Professor(result){
           }else{
             row.append($("<td/>").append($("<button/>").text('Deactivate').addClass('btn btn-danger fullwidth').attr('onclick','Deactive('+resultdata["ID"]+')'))); 
           }
-          console.log(resultdata['Active']);
 
           showtable.append(row);
 

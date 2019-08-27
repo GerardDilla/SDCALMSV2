@@ -76,7 +76,7 @@
 											
 										          <?php if($ideval=='Rating'): ?>
 													  <tr>
-														<td><?php echo $row['question_name']; ?></td>
+														<td width="100%"><span class="text-success text-bold"><?php echo $row['eval_id']; ?></span><?php echo $row['question_name']; ?></td>
 														<td class="center score"><input type="radio" name="eval_<?php echo $idd; ?>" value="5" required></td>
 														<td class="center score"><input type="radio" name="eval_<?php echo $idd; ?>" value="4" required></td>
 														<td class="center score"><input type="radio" name="eval_<?php echo $idd; ?>" value="3" required></td>

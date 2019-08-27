@@ -65,9 +65,13 @@ class set_views
 	{
 		return $this->main.'/Faculty_Evluation_Admin/Search_student';
 	}
-	public function Admin_Set_Evaluation()
+	public function Admin_result()
 	{
-		return $this->main.'/Faculty_Evluation_Admin/Set_Evaluation';
+		return $this->main.'/Faculty_Evluation_Admin/Results';
+	}
+	public function Admin_ResultsPage()
+	{
+		return $this->main.'/Faculty_Evluation_Admin/ResultsPage';
 	}
 	public function Admin_Search_Prof()
 	{
