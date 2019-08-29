@@ -1,11 +1,97 @@
-
-
-$("form#ExamForm :input[type='radio']:checked").each(function(){
-    console.log('test');
+$(document).ready(function(){
+    timerstart();
+    progresscheck();
 });
-$("form#ExamForm textarea[value!='']").each(function(){
-    console.log('testarea');
+
+//Progress checker triggers
+$('.mult_question').click(function() {
+
+    progresscheck();
+
 });
+
+$('.tofquestion').click(function() {
+
+    progresscheck();
+    
+});
+
+$('.taressayquestionget').keyup(function() {
+
+    progresscheck();
+
+});
+
+$('.identificationquestion').keyup(function() {
+
+    progresscheck();
+
+});
+
+function progresscheck(){
+
+    radiocounter = 0;
+    $("form#ExamForm :input[type='radio']:checked").each(function(){
+        radiocounter++;
+    });
+    
+    textarea_number = $('form#ExamForm textarea').filter(function() {               
+        return $.trim( $(this).val());
+    }).length;
+
+    total = parseInt(radiocounter) + parseInt(textarea_number);
+    console.log(radiocounter+':'+textarea_number);
+    console.log(total);
+    progressupdate(total);
+    
+}
+function progressupdate(answers){
+
+    //Compute percentage
+    totalquestion = $('#totalquestions').val();
+    percentage = parseInt(answers) / parseInt(totalquestion) * 100;
+
+    progressbar = $('#ExamProgress');
+    //progressbar.setAttribute('aria-valuenow',percentage);​
+    progressbar.html(percentage+'%');
+    progressbar.css("width", percentage+'%');
+}
+function timerstart(){
+
+    timedata = $('#timerdisplay').data('timeleft');
+    mins = Math.floor(timedata / 60);
+    secs = timedata % 60;
+
+    var timeleft = mins+':'+secs;
+    console.log(timeleft);
+    var interval = setInterval(function() {
+
+        var timer = timeleft.split(':');
+        //by parsing integer, I avoid all extra string processing
+        var minutes = parseInt(timer[0], 10);
+        var seconds = parseInt(timer[1], 10);
+        --seconds;
+        minutes = (seconds < 0) ? --minutes : minutes;
+        if (minutes < 0) clearInterval(interval);
+        seconds = (seconds < 0) ? 59 : seconds;
+        seconds = (seconds < 10) ? '0' + seconds : seconds;
+        //minutes = (minutes < 10) ?  minutes : minutes;
+        $('#timerdisplay').html(minutes + ':' + seconds);
+        timeleft = minutes + ':' + seconds;
+
+        if(minutes <= 0){
+            if(seconds <= 0){
+                $('#ExamForm').submit(function( event ) {
+                    alert('Assessment Time Expired!');
+                });
+                clearInterval(interval);
+            }
+        }
+        
+    }, 1000);
+    //console.log(timeleft+':'+mins+':'+secs);
+}
+
 
 /*
 function INIT_certewwsdfsfdsificate_save(data){

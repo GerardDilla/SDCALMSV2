@@ -10,13 +10,13 @@
 				<hr>
 				<label class="rbcontainer">
 					TRUE
-					<input type="radio" name="<?php echo $Data['QuestionID']; ?>" value="TRUE">
+					<input class="tofquestion" type="radio"  name="<?php echo $Data['QuestionID']; ?>" value="TRUE">
 					<span class="checkmark"></span>
 				</label>
 				<hr>
 				<label class="rbcontainer">
 					FALSE
-					<input type="radio" name="<?php echo $Data['QuestionID']; ?>"  value="FALSE">
+					<input class="tofquestion" type="radio"  name="<?php echo $Data['QuestionID']; ?>"  value="FALSE">
 					<span class="checkmark"></span>
 				</label>
 

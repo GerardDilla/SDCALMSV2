@@ -22,10 +22,13 @@
 								<th>
 									<h4 class="mt-lg">
 										TIME REMAINING: 
+										
 									</h4>
 								</th>
 								<th>
-									<h1 style="color:green; font-size:40px; padding:10px">60</h1>
+									<h2 id="timerdisplay" data-timeleft="<?php echo $this->data['Session']['Timeleft']; ?>" style="color:green; font-size:40px; padding:10px">
+										
+									</h2> 
 								</th>
 							</tr>
 						</table>
@@ -33,9 +36,10 @@
 						<hr>
 						<h4 class="mt-lg">PROGRESS: 
 							<div class="progress progress-xl progress-squared m-md light">
-								<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-									60%
+								<div id="ExamProgress" class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+									0%
 								</div>
+								<input type="hidden" id="totalquestions" value="<?php echo $this->data['TotalQuestions']; ?>">
 							</div>
 						</h4>
 					</div>
@@ -54,7 +58,8 @@
 				<div class="col-md-12">
 					<section class="panel shadowed-box" style="">
 						<div class="panel-body" style="text-align:center; padding-left:20%; padding-right:20%">
-							<button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary btn-block" name="AssessmentCode" value="<?php echo $this->data['AssessmentData'][0]['AssessmentCode']; ?>">SUBMIT</button>
+							<input type="hidden" name="AssessmentCode" value="<?php echo $this->data['AssessmentData'][0]['AssessmentCode']; ?>">
+							<button type="submit" class="mb-xs mt-xs mr-xs btn btn-lg btn-primary btn-block" >SUBMIT</button>
 						</div>
 					</section> 
 				</div>

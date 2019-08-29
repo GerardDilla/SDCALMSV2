@@ -51,7 +51,7 @@ class AssessmentModel extends CI_Model{
 		$this->db->where('B.Student_Number', $array['Student_Number']);
         $this->db->where('B.Active', '1');
         $this->db->where('A.Active', '1');
-        $this->db->join('lms_assessment_respondents as B','A.AssessmentID = B.AssessmentID');
+        $this->db->join('lms_assessment_respondents as B','A.AssessmentCode = B.AssessmentCode');
         $this->db->join('Instructor as C','C.ID = A.InstructorID');
 		$query = $this->db->get('lms_assessment as A');
         return $query->result_array();
@@ -177,7 +177,7 @@ class AssessmentModel extends CI_Model{
     public function CheckTimerDifference($array){
 
         $this->db->select('TimeEnd');
-        $this->db->select('TIMESTAMPDIFF(MINUTE, \''.$array['TimeStarted'].'\', TimeEnd) AS Remaining');
+        $this->db->select('TIMESTAMPDIFF(SECOND, \''.$array['TimeStarted'].'\', TimeEnd) AS Remaining');
         $this->db->where('AssessmentCode', $array['AssessmentCode']);
         $this->db->where('Student_Number', $array['Student_Number']);
         $this->db->where('Active', '1');
@@ -195,7 +195,14 @@ class AssessmentModel extends CI_Model{
 		return $query->result_array();
 
     }
+    public function InsertRespondent($array){
 
+        $this->db->trans_start();
+        $this->db->insert('lms_assessment_respondents', $array);
+        $this->db->trans_complete();
+        return $this->db->trans_status();
+        
+    }
 	
 
 

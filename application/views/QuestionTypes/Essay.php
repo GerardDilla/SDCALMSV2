@@ -8,7 +8,7 @@
 					<?php echo $Data['Question']; ?>
 				</h4>
 				<hr>
-				<textarea class="form-control" rows="3" name="<?php echo $Data['QuestionID']; ?>"></textarea>
+				<textarea class="form-control essayquestion" rows="3" name="<?php echo $Data['QuestionID']; ?>"></textarea>
 				
 		</div>
 	</section> 

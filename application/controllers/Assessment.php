@@ -159,26 +159,33 @@ class Assessment extends MY_Controller {
 
 		}
 
-		$Session = $this->check_exam_session($Assessment_Code);
-		if($Session['Status'] == 0){
+		$this->data['Session'] = $this->check_exam_session($Assessment_Code);
+		if($this->data['Session']['Status'] == 0){
 
-			$this->session->set_flashdata('message',$Session['Message']);
+			$this->session->set_flashdata('message',$this->data['Session']['Message']);
 			echo $Assessment_Code;
 			redirect('Assessment/PreAssessment/'.$Assessment_Code);
 
 		}
-		//print_r($Session);
+		//print_r($this->data['Session']);
 		$this->display_assessment($Assessment_Code);
 			
 
 	}
 	public function SubmitAssessment(){
 
+		//Initialize Needed Data
 		$AssessmentCode = $this->input->post('AssessmentCode');
 		$AssessmentData = $this->AssessmentModel->GetAssessmentLayout(array('AssessmentCode' => $AssessmentCode));
+		$AssessmentStats = array(
 
+			'Score' => 0,
+			'QuestionCount' => 0,
+			'AnswersCount' => 0,
+			'CorrectCount' => 0
+
+		);
 		$data = array(
-			//'CorrectAnswer' => $row['Answer'],
 			'Student_Number' => $this->student_data['Student_Number'],
 			'AssessmentCode' => $AssessmentCode
 		);
@@ -187,22 +194,70 @@ class Assessment extends MY_Controller {
 		$AnswerStatus = $this->AssessmentModel->CheckAnswers($data);
 		if($AnswerStatus){
 
-				
 			$this->session->set_flashdata('message','You already answered this Assessment');
 			redirect('Assessment/PreAssessment/'.$AssessmentCode);
 
 		}
 
+		//Check and Record individual Answers
 		foreach($AssessmentData as $row){
+
 
 			$data['QuestionID'] = $row['QuestionID'];
 			$data['Answer'] = $this->input->post($row['QuestionID']) == '' ? null : $this->input->post($row['QuestionID']);
+			$data['Correct'] = $this->compare_answer($data['Answer'],$row['Answer']);
+			$AssessmentStats['QuestionCount']++;
+			
+			if($data['Correct'] == 1){
+				$AssessmentStats['Score'] = $AssessmentStats['Score'] + $row['Points'];
+				$AssessmentStats['CorrectCount']++;
+			}
+
+			if($data['Answer'] != null){
+				$AssessmentStats['AnswersCount']++;;
+			}
 
 			$this->AssessmentModel->SubmitAnswer($data);
 			print_r($data);
+			echo '<br>Correct Answer: '.$row['Answer'];
 			echo '<hr>';
+		}
+
+		//Record this session
+		$RespondentData = array(
+			'AssessmentCode' => $data['AssessmentCode'],
+			'Student_Number' => $data['Student_Number'],
+			'RespondentName' => $this->student_data['Full_Name'],
+			'Score' => $AssessmentStats['Score'],
+		);
+		$RespondenStatus = $this->AssessmentModel->InsertRespondent($RespondentData);
+
+		if($RespondenStatus == TRUE){
+
+			$this->session->set_flashdata('message','You\'ve Finished the Assessment!');
+			redirect('Assessment/PreAssessment/'.$data['AssessmentCode']);
+
+		}else{
+
+			$this->session->set_flashdata('message','An Error Occured: Failed to save Respondent');
+			redirect('Assessment/PreAssessment/'.$data['AssessmentCode']);
 
 		}
+
+		/*
+		$this->data['AnswerStats'] = $this->compute_score($AssessmentStats);
+		print_r($AssessmentStats);
+		echo '<br>';
+		print_r($this->data['AnswerStats']);
+		*/
+		/*
+		echo '<hr>';
+		echo 'Total Question:'.$AssessmentStats['QuestionCount'];
+		echo '<br>Total Answers:'.$AssessmentStats['AnswersCount'];
+		echo '<br>Correct Answers:'.$AssessmentStats['CorrectCount'];
+		echo '<br>Total Points:'.$AssessmentStats['Score'];
+		echo '<hr><hr>';
+		*/
 
 	}
 	private function check_exam_session($AssessmentCode){
@@ -305,7 +360,7 @@ class Assessment extends MY_Controller {
 			$this->data['AssessmentQuestions'][$count] = $this->get_question_format($questiondata);
 			$count++;
 		}
-		
+		$this->data['TotalQuestions'] = $count;
 		$this->assessmentpage($this->set_views->examination());
 
 	}
@@ -336,6 +391,44 @@ class Assessment extends MY_Controller {
 			return '';
 
 		}
+
+	}
+	private function compare_answer($answer = '',$correct = ''){
+
+	
+		$Answer = trim(strtoupper($answer));
+		$CorrectAnswer = trim(strtoupper($correct));
+
+		if($Answer == $CorrectAnswer){
+
+			return 1;
+
+		}else{
+
+			return 0;
+
+		}
+		
+	}
+	private function compute_score($AssessmentStats){
+
+		$data = array(
+
+			'CorrectPercentage' => 0,
+			'AnswerPercentage' => 0
+
+		);
+
+		$data['CorrectPercentage'] = number_format((float)$AssessmentStats['CorrectCount'] / $AssessmentStats['AnswersCount'] * 100,2,'.','');
+
+		$data['AnswerPercentage'] = number_format((float)$AssessmentStats['AnswersCount'] / $AssessmentStats['QuestionCount'] * 100,2,'.','');
+
+		return $data;
+
+	}
+	private function RecordRespondent(){
+
+
 
 	}
 }
