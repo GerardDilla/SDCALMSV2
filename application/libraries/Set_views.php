@@ -56,9 +56,10 @@ class set_views
 		return $this->main.'/PreAssessment';
 	}
 	public function examination(){
-
 		return $this->main.'/Examination';
-
+	}
+	public function assesssment_results(){
+		return $this->main.'/AssessmentResults';
 	}
 	public function classroom()
 	{

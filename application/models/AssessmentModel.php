@@ -65,7 +65,7 @@ class AssessmentModel extends CI_Model{
 		$query = $this->db->get('lms_assessment as A');
         return $query->result_array();
         
-    }
+    } 
     public function GetAssessmentLayout($array){
 
         $this->db->select('
@@ -114,6 +114,31 @@ class AssessmentModel extends CI_Model{
         $this->db->where('AssessmentCode',$array['AssessmentCode']);
         $this->db->where('Active',1);
         $query = $this->db->get('lms_assessment_answers');
+        return $query->result_array();
+        
+    }
+    public function ValidateAnswers($array){
+
+        $this->db->select('
+            A.Question,
+            A.`Answer` AS CorrectAnswer,
+            B.`Answer`,
+            B.Correct,
+            A.Points,
+            A.`AssessmentCode`,
+            B.`Student_Number`,
+            UNIX_TIMESTAMP(C.`End`) as Date,
+        ');
+        $this->db->select('TIMESTAMPDIFF(MINUTE, C.Start, C.End) AS Remaining');
+        $this->db->join('lms_assessment_answers as B','A.AssessmentCode = B.AssessmentCode and A.QuestionID = B.QuestionID');
+        $this->db->join('lms_assessment_respondents as C','A.AssessmentCode = C.AssessmentCode and B.Student_Number = C.Student_Number');
+        $this->db->where('B.Student_Number',$array['Student_Number']);
+        $this->db->where('A.AssessmentCode',$array['AssessmentCode']);
+        $this->db->where('B.AssessmentCode',$array['AssessmentCode']);
+        $this->db->where('A.Active',1);
+        $this->db->where('B.Active',1);
+        $this->db->where('C.Active',1);
+        $query = $this->db->get('lms_assessment_questions as A');
         return $query->result_array();
         
     }
@@ -202,6 +227,16 @@ class AssessmentModel extends CI_Model{
         $this->db->trans_complete();
         return $this->db->trans_status();
         
+    }
+    public function CheckRespondent($array){
+
+        $this->db->where('Student_Number',$array['Student_Number']);
+        $this->db->where('AssessmentCode',$array['AssessmentCode']);
+        $this->db->where('Active',1);
+        $this->db->limit(1);
+        $query = $this->db->get('lms_assessment_respondents');
+        return $query->result_array();
+
     }
 	
 

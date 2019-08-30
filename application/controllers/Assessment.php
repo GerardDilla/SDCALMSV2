@@ -223,11 +223,17 @@ class Assessment extends MY_Controller {
 			echo '<hr>';
 		}
 
+		$TimerData = $this->AssessmentModel->CheckTimerSession($data);
+
+		
 		//Record this session
+		$now = new DateTime();
 		$RespondentData = array(
 			'AssessmentCode' => $data['AssessmentCode'],
 			'Student_Number' => $data['Student_Number'],
 			'RespondentName' => $this->student_data['Full_Name'],
+			'Start' => $TimerData[0]['TimeStarted'],
+			'End' => $now->format('Y-m-d g:i:s'),
 			'Score' => $AssessmentStats['Score'],
 		);
 		$RespondenStatus = $this->AssessmentModel->InsertRespondent($RespondentData);
@@ -258,6 +264,80 @@ class Assessment extends MY_Controller {
 		echo '<br>Total Points:'.$AssessmentStats['Score'];
 		echo '<hr><hr>';
 		*/
+
+	}
+	public function AssessmentResults($AssessmentCode = ''){
+
+		$data = array(
+
+			'AssessmentCode' => $AssessmentCode,
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Score' => 0,
+			'TotalPoints' => 0,
+			'CorrectCount' => 0,
+			'QuestionCount' => 0,
+			'AnswerCount' => 0,
+			'ScorePercentage' => 0,
+			'DateFinished' => 0,
+			'RemainingTime' => 0,
+
+		);
+		//Gets Basic Info of Assessment
+		$this->data['Assessment_Data'] = $this->AssessmentModel->GetAssessmentInfo($data);
+
+		//Gets Layout of Assesment
+		$this->data['Assessment_Layout'] = $this->AssessmentModel->GetAssessmentLayout($data);
+
+		//Gets and Checks Respondent data
+		$this->data['Assessment_Respondent'] = $this->AssessmentModel->CheckRespondent($data);
+		if(!$this->data['Assessment_Respondent']){
+
+			$this->session->set_flashdata('message','You haven\'t taken this assessment yet.');
+			redirect('Assessment/PreAssessment/'.$data['AssessmentCode']);
+
+		}
+
+		//Gets Answers and support respondent checker
+		$this->data['Assessment_Answers'] = $this->AssessmentModel->ValidateAnswers($data);
+		if(!$this->data['Assessment_Answers']){
+
+			$this->session->set_flashdata('message','An Error occured: No Answers Found');
+			redirect('Assessment/PreAssessment/'.$data['AssessmentCode']);
+
+		}
+		foreach($this->data['Assessment_Answers'] as $row){
+
+			//Gets Question Count 
+			$data['QuestionCount']++;
+			
+			//Gets Total Points
+			$data['TotalPoints'] = $data['TotalPoints'] + $row['Points'];
+
+			if($row['Answer'] != null){
+
+				$data['AnswerCount']++;
+
+			}
+
+			//Checks if correct and Adds points if it is
+			if($row['Correct'] == 1){
+
+				$data['CorrectCount']++;
+				$data['Score'] = $data['Score'] + $row['Points'];
+
+			}
+
+			$data['DateFinished'] = date('D, d M Y', $row['Date']);
+			$data['RemainingTime'] = $row['Remaining'];
+			
+		}
+
+		$data['ScorePercentage'] = number_format((float)$data['CorrectCount'] / $data['QuestionCount'] * 100,2,'.','');
+
+		$this->data['AssessmentStats'] = $data;
+
+
+		$this->template($this->set_views->assesssment_results());
 
 	}
 	private function check_exam_session($AssessmentCode){
