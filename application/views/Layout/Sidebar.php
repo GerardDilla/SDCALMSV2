@@ -26,9 +26,9 @@
                         </a>
                     </li>
 
-                    <li class="nav-active">
+                    <li class="nav">
                         <a href="<?php echo site_url('Portfolio'); ?>">
-                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <i class="fa fa-book" aria-hidden="true"></i>
                             <span>My Portfolio</span>
                         </a>
                     </li>
@@ -61,10 +61,10 @@
                         </a>
                     </li>
 
-                    <li class="nav disabled">
-                        <a href="#">
+                    <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/Assessment">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
-                            <span>Assessments</span>
+                            <span>Taken Assessments</span>
                         </a>
                     </li>
 

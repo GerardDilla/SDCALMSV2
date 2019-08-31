@@ -51,7 +51,7 @@
 					</div>
 					<div class="col-md-4" style="text-align: center; padding-top:50px">
 						<div class="circular-bar">
-							<div class="circular-bar-chart" data-percent="<?php echo $this->data['AssessmentStats']['ScorePercentage']; ?>" data-plugin-options='{ "barColor": "#0088CC", "delay": 300 , "size": 300}'>
+							<div class="circular-bar-chart" data-percent="<?php echo $this->data['AssessmentStats']['ScorePercentage']; ?>" data-plugin-options='{ "barColor": "#<?php echo $this->data['AssessmentStats']['ScoreColor']; ?>", "delay": 300 , "size": 300}'>
 									<strong style="font-size:25px; color:green">SCORE</strong>
 									<label style="font-size:50px"><span class="percent"><?php echo $this->data['AssessmentStats']['ScorePercentage']; ?></span>%</label>
 							</div>
@@ -65,7 +65,7 @@
 								<div class="panel-body">
 									<div class="widget-summary">
 										<div class="widget-summary-col widget-summary-col-icon">
-											<div class="summary-icon bg-secondary">
+											<div class="summary-icon" style="color:white; background:#<?php echo $this->data['AssessmentStats']['ScoreColor']; ?>">
 												<i class="fa fa-check-circle"></i>
 											</div>
 										</div>
@@ -113,7 +113,7 @@
 											<div class="summary">
 												<h2 class="title" style="color:green">Time Elapsed</h2>
 												<div class="info" style="line-height: 5rem;">
-													<strong class="amount" style="font-size: 4rem;"><?php echo $this->data['AssessmentStats']['RemainingTime']; ?>mins</strong>
+													<strong class="amount" style="font-size: 4rem;"><?php echo $this->data['AssessmentStats']['RemainingTime']; ?> mins</strong>
 												</div>
 											</div>
 										</div>

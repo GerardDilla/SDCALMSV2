@@ -25,13 +25,15 @@ class Assessment extends MY_Controller {
 	}
 	public function index()
 	{
-        $this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
+		$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
 		$this->template($this->set_views->assessmentlist());
 		
 	}
 	public function PreAssessment($AssessmentCode = ''){
 		
 		$this->data['Assessment_Data'] = $this->AssessmentModel->GetAssessmentInfo(array('AssessmentCode' => $AssessmentCode));
+		$this->data['StartTime'] = date('M d Y - h:i:sa', $this->data['Assessment_Data'][0]['StartDate']);
+		$this->data['EndTime'] = date('M d Y - h:i:sa', $this->data['Assessment_Data'][0]['EndDate']);
 		$this->template($this->set_views->preassessment());
 
 
@@ -71,7 +73,7 @@ class Assessment extends MY_Controller {
 		$data = array(
 			'AssessmentCode' => $assessmentdata[0]['AssessmentCode'],
 			'TimeStarted' => $now->format('Y-m-d g:i:s'),
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->student_data['Student_Number'] == null ? $this->input->post('Student_Number') : $this->student_data['Student_Number'],
 			'TimeEnd' => $now->modify('+'.$assessmentdata[0]['Timelimit'].' minutes')->format('Y-m-d g:i:s')
 		);
 
@@ -98,15 +100,14 @@ class Assessment extends MY_Controller {
 		}
 
 		//Check if already answered
-		$AnswerStatus = $this->AssessmentModel->CheckAnswers($data);
-		if($AnswerStatus){
+		$RespondentStatus = $this->AssessmentModel->CheckRespondent($data);
+		if($RespondentStatus){
 
 			$status = array(
 				'Status' => 0,
 				'Message' => 'You already answered this Assessment'
 			);
 			return $status;
-			
 
 		}
 
@@ -191,7 +192,7 @@ class Assessment extends MY_Controller {
 		);
 
 		//Check if already answered
-		$AnswerStatus = $this->AssessmentModel->CheckAnswers($data);
+		$AnswerStatus = $this->AssessmentModel->CheckRespondent($data);
 		if($AnswerStatus){
 
 			$this->session->set_flashdata('message','You already answered this Assessment');
@@ -199,33 +200,7 @@ class Assessment extends MY_Controller {
 
 		}
 
-		//Check and Record individual Answers
-		foreach($AssessmentData as $row){
-
-
-			$data['QuestionID'] = $row['QuestionID'];
-			$data['Answer'] = $this->input->post($row['QuestionID']) == '' ? null : $this->input->post($row['QuestionID']);
-			$data['Correct'] = $this->compare_answer($data['Answer'],$row['Answer']);
-			$AssessmentStats['QuestionCount']++;
-			
-			if($data['Correct'] == 1){
-				$AssessmentStats['Score'] = $AssessmentStats['Score'] + $row['Points'];
-				$AssessmentStats['CorrectCount']++;
-			}
-
-			if($data['Answer'] != null){
-				$AssessmentStats['AnswersCount']++;;
-			}
-
-			$this->AssessmentModel->SubmitAnswer($data);
-			print_r($data);
-			echo '<br>Correct Answer: '.$row['Answer'];
-			echo '<hr>';
-		}
-
 		$TimerData = $this->AssessmentModel->CheckTimerSession($data);
-
-		
 		//Record this session
 		$now = new DateTime();
 		$RespondentData = array(
@@ -234,14 +209,46 @@ class Assessment extends MY_Controller {
 			'RespondentName' => $this->student_data['Full_Name'],
 			'Start' => $TimerData[0]['TimeStarted'],
 			'End' => $now->format('Y-m-d g:i:s'),
-			'Score' => $AssessmentStats['Score'],
 		);
 		$RespondenStatus = $this->AssessmentModel->InsertRespondent($RespondentData);
+		
+		if($RespondenStatus){
 
-		if($RespondenStatus == TRUE){
+			$data['RespondentID'] = $RespondenStatus;
+			//Check and Record individual Answers
+			foreach($AssessmentData as $row){
+
+
+				$data['QuestionID'] = $row['QuestionID'];
+				$data['Answer'] = $this->input->post($row['QuestionID']) == '' ? null : $this->input->post($row['QuestionID']);
+				$data['Correct'] = $this->compare_answer($data['Answer'],$row['Answer']);
+				$AssessmentStats['QuestionCount']++;
+				
+				if($data['Correct'] == 1){
+					$AssessmentStats['Score'] = $AssessmentStats['Score'] + $row['Points'];
+					$AssessmentStats['CorrectCount']++;
+				}
+
+				if($data['Answer'] != null){
+					$AssessmentStats['AnswersCount']++;;
+				}
+
+				$this->AssessmentModel->SubmitAnswer($data);
+				print_r($data);
+				echo '<br>Correct Answer: '.$row['Answer'];
+				echo '<hr>';
+			}
+
+			$UpdateStatus = $this->AssessmentModel->UpdateRespondentScore($RespondenStatus,array('Score' => $AssessmentStats['Score']));
+			if($UpdateStatus == false){
+
+				$this->session->set_flashdata('message','An Error Occured: Failed to update');
+				redirect('Assessment');
+
+			}
 
 			$this->session->set_flashdata('message','You\'ve Finished the Assessment!');
-			redirect('Assessment/PreAssessment/'.$data['AssessmentCode']);
+			redirect('Assessment');
 
 		}else{
 
@@ -249,7 +256,7 @@ class Assessment extends MY_Controller {
 			redirect('Assessment/PreAssessment/'.$data['AssessmentCode']);
 
 		}
-
+		//DEBUGGING PURPOSES
 		/*
 		$this->data['AnswerStats'] = $this->compute_score($AssessmentStats);
 		print_r($AssessmentStats);
@@ -280,6 +287,7 @@ class Assessment extends MY_Controller {
 			'ScorePercentage' => 0,
 			'DateFinished' => 0,
 			'RemainingTime' => 0,
+			'ScoreColor' => '0088CC',
 
 		);
 		//Gets Basic Info of Assessment
@@ -327,12 +335,23 @@ class Assessment extends MY_Controller {
 
 			}
 
-			$data['DateFinished'] = date('D, d M Y', $row['Date']);
+			$data['DateFinished'] = date('M d Y', $row['Date']);
 			$data['RemainingTime'] = $row['Remaining'];
 			
 		}
 
 		$data['ScorePercentage'] = number_format((float)$data['CorrectCount'] / $data['QuestionCount'] * 100,2,'.','');
+
+		if($data['ScorePercentage'] < 50){
+
+			$data['ScoreColor'] = 'e36159';
+
+		}
+		if($data['ScorePercentage'] == 100){
+
+			$data['ScoreColor'] = 'CDDC39';
+
+		}
 
 		$this->data['AssessmentStats'] = $data;
 
@@ -393,8 +412,8 @@ class Assessment extends MY_Controller {
 		}
 
 		//Check if already answered
-		$AnswerStatus = $this->AssessmentModel->CheckAnswers($data);
-		if($AnswerStatus){
+		$RespondentStatus = $this->AssessmentModel->CheckRespondent($data);
+		if($RespondentStatus){
 
 			$status = array(
 				'Status' => 0,

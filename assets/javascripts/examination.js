@@ -49,7 +49,7 @@ function progressupdate(answers){
 
     //Compute percentage
     totalquestion = $('#totalquestions').val();
-    percentage = parseInt(answers) / parseInt(totalquestion) * 100;
+    percentage = (parseFloat(answers) / parseFloat(totalquestion) * 100).toFixed(0);
 
     progressbar = $('#ExamProgress');
     //progressbar.setAttribute('aria-valuenow',percentage);​

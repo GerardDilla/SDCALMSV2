@@ -51,11 +51,11 @@
 							<table cellpadding="100" style="font-size:15px; font-weight: normal;">
 								<tr>
 									<td>Start Time:</td>
-									<td><u> <?php echo $this->data['Assessment_Data'][0]['StartDate']; ?></span></u></td>
+									<td><u> <?php echo $this->data['StartTime']; ?></span></u></td>
 								</tr>
 								<tr>
 									<td>End Time:</td>
-									<td><u> <?php echo $this->data['Assessment_Data'][0]['EndDate']; ?></span></u></td>
+									<td><u> <?php echo $this->data['EndTime']; ?></span></u></td>
 								</tr>
 								<tr>
 									<td>Time Limit:</td>
@@ -66,7 +66,7 @@
 							<form action="<?php echo base_url(); ?>index.php/Assessment/ExamStart" method="POST">
 
 								<button class="btn btn-lg btn-default" name="AssessmentCode" value="<?php echo $this->data['Assessment_Data'][0]['AssessmentCode']; ?>">Take Exam <i class="fa fa-play"></i></button>
-								<button class="btn btn-lg btn-info" name="AssessmentCode" value="<?php echo $this->data['Assessment_Data'][0]['AssessmentCode']; ?>">Review Results <i class="fa fa-book"></i></button>
+							
 
 							</form>
 						<?php else: ?>

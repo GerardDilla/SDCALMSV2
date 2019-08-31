@@ -15,6 +15,7 @@ class Portfolio extends MY_Controller {
 		  $this->student_data = $this->set_custom_session->student_session();
 
 		  $this->load->model('PortfolioModel');
+		  $this->load->model('AssessmentModel');
 
 		  //Defines log date
 		  $this->logdate = date("Y/m/d");
@@ -31,6 +32,7 @@ class Portfolio extends MY_Controller {
 			'Search' => '',
 			'Limit' => $this->sectionlimit
 		);
+		$this->data['AssessmentList'] = $this->AssessmentModel->GetAssessmentList_Student($array);
 		$this->data['CertificateList'] = $this->PortfolioModel->GetCertificates($array);
 		$this->template($this->set_views->portfolio());
 		

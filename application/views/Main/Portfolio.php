@@ -449,7 +449,7 @@
 			</div>
 			<div class="col-md-12 col-lg-3">
 
-				<h4 class="mb-md">Enrolled Online Courses</h4>
+				<h4 class="mb-md">Enrolled Courses</h4>
 				<ul class="simple-bullet-list mb-xlg">
 					<li class="red">
 						<span class="title">Programming 101</span>
@@ -478,26 +478,18 @@
 
 				<h4 class="mb-md">Recently Taken Assessments</h4>
 				<ul class="simple-user-list mb-xlg">
+				<?php if($this->data['AssessmentList']): ?>
+					<?php foreach($this->data['AssessmentList'] as $assessment): ?>
 					<li>
-						<span class="title">Programming 101 Long test</span>
-						<span class="message">Gerard Dilla</span>
+						<span class="title"><?php echo $assessment['AssessmentName']; ?></span>
+						<span class="message"><?php echo $assessment['Instructor_Name']; ?></span>
 					</li>
-					<li>
-						<span class="title">Programming 101 POP QUIZ</span>
-						<span class="message">Gerard Dilla</span>
-					</li>
-					<li>
-						<span class="title">Programming 101 Quiz</span>
-						<span class="message">Gerard Dilla</span>
-					</li>
-					<li>
-						<span class="title">Programming 101 Seatwork</span>
-						<span class="message">Gerard Dilla</span>
-					</li>
+					<?php endForeach; ?>
+				<?php endIf; ?>
 				</ul>
 				<hr class="dotted short">
 					<div class="text-right">
-						<a class="text-uppercase text-muted" href="#">(View All)</a>
+						<a class="text-uppercase text-muted" href="<?php echo base_url(); ?>index.php/Assessment">(View All)</a>
 					</div>
 				<hr class="dotted short">
 

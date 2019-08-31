@@ -48,17 +48,31 @@ class AssessmentModel extends CI_Model{
     }
     public function GetAssessmentList_Student($array){
 
+        $this->db->select('
+        *,
+        B.ID AS RespondentID,
+        DATE_FORMAT(B.End,"%M %d , %Y") as Date,
+        ',false);
 		$this->db->where('B.Student_Number', $array['Student_Number']);
         $this->db->where('B.Active', '1');
         $this->db->where('A.Active', '1');
         $this->db->join('lms_assessment_respondents as B','A.AssessmentCode = B.AssessmentCode');
         $this->db->join('Instructor as C','C.ID = A.InstructorID');
+        if(array_key_exists('Limit', $array)){
+            $this->db->limit($array['Limit']);
+        }
+        $this->db->order_by('RespondentID','DESC');
 		$query = $this->db->get('lms_assessment as A');
         return $query->result_array();
         
     }
     public function GetAssessmentInfo($array){
 
+        $this->db->select('
+        *,
+        UNIX_TIMESTAMP(A.`StartDate`) as StartDate,
+        UNIX_TIMESTAMP(A.`EndDate`) as EndDate
+        ');
 		$this->db->where('A.AssessmentCode', $array['AssessmentCode']);
         $this->db->where('A.Active', '1');
         $this->db->join('Instructor as C','C.ID = A.InstructorID');
@@ -108,88 +122,32 @@ class AssessmentModel extends CI_Model{
          
 
     }
-    public function CheckAnswers($array){
-
-        $this->db->where('Student_Number',$array['Student_Number']);
-        $this->db->where('AssessmentCode',$array['AssessmentCode']);
-        $this->db->where('Active',1);
-        $query = $this->db->get('lms_assessment_answers');
-        return $query->result_array();
-        
-    }
     public function ValidateAnswers($array){
 
         $this->db->select('
-            A.Question,
-            A.`Answer` AS CorrectAnswer,
-            B.`Answer`,
-            B.Correct,
-            A.Points,
-            A.`AssessmentCode`,
-            B.`Student_Number`,
-            UNIX_TIMESTAMP(C.`End`) as Date,
+            Q.Question,
+            Q.`Answer` AS CorrectAnswer,
+            Ans.`Answer`,
+            Ans.Correct,
+            Q.Points,
+            Q.`AssessmentCode`,
+            Ans.`Student_Number`,
+            UNIX_TIMESTAMP(Resp.`End`) as Date,
         ');
-        $this->db->select('TIMESTAMPDIFF(MINUTE, C.Start, C.End) AS Remaining');
-        $this->db->join('lms_assessment_answers as B','A.AssessmentCode = B.AssessmentCode and A.QuestionID = B.QuestionID');
-        $this->db->join('lms_assessment_respondents as C','A.AssessmentCode = C.AssessmentCode and B.Student_Number = C.Student_Number');
-        $this->db->where('B.Student_Number',$array['Student_Number']);
-        $this->db->where('A.AssessmentCode',$array['AssessmentCode']);
-        $this->db->where('B.AssessmentCode',$array['AssessmentCode']);
-        $this->db->where('A.Active',1);
-        $this->db->where('B.Active',1);
-        $this->db->where('C.Active',1);
-        $query = $this->db->get('lms_assessment_questions as A');
+        $this->db->select('TIMESTAMPDIFF(MINUTE, Resp.Start, Resp.End) AS Remaining');
+        $this->db->join('lms_assessment_respondents as Resp','Q.AssessmentCode = Resp.AssessmentCode');
+        $this->db->join('lms_assessment_answers as Ans','Resp.ID = Ans.RespondentID and Q.QuestionID = Ans.QuestionID');
+        $this->db->where('Ans.Student_Number',$array['Student_Number']);
+        $this->db->where('Q.AssessmentCode',$array['AssessmentCode']);
+        $this->db->where('Ans.AssessmentCode',$array['AssessmentCode']);
+        $this->db->where('Q.Active',1);
+        $this->db->where('Ans.Active',1);
+        $this->db->where('Resp.Active',1);
+        $query = $this->db->get('lms_assessment_questions as Q');
         return $query->result_array();
         
     }
-    public function GetAssessmentResult($ac,$uid){
-        $date = $this->GetlatestAnswer($ac,$uid);
-        $this->db->select('
-        
-        A.QuestionAnswer,
-        A.Date,
-        B.QuestionID,
-        B.Question,
-        B.Answer,
-        B.Choice_A,
-        B.Choice_B,
-        B.Choice_C,
-        B.Choice_D,
-        B.Points,
-        C.QuestionType,
-        C.QuestionTypeID,
-        D.AssessmentName,
-        D.AssessmentCode,
-        D.Description,
-        D.StartDate,
-        D.Timelimit,
-        D.EndDate,
 
-        ');
-        
-        $this->db->join('lms_assessment_questions as B', 'A.QuestionID = B.QuestionID');
-        $this->db->join('lms_assessment_question_types as C', 'B.QuestionType = C.QuestionTypeID');
-        $this->db->join('lms_assessment as D', 'D.AssessmentCode = A.AssessmentCode');
-        $this->db->where('A.Active', '1');
-        $this->db->where('A.AssessmentCode', $ac);
-        $this->db->where('A.AccountID', $uid);
-        $this->db->where('A.Date', $date);
-        $query = $this->db->get('lms_assessment_answers as A');
-		return $query;
-         
-
-    }
-    public function GetlatestAnswer($ac,$uid){
-
-        $this->db->select_max('Date');
-        $this->db->where('AccountID', $uid);
-        $this->db->where('AssessmentCode', $ac);
-        $query = $this->db->get('lms_assessment_answers');
-        foreach($query->result_array() as $row){
-            return $row['Date'];
-        }
-
-    }
     public function CheckTimerSession($array){
 
         $this->db->where('AssessmentCode', $array['AssessmentCode']);
@@ -222,8 +180,15 @@ class AssessmentModel extends CI_Model{
     }
     public function InsertRespondent($array){
 
-        $this->db->trans_start();
         $this->db->insert('lms_assessment_respondents', $array);
+        return $this->db->insert_id();
+        
+    }
+    public function UpdateRespondentScore($ID,$array){
+
+        $this->db->trans_start();
+        $this->db->where('ID',$ID);
+        $this->db->update('lms_assessment_respondents', $array);
         $this->db->trans_complete();
         return $this->db->trans_status();
         

@@ -49,6 +49,12 @@
 
 		</div>
 
+		<?php if($this->session->flashdata('message')): ?>
+			<div class="well warning">
+				<h3><?php echo $this->session->flashdata('message'); ?></h3>
+			</div>
+		<?php endIf; ?>
+
 		<hr>
 
 		<div class="row">
@@ -69,10 +75,11 @@
 								<div class="panel-body">
 									<h3 class="text-semibold mt-none text-center"><?php echo $row['AssessmentName']; ?></h3>
 									<h6 class="text-center" style="color:ccc"><?php echo $row['Instructor_Name']; ?></h6>
+									<h6 class="text-center" style="color:ccc"><?php echo $row['Date']; ?></h6>
 									<hr>
 									<div class="text-center">
-										<a class="btn btn-default nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $row['AssessmentCode']; ?>">Take Exam (Temporary)</a>
-										<a class="btn btn-success nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $row['AssessmentCode']; ?>">Review Result</a>
+										<!--<a class="btn btn-default nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $row['AssessmentCode']; ?>">Take Exam (Temporary)</a>-->
+										<a class="btn btn-success nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/AssessmentResults/<?php echo $row['AssessmentCode']; ?>">Review Result</a>
 									</div>
 								</div>
 							</div>
