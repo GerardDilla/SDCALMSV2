@@ -54,8 +54,8 @@
                         </a>
                     </li>
 
-                    <li class="nav disabled">
-                        <a href="#">
+                    <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/Course">
                             <i class="fa fa-mortar-board" aria-hidden="true"></i>
                             <span>My Classroom</span>
                         </a>

@@ -15,6 +15,10 @@ class set_views
 	{
 		return $this->main.'/Portfolio';
 	}
+	public function portfolioview()
+	{
+		return $this->main.'/PortfolioView';
+	}
 	public function login()
 	{
 		return $this->main.'/Login';
@@ -61,9 +65,9 @@ class set_views
 	public function assesssment_results(){
 		return $this->main.'/AssessmentResults';
 	}
-	public function classroom()
+	public function courselist()
 	{
-		return $this->main.'/ScheduleSheet';
+		return $this->main.'/CourseList';
 	}
 	public function rubrics()
 	{

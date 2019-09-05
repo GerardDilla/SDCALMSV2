@@ -26,7 +26,7 @@
 				<hr>
 				<label class="rbcontainer">
 
-					<?php echo $Data['Choice_D']; ?>
+					<?php echo $Data['Choice_C']; ?>
 					<input class="mult_question" type="radio" name="<?php echo $Data['QuestionID']; ?>" value="<?php echo $Data['Choice_C']; ?>">
 					<span class="checkmark"></span>
 
@@ -34,7 +34,7 @@
 				<hr>
 				<label class="rbcontainer">
 
-					<?php echo $Data['Choice_C']; ?>
+					<?php echo $Data['Choice_D']; ?>
 					<input class="mult_question" type="radio" name="<?php echo $Data['QuestionID']; ?>" value="<?php echo $Data['Choice_D']; ?>">
 					<span class="checkmark"></span>
 				</label>

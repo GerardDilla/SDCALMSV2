@@ -1,25 +1,20 @@
 
-/* CERTIFICATE MANAGEMENT: START */
 function display_image(file){
+    //Displays image in panel after selecting for upload
     imagelink = (window.URL ? URL : webkitURL).createObjectURL(file.files[0]);
     $('#cert_thumbnail')[0].src = imagelink;
     $('#cert_lightbox').attr("href", imagelink);
 } 
-//INIT: Save certificate upon form submit
 $(document).ready(function(){
-
+     data = [];
     $('#cert_form').submit(function(e){
-    e.preventDefault(); 
 
-        data = {
-            'form':this,
-            'base_url':$('.content-body').data("base_url")
-        }
+        e.preventDefault(); 
+        data['form'] = this;
         INIT_certificate_save(data);
 
     });
 });
-
 function INIT_certificate_save(data){
 
     
@@ -33,40 +28,37 @@ function INIT_certificate_save(data){
         async:false,
         success: function(response){
 
-
-            
             result = JSON.parse(response);
             if(result['Status'] == 1){
 
                 $('#CertFile').val('');
                 $('#CertName').val('');
-                $('#cert_thumbnail')[0].src = data['base_url']+'/assets/images/cert_icon.png';
-                $('#cert_lightbox').attr("href", data['base_url']+'/assets/images/cert_icon.png');
+                $('#cert_thumbnail')[0].src = PortfolioUrl()+'/assets/images/cert_icon.png';
+                $('#cert_lightbox').attr("href", PortfolioUrl()+'/assets/images/cert_icon.png');
 
+                //Get Certificate List and display update
                 inquiry = {
                     'Search':'',
                     'Limit':5
                 }
-
-                //Get Certificate List
-                CertList = get_certificate_list(inquiry,data['base_url']);
+                CertList = get_certificate_list(inquiry);
                 CertList.done(function(certdata){
 
                     CertList = JSON.parse(certdata);
                     console.log(CertList);
 
                     target = $('#AchievementSummary');
-                    display_certificates(CertList,target,data['base_url']);
-
-                    //Display Message
-                    config = {
-                        'message':result['Message'],
-                        'type':'success',
-                        'object':'#certificate_message',
-                    }
-                    portfolio_message_handler(config);
+                    display_certificates(CertList);
 
                 });
+
+                //Display Message
+                config = {
+                    'message':result['Message'],
+                    'type':'success',
+                    'object':'#certificate_message',
+                }
+                portfolio_message_handler(config);
 
             }else{
 
@@ -91,15 +83,13 @@ function search_cert(){
             'Search':$("#cert_manager_search").val(),
             'Limit':0
         }
-        base_url = $('.content-body').data("base_url");
-      
         //Get Certificate List
-        data = get_certificate_list(inquiry,base_url);
+        data = get_certificate_list(inquiry);
         data.done(function(certdata){
     
             CertData = JSON.parse(certdata);
             target = $('#cert_manager');
-            display_certificates_manager(CertData,target,base_url);
+            manager_certificates(CertData);
     
     
         });
@@ -112,19 +102,16 @@ function cert_viewall(){
         'Search':'',
         'Limit':0
     }
-    base_url = $('.content-body').data("base_url");
-  
+
     open_cert_manager();
     //Get Certificate List
-    data = get_certificate_list(inquiry,base_url);
+    data = get_certificate_list(inquiry);
     data.done(function(certdata){
 
         CertData = JSON.parse(certdata);
         console.log(CertData);
-
-
         target = $('#cert_manager');
-        display_certificates_manager(CertData,target,base_url);
+        manager_certificates(CertData);
 
 
     });
@@ -172,61 +159,62 @@ function open_cert_manager(){
 
 
 }
-function get_certificate_list(inquiry,base_url){
+function get_certificate_list(inquiry){
 
+    console.log(PortfolioUrl());
     return $.ajax({
-        url: base_url+'index.php/Portfolio/Ajax_GetCertNumber',
+        url: PortfolioUrl()+'index.php/Portfolio/Ajax_GetCertNumber',
         type: 'GET',
         data: inquiry
     });
 
 }
-function display_certificates(data,target,base_url){
+function display_certificates(data){
 
-    console.log('display_certificates'+target);
+    target = $('#AchievementSummary');
+    console.table(target);
     target.fadeOut('slow');
     $list = '';
     $.each(data, function(index, result){
-
         $list += 
         '\
         <li>\
             <div class="post-image">\
                 <div class="img-thumbnail cert_thumbnail">\
-                    <a class="lightbox" target="_blank" href="'+base_url+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" data-plugin-options=\{ "type":"image" }\'>\
-                        <img class="cert_img" src="'+base_url+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" alt="">\
+                    <a class="lightbox" target="_blank" href="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" data-plugin-options=\{ "type":"image" }\'>\
+                        <img class="cert_img" src="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" alt="">\
                     </a>\
                 </div>\
             </div>\
             <div class="post-info">\
-                <a style="text-transform: uppercase; font-weight: bold; color:green" class="lightbox" href="'+base_url+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" data-plugin-options=\'{ "type":"image" }\'>'+result['Title']+'</a>\
+                <a style="text-transform: uppercase; font-weight: bold; color:green" class="lightbox" href="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" data-plugin-options=\'{ "type":"image" }\'>'+result['Title']+'</a>\
                 <div class="post-meta cert_link">\
                 '+result['Date']+'\
                 </div>\
             </div>\
         </li>\
         ';
-
     });
     setTimeout(function() {
         target.html($list).fadeIn('slow');
     }, 500);
 
 }
-function display_certificates_manager(data,target_mngr,base_url){
+function manager_certificates(data){
 
-    console.log('display_certificates'+target_mngr);
+    target_mngr = $('#cert_manager');
+    console.table(target_mngr);
     target_mngr.fadeOut('slow');
-    $list = '';
+    $manager_list = '';
     $.each(data, function(index, result){
 
-        $list += 
+        $manager_list += 
         '\
         <tr>\
             <td>\
                 <div class="thumb-info mb-md" style="text-align:center">\
-                        <a target="_blank" href="'+base_url+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'">\
-                            <img style="margin: auto; width:70%; height:auto" src="'+base_url+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" class="rounded img-responsive" alt="John Doe">\
+                        <a target="_blank" href="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'">\
+                            <img style="margin: auto; width:70%; height:auto" src="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" class="rounded img-responsive" alt="John Doe">\
                         </a>\
                         <div class="thumb-info-title" style="background:rgba(112,128,144,0.9)">\
                         <span class="thumb-info-inner">'+result['Title']+'</span>\
@@ -244,7 +232,7 @@ function display_certificates_manager(data,target_mngr,base_url){
 
     });
     setTimeout(function() {
-        target_mngr.html($list).fadeIn('slow');
+        target_mngr.html($manager_list).fadeIn('slow');
     }, 500);
 }
 function portfolio_message_handler(settings){
@@ -281,9 +269,7 @@ function INIT_CertRemoval(id){
 
     if(confirm('Are you sure you want to remove Certificate?')) {
 
-        base_url = $('.content-body').data("base_url");
-
-        removestatus = remove_cert(id,base_url);
+        removestatus = remove_cert(id);
         removestatus.done(function(response){
             
             inquiry = {
@@ -292,26 +278,36 @@ function INIT_CertRemoval(id){
             }
             
             //Get Certificate List
-            data = get_certificate_list(inquiry,base_url);
+            data = get_certificate_list(inquiry);
             data.done(function(certdata){
         
                 //Refresh Cert Manager
-                CertData = JSON.parse(certdata);
-                target = $('tbody#cert_manager');
-                console.log(target);
-                //display_certificates_manager(CertData,target,base_url);
-                cert_viewall();
-
-
-                target = $('ul#AchievementSummary');
-                //refresh_cert_summary(target,base_url);
-        
-            });
-
+                data = get_certificate_list(inquiry);
+                data.done(function(certdata){
             
+                    CertData = JSON.parse(certdata);
+                    manager_certificates(CertData);
+
+
+                    //Refresh Cert Summary
+                    inquiry = {
+                        'Search':'',
+                        'Limit':5
+                    }
+                    data = get_certificate_list(inquiry);
+                    data.done(function(certdata){
+
+                        display_certificates(CertData);
+
+                    });
+            
+            
+                });
+
+
+            });    
 
         });
-
 
         alert('Successfully Removed!');
 
@@ -321,31 +317,14 @@ function INIT_CertRemoval(id){
         return;
     }
 }
-function remove_cert(id,base_url){
+function remove_cert(id){
 
         return $.ajax({
-            url: base_url+'index.php/Portfolio/remove_certificate',
+            url: PortfolioUrl()+'index.php/Portfolio/remove_certificate',
             type: 'GET',
             data: {
                 'ID':id
             }
         });
-
-}
-function refresh_cert_summary(target,base_url){
-
-
-    //Refresh Cert View
-    inquiry = {
-        'Search':'',
-        'Limit':5
-    }
-    refresh = get_certificate_list(inquiry,base_url);
-    refresh.done(function(refreshlist){
-
-        refreshdata = JSON.parse(refreshlist);
-        display_certificates(refreshdata,target,base_url);
-
-    });
 
 }

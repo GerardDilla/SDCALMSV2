@@ -58,6 +58,61 @@ class PortfolioModel extends CI_Model{
                 return $result->result_array();
 
         }
+        public function GetOrganizations($array)
+	{	
+                $this->db->where('Student_Number',$array['Student_Number']);
+
+                if($array['Search']){
+                        $this->db->like('Organization',$array['Search']);
+                }
+                
+                $this->db->where('Valid',1);
+                $this->db->order_by('ID', 'DESC');
+
+                if($array['Limit']){
+                        $this->db->limit($array['Limit']);
+                }
+
+                $result = $this->db->get('studentportfolio_organization');
+                return $result->result_array();
+
+        }
+        public function GetExperience($array)
+	{	
+                $this->db->where('Student_Number',$array['Student_Number']);
+
+                if($array['Search']){
+                        $this->db->like('Experience',$array['Search']);
+                }
+                
+                $this->db->where('Valid',1);
+                $this->db->order_by('ID', 'DESC');
+
+                if($array['Limit']){
+                        $this->db->limit($array['Limit']);
+                }
+
+                $result = $this->db->get('studentportfolio_experience');
+                return $result->result_array();
+        }
+        public function GetActivities($array)
+	{	
+                $this->db->where('Student_Number',$array['Student_Number']);
+
+                if($array['Search']){
+                        $this->db->like('Activity',$array['Search']);
+                }
+                
+                $this->db->where('Valid',1);
+                $this->db->order_by('Date', 'DESC');
+
+                if($array['Limit']){
+                        $this->db->limit($array['ActivitiesLimit']);
+                }
+
+                $result = $this->db->get('lms_activity_feed');
+                return $result->result_array();
+        }
 
 
 

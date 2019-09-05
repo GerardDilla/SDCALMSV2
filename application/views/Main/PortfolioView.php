@@ -1,6 +1,6 @@
 <section role="main" class="content-body" data-base_url='<?php echo base_url(); ?>'>
 		<header class="page-header">
-			<h2>My Portfolio <i class="fa fa-home"></i></h2>
+			<h2><?php echo $this->data['StudentInfo'][0]['First_Name'].' '.$this->data['StudentInfo'][0]['Last_Name']; ?>'s Portfolio <i class="fa fa-book"></i></h2>
 		
 			<div class="right-wrapper pull-right" style="padding-right:20px">
 				<ol class="breadcrumbs">
@@ -27,30 +27,8 @@
 						<div class="thumb-info mb-md">
 							<img src="<?php echo base_url(); ?>personaldata/Profilepicture/default.png" class="rounded img-responsive" alt="John Doe">
 							<div class="thumb-info-title">
-								<span class="thumb-info-inner"><?php echo $this->student_data['Full_Name']; ?></span>
-								<span class="thumb-info-type"><?php echo $this->student_data['Student_Number']; ?></span>
-							</div>
-						</div>
-
-						<div class="widget-toggle-expand mb-md">
-							<div class="widget-header">
-								<h6>Profile Completion</h6>
-								<div class="widget-toggle">+</div>
-							</div>
-							<div class="widget-content-collapsed">
-								<div class="progress progress-xs light">
-									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-										60%
-									</div>
-								</div>
-							</div>
-							<div class="widget-content-expanded">
-								<ul class="simple-todo-list">
-									<li class="completed">Update Personal Information</li>
-									<li class="completed">Update Joined Organizations</li>
-									<li>Update Volunteer Experiences</li>
-									<li>Upload Certificates</li>
-								</ul>
+								<span class="thumb-info-inner"><?php echo $this->data['StudentInfo'][0]['First_Name'].' '.$this->data['StudentInfo'][0]['Last_Name']; ?></span>
+								<span class="thumb-info-type"><?php echo $this->data['StudentInfo'][0]['Student_Number']; ?></span>
 							</div>
 						</div>
 
@@ -58,18 +36,14 @@
 
 						<h6 class="text-muted">About</h6>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate quam. Interdum et malesuada</p>
-						<div class="clearfix">
-							<a class="text-uppercase text-muted pull-right" href="#">(View All)</a>
-						</div>
-
 
 						<hr class="dotted short">
 						<h6 class="text-muted">Email</h6>
-						<p style="color:green"><?php echo $this->student_data['Email']; ?></p>
+						<p style="color:green"><?php echo $this->data['StudentInfo'][0]['AccountEmail'] ?></p>
 
 						<hr class="dotted short">
 						<h6 class="text-muted">Course</h6>
-						<p style="color:green">BSIT</p>
+						<p style="color:green"><?php echo $this->data['StudentInfo'][0]['Course'] ?></p>
 
 
 					</div>
@@ -107,12 +81,6 @@
 							<?php echo 'No Achievement posted'; ?>
 						<?php endIf; ?>
 						</ul>
-						<hr class="dotted short">
-						<div class="text-right">
-						<?php if($this->data['CertificateList']): ?>
-							<a class="text-uppercase text-muted" href="#" onclick="cert_viewall()">(Manage Certificates)</a>
-						<?php endIf; ?>
-						</div>
 					</div>
 				</section>
 
@@ -120,7 +88,6 @@
 					<header class="panel-heading">
 						<div class="panel-actions">
 							<a href="#" class="fa fa-caret-down"></a>
-							<a href="#" class="fa fa-times"></a>
 						</div>
 
 						<h2 class="panel-title">
@@ -141,10 +108,6 @@
 								<?php echo 'No Affiliated Organization'; ?>
 							<?php endIf; ?>
 							</ul>
-							<hr class="dotted short">
-							<div class="text-right">
-								<a class="text-uppercase text-muted" href="#">(Manage Organizations)</a>
-							</div>
 						</div>
 					</div>
 				</section>
@@ -158,9 +121,6 @@
 					<ul class="nav nav-tabs tabs-primary">
 						<li class="active">
 							<a href="#overview" data-toggle="tab">Activity Logs</a>
-						</li>
-						<li>
-							<a href="#edit" data-toggle="tab">Edit</a>
 						</li>
 					</ul>
 					<div class="tab-content">
@@ -202,181 +162,6 @@
 							
 
 						</div>
-						<div id="edit" class="tab-pane">
-
-								<h4 class="mb-xlg">About Yourself</h4>
-								<fieldset>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileBio">Personal Info</label>
-										<div class="col-md-8">
-											<textarea class="form-control" rows="3" id="profileBio"></textarea>
-										</div>
-									</div>
-								</fieldset>
-
-								<hr class="dotted tall">
-								<h4 class="mb-xlg">Change Email</h4>
-								<fieldset>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileFirstName">Current Email</label>
-										<div class="col-md-8">
-											<input type="readonly" disabled class="form-control" value="<?php echo $this->student_data['Email']; ?>">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileFirstName">New Email</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileFirstName">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileLastName">Password</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileLastName">
-										</div>
-									</div>
-								</fieldset>
-
-								<hr class="dotted tall">
-								<h4 class="mb-xlg">
-								
-									Portfolio Info 
-									<span class="searchloader">
-										<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
-									</span>
-
-								</h4>
-
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-										</div>
-										<h5>Upload an Achievement</h5>
-									</header>
-									<div class="panel-body">
-
-										<div id="certificate_message">
-							
-										</div>
-										<?php 
-											$attributes = array(
-												'id' => 'cert_form',
-												'method' => 'post',
-											); 
-										?>
-										<?php echo form_open_multipart(base_url().'index.php/Portfolio/certificate_upload',$attributes); ?>
-										
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Certificate / Achievement Name</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" id="CertName" name="CertName" placeholder="Ex: Best in Thesis Certificate">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Certificate Image (JPG/PNG)</label>
-												<div class="col-md-8">
-													<input class="btn btn-info form-control"  type="file" id="CertFile" name="CertFile" size="20" onchange="display_image(this)" />
-												</div>
-											</div>
-											<hr>
-											<div style="text-align:center">
-												<a class="img-thumbnail lightbox" id="cert_lightbox" href="<?php echo base_url(); ?>assets/images/cert_icon.png" data-plugin-options='{ "type":"image" }'>
-													<img class="img-responsive" id="cert_thumbnail" width="200" src="<?php echo base_url(); ?>assets/images/cert_icon.png">
-													<span class="zoom">
-														<i class="fa fa-search"></i>
-													</span>
-												</a>
-											</div>
-											<br />
-											<input class="btn btn-success pull-right" type="submit" value="Submit" />
-
-										</form>
-									</div>
-								</section>
-
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-										</div>
-										<h5>Organizations</h5>
-									</header>
-									<div class="panel-body">
-
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="Ex: Student Council">
-												</div>
-											</div>
-											
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="">
-												</div>
-											</div>
-											<br />
-											<input class="btn btn-success pull-right" type="submit" value="Submit" />
-
-									</div>
-								</section>
-
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-										</div>
-										<h5>Volunteer Experience</h5>
-									</header>
-									<div class="panel-body">
-
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="Ex: Student Council">
-												</div>
-											</div>
-											
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="">
-												</div>
-											</div>
-											<br />
-											<input class="btn btn-success pull-right" type="submit" value="Submit" />
-
-									</div>
-								</section>
-								
-
-								<hr class="dotted tall">
-								<h4 class="mb-xlg">Change Password</h4>
-								<fieldset class="mb-xl">
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileNewPassword">New Password</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileNewPassword">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileNewPasswordRepeat">Repeat New Password</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileNewPasswordRepeat">
-										</div>
-									</div>
-								</fieldset>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-9 col-md-offset-3">
-											<button type="submit" class="btn btn-primary">Submit</button>
-											<button type="reset" class="btn btn-default">Reset</button>
-										</div>
-									</div>
-								</div>
-
-
-						</div>
 					</div>
 				</div>
 			</div>
@@ -402,10 +187,6 @@
 					</li>
 				</ul>
 				<hr class="dotted short">
-					<div class="text-right">
-						<a class="text-uppercase text-muted" href="#">(View All)</a>
-					</div>
-				<hr class="dotted short">
 
 				<br>
 
@@ -420,16 +201,14 @@
 					<?php endForeach; ?>
 				<?php endIf; ?>
 				</ul>
-				<hr class="dotted short">
-					<div class="text-right">
-						<a class="text-uppercase text-muted" href="<?php echo base_url(); ?>index.php/Assessment">(View All)</a>
-					</div>
+
 				<hr class="dotted short">
 
 				<section class="panel">
 					<header class="panel-heading">
 						<div class="panel-actions">
 							<a href="#" class="fa fa-caret-down"></a>
+							<a href="#" class="fa fa-times"></a>
 						</div>
 
 						<h2 class="panel-title">

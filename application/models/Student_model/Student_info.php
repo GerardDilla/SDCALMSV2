@@ -51,6 +51,19 @@ class Student_info extends CI_Model{
 		return $result->result_array();
 		
 	}
+	public function AccountDetails($array)
+	{
+		$this->db->select('*,B.Email as AccountEmail');
+		$this->db->where('A.Student_Number',$array['Student_Number']);
+		$this->db->where('A.Student_Number <>',NULL);
+		$this->db->where('A.Student_Number <>','0');
+		$this->db->where('B.Active','1');
+		$this->db->group_by('A.Student_Number');
+		$this->db->join('highered_accounts AS B','A.Student_Number = B.Student_Number');
+		$result = $this->db->get('Student_Info AS A');
+		return $result->result_array();
+		
+	}
 	public function ValidateActivationCode($array)
 	{
 
@@ -138,6 +151,12 @@ class Student_info extends CI_Model{
 	public function Insert_PrivacyPolicy($array){
 
 		$this->db->insert('privacy_policy_agreement',$array);
+		return $this->db->insert_id();
+
+	}
+	public function Record_Activity($array){
+
+		$this->db->insert('lms_activity_feed',$array);
 		return $this->db->insert_id();
 
 	}
