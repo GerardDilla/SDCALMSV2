@@ -130,32 +130,7 @@
 
 							<div class="timeline timeline-simple mt-xlg mb-md">
 								<div class="tm-body">
-									<div class="tm-title">
-										<h3 class="h5 text-uppercase">August 2019</h3>
-									</div>
-									<a class="mb-xlg pull-right" href="<?php echo base_url(); ?>">View All Activities</a>
-									<ol class="tm-items">
-										<?php if($this->data['ActivitiesList']): ?>
-										<?php foreach($this->data['ActivitiesList'] as $activity): ?>
-											<li>
-												<div class="tm-box">
-													<p class="text-muted mb-none">1 months ago.</p>
-													<p>
-														<?php echo $activity['Activity'] ?>
-													</p>
-												</div>
-											</li>
-										<?php endForeach; ?>
-										<?php else: ?>
-											<li>
-												<div class="tm-box">
-													<h3>
-														No Activities yet.
-													</h3>
-												</div>
-											</li>
-										<?php endIf; ?>
-									</ol>
+									<?php echo $this->data['ActivityFeedView']; ?>
 								</div>
 							</div>
 
@@ -289,13 +264,3 @@
     </section>
 </div>
 
-<!-- JS for portfolio page -->
-<script>
-function PortfolioUrl(){
-    //Gets base url
-    return $('.content-body').attr('data-base_url');
-}
-</script>
-<script src="<?php echo base_url(); ?>assets/javascripts/cert_portfolio.js"></script>
-
-<script src="<?php echo base_url(); ?>assets/javascripts/org_portfolio.js"></script>

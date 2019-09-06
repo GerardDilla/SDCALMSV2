@@ -72,9 +72,9 @@ class Assessment extends MY_Controller {
 		
 		$data = array(
 			'AssessmentCode' => $assessmentdata[0]['AssessmentCode'],
-			'TimeStarted' => $now->format('Y-m-d g:i:s'),
+			'TimeStarted' => $now->format('Y-m-d H:i:s'),
 			'Student_Number' => $this->student_data['Student_Number'] == null ? $this->input->post('Student_Number') : $this->student_data['Student_Number'],
-			'TimeEnd' => $now->modify('+'.$assessmentdata[0]['Timelimit'].' minutes')->format('Y-m-d g:i:s')
+			'TimeEnd' => $now->modify('+'.$assessmentdata[0]['Timelimit'].' minutes')->format('Y-m-d H:i:s')
 		);
 
 		//print_r($data);
@@ -208,7 +208,7 @@ class Assessment extends MY_Controller {
 			'Student_Number' => $data['Student_Number'],
 			'RespondentName' => $this->student_data['Full_Name'],
 			'Start' => $TimerData[0]['TimeStarted'],
-			'End' => $now->format('Y-m-d g:i:s'),
+			'End' => $now->format('Y-m-d H:i:s'),
 		);
 		$RespondenStatus = $this->AssessmentModel->InsertRespondent($RespondentData);
 		
@@ -384,7 +384,7 @@ class Assessment extends MY_Controller {
 		$data = array(
 			
 			'AssessmentCode' => $AsssessmentData[0]['AssessmentCode'],
-			'TimeStarted' => $now->format('Y-m-d g:i:s'),
+			'TimeStarted' => $now->format('Y-m-d H:i:s'),
 			'Student_Number' => $this->student_data['Student_Number']
 
 		);

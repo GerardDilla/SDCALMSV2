@@ -24,7 +24,7 @@ class Portfolio extends MY_Controller {
 
 		  //Defines log date
 		  $this->now = new DateTime();
-		  $this->logdatetime =  $this->now->format('Y-m-d g:i:s');
+		  $this->logdatetime =  $this->now->format('Y-m-d H:i:s');
 		  $this->logdate = date("Y/m/d");
 
 		  //Error message
@@ -44,13 +44,16 @@ class Portfolio extends MY_Controller {
 			'Student_Number' => $this->student_data['Student_Number'],
 			'Search' => '',
 			'Limit' => $this->sectionlimit,
-			'ActivitiesLimit' => $this->activitieslimit
+			'ActivitiesLimit' => $this->activitieslimit,
+			'CurrentDate' => $this->logdatetime,
 		);
 		$this->data['AssessmentList'] = $this->AssessmentModel->GetAssessmentList_Student($array);
 		$this->data['OrganizationList'] = $this->PortfolioModel->GetOrganizations($array);
 		$this->data['ExperienceList'] = $this->PortfolioModel->GetExperience($array);
-		$this->data['ActivitiesList'] = $this->PortfolioModel->GetActivities($array);
+		$data['ActivityData'] = $this->PortfolioModel->GetActivities($array);
+		$this->data['ActivityFeedView'] = $this->load->view('Main/ActivityFeed',$data,TRUE);
 		$this->data['CertificateList'] = $this->PortfolioModel->GetCertificates($array);
+
 		$this->template($this->set_views->portfolio());
 		
 	}
@@ -60,7 +63,8 @@ class Portfolio extends MY_Controller {
 			'Student_Number' => $Student_Number,
 			'Search' => '',
 			'Limit' => $this->sectionlimit,
-			'ActivitiesLimit' => $this->activitieslimit
+			'ActivitiesLimit' => $this->activitieslimit,
+			'CurrentDate' => $this->logdatetime,
 		);
 		$this->data['StudentInfo'] = $this->Student_info->AccountDetails($array);
 		if(!$this->data['StudentInfo']){
@@ -83,7 +87,8 @@ class Portfolio extends MY_Controller {
 		$this->data['AssessmentList'] = $this->AssessmentModel->GetAssessmentList_Student($array);
 		$this->data['OrganizationList'] = $this->PortfolioModel->GetOrganizations($array);
 		$this->data['ExperienceList'] = $this->PortfolioModel->GetExperience($array);
-		$this->data['ActivitiesList'] = $this->PortfolioModel->GetActivities($array);
+		$data['ActivityData'] = $this->PortfolioModel->GetActivities($array);
+		$this->data['ActivityFeedView'] = $this->load->view('Main/ActivityFeed',$data,TRUE);
 		$this->data['CertificateList'] = $this->PortfolioModel->GetCertificates($array);
 		$this->template($this->set_views->portfolioview());
 		
@@ -97,6 +102,31 @@ class Portfolio extends MY_Controller {
 			'Search' => $this->input->get_post('Search'),
 		);
 		echo json_encode($this->PortfolioModel->GetCertificates($array));
+
+	}
+	public function Ajax_ActivityFeed_Output(){
+
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Search' => '',
+			'Limit' => $this->sectionlimit,
+			'ActivitiesLimit' => $this->activitieslimit,
+			'CurrentDate' => $this->logdatetime,
+		);
+		$data['ActivityData'] = $this->PortfolioModel->GetActivities($array);
+		echo $this->load->view('Main/ActivityFeed',$data,TRUE);
+
+	}
+	public function Ajax_Remove_ActivityLog(){
+
+		$data = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'ID' => $this->input->get_post('ActivityID')
+		);
+		$array = array(
+			'Valid' => 0
+		);
+		echo $this->PortfolioModel->update_activitylog($data,$array);
 
 	}
 	public function certificate_upload(){

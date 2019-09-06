@@ -77,6 +77,16 @@ class PortfolioModel extends CI_Model{
                 return $result->result_array();
 
         }
+        public function update_activitylog($data,$array)
+	{	
+                $this->db->trans_start();
+                $this->db->where('ID',$data['ID']);
+                $this->db->where('Student_Number',$data['Student_Number']);
+                $this->db->update('lms_activity_feed', $array);
+                $this->db->trans_complete();
+                return $this->db->trans_status();
+		
+        }
         public function GetExperience($array)
 	{	
                 $this->db->where('Student_Number',$array['Student_Number']);
@@ -97,6 +107,13 @@ class PortfolioModel extends CI_Model{
         }
         public function GetActivities($array)
 	{	
+                $this->db->select('ID,Activity,`Date`,MONTHNAME(`Date`) as ActivityMonth, YEAR(`Date`) as ActivityYear');
+                $this->db->select('TIMESTAMPDIFF(MONTH, `Date`, \''.$array['CurrentDate'].'\') AS ElapsedMonth');
+                $this->db->select('TIMESTAMPDIFF(WEEK,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedWeek');
+                $this->db->select('TIMESTAMPDIFF(DAY,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedDay');
+                $this->db->select('TIMESTAMPDIFF(HOUR,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedHour');
+                $this->db->select('TIMESTAMPDIFF(MINUTE,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedMinute');
+                $this->db->select('TIMESTAMPDIFF(SECOND,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedSecond');
                 $this->db->where('Student_Number',$array['Student_Number']);
 
                 if($array['Search']){

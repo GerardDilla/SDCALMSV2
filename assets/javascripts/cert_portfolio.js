@@ -49,7 +49,7 @@ function INIT_certificate_save(data){
 
                     target = $('#AchievementSummary');
                     display_certificates(CertList);
-
+                    RefreshActivity();
                 });
 
                 //Display Message
@@ -156,7 +156,6 @@ function open_cert_manager(){
         }
         
     });
-
 
 }
 function get_certificate_list(inquiry){

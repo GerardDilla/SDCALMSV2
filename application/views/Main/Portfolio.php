@@ -32,27 +32,6 @@
 							</div>
 						</div>
 
-						<div class="widget-toggle-expand mb-md">
-							<div class="widget-header">
-								<h6>Profile Completion</h6>
-								<div class="widget-toggle">+</div>
-							</div>
-							<div class="widget-content-collapsed">
-								<div class="progress progress-xs light">
-									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-										60%
-									</div>
-								</div>
-							</div>
-							<div class="widget-content-expanded">
-								<ul class="simple-todo-list">
-									<li class="completed">Update Personal Information</li>
-									<li class="completed">Update Joined Organizations</li>
-									<li>Update Volunteer Experiences</li>
-									<li>Upload Certificates</li>
-								</ul>
-							</div>
-						</div>
 
 						<hr class="dotted short">
 
@@ -169,33 +148,8 @@
 							<h4 class="mb-xlg">Activities</h4>
 
 							<div class="timeline timeline-simple mt-xlg mb-md">
-								<div class="tm-body">
-									<div class="tm-title">
-										<h3 class="h5 text-uppercase">August 2019</h3>
-									</div>
-									<a class="mb-xlg pull-right" href="<?php echo base_url(); ?>">View All Activities</a>
-									<ol class="tm-items">
-										<?php if($this->data['ActivitiesList']): ?>
-										<?php foreach($this->data['ActivitiesList'] as $activity): ?>
-											<li>
-												<div class="tm-box">
-													<p class="text-muted mb-none">1 months ago.</p>
-													<p>
-														<?php echo $activity['Activity'] ?>
-													</p>
-												</div>
-											</li>
-										<?php endForeach; ?>
-										<?php else: ?>
-											<li>
-												<div class="tm-box">
-													<h3>
-														No Activities yet.
-													</h3>
-												</div>
-											</li>
-										<?php endIf; ?>
-									</ol>
+								<div class="tm-body" id="ActivityFeed">
+									<?php echo $this->data['ActivityFeedView']; ?>
 								</div>
 							</div>
 
@@ -515,6 +469,44 @@
 function PortfolioUrl(){
     //Gets base url
     return $('.content-body').attr('data-base_url');
+}
+function RefreshActivity(){
+
+	$('#ActivityFeed').fadeOut('fast');
+	$.ajax({
+		url: PortfolioUrl()+'index.php/Portfolio/Ajax_ActivityFeed_Output',
+		success: function(output){
+			$('#ActivityFeed').html(output).fadeIn('fast');;
+		}
+	});
+
+}
+function RemoveActivity(ID){
+	if(confirm('Are you sure you want to remove this activity?')) {
+
+		$.ajax({
+			url: PortfolioUrl()+'index.php/Portfolio/Ajax_Remove_ActivityLog',
+			type:'POST',
+			data:{'ActivityID':ID},
+			success: function(output){
+				if(output == 1){
+
+					RefreshActivity();
+					
+				}else{
+					
+					alert('An Error occured while trying to remove activity');
+
+				}
+			}
+		});
+
+	}else{
+
+		return;
+
+	}
+
 }
 </script>
 <script src="<?php echo base_url(); ?>assets/javascripts/cert_portfolio.js"></script>
