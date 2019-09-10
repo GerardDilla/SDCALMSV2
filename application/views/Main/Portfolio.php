@@ -88,9 +88,7 @@
 						</ul>
 						<hr class="dotted short">
 						<div class="text-right">
-						<?php if($this->data['CertificateList']): ?>
-							<a class="text-uppercase text-muted" href="#" onclick="cert_viewall()">(Manage Certificates)</a>
-						<?php endIf; ?>
+
 						</div>
 					</div>
 				</section>
@@ -108,7 +106,7 @@
 					</header>
 					<div class="panel-body">
 						<div class="content">
-							<ul class="simple-user-list">
+							<ul class="simple-user-list" id="OrgSummary">
 							<?php if($this->data['OrganizationList']): ?>
 								<?php foreach($this->data['OrganizationList'] as $org): ?>
 									<li>
@@ -122,7 +120,7 @@
 							</ul>
 							<hr class="dotted short">
 							<div class="text-right">
-								<a class="text-uppercase text-muted" href="#">(Manage Organizations)</a>
+								
 							</div>
 						</div>
 					</div>
@@ -242,7 +240,9 @@
 													</span>
 												</a>
 											</div>
-											<br />
+											<br/>
+			
+											<button class="btn btn-default" href="#" onclick="cert_viewall()">Manage Certificates</button>
 											<input class="btn btn-success pull-right" type="submit" value="Submit" />
 
 										</form>
@@ -257,22 +257,31 @@
 									</header>
 									<div class="panel-body">
 
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="Ex: Student Council">
-												</div>
+										<div id="organization_message"></div>
+										<?php 
+											$attributes = array(
+												'id' => 'org_form',
+												'method' => 'post',
+											); 
+										?>
+										<?php echo form_open(base_url().'index.php/Portfolio/Ajax_org_save',$attributes); ?>
+										<div class="form-group">
+											<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
+											<div class="col-md-8">
+												<input type="text" id="OrgName" name="OrgName" class="form-control" placeholder="Ex: Student Council">
 											</div>
-											
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="">
-												</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
+											<div class="col-md-8">
+												<input type="text" id="OrgDescription" name="OrgDescription" class="form-control" placeholder="">
 											</div>
-											<br />
-											<input class="btn btn-success pull-right" type="submit" value="Submit" />
-
+										</div>
+										<br />
+										<button class="btn btn-default" href="#" onclick="org_viewall()">Manage Organizations</button>
+										<input class="btn btn-success pull-right" type="submit" value="Submit" />
+										</form>
 									</div>
 								</section>
 
@@ -283,28 +292,26 @@
 										<h5>Volunteer Experience</h5>
 									</header>
 									<div class="panel-body">
-
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="Ex: Student Council">
-												</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
+											<div class="col-md-8">
+												<input type="text"  class="form-control" placeholder="Ex: Student Council">
 											</div>
-											
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" placeholder="">
-												</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
+											<div class="col-md-8">
+												<input type="text"  class="form-control" placeholder="">
 											</div>
-											<br />
-											<input class="btn btn-success pull-right" type="submit" value="Submit" />
-
+										</div>
+										<br />
+										<input class="btn btn-success pull-right" type="submit" value="Submit" />
 									</div>
 								</section>
 								
-
 								<hr class="dotted tall">
+
 								<h4 class="mb-xlg">Change Password</h4>
 								<fieldset class="mb-xl">
 									<div class="form-group">
@@ -414,55 +421,51 @@
 		<!-- end: page -->
 	</section>
 
-	<div id="Certmanage" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
-    <section class="panel">
-        <header class="panel-heading">
-            <h2 class="panel-title">
 
-                Manage Achievements / Certificates
-                <span class="searchloader">
-                    <img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
-				</span>
-				
 
-            </h2>
+	<!-- Certificate Modal -->
+	<div id="Certmanage" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
-        </header>
-        <div class="panel-body">
-            <div class="modal-wrapper">
-                <div class="modal-text row">
-
-					<div class="form-group">
-						<label class="col-md-3 control-label">Search</label>
-						<div class="col-md-7">
-							<input type="text"  class="form-control" id="cert_manager_search" autofocus placeholder="Search with Title..">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Manage Achievements / Certificates</h4>
+					<span class="searchloader">
+						<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+					</span>
+				</div>
+				<div class="modal-body row">
+					
+						<div class="form-group">
+							<label class="col-md-3 control-label">Search</label>
+							<div class="col-md-7">
+								<input type="text"  class="form-control" id="cert_manager_search" autofocus placeholder="Search with Title..">
+							</div>
+							<button style="height:34px" class="col-md-1 btn btn-sm btn-default" onclick="search_cert()"><i class="fa fa-search"></i></button>
 						</div>
-						<button style="height:34px" class="col-md-1 btn btn-sm btn-default" onclick="search_cert()"><i class="fa fa-search"></i></button>
-					</div>
 
-					<div class="table-responsive col-md-12" style="max-height:600px; min-height:600px; overflow:auto">
-						<table class="table mb-none">
-							<tbody id="cert_manager">
+						<div class="table-responsive col-md-12" style="max-height:600px; min-height:600px; overflow:auto">
+							<table class="table mb-none">
+								<tbody id="cert_manager">
 
 
 
 
-							</tbody>
-						</table>
-					</div>
+								</tbody>
+							</table>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
 
-                </div>
-            </div>
-        </div>
-        <footer class="panel-footer">
-			<div class="row">
-                <div class="col-md-12 text-right">
-					<button class="btn btn-default modal-dismiss pull-right">Close</button>
-                </div>
-            </div>
-        </footer>
-    </section>
-</div>
+		</div>
+	</div>
+	<!-- /Certificate Modal -->
+	
 
 <!-- JS for portfolio page -->
 <script>

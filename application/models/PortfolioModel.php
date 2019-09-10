@@ -130,6 +130,12 @@ class PortfolioModel extends CI_Model{
                 $result = $this->db->get('lms_activity_feed');
                 return $result->result_array();
         }
+        public function insert_organization($array){
+
+                $this->db->insert('studentportfolio_organization', $array);
+                return $this->db->insert_id();
+                
+        }
 
 
 

@@ -54,7 +54,7 @@
 					<p style="text-transform:uppercase;">
 						<?php echo $activity['Activity'] ?>
 					</p>
-					<button onclick="RemoveActivity(this.value)" value="<?php echo $activity['ID']; ?>" class="btn btn-default">Remove</button>
+					<!--<button onclick="RemoveActivity(this.value)" value="<?php echo $activity['ID']; ?>" class="btn btn-default">Remove</button>-->
 				</div>
 			</li>
 	

@@ -119,42 +119,15 @@ function cert_viewall(){
 }
 function open_cert_manager(){
 
-    $.magnificPopup.open({
+    $('#Certmanage').modal('show');
+    $('#cert_manager_search').focus();
+    //document.getElementById('cert_manager_search').click();
 
-        items: {
-            src: '#Certmanage'
-        },
-        type: 'inline',
-
-		fixedContentPos: true,
-		fixedBgPos: true,
-
-		overflowY: 'auto',
-
-		closeBtnInside: true,
-		preloader: false,
-		
-		midClick: true,
-		removalDelay: 300,
-		mainClass: 'my-mfp-slide-bottom',
-        modal: true,
-        callbacks: {
-
-            open: function() {
-                
-                $('#cert_manager_search').focus();
-                document.getElementById('cert_manager_search').click();
-
-                $('#cert_manager_search').keypress(function(event){
-                    var keycode = (event.keyCode ? event.keyCode : event.which);
-                    if(keycode == '13'){
-                        search_cert();
-                    }
-                });
-                
-            }
+    $('#cert_manager_search').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            search_cert();
         }
-        
     });
 
 }

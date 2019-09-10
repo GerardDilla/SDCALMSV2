@@ -6,7 +6,7 @@
 		<script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/nanoscroller/nanoscroller.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script src="<?php echo base_url(); ?>assets/vendor/magnific-popup/magnific-popup.js"></script>
+		<!--<script src="<?php echo base_url(); ?>assets/vendor/magnific-popup/magnific-popup.js"></script>-->
 		<script src="<?php echo base_url(); ?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		
 		<!-- Specific Page Vendor -->
@@ -97,7 +97,7 @@
 
 		<!-- stats.js -->
 		
-		<script src="<?php echo base_url(); ?>assets/javascripts/ui-elements/examples.modals.js"></script>
+		<!--<script src="<?php echo base_url(); ?>assets/javascripts/ui-elements/examples.modals.js"></script>-->
 		<script src="<?php echo base_url(); ?>assets/javascripts/Faculty_Evaluation/Search_Student.js"></script>
 
 

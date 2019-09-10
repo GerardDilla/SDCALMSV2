@@ -252,7 +252,54 @@ class Portfolio extends MY_Controller {
 	//Certificate End
 
 	//Organization Start
+	public function Ajax_org_save(){
 
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('OrgName','Organization Name', 'required');
+		$this->form_validation->set_rules('OrgDescription','Organization Short Description', 'required');
+		//Validate if Title input is given
+		if($this->form_validation->run() == FALSE) {
+
+			$result['Status'] = 0;
+			$result['Message'] = validation_errors();
+
+		}else{
+
+			$array = array(
+				'Organization' => $this->input->get_post('OrgName'),
+				'Description' => $this->input->get_post('OrgDescription'),
+				'Student_Number' => $this->student_data['Student_Number'],
+				'Date' => $this->logdatetime,
+			);
+			$orgstatus = $this->PortfolioModel->insert_organization($array);
+			if($orgstatus){
+
+				$result['Status'] = 1;
+				$result['Message'] = 'Successfully added an Organization';
+
+			}else{
+
+				$result['Status'] = 0;
+				$result['Message'] = 'Error: Failed to add organization info';
+
+			}
+		}
+		echo json_encode($result);
+		
+	}
+	public function Ajax_org_update(){
+		
+	}
+	public function Ajax_org_getlist(){
+
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Limit' => $this->input->get_post('Limit'),
+			'Search' => $this->input->get_post('Search'),
+		);
+		echo json_encode($this->PortfolioModel->GetOrganizations($array));
+
+	}
 	//Organization End
 
 }	
