@@ -20,6 +20,8 @@
 		<!-- start: page -->
 
 		<div class="row">
+
+			<!-- Primary info--->
 			<div class="col-md-4 col-lg-3">
 
 				<section class="panel">
@@ -69,8 +71,8 @@
 								<li>
 									<div class="post-image">
 										<div class="img-thumbnail cert_thumbnail">
-											<a class="lightbox" href="<?php echo base_url(); ?>personaldata/Certificates/<?php echo $row['Certificate'].''.$row['Extension'] ?>" data-plugin-options='{ "type":"image" }'>
-												<img class="cert_img" src="<?php echo base_url(); ?>personaldata/Certificates/<?php echo $row['Certificate'].''.$row['Extension'] ?>" alt="">
+											<a class="lightbox" href="#">
+												<img class="cert_img preview-image" src="<?php echo base_url(); ?>personaldata/Certificates/<?php echo $row['Certificate'].''.$row['Extension'] ?>" alt="">
 											</a>
 										</div>
 									</div>
@@ -125,12 +127,11 @@
 						</div>
 					</div>
 				</section>
-
-			
-
 			</div>
-			<div class="col-md-8 col-lg-6">
+			<!-- //Primary info--->
 
+			<!-- Edit Panel / Activity panel --->
+			<div class="col-md-8 col-lg-6">
 				<div class="tabs">
 					<ul class="nav nav-tabs tabs-primary">
 						<li class="active">
@@ -142,205 +143,243 @@
 					</ul>
 					<div class="tab-content">
 						<div id="overview" class="tab-pane active">
-
 							<h4 class="mb-xlg">Activities</h4>
-
 							<div class="timeline timeline-simple mt-xlg mb-md">
 								<div class="tm-body" id="ActivityFeed">
 									<?php echo $this->data['ActivityFeedView']; ?>
 								</div>
 							</div>
-
-							
-
 						</div>
-						<div id="edit" class="tab-pane">
+						<div id="edit" class="tab-pane panel-group">
 
-								<h4 class="mb-xlg">About Yourself</h4>
-								<fieldset>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileBio">Personal Info</label>
-										<div class="col-md-8">
-											<textarea class="form-control" rows="3" id="profileBio"></textarea>
-										</div>
+								<div class="panel panel-accordion panel-accordion-primary">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse2Two" aria-expanded="true">
+												<i class="fa fa-cogs"></i> Personal Information
+											</a>
+										</h4>
 									</div>
-								</fieldset>
+									<div id="collapse2Two" class="accordion-body collapse in" aria-expanded="true" style="">
+										<div class="panel-body">
 
-								<hr class="dotted tall">
-								<h4 class="mb-xlg">Change Email</h4>
-								<fieldset>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileFirstName">Current Email</label>
-										<div class="col-md-8">
-											<input type="readonly" disabled class="form-control" value="<?php echo $this->student_data['Email']; ?>">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileFirstName">New Email</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileFirstName">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileLastName">Password</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileLastName">
-										</div>
-									</div>
-								</fieldset>
-
-								<hr class="dotted tall">
-								<h4 class="mb-xlg">
-								
-									Portfolio Info 
-									<span class="searchloader">
-										<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
-									</span>
-
-								</h4>
-
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-										</div>
-										<h5>Upload an Achievement</h5>
-									</header>
-									<div class="panel-body">
-
-										<div id="certificate_message">
-							
-										</div>
-										<?php 
-											$attributes = array(
-												'id' => 'cert_form',
-												'method' => 'post',
-											); 
-										?>
-										<?php echo form_open_multipart(base_url().'index.php/Portfolio/certificate_upload',$attributes); ?>
-										
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Certificate / Achievement Name</label>
-												<div class="col-md-8">
-													<input type="text"  class="form-control" id="CertName" name="CertName" placeholder="Ex: Best in Thesis Certificate">
+											<h4 class="mb-xlg">About Yourself</h4>
+											<fieldset>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileBio">Personal Info</label>
+													<div class="col-md-8">
+														<textarea class="form-control" rows="3" id="profileBio"></textarea>
+													</div>
+												</div>
+											</fieldset>
+											<div class="panel-footer">
+												<div class="row">
+													<div class="col-md-9 col-md-offset-3">
+														<button type="submit" class="btn btn-default pull-right">Submit</button>
+													</div>
 												</div>
 											</div>
 
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="profileFirstName">Certificate Image (JPG/PNG)</label>
-												<div class="col-md-8">
-													<input class="btn btn-info form-control"  type="file" id="CertFile" name="CertFile" size="20" onchange="display_image(this)" />
+											<hr class="dotted tall">
+											<h4 class="mb-xlg">Change Email</h4>
+											<fieldset>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileFirstName">Current Email</label>
+													<div class="col-md-8">
+														<input type="readonly" disabled class="form-control" value="<?php echo $this->student_data['Email']; ?>">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileFirstName">New Email</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" id="profileFirstName">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileLastName">Password</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" id="profileLastName">
+													</div>
+												</div>
+											</fieldset>
+											<div class="panel-footer">
+												<div class="row">
+													<div class="col-md-9 col-md-offset-3">
+														<button type="submit" class="btn btn-primary pull-right">Confirm</button>
+													</div>
 												</div>
 											</div>
-											<hr>
-											<div style="text-align:center">
-												<a class="img-thumbnail lightbox" id="cert_lightbox" href="<?php echo base_url(); ?>assets/images/cert_icon.png" data-plugin-options='{ "type":"image" }'>
-													<img class="img-responsive" id="cert_thumbnail" width="200" src="<?php echo base_url(); ?>assets/images/cert_icon.png">
-													<span class="zoom">
-														<i class="fa fa-search"></i>
-													</span>
-												</a>
-											</div>
-											<br/>
-			
-											<button class="btn btn-default" href="#" onclick="cert_viewall()">Manage Certificates</button>
-											<input class="btn btn-success pull-right" type="submit" value="Submit" />
 
-										</form>
-									</div>
-								</section>
-
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-										</div>
-										<h5>Organizations</h5>
-									</header>
-									<div class="panel-body">
-
-										<div id="organization_message"></div>
-										<?php 
-											$attributes = array(
-												'id' => 'org_form',
-												'method' => 'post',
-											); 
-										?>
-										<?php echo form_open(base_url().'index.php/Portfolio/Ajax_org_save',$attributes); ?>
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
-											<div class="col-md-8">
-												<input type="text" id="OrgName" name="OrgName" class="form-control" placeholder="Ex: Student Council">
+											<hr class="dotted tall">
+											<h4 class="mb-xlg">Change Password</h4>
+											<fieldset class="mb-xl">
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileNewPassword">New Password</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" id="profileNewPassword">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileNewPasswordRepeat">Repeat New Password</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" id="profileNewPasswordRepeat">
+													</div>
+												</div>
+											</fieldset>
+											<div class="panel-footer">
+												<div class="row">
+													<div class="col-md-9 col-md-offset-3">
+														<button type="submit" class="btn btn-primary pull-right">Confirm</button>
+													</div>
+												</div>
 											</div>
-										</div>
-										
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
-											<div class="col-md-8">
-												<input type="text" id="OrgDescription" name="OrgDescription" class="form-control" placeholder="">
-											</div>
-										</div>
-										<br />
-										<button class="btn btn-default" href="#" onclick="org_viewall()">Manage Organizations</button>
-										<input class="btn btn-success pull-right" type="submit" value="Submit" />
-										</form>
-									</div>
-								</section>
 
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-										</div>
-										<h5>Volunteer Experience</h5>
-									</header>
-									<div class="panel-body">
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
-											<div class="col-md-8">
-												<input type="text"  class="form-control" placeholder="Ex: Student Council">
-											</div>
-										</div>
-										
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
-											<div class="col-md-8">
-												<input type="text"  class="form-control" placeholder="">
-											</div>
-										</div>
-										<br />
-										<input class="btn btn-success pull-right" type="submit" value="Submit" />
-									</div>
-								</section>
-								
-								<hr class="dotted tall">
-
-								<h4 class="mb-xlg">Change Password</h4>
-								<fieldset class="mb-xl">
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileNewPassword">New Password</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileNewPassword">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="profileNewPasswordRepeat">Repeat New Password</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="profileNewPasswordRepeat">
-										</div>
-									</div>
-								</fieldset>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-9 col-md-offset-3">
-											<button type="submit" class="btn btn-primary">Submit</button>
-											<button type="reset" class="btn btn-default">Reset</button>
+											<br>
 										</div>
 									</div>
 								</div>
 
+								<hr class="dotted tall">
 
+								<div class="panel panel-accordion panel-accordion-primary">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#portfolio_collapse" aria-expanded="true">
+												<i class="fa fa-cogs"></i> Portfolio Management
+												<span class="searchloader">
+													<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
+												</span>
+											</a>
+										</h4>
+									</div>
+									<div id="portfolio_collapse" class="accordion-body collapse in" aria-expanded="true" style="">
+										<div class="panel-body">
+
+											<!-- Acheivement Panel -->
+											<section class="panel">
+												<h4>Upload an Achievement</h4>
+												<div class="panel-body">
+													<div id="certificate_message"></div>
+													<?php 
+														$attributes = array(
+															'id' => 'cert_form',
+															'method' => 'post',
+														); 
+													?>
+													<?php echo form_open_multipart(base_url().'index.php/Portfolio/certificate_upload',$attributes); ?>
+													
+														<div class="form-group">
+															<label class="col-md-3 control-label" for="profileFirstName">Certificate / Achievement Name</label>
+															<div class="col-md-8">
+																<input type="text"  class="form-control" id="CertName" name="CertName" placeholder="Ex: Best in Thesis Certificate">
+															</div>
+														</div>
+
+														<div class="form-group">
+															<label class="col-md-3 control-label" for="profileFirstName">Certificate Image (JPG/PNG)</label>
+															<div class="col-md-8">
+																<input class="btn btn-info form-control"  type="file" id="CertFile" name="CertFile" size="20" onchange="display_image(this)" />
+															</div>
+														</div>
+														<hr>
+														<div style="text-align:center">
+															<a class="img-thumbnail" id="cert_lightbox">
+																<img class="img-responsive preview-image" id="cert_thumbnail" width="200" src="<?php echo base_url(); ?>assets/images/cert_icon.png">
+																<span class="zoom">
+																	<i class="fa fa-search"></i>
+																</span>
+															</a>
+														</div>
+														<br/>
+						
+														<button class="btn btn-default" href="#" onclick="cert_viewall()">Manage Certificates</button>
+														<input class="btn btn-success pull-right" type="submit" value="Submit" />
+
+													</form>
+												</div>
+											</section>
+											<!-- //Acheivement Panel -->
+
+											<!-- Organization Panel -->
+											<section class="panel">
+												<h4>Organizations</h4>
+												<div class="panel-body">
+
+													<div id="organization_message"></div>
+													<?php 
+														$attributes = array(
+															'id' => 'org_form',
+															'method' => 'post',
+														); 
+													?>
+													<?php echo form_open(base_url().'index.php/Portfolio/Ajax_org_save',$attributes); ?>
+														<div class="form-group">
+															<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
+															<div class="col-md-8">
+																<input type="text" id="OrgName" name="OrgName" class="form-control" placeholder="Ex: Student Council">
+															</div>
+														</div>
+														
+														<div class="form-group">
+															<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
+															<div class="col-md-8">
+																<input type="text" id="OrgDescription" name="OrgDescription" class="form-control" placeholder="">
+															</div>
+														</div>
+														<br />
+														<button type="button" class="btn btn-default" href="#" id="OrgManagerShow">Manage Organizations</button>
+														<input class="btn btn-success pull-right" type="submit" value="Submit" />
+													</form>
+												</div>
+											</section>
+											<!-- //Organization Panel -->
+
+											<!-- Experience Panel -->
+											<section class="panel">
+												<h4>Volunteer Experience</h4>
+												<div class="panel-body">
+
+													<div id="Experience_message"></div>
+													<?php 
+														$attributes = array(
+															'id' => 'exp_form',
+															'method' => 'post',
+														); 
+													?>
+													<?php echo form_open(base_url().'index.php/Portfolio/Ajax_exp_save',$attributes); ?>
+														<div class="form-group">
+															<label class="col-md-3 control-label" for="profileFirstName">Volunteer Experience</label>
+															<div class="col-md-8">
+																<input type="text" name="ExpName" id="ExpName" class="form-control" placeholder="Ex: Mangrove Planting">
+															</div>
+														</div>
+														
+														<div class="form-group">
+															<label class="col-md-3 control-label" for="profileFirstName">Short Description</label>
+															<div class="col-md-8">
+																<input type="text" name="ExpDesc" id="ExpDesc" class="form-control" placeholder="">
+															</div>
+														</div>
+														<br />
+														<button type="button" class="btn btn-default" href="#" id="ExpManagerShow">Manage Experiences</button>
+														<input class="btn btn-success pull-right" type="submit" value="Submit" />
+													</form>
+												</div>
+											</section>
+											<!-- //Experience Panel -->
+
+										</div>
+									</div>
+								</div>
+
+								
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- //Edit Panel / Activity panel --->
+
+			<!-- Additional info-->
 			<div class="col-md-12 col-lg-3">
 
 				<h4 class="mb-md">Enrolled Courses</h4>
@@ -399,7 +438,7 @@
 					</header>
 					<div class="panel-body">
 						<div class="content">
-							<ul class="simple-user-list">
+							<ul class="simple-user-list" id="ExpSummary">
 								<?php if($this->data['ExperienceList']): ?>
 								<?php foreach($this->data['ExperienceList'] as $exp): ?>
 									<li>
@@ -416,12 +455,11 @@
 				</section>
 				
 			</div>
+			<!-- //Additional info-->
 
 		</div>
 		<!-- end: page -->
 	</section>
-
-
 
 	<!-- Certificate Modal -->
 	<div id="Certmanage" class="modal fade" role="dialog">
@@ -465,53 +503,228 @@
 		</div>
 	</div>
 	<!-- /Certificate Modal -->
+
+	<!-- Organization Modal -->
+	<div id="Orgmanage" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="width:1000px">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Manage Organizations
+						<span class="searchloader">
+							<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body row">
+					
+					<div class="form-group">
+						<div class="col-md-7">
+							<input type="text"  class="form-control" id="org_manager_search" autofocus placeholder="Search with Title..">
+						</div>
+						<button style="height:34px" class="col-md-1 btn btn-sm btn-default" id="Orgsearch"><i class="fa fa-search"></i></button>
+					</div>
+					<div class="col-md-8" style="border-right: solid #cc0000 thick">
+						<div class="message_box"></div>
+						<br>
+						<div class="table-responsive col-md-12">
+							<table class="table mb-none">
+							    <thead>
+									<tr>
+										<th>Date</th>
+										<th>Organization</th>
+										<th>Short Description</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="org_manager">
+								</tbody>
+							</table>
+						</div>
+					</div>										
+					<form class="col-md-4 pull-left" action="<?php echo base_url(); ?>index.php/Portfolio/Ajax_org_update" method="post" id="Org_Editpanel">
+					
+						<h3>Edit Organization</h3>
+						<br>
+						<input type="hidden" name="OrgId" id="OrgId" value="">
+						<input type="text" class="form-control" id="OrganizationNameEdit" name="OrganizationNameEdit" placeholder="Organization Name">
+						<br>
+						<input type="text" class="form-control" id="OrganizationDescEdit" name="OrganizationDescEdit" placeholder="Organization Short Description">
+						<hr>
+						<button type="button" class="org-remove-button btn btn-danger" value="">Remove</button>
+						<button type="submit" class="btn btn-primary pull-right">Update</button>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- /Certificate Modal -->
+
+	<!-- Experience Modal -->
+	<div id="Expmanage" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="width:1000px">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Manage Experiences
+						<span class="searchloader">
+							<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body row">
+					
+					<div class="form-group">
+						<div class="col-md-7">
+							<input type="text"  class="form-control" id="exp_manager_search" autofocus placeholder="Search with Title..">
+						</div>
+						<button style="height:34px" class="col-md-1 btn btn-sm btn-default" id="Expsearch"><i class="fa fa-search"></i></button>
+					</div>
+					<div class="col-md-8" style="border-right: solid #cc0000 thick">
+						<div class="message_box"></div>
+						<br>
+						<div class="table-responsive col-md-12">
+							<table class="table mb-none">
+							    <thead>
+									<tr>
+										<th>Date</th>
+										<th>Exprience</th>
+										<th>Short Description</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="exp_manager">
+								</tbody>
+							</table>
+						</div>
+					</div>										
+					<form class="col-md-4 pull-left" action="<?php echo base_url(); ?>index.php/Portfolio/Ajax_exp_update" method="post" id="Exp_Editpanel">
+					
+						<h3>Edit Experience</h3>
+						<br>
+						<input type="hidden" name="ExpId" id="ExpId" value="">
+						<input type="text" class="form-control" id="ExpNameEdit" name="ExpNameEdit" placeholder="Experience Name">
+						<br>
+						<input type="text" class="form-control" id="ExpDescEdit" name="ExpDescEdit" placeholder="Short Description">
+						<hr>
+						<button type="button" class="exp-remove-button btn btn-danger" value="">Remove</button>
+						<button type="submit" class="btn btn-primary pull-right">Update</button>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Experience Modal -->
+
+	<!-- Photopreview Modal -->
+	<div id="PhotoPreview" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="width:1000px">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body row" style="padding:0px">
+					<img id="Photopanel" src="" height="auto" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Photopreview Modal -->
 	
 
 <!-- JS for portfolio page -->
 <script>
-function PortfolioUrl(){
-    //Gets base url
-    return $('.content-body').attr('data-base_url');
-}
-function RefreshActivity(){
+	function PortfolioUrl(){
+		//Gets base url
+		return $('.content-body').attr('data-base_url');
+	}
+	function RefreshActivity(){
 
-	$('#ActivityFeed').fadeOut('fast');
-	$.ajax({
-		url: PortfolioUrl()+'index.php/Portfolio/Ajax_ActivityFeed_Output',
-		success: function(output){
-			$('#ActivityFeed').html(output).fadeIn('fast');;
-		}
-	});
-
-}
-function RemoveActivity(ID){
-	if(confirm('Are you sure you want to remove this activity?')) {
-
+		$('#ActivityFeed').fadeOut('fast');
 		$.ajax({
-			url: PortfolioUrl()+'index.php/Portfolio/Ajax_Remove_ActivityLog',
-			type:'POST',
-			data:{'ActivityID':ID},
+			url: PortfolioUrl()+'index.php/Portfolio/Ajax_ActivityFeed_Output',
 			success: function(output){
-				if(output == 1){
-
-					RefreshActivity();
-					
-				}else{
-					
-					alert('An Error occured while trying to remove activity');
-
-				}
+				$('#ActivityFeed').html(output).fadeIn('fast');;
 			}
 		});
-
-	}else{
-
-		return;
+		
 
 	}
+	function RemoveActivity(ID){
+		if(confirm('Are you sure you want to remove this activity?')) {
 
-}
+			$.ajax({
+				url: PortfolioUrl()+'index.php/Portfolio/Ajax_Remove_ActivityLog',
+				type:'POST',
+				data:{'ActivityID':ID},
+				success: function(output){
+					if(output == 1){
+
+						RefreshActivity();
+						
+					}else{
+						
+						alert('An Error occured while trying to remove activity');
+
+					}
+				}
+			});
+
+		}else{
+
+			return;
+
+		}
+
+	}
+	$(document).ready(function(){
+
+		//Dynamic images
+		$('#AchievementSummary').on('click', '.preview-image', function() {
+			image = $(this).attr('src');
+			$('#PhotoPreview').modal('show');
+			$('#Photopanel').attr('src',image);
+		});
+
+		//Non dynamic images
+		$('.preview-image').click(function() {
+
+			image = $(this).attr('src');
+			$('#PhotoPreview').modal('show');
+			$('#Photopanel').attr('src',image);
+
+		});
+
+		//Cert uploader
+		$('#cert_lightbox').on('click', '.preview-image', function() {
+
+			image = $(this).attr('src');
+			$('#PhotoPreview').modal('show');
+			$('#Photopanel').attr('src',image);
+
+		});
+		
+
+	});
 </script>
+
+
 <script src="<?php echo base_url(); ?>assets/javascripts/cert_portfolio.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/javascripts/org_portfolio.js"></script>
+
+<script src="<?php echo base_url(); ?>assets/javascripts/exp_portfolio.js"></script>

@@ -93,17 +93,7 @@ class Portfolio extends MY_Controller {
 		$this->template($this->set_views->portfolioview());
 		
 	}
-	//Certificate Start
-	public function Ajax_GetCertNumber(){
-
-		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
-			'Limit' => $this->input->get_post('Limit'),
-			'Search' => $this->input->get_post('Search'),
-		);
-		echo json_encode($this->PortfolioModel->GetCertificates($array));
-
-	}
+	//Portfolio Activities
 	public function Ajax_ActivityFeed_Output(){
 
 		$array = array(
@@ -127,6 +117,17 @@ class Portfolio extends MY_Controller {
 			'Valid' => 0
 		);
 		echo $this->PortfolioModel->update_activitylog($data,$array);
+
+	}
+	//Certificate Start
+	public function Ajax_GetCertNumber(){
+
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Limit' => $this->input->get_post('Limit'),
+			'Search' => $this->input->get_post('Search'),
+		);
+		echo json_encode($this->PortfolioModel->GetCertificates($array));
 
 	}
 	public function certificate_upload(){
@@ -180,7 +181,8 @@ class Portfolio extends MY_Controller {
 					
 					$ActivityLog = array(
 						'Student_Number' => $this->student_data['Student_Number'],
-						'Activity' => $this->activity_logtype->certificate_update($array['Title']),
+						'Activity' => $array['Title'],
+						'Type' => 'certificate',
 						'Date' =>  $this->logdatetime
 					);
 					$this->Student_info->Record_Activity($ActivityLog);
@@ -277,6 +279,15 @@ class Portfolio extends MY_Controller {
 				$result['Status'] = 1;
 				$result['Message'] = 'Successfully added an Organization';
 
+				$ActivityLog = array(
+					'Student_Number' => $this->student_data['Student_Number'],
+					'Activity' => $array['Organization'],
+					'Type' => 'organization',
+					'Date' =>  $this->logdatetime
+				);
+				$this->Student_info->Record_Activity($ActivityLog);
+	
+
 			}else{
 
 				$result['Status'] = 0;
@@ -289,6 +300,78 @@ class Portfolio extends MY_Controller {
 	}
 	public function Ajax_org_update(){
 		
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('OrganizationNameEdit','Organization Name', 'required');
+		$this->form_validation->set_rules('OrganizationDescEdit','Organization Short Description', 'required');
+		//Validate if Title input is given
+		if($this->form_validation->run() == FALSE) {
+
+			$result['Status'] = 0;
+			$result['Message'] = validation_errors();
+
+		}else{
+
+			if(!$this->input->get_post('OrgId')){
+				
+				$result['Status'] = 0;
+				$result['Message'] = 'Select the data to be edited';
+				echo json_encode($result);
+				return;
+			}
+			$data = array(
+				'ID' => $this->input->get_post('OrgId'),
+				'Student_Number' => $this->student_data['Student_Number']
+			);
+			$array = array(
+				'Organization' => $this->input->get_post('OrganizationNameEdit'),
+				'Description' => $this->input->get_post('OrganizationDescEdit'),
+				'Valid' => $this->input->get_post('OrgRemove') == 1 ? 0 : 1
+			);
+			$orgstatus = $this->PortfolioModel->update_organization($data,$array);
+			if($orgstatus == true){
+
+				$result['Status'] = 1;
+				$result['Message'] = 'Successfully updated Organization info';
+
+			}else{
+
+				$result['Status'] = 0;
+				$result['Message'] = 'Error: Failed to update organization info';
+
+			}
+		}
+		echo json_encode($result);
+	}
+	public function Ajax_org_remove(){
+		
+		$data = array(
+			'ID' => $this->input->get_post('OrgId'),
+			'Student_Number' => $this->student_data['Student_Number']
+		);
+		$array = array(
+			'Valid' => 0
+		);
+		if(!$this->input->get_post('OrgId')){
+				
+			$result['Status'] = 0;
+			$result['Message'] = 'Select the data to be edited';
+			echo json_encode($result);
+			return;
+		}
+		$orgstatus = $this->PortfolioModel->update_organization($data,$array);
+		if($orgstatus == true){
+
+			$result['Status'] = 1;
+			$result['Message'] = 'Organization removed';
+
+		}else{
+
+			$result['Status'] = 0;
+			$result['Message'] = 'Error: Failed to update organization info';
+
+		}
+		echo json_encode($result);
+
 	}
 	public function Ajax_org_getlist(){
 
@@ -298,6 +381,159 @@ class Portfolio extends MY_Controller {
 			'Search' => $this->input->get_post('Search'),
 		);
 		echo json_encode($this->PortfolioModel->GetOrganizations($array));
+
+	}
+	public function Ajax_org_getinfo(){
+
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Limit' => $this->input->get_post('Limit'),
+			'Search' => $this->input->get_post('Search'),
+		);
+		echo json_encode($this->PortfolioModel->GetOrganizationData($array));
+
+	}
+	//Organization End
+
+	//Organization Start
+	public function Ajax_exp_save(){
+
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('ExpName','Experience Name', 'required');
+		$this->form_validation->set_rules('ExpDesc','Experience Short Description', 'required');
+		//Validate if Title input is given
+		if($this->form_validation->run() == FALSE) {
+
+			$result['Status'] = 0;
+			$result['Message'] = validation_errors();
+
+		}else{
+
+			$array = array(
+				'Experience' => $this->input->get_post('ExpName'),
+				'Description' => $this->input->get_post('ExpDesc'),
+				'Student_Number' => $this->student_data['Student_Number'],
+				'Date' => $this->logdatetime,
+			);
+			$expstatus = $this->PortfolioModel->insert_experiences($array);
+			if($expstatus){
+
+				$result['Status'] = 1;
+				$result['Message'] = 'Successfully added an Experience';
+
+				$ActivityLog = array(
+					'Student_Number' => $this->student_data['Student_Number'],
+					'Activity' => $array['Experience'],
+					'Type' => 'experience',
+					'Date' =>  $this->logdatetime
+				);
+				$this->Student_info->Record_Activity($ActivityLog);
+	
+
+			}else{
+
+				$result['Status'] = 0;
+				$result['Message'] = 'Error: Failed to add experience info';
+
+			}
+		}
+		echo json_encode($result);
+		
+	}
+	public function Ajax_exp_update(){
+		
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('ExpNameEdit','Experience Name', 'required');
+		$this->form_validation->set_rules('ExpDescEdit','Short Description', 'required');
+		//Validate if Title input is given
+		if($this->form_validation->run() == FALSE) {
+
+			$result['Status'] = 0;
+			$result['Message'] = validation_errors();
+
+		}else{
+
+			if(!$this->input->get_post('ExpId')){
+				
+				$result['Status'] = 0;
+				$result['Message'] = 'Select the data to be edited';
+				echo json_encode($result);
+				return;
+			}
+			$data = array(
+				'ID' => $this->input->get_post('ExpId'),
+				'Student_Number' => $this->student_data['Student_Number']
+			);
+			$array = array(
+				'Experience' => $this->input->get_post('ExpNameEdit'),
+				'Description' => $this->input->get_post('ExpDescEdit'),
+				'Valid' => $this->input->get_post('ExpRemove') == 1 ? 0 : 1
+			);
+			$orgstatus = $this->PortfolioModel->update_experiences($data,$array);
+			if($orgstatus == true){
+
+				$result['Status'] = 1;
+				$result['Message'] = 'Successfully updated Experience info';
+
+			}else{
+
+				$result['Status'] = 0;
+				$result['Message'] = 'Error: Failed to update Experience info';
+
+			}
+			
+		}
+		echo json_encode($result);
+	}
+	public function Ajax_exp_remove(){
+		
+		$data = array(
+			'ID' => $this->input->get_post('ExpId'),
+			'Student_Number' => $this->student_data['Student_Number']
+		);
+		$array = array(
+			'Valid' => 0
+		);
+		if(!$this->input->get_post('ExpId')){
+				
+			$result['Status'] = 0;
+			$result['Message'] = 'Select the data to be edited';
+			echo json_encode($result);
+			return;
+		}
+		$orgstatus = $this->PortfolioModel->update_experiences($data,$array);
+		if($orgstatus == true){
+
+			$result['Status'] = 1;
+			$result['Message'] = 'Experience removed';
+
+		}else{
+
+			$result['Status'] = 0;
+			$result['Message'] = 'Error: Failed to update Experience info';
+
+		}
+		echo json_encode($result);
+
+	}
+	public function Ajax_exp_getlist(){
+
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Limit' => $this->input->get_post('Limit'),
+			'Search' => $this->input->get_post('Search'),
+		);
+		echo json_encode($this->PortfolioModel->GetExperience($array));
+
+	}
+	public function Ajax_exp_getinfo(){
+
+		$array = array(
+			'Student_Number' => $this->student_data['Student_Number'],
+			'Limit' => $this->input->get_post('Limit'),
+			'Search' => $this->input->get_post('Search'),
+		);
+		echo json_encode($this->PortfolioModel->GetExperienceData($array));
 
 	}
 	//Organization End

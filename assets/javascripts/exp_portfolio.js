@@ -1,59 +1,58 @@
 $(document).ready(function(){
 
     data = [];
-    toggle_orgsettings(1);
+    toggle_expsettings(1);
 
-    //Saving new org trigger
-    $('#org_form').submit(function(e){
+    //Saving new exp trigger
+    $('#exp_form').submit(function(e){
 
        e.preventDefault(); 
        data['form'] = this;
-       INIT_organization_save(data);
+       INIT_experience_save(data);
 
     });
-
-    //updating org trigger
-    $('#Org_Editpanel').submit(function(e){
+    //updating exp trigger
+    $('#Exp_Editpanel').submit(function(e){
         e.preventDefault(); 
         data['form'] = this;
-        INIT_organization_update(data);
+        INIT_Experience_update(data);
      });
 
-    //Show org manager
-    $('#OrgManagerShow').click(function(e){
-        org_manager();
+    //Show exp manager
+    $('#ExpManagerShow').click(function(e){
+
+        exp_manager();
     });
 
-    //Select and display org to be updated
-    $('#org_manager').on('click', '.orgupdate', function() {
-        set_org_edit($(this).val());
+    //Select and display exp to be updated
+    $('#exp_manager').on('click', '.expupdate', function() {
+        set_exp_edit($(this).val());
     });
 
     //Search start
     $('#Orgsearch').click(function() {
-        org_manager();
+        exp_manager();
     });
 
     //Remove Org
-    $('.org-remove-button').click(function() {
+    $('.exp-remove-button').click(function() {
 
-        if(confirm('Are you sure you want to remove Organization?')) {
-            INIT_organization_remove($(this).val());
+        if(confirm('Are you sure you want to remove Experience?')) {
+            INIT_Experience_remove($(this).val());
         }else{
             return
         }
         
     });
 
-    $('#org_manager_search').keypress(function(event){
+    $('#exp_manager_search').keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            org_manager();
+            exp_manager();
         }
     });
-
 });
-function INIT_organization_save(data){
+function INIT_experience_save(data){
 
     $.ajax({
         url: $(data['form']).attr('action'),
@@ -68,17 +67,17 @@ function INIT_organization_save(data){
             response = JSON.parse(response);
             if(response['Status'] == 1){
 
-                $('#OrgName').val('');
-                $('#OrgDescription').val('');
+                $('#ExpName').val('');
+                $('#ExpDesc').val('');
 
                 inquiry = {
                     'Search':'',
                     'Limit':5
                 }
-                data = get_orglist(inquiry);
-                data.done(function(orgdata){
-                    orgdata = JSON.parse(orgdata);
-                    display_organizations(orgdata);
+                data = get_explist(inquiry);
+                data.done(function(expdata){
+                    expdata = JSON.parse(expdata);
+                    display_experiences(expdata);
                     RefreshActivity();
                 });
 
@@ -86,9 +85,9 @@ function INIT_organization_save(data){
                 config = {
                     'message':response['Message'],
                     'type':'success',
-                    'object':'#organization_message',
+                    'object':'#Experience_message',
                 }
-                org_message_handler(config);
+                exp_message_handler(config);
 
             }else{
 
@@ -96,9 +95,9 @@ function INIT_organization_save(data){
                 config = {
                     'message':response['Message'],
                     'type':'info',
-                    'object':'#organization_message',
+                    'object':'#Experience_message',
                 }
-                org_message_handler(config);
+                exp_message_handler(config);
 
             }
             console.log(response);
@@ -106,7 +105,7 @@ function INIT_organization_save(data){
         }
     });
 }
-function INIT_organization_update(data){
+function INIT_Experience_update(data){
 
     $.ajax({
         url: $(data['form']).attr('action'),
@@ -121,34 +120,34 @@ function INIT_organization_update(data){
             response = JSON.parse(response);
             if(response['Status'] == 1){
 
-                $('#OrgId').val('');
-                $('#OrganizationNameEdit').val('');
-                $('#OrganizationDescEdit').val('');
-                $('.org-remove-button').val('');
+                $('#ExpId').val('');
+                $('#ExpNameEdit').val('');
+                $('#ExpDescEdit').val('');
+                $('.exp-remove-button').val('');
 
-                toggle_orgsettings(1);
+                toggle_expsettings(1);
 
-                //Refreshes Org manager window
+                //Refreshes exp manager window
                 inquiry = {
                     'Search':'',
                     'Limit':0
                 }
-                data = get_orglist(inquiry);
-                data.done(function(orgdata){
-                    orgdata = JSON.parse(orgdata);
-                    display_organizations_manager(orgdata);
+                data = get_explist(inquiry);
+                data.done(function(expdata){
+                    expdata = JSON.parse(expdata);
+                    display_experiences_manager(expdata);
                 });   
 
 
-                //Refreshes Org summary
+                //Refreshes exp summary
                 inquiry = {
                     'Search':'',
                     'Limit':5
                 }
-                data = get_orglist(inquiry);
-                data.done(function(orgdata){
-                    orgdata = JSON.parse(orgdata);
-                    display_organizations(orgdata);
+                data = get_explist(inquiry);
+                data.done(function(expdata){
+                    expdata = JSON.parse(expdata);
+                    display_experiences(expdata);
                 });
 
 
@@ -157,7 +156,7 @@ function INIT_organization_update(data){
                     'message':response['Message'],
                     'type':'success'
                 }
-                org_message_handler(config);
+                exp_message_handler(config);
 
             }else{
 
@@ -166,7 +165,7 @@ function INIT_organization_update(data){
                     'message':response['Message'],
                     'type':'info'
                 }
-                org_message_handler(config);
+                exp_message_handler(config);
 
             }
             console.log(response);
@@ -174,55 +173,53 @@ function INIT_organization_update(data){
         }
     });
 }
-function INIT_organization_remove(id){
+function INIT_Experience_remove(id){
 
     $.ajax({
-        url: PortfolioUrl()+'index.php/Portfolio/Ajax_org_remove',
+        url: PortfolioUrl()+'index.php/Portfolio/Ajax_exp_remove',
         type: 'POST',
-        data:{'OrgId':id},
+        data:{'ExpId':id},
       
         success: function(response){
 
             response = JSON.parse(response);
             if(response['Status'] == 1){
 
-                $('#OrgId').val('');
-                $('#OrganizationNameEdit').val('');
-                $('#OrganizationDescEdit').val('');
-                $('.org-remove-button').val('');
+                $('#ExpId').val('');
+                $('#ExpNameEdit').val('');
+                $('#ExpDescEdit').val('');
+                $('.exp-remove-button').val('');
 
-                toggle_orgsettings(1);
+                toggle_expsettings(1);
 
-                //Refreshes Org manager window
+                //Refreshes exp manager window
                 inquiry = {
                     'Search':'',
                     'Limit':0
                 }
-                data = get_orglist(inquiry);
-                data.done(function(orgdata){
-                    orgdata = JSON.parse(orgdata);
-                    display_organizations_manager(orgdata);
+                data = get_explist(inquiry);
+                data.done(function(expdata){
+                    expdata = JSON.parse(expdata);
+                    display_experiences_manager(expdata);
                 });   
 
-
-                //Refreshes Org summary
+                //Refreshes exp summary
                 inquiry = {
                     'Search':'',
                     'Limit':5
                 }
-                data = get_orglist(inquiry);
-                data.done(function(orgdata){
-                    orgdata = JSON.parse(orgdata);
-                    display_organizations(orgdata);
+                data = get_explist(inquiry);
+                data.done(function(expdata){
+                    expdata = JSON.parse(expdata);
+                    display_experiences(expdata);
                 });
-
 
                 //Display Message
                 config = {
                     'message':response['Message'],
                     'type':'success'
                 }
-                org_message_handler(config);
+                exp_message_handler(config);
 
             }else{
 
@@ -231,7 +228,7 @@ function INIT_organization_remove(id){
                     'message':response['Message'],
                     'type':'info'
                 }
-                org_message_handler(config);
+                exp_message_handler(config);
 
             }
             console.log(response);
@@ -239,123 +236,123 @@ function INIT_organization_remove(id){
         }
     });
 }
-function org_manager(){
+function exp_manager(){
 
     inquiry = {
-        'Search':$('#org_manager_search').val() != null ? $('#org_manager_search').val() : '',
+        'Search':$('#exp_manager_search').val() != null ? $('#exp_manager_search').val() : '',
         'Limit':0
     }
-    data = get_orglist(inquiry);
-    data.done(function(orgdata){
+    data = get_explist(inquiry);
+    data.done(function(expdata){
             
-        orgdata = JSON.parse(orgdata);
-        display_organizations_manager(orgdata);
+        expdata = JSON.parse(expdata);
+        display_experiences_manager(expdata);
         
 
     });
-    if($('#Orgmanage').not(':visible')){
+    if($('#Expmanage').not(':visible')){
 
         
-        $('#Orgmanage').modal('show');
-        $('#org_manager_search').focus();
+        $('#Expmanage').modal('show');
+        $('#exp_manager_search').focus();
 
     }
     
 
 }
-function set_org_edit(value = ''){
+function set_exp_edit(value = ''){
 
-    toggle_orgsettings(0);
+    toggle_expsettings(0);
     inquiry = {
         'Search':value,
         'Limit':0
     }
-    data = get_orgdata(inquiry);
-    data.done(function(orgdata){
+    data = get_expdata(inquiry);
+    data.done(function(expdata){
             
-        orgdata = JSON.parse(orgdata);
-        $('#OrgId').val(orgdata[0]['ID']);
-        $('#OrganizationNameEdit').val(orgdata[0]['Organization']);
-        $('#OrganizationDescEdit').val(orgdata[0]['Description']);
-        $('.org-remove-button').val(orgdata[0]['ID']);
+        expdata = JSON.parse(expdata);
+        $('#ExpId').val(expdata[0]['ID']);
+        $('#ExpNameEdit').val(expdata[0]['Experience']);
+        $('#ExpDescEdit').val(expdata[0]['Description']);
+        $('.exp-remove-button').val(expdata[0]['ID']);
 
     });
 }
-function get_orglist(inquiry){
+function get_explist(inquiry){
 
     return $.ajax({
-        url: PortfolioUrl()+'index.php/Portfolio/Ajax_org_getlist',
+        url: PortfolioUrl()+'index.php/Portfolio/Ajax_exp_getlist',
         type: 'GET',
         data: inquiry
     });
 
 }
-function get_orgdata(inquiry){
+function get_expdata(inquiry){
 
     return $.ajax({
-        url: PortfolioUrl()+'index.php/Portfolio/Ajax_org_getinfo',
+        url: PortfolioUrl()+'index.php/Portfolio/Ajax_exp_getinfo',
         type: 'GET',
         data: inquiry
     });
 
 }
-function display_organizations(data){
+function display_experiences(data){
 
-    target = $('#OrgSummary');
-    target.fadeOut('slow');
+    target_exp = $('#ExpSummary');
+    target_exp.fadeOut('slow');
     $list = '';
     $.each(data, function(index, result){
         $list += 
         '\
             <li>\
-                <span class="title">'+result['Organization']+'</span>\
+                <span class="title">'+result['Experience']+'</span>\
                 <span class="message truncate">'+result['Description']+'</span>\
             </li>\
         ';
     });
     setTimeout(function() {
-        target.html($list).fadeIn('slow');
+        target_exp.html($list).fadeIn('slow');
     }, 500);
 }
-function display_organizations_manager(data){
+function display_experiences_manager(data){
 
-    target_m = $('#org_manager');
-    target_m.fadeOut('slow');
-    $orglist_manager = '';
+    target_m_exp = $('#exp_manager');
+    target_m_exp.fadeOut('slow');
+    $explist_manager = '';
     $.each(data, function(index, result_m){
-        $orglist_manager += 
+        $explist_manager += 
         '\
             <tr>\
                 <td>'+result_m['Date']+'</td>\
-                <td>'+result_m['Organization']+'</td>\
+                <td>'+result_m['Experience']+'</td>\
                 <td>'+result_m['Description']+'</td>\
-                <td><button type="button" class="orgupdate btn btn-sm btn-default" value="'+result_m['ID']+'">Update</button></td>\
+                <td><button type="button" class="expupdate btn btn-sm btn-default" value="'+result_m['ID']+'">Update</button></td>\
             </tr>\
         ';
     });
     setTimeout(function() {
-        target_m.html($orglist_manager).fadeIn('slow');
+        target_m_exp.html($explist_manager).fadeIn('slow');
     }, 500);
 
 }
-function toggle_orgsettings(option = ''){
+function toggle_expsettings(option = ''){
 
     bool = false;
     if(option == 1){
 
         bool = true;
-        $('#Org_Editpanel').css({'filter':'opacity(30%)'});
+        $('#Exp_Editpanel').css({'filter':'opacity(30%)'});
 
     }else{
 
         bool = false;
-        $('#Org_Editpanel').css({'filter':'opacity(100%)'});
+        $('#Exp_Editpanel').css({'filter':'opacity(100%)'});
 
     }
-    $("#Org_Editpanel :input").prop("disabled", bool);
-    $("#Org_Editpanel :button").prop("disabled", bool);
+    $("#Exp_Editpanel :input").prop("disabled", bool);
+    $("#Exp_Editpanel :button").prop("disabled", bool);
 }
-function org_message_handler(settings){
+function exp_message_handler(settings){
 
     console.log(settings);
     if(length.settings == 0 || settings == undefined){

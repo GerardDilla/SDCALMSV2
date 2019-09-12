@@ -3,7 +3,7 @@ function display_image(file){
     //Displays image in panel after selecting for upload
     imagelink = (window.URL ? URL : webkitURL).createObjectURL(file.files[0]);
     $('#cert_thumbnail')[0].src = imagelink;
-    $('#cert_lightbox').attr("href", imagelink);
+    //$('#cert_lightbox').attr("href", imagelink);
 } 
 $(document).ready(function(){
      data = [];
@@ -153,13 +153,13 @@ function display_certificates(data){
         <li>\
             <div class="post-image">\
                 <div class="img-thumbnail cert_thumbnail">\
-                    <a class="lightbox" target="_blank" href="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" data-plugin-options=\{ "type":"image" }\'>\
-                        <img class="cert_img" src="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" alt="">\
+                    <a href="#">\
+                        <img class="cert_img preview-image" src="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" alt="">\
                     </a>\
                 </div>\
             </div>\
             <div class="post-info">\
-                <a style="text-transform: uppercase; font-weight: bold; color:green" class="lightbox" href="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" data-plugin-options=\'{ "type":"image" }\'>'+result['Title']+'</a>\
+                <a style="text-transform: uppercase; font-weight: bold; color:green" class="lightbox" href="#">'+result['Title']+'</a>\
                 <div class="post-meta cert_link">\
                 '+result['Date']+'\
                 </div>\
@@ -185,8 +185,8 @@ function manager_certificates(data){
         <tr>\
             <td>\
                 <div class="thumb-info mb-md" style="text-align:center">\
-                        <a target="_blank" href="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'">\
-                            <img style="margin: auto; width:70%; height:auto" src="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" class="rounded img-responsive" alt="John Doe">\
+                        <a href="#">\
+                            <img style="margin: auto; width:70%; height:auto" src="'+PortfolioUrl()+'personaldata/Certificates/'+result['Certificate']+''+result['Extension']+'" class="rounded img-responsive preview-image" alt="John Doe">\
                         </a>\
                         <div class="thumb-info-title" style="background:rgba(112,128,144,0.9)">\
                         <span class="thumb-info-inner">'+result['Title']+'</span>\

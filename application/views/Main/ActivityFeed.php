@@ -49,10 +49,32 @@
 								echo $activity['ElapsedSecond'] > 1 ? ' Seconds ' : ' Second ';
 								echo 'ago';
 							}
+							else{
+								echo 'Just now';
+							}
 						?>
 					</p>
 					<p style="text-transform:uppercase;">
-						<?php echo $activity['Activity'] ?>
+						<?php if($activity['Type'] == 'certificate'): ?>
+
+							Uploaded an Achievement! <u><?php echo $activity['Activity'] ?></u>
+
+						<?php endIf; ?>
+						<?php if($activity['Type'] == 'organization'): ?>
+
+							Added an Organization! <u><?php echo $activity['Activity'] ?></u>
+
+						<?php endIf; ?>
+						<?php if($activity['Type'] == 'experience'): ?>
+
+							Added an Experience! <u><?php echo $activity['Activity'] ?></u>
+
+						<?php endIf; ?>
+						<?php if($activity['Type'] == 'assessment'): ?>
+
+							Took an Assessment! <u><?php echo $activity['Activity'] ?></u>
+
+						<?php endIf; ?>
 					</p>
 					<!--<button onclick="RemoveActivity(this.value)" value="<?php echo $activity['ID']; ?>" class="btn btn-default">Remove</button>-->
 				</div>
