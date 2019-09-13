@@ -18,7 +18,6 @@
 		</header>
 		<div id="particles-js"></div>
 		<!-- start: page -->
-
 		<div class="row">
 
 			<!-- Primary info--->

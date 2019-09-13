@@ -82,7 +82,6 @@ class ScheduleAPI extends CI_Controller {
 	}
 	private function sched_constructor($input_array){
 	
-		$subjects = $this->get_subjects($input_array);
 		
 		$sched_array = array();
 		$count = 0;

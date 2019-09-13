@@ -56,27 +56,24 @@
 
 		<div class="row">
 
-			<form action="<?php echo base_url(); ?>index.php/Assessment/PreAssessment" method="post">
-
-
-					<div class="col-md-6 col-lg-6 col-xl-3">
-						<section class="panel">
-							<header class="panel-heading bg-primary">
-								<div class="panel-heading-icon">
-									<i class="fa fa-globe" style="line-height:2"></i>
+				<?php if($this->data['Subjects']): ?>
+					<?php foreach($this->data['Subjects'] as $subject): ?>
+						<a href="<?php echo base_url(); ?>index.php/Course/index/<?php echo $subject['Sched_Code']; ?>" style="color:#000; text-decoration: none;" type="submit" class="col-md-6 col-lg-6 col-xl-3">
+							<section class="panel">
+								<header class="panel-heading bg-primary">
+									<div class="panel-heading-icon">
+										<i class="fa fa-book" style="line-height:2"></i>
+									</div>
+								</header>
+								<div class="panel-body text-center">
+									<h3 class="text-semibold mt-sm text-center"><?php echo $subject['Course_Title']; ?></h3>
+									<p class="text-center"><?php echo $subject['Instructor_Name']; ?></p>
 								</div>
-							</header>
-							<div class="panel-body text-center">
-								<h3 class="text-semibold mt-sm text-center">Simple Block Title</h3>
-								<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
-							</div>
-						</section>
-					</div>
-
-
-					<!--<h2>No Subjects found</h2>-->
-
-			</form>
+							</section>
+						</a>
+						<!--<h2>No Subjects found</h2>-->
+					<?php endForeach; ?>
+				<?php endIf; ?>
 			
 		</div>
 		<!-- end: page -->

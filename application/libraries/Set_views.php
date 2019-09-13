@@ -77,7 +77,9 @@ class set_views
 	{
 		return $this->main.'/ErrorPage';
 	}
-	
+	public function coursewall(){
+		return $this->main.'/CourseWall';
+	}
 	///Student Portal Dashboard
 
 		public function student_dashboard()
@@ -131,6 +133,7 @@ class set_views
 	}
 
 	///Parent Dashboard
+	
 
 
 
