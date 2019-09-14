@@ -158,6 +158,7 @@ class Portfolio extends MY_Controller {
 			);
 			$config['upload_path']= './personaldata/Certificates/';
 			$config['allowed_types']='jpg|png';
+			$config['max_size'] = 100000;
 			$config['file_name'] = $array['Certificate'];
 			
 			

@@ -15,25 +15,77 @@ class Course extends MY_Controller {
 		  $this->student_data = $this->set_custom_session->student_session();
 
 		  $this->load->model("Legends");
+		  $this->load->model("Courseware");
 		  $this->load->model("API/Grading");
 		  $this->load->model("API/Schedule");
 
 		  //Sets Timezone for
 		  date_default_timezone_set('Asia/Manila');
 
-		  //Defines log date
-		  $this->logdate = date("Y/m/d");
+		//Defines log date
+		$this->now = new DateTime();
+		$this->logdatetime =  $this->now->format('Y-m-d H:i:s');
+		$this->logdate = date("Y/m/d");
+		  
 
 	}
 	public function index($SchedCode = '')
 	{
 
 		if($SchedCode == ''){
+
 			$this->courselist();
+		
 		}else{
-			$this->coursefeed($SchedCode);
+			//echo $this->input->post('Post');
+			if($this->input->post('Post')){
+
+				$poststatus = $this->CoursePost($SchedCode);
+				if($poststatus['Status'] == 1){
+					redirect('Course/index/'.$SchedCode.'/test');
+				}
+				$this->coursefeed($SchedCode);
+
+			}else{
+
+				$this->coursefeed($SchedCode);
+
+			}
 		}
 
+
+	}
+	private function CoursePost($SchedCode){
+
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('Post','Organization Name', 'required|max_length[300]');
+		//Validate if Title input is given
+		if($this->form_validation->run() == FALSE) {
+
+			$result['Status'] = 0;
+			$result['Message'] = validation_errors();
+
+		}else{
+			$array = array(
+				'Student_Number' => $this->student_data['Student_Number'],
+				'SchedCode' => $SchedCode,
+				'Description' => $this->input->post('Post'),
+				'Date' => $this->logdatetime,
+			);
+			$post_status = $this->Courseware->insert_post($array);
+			if($post_status){
+	
+				$result['Status'] = 1;
+				$result['Message'] = 'Posting Successful!';
+
+			}else{
+
+				$result['Status'] = 0;	
+				$result['Message'] = 'An Error occured: Posting';
+
+			}
+		}
+		return $result;
 
 	}
 	private function courselist(){
@@ -46,6 +98,7 @@ class Course extends MY_Controller {
 	private function coursefeed($SchedCode){
 
 		$this->data['SchedData'] = $this->Schedule->Get_sched_info($SchedCode);
+		$this->data['CourseFeed'] = $this->contruct_course_feed($SchedCode);
 		$this->template($this->set_views->coursewall());
 
 	}
@@ -74,6 +127,42 @@ class Course extends MY_Controller {
 		return $output;
 
 	}
+	private function contruct_course_feed($SchedCode = '', $ajax = ''){
+
+		$output = array();
+		$months = array();
+		$postview = array();
+		$count = 0;
+		$monthcheck = '';
+		$array = array(
+			'SchedCode' => $SchedCode,
+			'CurrentDate' => $this->logdatetime
+		);
+		$posts = $this->Courseware->GetCoursePosts($array);
+		foreach($posts as $row){
+
+			if($row['Month'] != $monthcheck){
+
+				$months[$count] = $row['Month'];
+				$monthcheck = $row['Month'];
+			}
+			
+
+			$postview[$row['Month']][$count] = $this->load->view('PostTypes/Standard',$row,TRUE);
+			$count++;
+		}
+		$output = array(
+			'Months' => $months,
+			'Posts' => $postview,
+		);
+		if($ajax == 1){
+			echo json_encode($output);
+			return;
+		}
+		return $output;
+
+	}
+
 
 }
 	

@@ -8,7 +8,7 @@ class Schedule extends CI_Model{
 	public function Get_sched_info($SchedCode)
 	{	
 	
-		$this->db->select('C.Day, I.Instructor_Name,B.Sched_Code, C.id AS sched_display_id, T1.Schedule_Time AS stime, T2.Schedule_Time AS etime');      
+		$this->db->select('C.Day, I.Instructor_Name,B.Sched_Code, C.id AS sched_display_id, T1.Schedule_Time AS stime, T2.Schedule_Time AS etime,E.Course_Title,E.Course_Code');      
         $this->db->from('Sections AS A');
         $this->db->join('Sched AS B', 'A.Section_ID = B.Section_ID', 'inner');
         $this->db->join('Sched_Display AS C', 'B.Sched_Code = C.Sched_Code' ,'inner');
