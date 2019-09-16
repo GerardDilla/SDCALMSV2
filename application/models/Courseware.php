@@ -7,7 +7,7 @@ class Courseware extends CI_Model{
 	// STUDENT
 	public function GetCoursePosts($array)
 	{	
-		$this->db->select('post.Description,SI.First_Name,SI.Last_Name,SI.Student_Number');
+		$this->db->select('post.CoursePost_ID,post.Description,SI.First_Name,SI.Last_Name,SI.Student_Number');
 		$this->db->select('TIMESTAMPDIFF(MONTH, `Date`, \''.$array['CurrentDate'].'\') AS ElapsedMonth');
 		$this->db->select('TIMESTAMPDIFF(WEEK,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedWeek');
 		$this->db->select('TIMESTAMPDIFF(DAY,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedDay');
@@ -31,6 +31,24 @@ class Courseware extends CI_Model{
 		return $this->db->insert_id();
 
 	}
+	public function attach_assessment($array){
+	
+		$this->db->insert('lms_assessment_post_assign',$array);
+		return $this->db->insert_id();
+	}
+	public function get_assessment_attachments($array){
+
+		$this->db->select('PA.AssessmentCode, LA.AssessmentName, I.Instructor_Name');
+		$this->db->where('PA.PostID',$array['PostID']);
+		$this->db->where('PA.Valid',1);	
+		$this->db->where('LA.Active',1);	
+		$this->db->join('lms_assessment as LA','PA.AssessmentCode = LA.AssessmentCode','inner');
+		$this->db->join('Instructor as I','I.ID = LA.InstructorID','left');
+		$result = $this->db->get('lms_assessment_post_assign as PA');
+		return $result->result_array();
+
+	}
+	
 	
 
 

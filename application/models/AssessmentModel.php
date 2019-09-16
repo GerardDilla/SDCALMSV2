@@ -203,6 +203,18 @@ class AssessmentModel extends CI_Model{
         return $query->result_array();
 
     }
+    public function Get_Assessment_List($array = array()){
+
+        $this->db->select('*');
+        $this->db->where('A.Active', '1');
+        $this->db->join('Instructor as C','C.ID = A.InstructorID');
+        if(array_key_exists('Limit', $array)){
+            $this->db->limit($array['Limit']);
+        }
+		$query = $this->db->get('lms_assessment as A');
+        return $query->result_array();
+
+    }
 	
 
 

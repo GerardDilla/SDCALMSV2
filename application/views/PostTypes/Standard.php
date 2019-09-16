@@ -2,7 +2,13 @@
 
 
 <div class="tm-info">
-	<div class="tm-icon"><i class="fa fa-bullhorn"></i></div>
+	<div class="tm-icon">
+		<?php if($Attachments['Status'] == 1): ?>
+			<i class="fa fa-file-text-o"></i>
+		<?php else: ?>
+			<i class="fa fa-bullhorn"></i>
+		<?php endIf; ?>
+	</div>
 	<time class="tm-datetime" datetime="2013-11-19 18:13">
 		<div class="tm-datetime-date">
 			<?php 
@@ -47,9 +53,24 @@
 	</time>
 </div>
 <div class="tm-box appear-animation" data-appear-animation="fadeInRight"data-appear-animation-delay="100">
-	<p>
+	<h4>
 		<?php echo $Description; ?>
-	</p>
+	</h4>
+	<div class="row">
+	<?php if($Attachments['Status'] == 1): ?>
+		<?php foreach($Attachments['Assessment'] as $assessment): ?>
+			<div class="col-md-3" style="text-align:center;">
+				<hr>
+				<a href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $assessment['AssessmentCode']; ?>" style="text-decoration: none; color:#000">
+					<h2><i class="fa fa-file-text-o"></i></h2>
+					<span><h4><?php echo $assessment['AssessmentName']; ?></h4></span>
+					<p><?php echo $assessment['Instructor_Name']; ?></p>
+				</a>
+				<hr>
+			</div>
+		<?php endForeach; ?>
+	<?php endIf; ?>	
+	</div>
 	<div class="tm-meta">
 		<span>
 			<i class="fa fa-user"></i> By <a target="_blank" style="text-transform: capitalize" href="<?php echo base_url(); ?>index.php/Portfolio/Info/<?php echo $Student_Number; ?>"><?php echo ucfirst(strtolower($First_Name)); ?> <?php echo ucfirst(strtolower($Last_Name)); ?></a>

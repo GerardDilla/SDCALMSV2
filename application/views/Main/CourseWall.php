@@ -35,10 +35,15 @@
 							<section class="simple-compose-box mb-xlg">
 								<form method="post" action="">
 									<textarea name="Post" data-plugin-textarea-autosize="" placeholder="What's on your mind?" rows="5" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 100px;"></textarea>
+									<div class="compose-box-footer " style="padding:10px 25px 10px 25px">
+										<div class="row" id="Attachment_Queue">
+
+										</div>
+									</div>
 									<div class="compose-box-footer">
 										<ul class="compose-toolbar">
 											<li>
-												<a href="#"><i class="fa fa-file-text-o"></i></a>
+												<a href="#" id="AssessmentAttach"><i class="fa fa-file-text-o"></i></a>
 											</li>
 											<li>
 												<a disabled href="#"><i class="fa fa-camera"></i></a>
@@ -332,3 +337,61 @@
 		<!-- end: page -->
 	</section>
 
+
+	<!-- Assessment Attachment Modal -->
+	<div id="AssessmentAttachmentModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Attach an Assessment
+						<span class="searchloader">
+							<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body row">
+					<div class="form-group">
+						<div class="col-md-7">
+							<input type="text"  class="form-control" id="exp_manager_search" autofocus placeholder="Search with Title..">
+						</div>
+						<button style="height:34px" class="col-md-1 btn btn-sm btn-default" id="Expsearch"><i class="fa fa-search"></i></button>
+					</div>
+					<div class="col-md-12">
+						<div class="message_box"></div>
+						<br>
+						<div class="table-responsive col-md-12">
+							<table class="table mb-none">
+							    <thead>
+									<tr>
+										<th>Date</th>
+										<th>Assessment Name</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="assessment_attachment_picker">
+									<tr>
+										<th></th>
+										<th></th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>		
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Assessment Attachment Modal -->
+
+	<script>
+	function base_url(){
+		return '<?php echo base_url(); ?>';
+	}
+	</script>
+	<script src="<?php echo base_url(); ?>assets/javascripts/courseware.js"></script>
