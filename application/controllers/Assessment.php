@@ -288,8 +288,10 @@ class Assessment extends MY_Controller {
 			'DateFinished' => 0,
 			'RemainingTime' => 0,
 			'ScoreColor' => '0088CC',
-
+			'Outcome' => array(),
 		);
+		$outcomes = '';
+
 		//Gets Basic Info of Assessment
 		$this->data['Assessment_Data'] = $this->AssessmentModel->GetAssessmentInfo($data);
 
@@ -313,6 +315,7 @@ class Assessment extends MY_Controller {
 			redirect('Assessment/PreAssessment/'.$data['AssessmentCode']);
 
 		}
+
 		foreach($this->data['Assessment_Answers'] as $row){
 
 			//Gets Question Count 
@@ -321,6 +324,7 @@ class Assessment extends MY_Controller {
 			//Gets Total Points
 			$data['TotalPoints'] = $data['TotalPoints'] + $row['Points'];
 
+			//Gets total answered questions
 			if($row['Answer'] != null){
 
 				$data['AnswerCount']++;
@@ -335,11 +339,58 @@ class Assessment extends MY_Controller {
 
 			}
 
+			//Increments time finished
 			$data['DateFinished'] = date('M d Y', $row['Date']);
 			$data['RemainingTime'] = $row['Remaining'];
+
+
+			//Increments Outcome score
+			if(($row['OutcomeID'] !== 0 || $row['Outcome'] != null)){
+			
+				//Gets General Count of Assigned Outcomes
+				$outcome_status = $this->AssessmentModel->Validate_Outcome($row['OutcomeID']);
+				if($outcome_status){
+
+					if($outcomes != $row['OutcomeID']){
+
+						if(!array_key_exists($row['OutcomeID'], $data['Outcome'])){
+							$data['Outcome'][$row['OutcomeID']] = array(
+								'Name' => $row['Outcome'],
+								'Count' => 0,
+								'Correct' => 0,
+								'Percentage' => 0
+							);
+							$outcomes = $row['OutcomeID'];
+						}
+
+					}
+	
+					//Gets Count of questions per outcome
+					$data['Outcome'][$row['OutcomeID']]['Count']++;
+	
+					//Gets Correct answers per outcome
+					if($row['Correct'] == 1){
+	
+						$data['Outcome'][$row['OutcomeID']]['Correct']++;
+	
+					}
+					$data['Outcome'][$row['OutcomeID']]['Percentage'] = number_format((float)
+	
+						$data['Outcome'][$row['OutcomeID']]['Correct'] 
+						/ 
+						$data['Outcome'][$row['OutcomeID']]['Count'] * 100
+					
+					,0,'.','');
+
+				}
+
+
+			
+			}
 			
 		}
 
+		//Computes score percentage
 		$data['ScorePercentage'] = number_format((float)$data['CorrectCount'] / $data['QuestionCount'] * 100,2,'.','');
 
 		if($data['ScorePercentage'] < 50){
@@ -353,9 +404,11 @@ class Assessment extends MY_Controller {
 
 		}
 
+
+
 		$this->data['AssessmentStats'] = $data;
 
-
+		//print_r($data);
 		$this->template($this->set_views->assesssment_results());
 
 	}

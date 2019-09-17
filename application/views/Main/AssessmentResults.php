@@ -165,106 +165,32 @@
 							</div>
 
 							<div class="row">
-
-								<div class="col-md-4">
-									<section class="panel panel-featured-bottom panel-featured-primary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-primary">
-														<i class="fa fa-graduation-cap"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h2 class="title" style="color:green">Communication Skills</h2>
-														<div class="info" style="line-height: 5rem;">
-															<strong class="amount" style="font-size: 4rem;">100%</strong>
+								<?php foreach($this->data['AssessmentStats']['Outcome'] as $outcome => $outcomestats): ?>
+									<div class="col-md-4">
+										<section class="panel panel-featured-bottom panel-featured-primary">
+											<div class="panel-body">
+												<div class="widget-summary">
+													<div class="widget-summary-col widget-summary-col-icon">
+														<div class="summary-icon bg-primary">
+															<i class="fa fa-graduation-cap"></i>
 														</div>
 													</div>
-													<div class="summary-footer">
-														<a href="#" class="text-muted text-uppercase">(Description)</a>
+													<div class="widget-summary-col">
+														<div class="summary">
+															<h2 class="title" style="color:green"><?php echo $outcomestats['Name']; ?></h2>
+															<div class="info" style="line-height: 5rem;">
+																<strong class="amount" style="font-size: 4rem;"><?php echo $outcomestats['Percentage']; ?>%</strong>
+															</div>
+														</div>
+														<div class="summary-footer">
+															<a class="text-muted text-uppercase">Questions: <?php echo $outcomestats['Count']; ?> <br> Correct Answers: <?php echo $outcomestats['Correct']; ?></a>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</section>
-								</div>
-
-								<div class="col-md-4">
-									<section class="panel panel-featured-bottom panel-featured-primary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-primary">
-														<i class="fa fa-graduation-cap"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h2 class="title" style="color:green">Interpersonal Skills</h2>
-														<div class="info" style="line-height: 5rem;">
-															<strong class="amount" style="font-size: 4rem;">100%</strong>
-														</div>
-													</div>
-													<div class="summary-footer">
-														<a href="#" class="text-muted text-uppercase">(Description)</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-
-								<div class="col-md-4">
-									<section class="panel panel-featured-bottom panel-featured-primary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-primary">
-														<i class="fa fa-graduation-cap"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h2 class="title" style="color:green">Intrapersonal Skills</h2>
-														<div class="info" style="line-height: 5rem;">
-															<strong class="amount" style="font-size: 4rem;">100%</strong>
-														</div>
-													</div>
-													<div class="summary-footer">
-														<a href="#" class="text-muted text-uppercase">(Description)</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-
-								<div class="col-md-4">
-									<section class="panel panel-featured-bottom panel-featured-primary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-primary">
-														<i class="fa fa-graduation-cap"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h2 class="title" style="color:green">Problem Solving</h2>
-														<div class="info" style="line-height: 5rem;">
-															<strong class="amount" style="font-size: 4rem;">100%</strong>
-														</div>
-													</div>
-													<div class="summary-footer">
-														<a href="#" class="text-muted text-uppercase">(Description)</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
+										</section>
+									</div>
+								<?php endForeach; ?>
 
 							</div>
 

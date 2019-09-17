@@ -131,12 +131,15 @@ class AssessmentModel extends CI_Model{
             Ans.Correct,
             Q.Points,
             Q.`AssessmentCode`,
+            out.ID as OutcomeID,
+            out.Outcome,
             Ans.`Student_Number`,
             UNIX_TIMESTAMP(Resp.`End`) as Date,
         ');
         $this->db->select('TIMESTAMPDIFF(MINUTE, Resp.Start, Resp.End) AS Remaining');
         $this->db->join('lms_assessment_respondents as Resp','Q.AssessmentCode = Resp.AssessmentCode');
         $this->db->join('lms_assessment_answers as Ans','Resp.ID = Ans.RespondentID and Q.QuestionID = Ans.QuestionID');
+        $this->db->join('grading_outcomes as out','out.ID = Q.OutcomeID and out.Valid = 1','left');
         $this->db->where('Ans.Student_Number',$array['Student_Number']);
         $this->db->where('Q.AssessmentCode',$array['AssessmentCode']);
         $this->db->where('Ans.AssessmentCode',$array['AssessmentCode']);
@@ -215,6 +218,13 @@ class AssessmentModel extends CI_Model{
         return $query->result_array();
 
     }
+    public function Validate_Outcome($ID){
+
+        $this->db->where('ID', $ID);
+        $this->db->where('Valid', '1');
+        $query = $this->db->get('grading_outcomes');
+        return $query->result_array();
+    }   
 	
 
 
