@@ -65,6 +65,9 @@ class set_views
 	public function assesssment_results(){
 		return $this->main.'/AssessmentResults';
 	}
+	public function assesssment_builder(){
+		return $this->main.'/AssessmentBuild';
+	}
 	public function courselist()
 	{
 		return $this->main.'/CourseList';

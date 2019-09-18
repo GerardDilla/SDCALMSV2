@@ -62,6 +62,13 @@
                     </li>
 
                     <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/AssessmentBuilder">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <span>Create Assessment</span>
+                        </a>
+                    </li>
+
+                    <li class="nav">
                         <a href="<?php echo base_url(); ?>index.php/Assessment">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                             <span>Taken Assessments</span>
