@@ -27,7 +27,35 @@ class AssessmentBuilder extends MY_Controller {
 	{
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
 		$this->template($this->set_views->assesssment_builder());
-		
+	}
+	public function Ajax_GetQuestion(){
+		$QuestionType = $this->input->get_post('Type');
+
+		//echo json_encode($data);
+		if($QuestionType == 1){
+
+			echo $this->load->view('QuestionTypesBuilder/MultipleChoice','',true);
+
+		}
+		if($QuestionType == 2){
+
+			echo $this->load->view('QuestionTypesBuilder/TrueOrFalse','',true);
+
+		}
+		if($QuestionType == 3){
+
+			echo $this->load->view('QuestionTypesBuilder/Identification','',true);
+
+		}
+		if($QuestionType == 4){
+
+			echo $this->load->view('QuestionTypesBuilder/Essay','',true);
+
+		}else{
+
+			echo '';
+
+		}
 	}
 	
 }
