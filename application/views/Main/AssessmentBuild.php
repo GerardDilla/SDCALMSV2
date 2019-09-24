@@ -18,6 +18,68 @@
     <div id="particles-js"></div>
     <div class="row">
 
+		<div class="col-md-12">
+		<section class="panel shadowed-box">
+			<div class="panel-body">
+				<button id="addrow">Add Row</button>
+				<button id="addcol">Add Column</button>
+				<table class="table table-bordered mb-none">
+					<thead id="scale_panel">
+						<tr>
+							<th>#</th>
+							
+						</tr>
+					</thead>
+					<tbody id="criteria_panel">
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<script>
+		
+			$(document).ready(function(){
+
+				$('#addrow').click(function(){
+					add_criteria();
+				});
+
+				$('#addcol').click(function(){
+					add_scale();
+				});
+
+			})
+			function add_criteria(){
+
+				$('#criteria_panel').append($('<tr>').attr('class','rubric_criteria').append($('<td>').append($('<input>').attr('placeholder','Criteria')).append($('<button>').text('Delete'))));
+
+				construct_table();
+			}
+			function add_scale(){
+
+				scalecount = $('.rubric_scale').length;
+				$('#scale_panel tr').append($('<th>').attr({'class':'rubric_scale','data-criteria':scalecount}).text('test'+scalecount).append($('<button>').text('Delete')));
+				
+				construct_table();
+				//alert('added scale');
+
+			}
+			function construct_table(){
+				
+				$('.rubric_criteria').each(function(i, crit) {
+
+					console.log('Criteria Cells '+i+': '+$(crit).find('.rubric-cell'));
+					$('.rubric_scale').each(function(i2, scale) {
+						$(crit).append($('<td>').attr({'data-scale-id':i2,'class':'rubric-cell'}).text('text cell : '+i2));
+						//count++;
+					});
+				
+				});
+
+			}
+
+		</script>
+
+		</div>
 		<div class="col-md-8 row QuestionsPanel">
 			<section class="col-md-12 panel shadowed-box">
 				<header class="panel-heading">
