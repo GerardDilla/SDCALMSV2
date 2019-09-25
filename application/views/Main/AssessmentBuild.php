@@ -18,6 +18,7 @@
     <div id="particles-js"></div>
     <div class="row">
 
+		<!--
 		<div class="col-md-12">
 		<section class="panel shadowed-box">
 			<div class="panel-body">
@@ -47,39 +48,58 @@
 					add_scale();
 				});
 
+				$('#criteria_panel').on('click','.delete_criteria',function(){
+					delete_criteria(this);
+				});
+
+				$('#scale_panel').on('click','.rubric_scale',function(){
+					delete_scale(this);
+				});
+
 			})
 			function add_criteria(){
 
-				$('#criteria_panel').append($('<tr>').attr('class','rubric_criteria').append($('<td>').append($('<input>').attr('placeholder','Criteria')).append($('<button>').text('Delete'))));
+				$('#criteria_panel').append($('<tr>').attr('class','rubric_criteria').append($('<td>').append($('<input>').attr('placeholder','Criteria')).append($('<button>').attr('class','delete_criteria').text('Delete'))));
 
 				construct_table();
 			}
 			function add_scale(){
 
 				scalecount = $('.rubric_scale').length;
-				$('#scale_panel tr').append($('<th>').attr({'class':'rubric_scale','data-criteria':scalecount}).text('test'+scalecount).append($('<button>').text('Delete')));
+				$('#scale_panel tr').append($('<th>').attr({'class':'rubric_scale','data-scale':scalecount}).text('test'+scalecount).append($('<button>').text('Delete')));
 				
 				construct_table();
 				//alert('added scale');
 
 			}
+			function delete_criteria(obj){
+				
+				$(obj).parent().parent().remove();
+
+			}
+			function delete_scale(obj){
+				
+				//alert($(obj).attr('data-scale'));
+				$('#criteria_panel').find("td[data-scale-id='"+$(obj).attr('data-scale')+"']").remove();
+				$(obj).remove();
+		
+			}
 			function construct_table(){
 				
 				$('.rubric_criteria').each(function(i, crit) {
-
-					console.log('Criteria Cells '+i+': '+$(crit).find('.rubric-cell'));
 					$('.rubric_scale').each(function(i2, scale) {
-						$(crit).append($('<td>').attr({'data-scale-id':i2,'class':'rubric-cell'}).text('text cell : '+i2));
-						//count++;
+						if(!$(crit).children('.rubric-cell').eq(i2).attr('data-scale-id')){
+							$(crit).append($('<td>').attr({'data-scale-id':i2,'class':'rubric-cell'}).text('text cell : '+i2));
+						}
 					});
-				
 				});
 
 			}
 
 		</script>
-
 		</div>
+		-->
+
 		<div class="col-md-8 row QuestionsPanel">
 			<section class="col-md-12 panel shadowed-box">
 				<header class="panel-heading">
