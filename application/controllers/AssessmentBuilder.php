@@ -13,7 +13,7 @@ class AssessmentBuilder extends MY_Controller {
 		  //load file helper
 		  $this->load->helper('file');
 		  $this->student_data = $this->set_custom_session->student_session();
-
+		  $this->teacher_data = array();
 		  $this->load->model('AssessmentModel');
 
 		  //Sets Timezone for
@@ -27,6 +27,20 @@ class AssessmentBuilder extends MY_Controller {
 	{
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
 		$this->template($this->set_views->assesssment_builder());
+	}
+	public function Ajax_BuilderSession(){
+
+		$data = array(
+
+			'Student_Number' => $this->student_data['Student_Number'],
+			'AssessmentName' =>  '';
+			'AssessmentDescription' => '';
+			'RubricsID' => '';
+			'QuestionData' => array();
+
+		);
+		$this->session->userdata('AssessmentBuilder_Session',$data);
+		
 	}
 	public function Ajax_GetQuestion(){
 		$QuestionType = $this->input->get_post('Type');

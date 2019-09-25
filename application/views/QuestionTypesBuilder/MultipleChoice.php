@@ -6,44 +6,77 @@
 				<a href="#" class="fa fa-times"></a>
 			</div>
 
-			<h2 class="panel-title">Multi-Column Form</h2>
-
-			<p class="panel-subtitle">
-				This is an example of form with multiple block columns.
-			</p>
+			<h2 class="panel-title">Question #</h2>
+			<br>
+			<div class="form-group">
+				<input type="text" name="firstname" placeholder="Write your question here." class="form-control">
+			</div>
+			
 		</header>
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div class="form-group">
-						<label class="control-label">First Name</label>
-						<input type="text" name="firstname" class="form-control">
+						<label class="control-label">Choice A</label>
+						<div class="input-group mb-md">
+							<input type="text" class="form-control" placeholder="Write choice here">
+							<span class="input-group-addon btn-warning">
+								<div class="checkbox-custom checkbox-warning">
+									<input type="checkbox" name="Answer[]" id="checkboxExample1">
+									<label for="checkboxExample1">Correct Answer</label>
+								</div>
+							</span>
+						</div>
 					</div>
 				</div>
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div class="form-group">
-						<label class="control-label">Last Name</label>
-						<input type="text" name="lastname" class="form-control">
+						<label class="control-label">Choice B</label>
+						<div class="input-group mb-md">
+							<input type="text" class="form-control" placeholder="Write choice here">
+							<span class="input-group-addon btn-warning">
+								<div class="checkbox-custom checkbox-warning">
+									<input type="checkbox" name="Answer[]" id="checkboxExample2">
+									<label for="checkboxExample2">Correct Answer</label>
+								</div>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div class="form-group">
-						<label class="control-label">Email</label>
-						<input type="email" name="email" class="form-control">
+						<label class="control-label">Choice C</label>
+						<div class="input-group mb-md">
+							<input type="text" class="form-control" placeholder="Write choice here">
+							<span class="input-group-addon btn-warning">
+								<div class="checkbox-custom checkbox-warning">
+									<input type="checkbox" name="Answer[]" id="checkboxExample3">
+									<label for="checkboxExample3">Correct Answer</label>
+								</div>
+							</span>
+						</div>
 					</div>
 				</div>
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div class="form-group">
-						<label class="control-label">Website</label>
-						<input type="url" name="website" class="form-control">
+						<label class="control-label">Choice D</label>
+						<div class="input-group mb-md">
+							<input type="text" class="form-control" placeholder="Write choice here">
+							<span class="input-group-addon btn-warning">
+								<div class="checkbox-custom checkbox-warning">
+									<input type="checkbox" name="Answer[]" id="checkboxExample4">
+									<label for="checkboxExample4">Correct Answer</label>
+								</div>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<footer class="panel-footer">
-			<button class="btn btn-primary">Submit Card</button>
+			
 		</footer>
 	</section>
 </div>
