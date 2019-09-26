@@ -1,7 +1,7 @@
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2><i class="fa fa-table"></i> SCHEDULE</h2>
+        <h2><i class="fa fa-table"></i> CREATE ASSESSMENT</h2>
     
         <div class="right-wrapper pull-right" style="padding-right:20px">
             <ol class="breadcrumbs">
@@ -10,7 +10,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>View Schedule</span></li>
+                <li><span>Create Assessment</span></li>
             </ol>
             <a class="sidebar-right-toggle"></a>
         </div>
@@ -18,89 +18,8 @@
     <div id="particles-js"></div>
     <div class="row">
 
-		<!--
-		<div class="col-md-12">
-		<section class="panel shadowed-box">
-			<div class="panel-body">
-				<button id="addrow">Add Row</button>
-				<button id="addcol">Add Column</button>
-				<table class="table table-bordered mb-none">
-					<thead id="scale_panel">
-						<tr>
-							<th>#</th>
-							
-						</tr>
-					</thead>
-					<tbody id="criteria_panel">
-					</tbody>
-				</table>
-			</div>
-		</section>
-		<script>
-		
-			$(document).ready(function(){
 
-				$('#addrow').click(function(){
-					add_criteria();
-				});
-
-				$('#addcol').click(function(){
-					add_scale();
-				});
-
-				$('#criteria_panel').on('click','.delete_criteria',function(){
-					delete_criteria(this);
-				});
-
-				$('#scale_panel').on('click','.rubric_scale',function(){
-					delete_scale(this);
-				});
-
-			})
-			function add_criteria(){
-
-				$('#criteria_panel').append($('<tr>').attr('class','rubric_criteria').append($('<td>').append($('<input>').attr('placeholder','Criteria')).append($('<button>').attr('class','delete_criteria').text('Delete'))));
-
-				construct_table();
-			}
-			function add_scale(){
-
-				scalecount = $('.rubric_scale').length;
-				$('#scale_panel tr').append($('<th>').attr({'class':'rubric_scale','data-scale':scalecount}).text('test'+scalecount).append($('<button>').text('Delete')));
-				
-				construct_table();
-				//alert('added scale');
-
-			}
-			function delete_criteria(obj){
-				
-				$(obj).parent().parent().remove();
-
-			}
-			function delete_scale(obj){
-				
-				//alert($(obj).attr('data-scale'));
-				$('#criteria_panel').find("td[data-scale-id='"+$(obj).attr('data-scale')+"']").remove();
-				$(obj).remove();
-		
-			}
-			function construct_table(){
-				
-				$('.rubric_criteria').each(function(i, crit) {
-					$('.rubric_scale').each(function(i2, scale) {
-						if(!$(crit).children('.rubric-cell').eq(i2).attr('data-scale-id')){
-							$(crit).append($('<td>').attr({'data-scale-id':i2,'class':'rubric-cell'}).text('text cell : '+i2));
-						}
-					});
-				});
-
-			}
-
-		</script>
-		</div>
-		-->
-
-		<div class="col-md-8 row QuestionsPanel">
+		<form action="<?php echo base_url(); ?>index.php/AssessmentBuilder/SaveAssessment" method="post" id="AssessmentForm" class="col-md-8 row QuestionsPanel">
 			<section class="col-md-12 panel shadowed-box">
 				<header class="panel-heading">
 					<div class="panel-actions">
@@ -116,7 +35,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label">Assessment Name*</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control assessment_required_input" id="inputDefault">
+							<input type="text" name="AssessmentName" class="form-control assessment_required_input" id="inputDefault">
 						</div>
 					</div>
 					<div class="form-group">
@@ -128,8 +47,8 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label">Rubrics</label>
 						<div class="col-md-8">
-							<select data-plugin-selectTwo class="form-control populate"  id="Sched_sem">
-								<option selected value="">No Rubrics Selected</option>
+							<select name="Rubrics" data-plugin-selectTwo class="form-control populate"  id="Sched_sem">
+								<option selected value="0">No Rubrics Selected</option>
 								
 							</select>
 						</div>
@@ -139,8 +58,9 @@
 					</div>
 				</div>
 			</section> 
-        </div>
+        </form>
         <div class="col-md-4">
+
 			<section class="panel shadowed-box question_adder">
 				<header class="panel-heading">
 					<div class="panel-actions">
@@ -159,11 +79,11 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label">Question Type</label>
 						<div class="col-md-8">
-							<select data-plugin-selectTwo class="form-control populate" id="Sched_sy">
+							<select data-plugin-selectTwo class="form-control populate" id="QuestionType">
 
-								<option selected value="">Multiple Choice</option>
-								<option selected value="">True or False</option>
-								<option selected value="">Identification</option>
+								<option selected value="1">Multiple Choice</option>
+								<option selected value="2">True or False</option>
+								<option selected value="3">Identification</option>
 
 							</select>
 						</div>
@@ -196,6 +116,13 @@
 					</span>
 				</footer>
 			</section>
+
+			<section class="panel shadowed-box question_adder">
+				<div class="panel-body" style="text-align:center">
+					<button class="btn btn-success assessment-submit">Submit Assessment</button>
+				</div>
+			</section>
+
         </div>
 
     </div>

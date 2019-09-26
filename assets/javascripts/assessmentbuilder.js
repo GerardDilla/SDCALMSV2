@@ -1,13 +1,21 @@
 $(document).ready(function(){
     
-
     question_toggle(1);
     $('.assessment_required_input').keyup(function(){
         assessment_input_checker();
     });
 
     $('.add_question_button').click(function(){
-        display_question();
+        QuestionType = $('#QuestionType').val()
+        display_question(QuestionType);
+    });
+
+    $('.QuestionsPanel').on('click','.remove_question_button',function(){
+        remove_question(this);
+    });
+
+    $('.assessment-submit').click(function(){
+        $('#AssessmentForm').submit();
     });
     
 });
@@ -30,20 +38,51 @@ function assessment_input_checker(){
     }
 
 }
-function display_question(){
+function QuestionNumbering(){
+    
+    $('.question-panel').each(function(i,panel){
+        
+        $(panel).find('.question-number span').html(i+1);
 
-    questionformat = get_question_format();
+        if($(panel).data('question-type') == 'multiplechoice'){
+
+            $(panel).find('.question-choice').attr('name','choice['+i+'][]');
+
+            $(panel).find('.question-tick').each(function(i3,tick){
+                $(tick).find('input').attr({'name':'correct['+i+']','id':i+'_correct_'+i3,'value':i3+1});
+                $(tick).find('label').attr({'for':i+'_correct_'+i3});
+                console.log(tick);
+            });
+
+        }
+
+        console.log($(panel).data('question-type'));
+    });
+
+}
+function display_question(QuestionType = ''){
+
+    questionformat = get_question_format(QuestionType);
     questionformat.done(function(output){
         $('.QuestionsPanel').append(output).fadeIn('fast');
+        QuestionNumbering();
     });
+
 }
-function get_question_format(){
+function remove_question(obj){
+    //alert('deleted');
+
+    $(obj).closest('.question-panel').remove();
+    QuestionNumbering();
+
+}
+function get_question_format(QuestionType = ''){
 
         return $.ajax({
             url: base_url()+'index.php/AssessmentBuilder/Ajax_GetQuestion',
             type: 'post',
             data: {
-                'Type':1
+                'Type':QuestionType
             }
         });
 

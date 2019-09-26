@@ -33,43 +33,83 @@ class AssessmentBuilder extends MY_Controller {
 		$data = array(
 
 			'Student_Number' => $this->student_data['Student_Number'],
-			'AssessmentName' =>  '';
-			'AssessmentDescription' => '';
-			'RubricsID' => '';
-			'QuestionData' => array();
+			'AssessmentName' =>  '',
+			'AssessmentDescription' => '',
+			'RubricsID' => '',
+			'QuestionData' => array()
 
 		);
 		$this->session->userdata('AssessmentBuilder_Session',$data);
 		
 	}
 	public function Ajax_GetQuestion(){
-		$QuestionType = $this->input->get_post('Type');
+
+		$data['QuestionType'] = $this->input->get_post('Type');
+		$data['QuestionData'] = $this->input->get_post('Count');
 
 		//echo json_encode($data);
-		if($QuestionType == 1){
+		if($data['QuestionType'] == 1){
 
-			echo $this->load->view('QuestionTypesBuilder/MultipleChoice','',true);
-
-		}
-		if($QuestionType == 2){
-
-			echo $this->load->view('QuestionTypesBuilder/TrueOrFalse','',true);
+			echo $this->load->view('QuestionTypesBuilder/MultipleChoice',$data,true);
 
 		}
-		if($QuestionType == 3){
+		if($data['QuestionType'] == 2){
 
-			echo $this->load->view('QuestionTypesBuilder/Identification','',true);
+			echo $this->load->view('QuestionTypesBuilder/TrueOrFalse',$data,true);
 
 		}
-		if($QuestionType == 4){
+		if($data['QuestionType'] == 3){
 
-			echo $this->load->view('QuestionTypesBuilder/Essay','',true);
+			echo $this->load->view('QuestionTypesBuilder/Identification',$data,true);
+
+		}
+		if($data['QuestionType'] == 4){
+
+			echo $this->load->view('QuestionTypesBuilder/Essay',$data,true);
 
 		}else{
 
 			echo '';
 
 		}
+	}
+	public function SaveAssessment(){
+		
+		$AssessmentData = array(
+			'AssessmentName' => $this->input->post('AssessmentName'),
+			'AssessmentDescription' => $this->input->post('AssessmentDescription'),
+			'RubricsID' => $this->input->post('Rubrics'),
+		);
+		$QuestionData = array();
+
+		$choicearray = array('Choice_A','Choice_B','Choice_C','Choice_D');
+
+		$Questions = $this->input->post('Question') ? $this->input->post('Question') : array();
+		foreach($Questions as $key => $question){
+
+			$QuestionData[$key]['Question'] = $question;
+
+			if($this->input->post('choice['.$key.']')){
+				$answer = $this->input->post('correct['.$key.']');
+				$choices = $this->input->post('choice['.$key.']');
+				foreach($choices as $key2 => $choice){
+					$QuestionData[$key][$choicearray[$key2]] = $choice;
+					$answerkey = $key2 + 1;
+					if($answerkey == $answer){
+						$QuestionData[$key]['Answer'] = $choice;
+					}
+				}
+			}
+			else{
+				$QuestionData[$key]['Answer'] = $this->input->post('Answer['.$key.']');
+			}
+
+
+		}
+		print_r($AssessmentData);
+		echo '<br>';
+		print_r($QuestionData);
+
 	}
 	
 }
