@@ -41,7 +41,7 @@ function assessment_input_checker(){
 function QuestionNumbering(){
     
     $('.question-panel').each(function(i,panel){
-        
+        console.log(panel);
         $(panel).find('.question-number span').html(i+1);
 
         if($(panel).data('question-type') == 'multiplechoice'){
@@ -56,7 +56,7 @@ function QuestionNumbering(){
 
         }
 
-        console.log($(panel).data('question-type'));
+        //console.log($(panel).data('question-type'));
     });
 
 }

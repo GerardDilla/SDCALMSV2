@@ -1,4 +1,4 @@
-<div class="col-md-12" data-question-type="identification">
+<div class="col-md-12 question-panel" data-question-type="identification">
 	<section class="panel">
 		<header class="panel-heading">
 			<div class="panel-actions">
