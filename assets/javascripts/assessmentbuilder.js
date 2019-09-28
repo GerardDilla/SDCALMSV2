@@ -6,8 +6,10 @@ $(document).ready(function(){
     });
 
     $('.add_question_button').click(function(){
-        QuestionType = $('#QuestionType').val()
-        display_question(QuestionType);
+
+        QuestionData = {'Type': $('#QuestionType').val(), 'Points': $('#pointset').val()};
+        display_question(QuestionData);
+
     });
 
     $('.QuestionsPanel').on('click','.remove_question_button',function(){
@@ -49,7 +51,7 @@ function QuestionNumbering(){
             $(panel).find('.question-choice').attr('name','choice['+i+'][]');
 
             $(panel).find('.question-tick').each(function(i3,tick){
-                $(tick).find('input').attr({'name':'correct['+i+']','id':i+'_correct_'+i3,'value':i3+1});
+                $(tick).find('input').attr({'name':'Answer['+i+']','id':i+'_correct_'+i3,'value':i3+1,'required':'required'});
                 $(tick).find('label').attr({'for':i+'_correct_'+i3});
                 console.log(tick);
             });
@@ -60,9 +62,9 @@ function QuestionNumbering(){
     });
 
 }
-function display_question(QuestionType = ''){
+function display_question(QuestionData = {}){
 
-    questionformat = get_question_format(QuestionType);
+    questionformat = get_question_format(QuestionData);
     questionformat.done(function(output){
         $('.QuestionsPanel').append(output).fadeIn('fast');
         QuestionNumbering();
@@ -76,23 +78,23 @@ function remove_question(obj){
     QuestionNumbering();
 
 }
-function get_question_format(QuestionType = ''){
+function get_question_format(QuestionData = {}){
 
         return $.ajax({
             url: base_url()+'index.php/AssessmentBuilder/Ajax_GetQuestion',
             type: 'post',
-            data: {
-                'Type':QuestionType
-            }
+            data: QuestionData
         });
 
 }
 function question_toggle(command = 0){
+
     if(command == 1){
         $('.question_adder :input').attr('disabled',true);
     }else{
         $('.question_adder :input').attr('disabled',false);
     }
+    
 }
 function assessmenbuilder_message_handler(msg = ''){
     target = $('#question_manager_message');

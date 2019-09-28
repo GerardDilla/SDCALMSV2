@@ -91,7 +91,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label">Points</label>
 						<div class="col-md-3">
-							<input type="number" class="form-control" id="inputDefault" value="1">
+							<input type="number" class="form-control" id="pointset" value="1">
 						</div>
 					</div>
 					

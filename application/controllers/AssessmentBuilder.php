@@ -30,6 +30,7 @@ class AssessmentBuilder extends MY_Controller {
 	}
 	public function Ajax_BuilderSession(){
 
+		/*
 		$data = array(
 
 			'Student_Number' => $this->student_data['Student_Number'],
@@ -39,13 +40,16 @@ class AssessmentBuilder extends MY_Controller {
 			'QuestionData' => array()
 
 		);
+		*/
+		//$assessment = array();
+		//$questions = array();
 		$this->session->userdata('AssessmentBuilder_Session',$data);
 		
 	}
 	public function Ajax_GetQuestion(){
 
 		$data['QuestionType'] = $this->input->get_post('Type');
-		$data['QuestionData'] = $this->input->get_post('Count');
+		$data['QuestionPoints'] = $this->input->get_post('Points');
 
 		//echo json_encode($data);
 		if($data['QuestionType'] == 1){
@@ -75,40 +79,57 @@ class AssessmentBuilder extends MY_Controller {
 	}
 	public function SaveAssessment(){
 		
+		//Gets the general info of Assessment and store to array for inserting
 		$AssessmentData = array(
 			'AssessmentName' => $this->input->post('AssessmentName'),
 			'AssessmentDescription' => $this->input->post('AssessmentDescription'),
 			'RubricsID' => $this->input->post('Rubrics'),
 		);
+
+		//Constructs the array that will be used for inserting questions
 		$QuestionData = array();
-
 		$choicearray = array('Choice_A','Choice_B','Choice_C','Choice_D');
-
 		$Questions = $this->input->post('Question') ? $this->input->post('Question') : array();
 		foreach($Questions as $key => $question){
 
 			$QuestionData[$key]['Question'] = $question;
-
-			if($this->input->post('choice['.$key.']')){
-				$answer = $this->input->post('correct['.$key.']');
+			$QuestionData[$key]['QuestionType'] = $this->input->post('Type['.$key.']');
+			//echo $key;
+			if($this->input->post('choice['.$key.'][]')){
+				
+				$answer = $this->input->post('Answer['.$key.']');
 				$choices = $this->input->post('choice['.$key.']');
 				foreach($choices as $key2 => $choice){
 					$QuestionData[$key][$choicearray[$key2]] = $choice;
 					$answerkey = $key2 + 1;
 					if($answerkey == $answer){
 						$QuestionData[$key]['Answer'] = $choice;
+						//echo 'mult';
 					}
 				}
 			}
 			else{
+				echo $this->input->post('Answer[0]');
 				$QuestionData[$key]['Answer'] = $this->input->post('Answer['.$key.']');
 			}
+			$QuestionData[$key]['Points'] = $this->input->post('Points['.$key.']');
+		}
 
+		//Inserts Assessment data while checking inputs are complete
+		$InsertStatus = array(
+			'Status' => 1,
+			'Errors' => array()
+		);
+		foreach($QuestionData as $Data){
+
+			if($Data['Question'] == '' || $Data['Question'] == null){
+				$InsertStatus['Status'] = 0;
+			}
 
 		}
-		print_r($AssessmentData);
+		echo json_encode($AssessmentData);
 		echo '<br>';
-		print_r($QuestionData);
+		echo json_encode($QuestionData);
 
 	}
 	
