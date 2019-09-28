@@ -79,7 +79,7 @@ class AssessmentBuilder extends MY_Controller {
 	}
 	public function SaveAssessment(){
 		
-		//Gets the general info of Assessment and store to array for inserting
+		//Constructs the array for the general info of the assessment
 		$AssessmentData = array(
 			'AssessmentName' => $this->input->post('AssessmentName'),
 			'AssessmentDescription' => $this->input->post('AssessmentDescription'),
@@ -94,6 +94,9 @@ class AssessmentBuilder extends MY_Controller {
 
 			$QuestionData[$key]['Question'] = $question;
 			$QuestionData[$key]['QuestionType'] = $this->input->post('Type['.$key.']');
+			$QuestionData[$key]['Answer'] = ''; // Set as default for questions without answers
+			$QuestionData[$key]['criteria_id'] = 0;
+
 			//echo $key;
 			if($this->input->post('choice['.$key.'][]')){
 				
@@ -107,11 +110,15 @@ class AssessmentBuilder extends MY_Controller {
 						//echo 'mult';
 					}
 				}
+
 			}
 			else{
-				echo $this->input->post('Answer[0]');
+
 				$QuestionData[$key]['Answer'] = $this->input->post('Answer['.$key.']');
+
 			}
+
+			$QuestionData[$key]['criteria_id'] = $this->input->post('Criteria['.$key.']');
 			$QuestionData[$key]['Points'] = $this->input->post('Points['.$key.']');
 		}
 
@@ -120,12 +127,62 @@ class AssessmentBuilder extends MY_Controller {
 			'Status' => 1,
 			'Errors' => array()
 		);
-		foreach($QuestionData as $Data){
 
-			if($Data['Question'] == '' || $Data['Question'] == null){
-				$InsertStatus['Status'] = 0;
+		$config = array(
+			array(
+					'field' => 'AssessmentName',
+					'label' => 'Assessment Name',
+					'rules' => 'required'
+			),
+			array(
+					'field' => 'AssessmentDescription',
+					'label' => 'Assessment Description',
+					'rules' => 'required'
+			)
+		);
+		
+		$this->form_validation->set_rules($config);
+		
+		if($this->form_validation->run() == TRUE){
+
+			//Gets the general info of Assessment and store to array for inserting
+			$AssessmentData = array(
+				'AssessmentName' => $this->input->post('AssessmentName'),
+				'AssessmentDescription' => $this->input->post('AssessmentDescription'),
+				'RubricsID' => $this->input->post('Rubrics'),
+			);
+
+			foreach($QuestionData as $i => $Data){
+
+				$questionnumber = $i + 1;
+				if($Data['Question'] == '' || $Data['Question'] == null){
+					$InsertStatus['Status'] = 0;
+					$InsertStatus['Errors'][] = 'No question given for Question #'.$questionnumber;
+				}
+				if($Data['Answer'] == '' || $Data['Answer'] == null){
+					$InsertStatus['Status'] = 0;
+					$InsertStatus['Errors'][] = 'No answer given for Question #'.$questionnumber;
+				}
+				if($Data['Points'] == '' || $Data['Points'] == null){
+					$InsertStatus['Status'] = 0;
+					$InsertStatus['Errors'][] = 'No points given for Question #'.$questionnumber;
+				}
+				if($Data['QuestionType'] == '' || $Data['QuestionType'] == null){
+					$InsertStatus['Status'] = 0;
+					$InsertStatus['Errors'][] = 'Error for question #'.$questionnumber.': Did not get question type';
+				}
 			}
 
+		}else{
+			$InsertStatus['Status'] = 0;
+			$InsertStatus['Errors'][] = validation_errors();
+		}
+
+
+		if($InsertStatus['Status'] == 0){
+			foreach($InsertStatus['Errors'] as $errors){
+				echo '<hr>'.$errors;
+			}
 		}
 		echo json_encode($AssessmentData);
 		echo '<br>';

@@ -44,6 +44,48 @@
 						<textarea class="form-control assessment_required_input" rows="3" name="AssessmentDescription"></textarea>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label">Start Time*</label>
+						<div class="col-md-8">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" data-plugin-datepicker="" class="form-control">
+								
+								<span class="input-group-addon">
+									<i class="fa fa-clock-o"></i>
+								</span>
+								<input type="text" data-plugin-timepicker="" class="form-control">
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label">End Time*</label>
+						<div class="col-md-8">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" data-plugin-datepicker="" class="form-control">
+								
+								<span class="input-group-addon">
+									<i class="fa fa-clock-o"></i>
+								</span>
+								<input type="text" data-plugin-timepicker="" class="form-control">
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-3 control-label">Time Limit</label>
+						<div class="col-md-2">
+							<input type="number" name="" placeholder="0.00" class="form-control assessment_required_input" id="inputDefault">
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label class="col-md-3 control-label">Rubrics</label>
 						<div class="col-md-8">

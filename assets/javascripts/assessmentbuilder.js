@@ -1,6 +1,8 @@
 $(document).ready(function(){
     
     question_toggle(1);
+    assessment_input_checker();
+    
     $('.assessment_required_input').keyup(function(){
         assessment_input_checker();
     });

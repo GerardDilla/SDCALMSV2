@@ -72,10 +72,6 @@ class set_views
 	{
 		return $this->main.'/CourseList';
 	}
-	public function rubrics()
-	{
-		return $this->main.'/ScheduleSheet';
-	}
 	public function error()
 	{
 		return $this->main.'/ErrorPage';
