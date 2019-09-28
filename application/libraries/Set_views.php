@@ -94,9 +94,25 @@ class set_views
 	///Parent Dashboard
 
 
+	 ///Rubrics ///////////////
+
+	 public function rubrics()
+	{
+		return $this->main.'/Rubrics';
+	}
+
+	public function rubrics_table()
+	{
+		return $this->main.'/RubricsTable';
+	}
+	public function rubrics_view()
+	{
+		return $this->main.'/RubricsView';
+	}
 
 
 
+    ///Rubrics ///////////////
 
 
 
