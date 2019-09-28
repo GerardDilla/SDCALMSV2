@@ -113,9 +113,13 @@ class set_views
 	{
 		return $this->main.'/Faculty_Evluation_Admin/Search_student';
 	}
-	public function Admin_Set_Evaluation()
+	public function Admin_result()
 	{
-		return $this->main.'/Faculty_Evluation_Admin/Set_Evaluation';
+		return $this->main.'/Faculty_Evluation_Admin/Results';
+	}
+	public function Admin_ResultsPage()
+	{
+		return $this->main.'/Faculty_Evluation_Admin/ResultsPage';
 	}
 	public function Admin_Search_Prof()
 	{
@@ -139,9 +143,25 @@ class set_views
 	
 
 
+	 ///Rubrics ///////////////
+
+	 public function rubrics()
+	{
+		return $this->main.'/Rubrics';
+	}
+
+	public function rubrics_table()
+	{
+		return $this->main.'/RubricsTable';
+	}
+	public function rubrics_view()
+	{
+		return $this->main.'/RubricsView';
+	}
 
 
 
+    ///Rubrics ///////////////
 
 
 
