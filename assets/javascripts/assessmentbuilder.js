@@ -21,7 +21,12 @@ $(document).ready(function(){
     });
 
     $('.assessment-submit').click(function(){
-        $('#AssessmentForm').submit();
+        status = question_formchecker();
+        if(status['Status'] == 1){
+            console.log(status);
+            $('#AssessmentForm').submit();
+        }
+        
     });
 
     $('#rubrics_choice').change(function(){
@@ -160,4 +165,58 @@ function assessmenbuilder_message_handler(msg = ''){
         </div>\
     ';
     target.html(format).fadeIn('fast');
+}
+function question_formchecker(){
+
+    error = {'Status':1,'Message':{}};
+    $('.question-panel').each(function(i,panel){
+
+        //Number display for each question
+        if($(panel).find('.question-input').val() == '' || $(panel).find('.question-input').val() == null){
+            error['Status'] = 0;
+            error['Message'][i] = 'You haven\'t provided a question for question #'+parseInt(i+1);
+        }
+
+        //Number display for each question
+        console.log($(panel).find('input[name="Answer[]"]'));
+        if($(panel).children('input[name="Answer['+i+']"]').val() == '' || $(panel).children('input[name="Answer['+i+']"]').val() == null){
+            error['Status'] = 0;
+            error['Message'][i] = 'You haven\'t provided an answer for question #'+parseInt(i+1);
+        }
+
+        //Number display for each question
+        if($(panel).children('input[name="Points['+i+']"]').val() == '' || $(panel).children('input[name="Points['+i+']"]').val() == null){
+            error['Status'] = 0;
+            error['Message'][i] = 'You haven\'t provided points for question #'+parseInt(i+1);
+        }
+
+    });
+    console.log(error);
+    if(error['Status'] == 0){
+        message = '';
+        $.each(error['Message'],function(i,msg){
+            message += msg+'<br>';
+        });
+        $('#assessment_message').html(
+            $('<div>').attr({'class':'message_box'})
+            .html(
+                $('<div>').attr({'class':'alert alert-warning'})
+                .html(
+                    $('<button>').attr({'type':'button','class':'close','data-dismiss':'alert','aria-hidden':'true'}).text('x')
+                )
+                .append(message)
+            )
+        ).fadeIn('fast');
+        /*
+        <div class="message_box"><div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <?php echo $this->session->flashdata('message'); ?>
+            </div>
+        </div>
+        */
+    }else{
+        $('#assessment_message').html('');
+    }
+    return error;
+
 }

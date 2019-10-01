@@ -22,7 +22,7 @@
 				
 					<label class="col-md-1 control-label" for="inputDefault" style="color:green; line-height: 2.5;">POINTS</label>
 					<div class="col-md-2">
-						<input type="number" class="form-control" id="inputDefault" placeholder="Points" name="Points[]" value="<?php echo $QuestionPoints ? $QuestionPoints : ''; ?>">
+						<input type="number" class="form-control question-point" placeholder="Points" name="Points[]" value="<?php echo $QuestionPoints ? $QuestionPoints : ''; ?>">
 					</div>
 					<div class="col-md-3">
 						<select name="Criteria[]" data-plugin-selectTwo class="form-control populate rubrics_criteria_option">

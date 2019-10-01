@@ -19,7 +19,7 @@
             
             <form action="<?php echo base_url(); ?>index.php/Main/Login" method="post">
                 <div class="form-group mb-lg">
-                    <label>Student Number</label>
+                    <label>Student Number <?PHP echo FCPATH; ?></label>
                     <div class="input-group input-group-icon">
                         <input name="student_id" type="text" class="form-control input-lg" placeholder="Student Number" />
                         <span class="input-group-addon">

@@ -180,33 +180,37 @@ class AssessmentBuilder extends MY_Controller {
 				'AssessmentName' => $this->input->post('AssessmentName'),
 				'Description' => $this->input->post('AssessmentDescription'),
 				'InstructorID' => '3089',
-				'RubricsID' => $this->input->post('Rubrics'),
+				'rubrics_id' => $this->input->post('Rubrics'),
 				'StartDate' => $start,
 				'EndDate' => $end,
 				'Timelimit' => $this->input->post('timelimit'),
 				'AssessmentCode' => $this->ProduceUniqueKey(),
 				'DateCreated' => $now->format('Y-m-d H:i:s')
 			);
-
-			foreach($QuestionData as $i => $Data){
-
-				$questionnumber = $i + 1;
-				if($Data['Question'] == '' || $Data['Question'] == null){
-					$InsertStatus['Status'] = 0;
-					$InsertStatus['Errors'][] = 'No question given for Question #'.$questionnumber;
+			if(!empty($QuestionData)){
+				foreach($QuestionData as $i => $Data){
+				
+					$questionnumber = $i + 1;
+					if($Data['Question'] == '' || $Data['Question'] == null){
+						$InsertStatus['Status'] = 0;
+						$InsertStatus['Errors'][] = 'No Question given for Question #'.$questionnumber;
+					}
+					if($Data['Answer'] == '' || $Data['Answer'] == null){
+						$InsertStatus['Status'] = 0;
+						$InsertStatus['Errors'][] = 'No Answer given for Question #'.$questionnumber;
+					}
+					if($Data['Points'] == '' || $Data['Points'] == null){
+						$InsertStatus['Status'] = 0;
+						$InsertStatus['Errors'][] = 'No Points given for Question #'.$questionnumber;
+					}
+					if($Data['QuestionType'] == '' || $Data['QuestionType'] == null){
+						$InsertStatus['Status'] = 0;
+						$InsertStatus['Errors'][] = 'Error for question #'.$questionnumber.': Did not get question type';
+					}
 				}
-				if($Data['Answer'] == '' || $Data['Answer'] == null){
-					$InsertStatus['Status'] = 0;
-					$InsertStatus['Errors'][] = 'No answer given for Question #'.$questionnumber;
-				}
-				if($Data['Points'] == '' || $Data['Points'] == null){
-					$InsertStatus['Status'] = 0;
-					$InsertStatus['Errors'][] = 'No points given for Question #'.$questionnumber;
-				}
-				if($Data['QuestionType'] == '' || $Data['QuestionType'] == null){
-					$InsertStatus['Status'] = 0;
-					$InsertStatus['Errors'][] = 'Error for question #'.$questionnumber.': Did not get question type';
-				}
+			}else{
+				$InsertStatus['Status'] = 0;
+				$InsertStatus['Errors'][] = 'Cannot create assessment: No questions added';
 			}
 
 		}else{
@@ -217,8 +221,10 @@ class AssessmentBuilder extends MY_Controller {
 
 		if($InsertStatus['Status'] == 0){
 			foreach($InsertStatus['Errors'] as $errors){
-				echo '<hr>'.$errors;
-			}
+				$errormessage .= $errors.'<br>';
+			}	
+			$this->session->set_flashdata('message',$errormessage);
+			redirect('AssessmentBuilder');
 		}else{
 
 			$assesesment_info_status = $this->AssessmentModel->InsertAssessmentInfo($AssessmentData);
@@ -226,10 +232,11 @@ class AssessmentBuilder extends MY_Controller {
 				$q_data['AssessmentCode'] = $AssessmentData['AssessmentCode'];
 				$assessment_question_status = $this->AssessmentModel->InsertAssessmentQuestion($q_data);
 			}
-			
+			$this->session->set_flashdata('message','Successfully created Assessment! Assessment Code:'.$AssessmentData['AssessmentCode']);
+			redirect('AssessmentBuilder');
 		}
-		$this->session->set_flashdata('message','Successfully created Assessment! Assessment Code:'.$AssessmentData['AssessmentCode']);
-		redirect('AssessmentBuilder');
+		//print_r($InsertStatus);
+		
 	}
 	public function compare_startdates(){
 

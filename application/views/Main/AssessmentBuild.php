@@ -32,13 +32,17 @@
 					</p>
 				</header>
 				<div class="panel-body">
-					<?php if($this->session->flashdata('message')): ?>
-					<div class="message_box"><div class="alert alert-warning">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-						<?php echo $this->session->flashdata('message'); ?>
+					<span id="assessment_message">
+						<?php if($this->session->flashdata('message')): ?>
+						<div class="message_box"><div class="alert alert-warning">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<?php echo $this->session->flashdata('message'); ?>
+							</div>
 						</div>
-					</div>
-					<?php endIf; ?>
+						<?php endIf; ?>
+					</span>
+
+					
 					<div class="form-group">
 						<label class="col-md-3 control-label">Assessment Name*</label>
 						<div class="col-md-8">
