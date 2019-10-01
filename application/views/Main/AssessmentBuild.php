@@ -32,6 +32,13 @@
 					</p>
 				</header>
 				<div class="panel-body">
+					<?php if($this->session->flashdata('message')): ?>
+					<div class="message_box"><div class="alert alert-warning">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						<?php echo $this->session->flashdata('message'); ?>
+						</div>
+					</div>
+					<?php endIf; ?>
 					<div class="form-group">
 						<label class="col-md-3 control-label">Assessment Name*</label>
 						<div class="col-md-8">
@@ -52,12 +59,12 @@
 								<span class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</span>
-								<input type="text" data-plugin-datepicker="" class="form-control">
+								<input type="text" data-plugin-datepicker="" name="start_date" class="form-control">
 								
 								<span class="input-group-addon">
 									<i class="fa fa-clock-o"></i>
 								</span>
-								<input type="text" data-plugin-timepicker="" class="form-control">
+								<input type="text" data-plugin-timepicker="" name="start_time" class="form-control">
 							</div>
 						</div>
 					</div>
@@ -69,29 +76,33 @@
 								<span class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</span>
-								<input type="text" data-plugin-datepicker="" class="form-control">
+								<input type="text" data-plugin-datepicker="" name="end_date" class="form-control">
 								
 								<span class="input-group-addon">
 									<i class="fa fa-clock-o"></i>
 								</span>
-								<input type="text" data-plugin-timepicker="" class="form-control">
+								<input type="text" data-plugin-timepicker="" name="end_time" class="form-control">
 							</div>
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label class="col-md-3 control-label">Time Limit</label>
+						<label class="col-md-3 control-label">Time Limit (Minutes)</label>
 						<div class="col-md-2">
-							<input type="number" name="" placeholder="0.00" class="form-control assessment_required_input" id="inputDefault">
+							<input type="number" name="timelimit" placeholder="0.00" value="60" class="form-control assessment_required_input" id="inputDefault">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-md-3 control-label">Rubrics</label>
 						<div class="col-md-8">
-							<select name="Rubrics" data-plugin-selectTwo class="form-control populate"  id="Sched_sem">
+							<select name="Rubrics" data-plugin-selectTwo class="form-control populate"  id="rubrics_choice">
 								<option selected value="0">No Rubrics Selected</option>
-								
+								<?php if($this->data['RubricsList']): ?>
+									<?php foreach($this->data['RubricsList'] as $rubric): ?>
+									<option value="<?php echo $rubric['rubrics_id']; ?>"><?php echo $rubric['rubrics']; ?></option>
+									<?php endForeach; ?>
+								<?php endIf; ?>
 							</select>
 						</div>
 					</div>
@@ -137,16 +148,6 @@
 						</div>
 					</div>
 					
-					<div class="form-group">
-						<label class="col-md-3 control-label">Semester</label>
-						<div class="col-md-8">
-							<select data-plugin-selectTwo class="form-control populate"  id="Sched_sem">
-								<option selected value="">Select Semester</option>
-								
-							</select>
-						</div>
-					</div>
-
 					<div class="message_box">
 						
 					</div>

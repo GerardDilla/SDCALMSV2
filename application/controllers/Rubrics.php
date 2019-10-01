@@ -5,22 +5,19 @@ class Rubrics extends MY_Controller {
 
 	function __construct() 
 	{
-		  parent::__construct();
+		parent::__construct();
 
-		  $this->load->library("set_views");
-		  $this->load->library("Set_custom_session");
-		   $this->load->model('Rubric_Model/Rubric');
-		  $this->student_data = $this->set_custom_session->student_session();
+		$this->load->library("set_views");
+		$this->load->library("Set_custom_session");
+		$this->load->model('Rubric_Model/Rubric');
+		$this->student_data = $this->set_custom_session->student_session();
 
 	}
-
 	public function index()
 	{
 	    $this->data['GetRubrics'] =	$this->Rubric->SelectRubrics();
 		$this->template($this->set_views->rubrics_table());
-     
 	}
-
 	public function ChooseButton()
 	{
 		$array = array(
@@ -36,8 +33,6 @@ class Rubrics extends MY_Controller {
 			$this->Delete_Rubrics();
 		}
 	}
-
-
 	public function view()
 	{
 	   $RubricsID                        = $this->input->post('rubrics_id');
@@ -47,12 +42,10 @@ class Rubrics extends MY_Controller {
 	   $this->data['RubricsDescription'] =	$this->Rubric->RubricsDescription($RubricsID);
 	   $this->template($this->set_views->rubrics_view());
 	}
-
 	public function Create_Rubrics()
 	{
 		$this->template($this->set_views->rubrics());
 	}
-
 	public function Delete_Rubrics()
 	{
 		$RubricsID   = $this->input->post('rubrics_id');
@@ -60,7 +53,6 @@ class Rubrics extends MY_Controller {
 		redirect('Rubrics/index/');
      
 	}
-
 	public function Insert_Rubrics()
 	{
 
@@ -106,8 +98,6 @@ class Rubrics extends MY_Controller {
 	
      redirect('Rubrics/index/');
 	}
-
-
 	public function Update_Rubrics()
 	{
 		
@@ -163,10 +153,9 @@ class Rubrics extends MY_Controller {
 		 }
 
 		redirect('Rubrics/index/');
-      
+    
 	}
-			
-			
+					
 		
 	
 	

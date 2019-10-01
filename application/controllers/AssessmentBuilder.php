@@ -15,6 +15,7 @@ class AssessmentBuilder extends MY_Controller {
 		  $this->student_data = $this->set_custom_session->student_session();
 		  $this->teacher_data = array();
 		  $this->load->model('AssessmentModel');
+		  $this->load->model('Rubric_Model/Rubric');
 
 		  //Sets Timezone for
 		  date_default_timezone_set('Asia/Manila');
@@ -26,6 +27,7 @@ class AssessmentBuilder extends MY_Controller {
 	public function index()
 	{
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
+		$this->data['RubricsList'] = $this->Rubric->RubricsList();
 		$this->template($this->set_views->assesssment_builder());
 	}
 	public function Ajax_BuilderSession(){
@@ -138,6 +140,31 @@ class AssessmentBuilder extends MY_Controller {
 					'field' => 'AssessmentDescription',
 					'label' => 'Assessment Description',
 					'rules' => 'required'
+			),
+			array(
+				'field' => 'start_date',
+				'label' => 'Start Date',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'start_time',
+				'label' => 'Start Time',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'end_date',
+				'label' => 'End Date',
+				'rules' => 'required|callback_compare_startdates'
+			),
+			array(
+				'field' => 'end_time',
+				'label' => 'End Time',
+				'rules' => 'required|callback_compare_starttime'
+			),
+			array(
+				'field' => 'timelimit',
+				'label' => 'Time limit',
+				'rules' => 'required'
 			)
 		);
 		
@@ -146,10 +173,19 @@ class AssessmentBuilder extends MY_Controller {
 		if($this->form_validation->run() == TRUE){
 
 			//Gets the general info of Assessment and store to array for inserting
+			$start = date('Y-m-d H:i:s', strtotime($this->input->post('start_date').' '.$this->input->post('start_time')));
+			$end = date('Y-m-d H:i:s', strtotime($this->input->post('end_date').' '.$this->input->post('end_time')));
+			$now = new DateTime();
 			$AssessmentData = array(
 				'AssessmentName' => $this->input->post('AssessmentName'),
-				'AssessmentDescription' => $this->input->post('AssessmentDescription'),
+				'Description' => $this->input->post('AssessmentDescription'),
+				'InstructorID' => '3089',
 				'RubricsID' => $this->input->post('Rubrics'),
+				'StartDate' => $start,
+				'EndDate' => $end,
+				'Timelimit' => $this->input->post('timelimit'),
+				'AssessmentCode' => $this->ProduceUniqueKey(),
+				'DateCreated' => $now->format('Y-m-d H:i:s')
 			);
 
 			foreach($QuestionData as $i => $Data){
@@ -183,12 +219,91 @@ class AssessmentBuilder extends MY_Controller {
 			foreach($InsertStatus['Errors'] as $errors){
 				echo '<hr>'.$errors;
 			}
+		}else{
+
+			$assesesment_info_status = $this->AssessmentModel->InsertAssessmentInfo($AssessmentData);
+			foreach($QuestionData as $q_data){
+				$q_data['AssessmentCode'] = $AssessmentData['AssessmentCode'];
+				$assessment_question_status = $this->AssessmentModel->InsertAssessmentQuestion($q_data);
+			}
+			
 		}
-		echo json_encode($AssessmentData);
-		echo '<br>';
-		echo json_encode($QuestionData);
+		$this->session->set_flashdata('message','Successfully created Assessment! Assessment Code:'.$AssessmentData['AssessmentCode']);
+		redirect('AssessmentBuilder');
+	}
+	public function compare_startdates(){
+
+		$startdate = $this->input->post('start_date');
+		$enddate = $this->input->post('end_date');
+
+		if($startdate <= $enddate){
+
+			return TRUE;
+
+		}else{
+
+			$this->form_validation->set_message('compare_startdates', 'Start date must be lower than End date');
+			return FALSE;
+
+		}
 
 	}
+	public function compare_starttime(){
+
+		$startdate = $this->input->post('start_date');
+		$enddate = $this->input->post('end_date');
+		$starttime = $this->input->post('start_time');
+		$endtime = $this->input->post('end_time');
+
+		if($startdate == $enddate){
+			
+			if(strtotime($starttime) <= strtotime($endtime)){
+
+				return TRUE;
 	
+			}else{
+	
+				$this->form_validation->set_message('compare_starttime', 'Start time must be lower than End time');
+				return FALSE;
+	
+			}
+
+		}else{
+			return TRUE;
+		}
+
+	}
+	public function Ajax_get_rubrics_criteria(){
+
+		$rubrics_id = $this->input->get_post('rubrics_id');
+		$result = $this->Rubric->RubricsCriteria($rubrics_id);
+		echo json_encode($result);
+	}
+	private function ProduceUniqueKey($limit=8){
+
+		$code['draft'] = strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit));
+		$stop = 0;
+		//Check availability of code
+		if(empty($this->AssessmentModel->CheckCodeAvailability($code))){
+
+			$code['final'] = $code['draft'];
+		
+
+		}else{
+
+			while($stop < 1){
+
+				$code['draft'] = strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit));
+				if(empty($this->AssessmentModel->CheckCodeAvailability($code))){
+					$code['final'] = $code['draft'];
+					$stop++;
+				}
+
+			}
+
+		}
+		return $code['final'];
+
+	}
 }
 	

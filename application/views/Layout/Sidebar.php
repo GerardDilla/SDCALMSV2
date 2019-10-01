@@ -75,8 +75,15 @@
                         </a>
                     </li>
 
+                    <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/Rubrics">
+                            <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
+                            <span>Rubrics</span>
+                        </a>
+                    </li>
+                    <!---
                     <li class="nav-parent">
-                        <a>
+                        <a disabled>
                             <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
                             <span>Evaluation</span>
                         </a>
@@ -98,7 +105,7 @@
                             </li>
                         </ul>
                     </li>
-
+                    -->
                     <!--
                     <li>
                         <a href="mailbox-folder.html">

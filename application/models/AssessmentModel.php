@@ -39,13 +39,6 @@ class AssessmentModel extends CI_Model{
         $this->db->insert('lms_assessment', $data);
 
     }
-	public function CheckCodeAvailability($code){
-
-		$this->db->where('AssessmentCode', $code);
-		$this->db->where('Active', '1');
-		$query = $this->db->get('lms_assessment');
-		return $query;
-    }
     public function GetAssessmentList_Student($array){
 
         $this->db->select('
@@ -131,15 +124,15 @@ class AssessmentModel extends CI_Model{
             Ans.Correct,
             Q.Points,
             Q.`AssessmentCode`,
-            out.ID as OutcomeID,
-            out.Outcome,
+            out.criteria_id as OutcomeID,
+            out.criteria as Outcome,
             Ans.`Student_Number`,
             UNIX_TIMESTAMP(Resp.`End`) as Date,
         ');
         $this->db->select('TIMESTAMPDIFF(MINUTE, Resp.Start, Resp.End) AS Remaining');
         $this->db->join('lms_assessment_respondents as Resp','Q.AssessmentCode = Resp.AssessmentCode');
         $this->db->join('lms_assessment_answers as Ans','Resp.ID = Ans.RespondentID and Q.QuestionID = Ans.QuestionID');
-        $this->db->join('grading_outcomes as out','out.ID = Q.OutcomeID and out.Valid = 1','left');
+        $this->db->join('lms_rubrics_criteria as out','out.criteria_id = Q.criteria_id and out.active = 1','left');
         $this->db->where('Ans.Student_Number',$array['Student_Number']);
         $this->db->where('Q.AssessmentCode',$array['AssessmentCode']);
         $this->db->where('Ans.AssessmentCode',$array['AssessmentCode']);
@@ -220,13 +213,31 @@ class AssessmentModel extends CI_Model{
     }
     public function Validate_Outcome($ID){
 
-        $this->db->where('ID', $ID);
-        $this->db->where('Valid', '1');
-        $query = $this->db->get('grading_outcomes');
+        $this->db->where('criteria_id', $ID);
+        $this->db->where('active', '1');
+        $query = $this->db->get('lms_rubrics_criteria');
         return $query->result_array();
     }   
-	
+    public function InsertAssessmentInfo($array){
 
+        $this->db->insert('lms_assessment', $array);
+        return $this->db->insert_id();
+        
+    }
+    public function InsertAssessmentQuestion($array){
+
+        $this->db->insert('lms_assessment_questions', $array);
+        return $this->db->insert_id();
+        
+    }
+    public function CheckCodeAvailability($code){
+
+        $this->db->where('AssessmentCode', $code['draft']);
+        $this->db->where('Active', '1');
+        $query = $this->db->get('lms_assessment');
+        return $query->result_array();
+
+    }
 
 }
 ?>

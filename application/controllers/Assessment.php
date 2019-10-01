@@ -32,8 +32,13 @@ class Assessment extends MY_Controller {
 	public function PreAssessment($AssessmentCode = ''){
 		
 		$this->data['Assessment_Data'] = $this->AssessmentModel->GetAssessmentInfo(array('AssessmentCode' => $AssessmentCode));
-		$this->data['StartTime'] = date('M d Y - h:i:sa', $this->data['Assessment_Data'][0]['StartDate']);
-		$this->data['EndTime'] = date('M d Y - h:i:sa', $this->data['Assessment_Data'][0]['EndDate']);
+		if($this->data['Assessment_Data']){
+			$this->data['StartTime'] = date('M d Y - h:i:sa', $this->data['Assessment_Data'][0]['StartDate']);
+			$this->data['EndTime'] = date('M d Y - h:i:sa', $this->data['Assessment_Data'][0]['EndDate']);
+		}else{
+			$this->data['StartTime'] = '';
+			$this->data['EndTime'] = '';
+		}
 		$this->template($this->set_views->preassessment());
 
 

@@ -12,6 +12,8 @@ $(document).ready(function(){
         QuestionData = {'Type': $('#QuestionType').val(), 'Points': $('#pointset').val()};
         display_question(QuestionData);
 
+
+
     });
 
     $('.QuestionsPanel').on('click','.remove_question_button',function(){
@@ -20,6 +22,10 @@ $(document).ready(function(){
 
     $('.assessment-submit').click(function(){
         $('#AssessmentForm').submit();
+    });
+
+    $('#rubrics_choice').change(function(){
+        QuestionNumbering({'change':1});
     });
     
 });
@@ -42,12 +48,15 @@ function assessment_input_checker(){
     }
 
 }
-function QuestionNumbering(){
+function QuestionNumbering(settings = {}){
     
     $('.question-panel').each(function(i,panel){
         console.log(panel);
+
+        //Number display for each question
         $(panel).find('.question-number span').html(i+1);
 
+        //Special condition for multiple choice questions
         if($(panel).data('question-type') == 'multiplechoice'){
 
             $(panel).find('.question-choice').attr('name','choice['+i+'][]');
@@ -57,6 +66,41 @@ function QuestionNumbering(){
                 $(tick).find('label').attr({'for':i+'_correct_'+i3});
                 console.log(tick);
             });
+        }
+
+        //Criteria assigning based on rubrics choice
+        if($('#rubrics_choice').val() != 0){
+
+            RubricsData = {'rubrics_id': $('#rubrics_choice').val()};
+            rubricsdata = get_rubrics_data(RubricsData);
+            rubricsdata.done(function(output){
+        
+                rubricresult = JSON.parse(output);
+
+                if($(panel).find('.rubrics_criteria_option').val() == 0 || settings['change'] == 1){
+
+                        $(panel).find('.rubrics_criteria_option').html(
+
+                            $('<option>').attr({'selected':'selected', 'value':'0'})
+                            .text('No Criteria Selected')
+                            
+                        );
+                        $.each(rubricresult, function(i,rubdata){
+    
+                                $(panel).find('.rubrics_criteria_option').append(
+    
+                                    $('<option>').attr({'value':rubdata['criteria_id']})
+                                    .text(rubdata['criteria'])
+            
+                                );
+                            //<option selected value="0">No Rubrics Selected</option>
+                        });
+                }
+                
+                
+            });
+        
+            
 
         }
 
@@ -87,6 +131,15 @@ function get_question_format(QuestionData = {}){
             type: 'post',
             data: QuestionData
         });
+
+}
+function get_rubrics_data(RubricsData = {}){
+
+    return $.ajax({
+        url: base_url()+'index.php/AssessmentBuilder/Ajax_get_rubrics_criteria',
+        type: 'post',
+        data: RubricsData
+    });
 
 }
 function question_toggle(command = 0){

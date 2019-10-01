@@ -16,6 +16,15 @@ class Rubric extends CI_Model{
 		$this->db->select('*');
 		$this->db->from('lms_rubrics_table');
 		$this->db->where('rubrics_id',$RubricsID);
+		$this->db->where('active',1);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function RubricsList(){
+		$this->db->select('*');
+		$this->db->from('lms_rubrics_table');
+		$this->db->where('active',1);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -28,7 +37,7 @@ class Rubric extends CI_Model{
 		return $query->result_array();
 	}
 
-	public function RubricsCriteria($RubricsID){
+	public function RubricsCriteria($RubricsID = ''){
 		$this->db->select('*');
 		$this->db->from('lms_rubrics_criteria AS A');
 		$this->db->where('A.rubrics_id',$RubricsID);
