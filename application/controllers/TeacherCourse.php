@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Course extends MY_Controller {
+class TeacherCourse extends MY_Controller {
 
 	function __construct() 
 	{
@@ -12,7 +12,7 @@ class Course extends MY_Controller {
 		$this->load->library("Set_custom_session");
 		//load file helper
 		$this->load->helper('file');
-		$this->student_data = $this->set_custom_session->student_session();
+		$this->teacher_data = $this->set_custom_session->teacher_session();
 
 		$this->load->model("Legends");
 		$this->load->model('AssessmentModel');
@@ -29,8 +29,8 @@ class Course extends MY_Controller {
 		$this->logdate = date("Y/m/d");
 
 		//Defines the token needed for attachments to function properly
-		$this->data['Usertype'] = 'student';
-		$this->data['Usertoken'] = md5($this->student_data['Student_Number']); 
+		$this->data['Usertype'] = 'instructor';
+		$this->data['Usertoken'] = md5($this->teacher_data['Instructor_Unique_ID']); 
 
 	}
 	public function index($SchedCode = '')
@@ -63,7 +63,8 @@ class Course extends MY_Controller {
 	public function Ajax_get_assessments(){
 
 		//Temporary. Should be in teacher's side
-		echo json_encode($this->AssessmentModel->Get_Assessment_List());
+		$array = array('Instructor_ID' => $this->input->get_post('usertoken'));
+		echo json_encode($this->AssessmentModel->Get_Assessment_List($array));
 
 	}
 	private function CoursePost($SchedCode){
@@ -104,7 +105,7 @@ class Course extends MY_Controller {
 		else{
 
 			$array = array(
-				'Student_Number' => $this->student_data['Student_Number'],
+				'Instructor_ID' => $this->teacher_data['Instructor_Uniqure_ID'],
 				'SchedCode' => $SchedCode,
 				'Description' => $this->input->post('Post'),
 				'Date' => $this->logdatetime,
@@ -148,8 +149,7 @@ class Course extends MY_Controller {
 						$result['Message'] = 'Posting Successful with attachment!';
 
 					}
-					
-
+				
 
 				}
 
@@ -168,15 +168,15 @@ class Course extends MY_Controller {
 	private function courselist(){
 
 		$this->data['Subjects'] = $this->construct_course_output();
-		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
-		$this->template($this->set_views->courselist());
+		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->teacher_data);
+		$this->instructor_template($this->set_views->courselist());
 
 	}
 	private function coursefeed($SchedCode){
 
 		$this->data['SchedData'] = $this->Schedule->Get_sched_info($SchedCode);
 		$this->data['CourseFeed'] = $this->contruct_course_feed($SchedCode);
-		$this->template($this->set_views->coursewall());
+		$this->instructor_template($this->set_views->coursewall());
 
 	}
 	private function construct_course_output(){
@@ -185,7 +185,7 @@ class Course extends MY_Controller {
 		$count = 0;
 		$legend = $this->Legends->Get_Legends();
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->teacher_data['Instructor_ID'],
 			'School_Year' => $legend[0]['School_Year'],
 			'Semester' => $legend[0]['Semester']
 		);

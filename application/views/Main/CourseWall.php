@@ -1,4 +1,4 @@
-<section role="main" class="content-body" data-base_url='<?php echo base_url(); ?>'>
+<section role="main" class="content-body" id="CourseWall" data-base_url='<?php echo base_url(); ?>' data-usertype="<?php echo $this->data['Usertype']; ?>" data-usertoken="<?php echo $this->data['Usertoken']; ?>">
 		<header class="page-header">
 			
 			<h2><i class="fa fa-book"></i> <?php echo $this->data['SchedData'][0]['Course_Code']; ?> : <?php echo $this->data['SchedData'][0]['Sched_Code']; ?></h2>

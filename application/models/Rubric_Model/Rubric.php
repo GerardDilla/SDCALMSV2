@@ -22,9 +22,12 @@ class Rubric extends CI_Model{
 		return $query->result_array();
 	}
 
-	public function RubricsList(){
+	public function RubricsList($InstructorID = ''){
 		$this->db->select('*');
 		$this->db->from('lms_rubrics_table');
+		if($InstructorID != ''){
+			$this->db->where('InstructorID',$InstructorID);
+		}
 		$this->db->where('active',1);
 		$query = $this->db->get();
 		return $query->result_array();

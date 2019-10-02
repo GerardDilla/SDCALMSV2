@@ -32,10 +32,30 @@ function show_assessment_attachment(){
     $('#AssessmentAttachmentModal').modal('show');
 
 }
+function get_account_details(){
+
+    userdata = {}
+    userdata['usertype'] = $('#CourseWall').data('usertype');
+    userdata['usertoken'] = $('#CourseWall').data('usertoken');
+    return userdata;
+
+}
 function get_assessmentlist(){
-    return $.ajax({
-        url:base_url()+'index.php/Course/Ajax_get_assessments'
-    });
+
+    userdata = get_account_details();
+    
+    if(userdata['usertype'] == 'student'){
+        return $.ajax({
+            url:base_url()+'index.php/Course/Ajax_get_assessments'
+        });
+    }
+    else if(userdata['usertype'] == 'instructor'){
+        return $.ajax({
+            url:base_url()+'index.php/TeacherCourse/Ajax_get_assessments',
+            data: userdata
+        });
+    }
+
 }
 function display_assessmentlist(data){
 
