@@ -21,12 +21,14 @@ $(document).ready(function(){
     });
 
     $('.assessment-submit').click(function(){
+        /*
         status = question_formchecker();
         if(status['Status'] == 1){
             console.log(status);
-            $('#AssessmentForm').submit();
+           
         }
-        
+        */
+        $('#AssessmentForm').submit();
     });
 
     $('#rubrics_choice').change(function(){
@@ -105,8 +107,6 @@ function QuestionNumbering(settings = {}){
                 
             });
         
-            
-
         }
 
         //console.log($(panel).data('question-type'));

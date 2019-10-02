@@ -4,9 +4,10 @@
 class Rubric extends CI_Model{
 
  
-    public function SelectRubrics(){
+    public function SelectRubrics($InstructorID){
 		$this->db->select('*');
 		$this->db->from('lms_rubrics_table');
+		$this->db->where('InstructorID',$InstructorID);
 		$this->db->where('active','1');
 		$query = $this->db->get();
 		return $query->result_array();

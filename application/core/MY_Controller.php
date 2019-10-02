@@ -16,7 +16,6 @@ class MY_Controller extends CI_Controller {
         
     }
 	
-
     public function template($middleParam = '',$modal='')
     {
         //Get status of email verification
@@ -57,10 +56,32 @@ class MY_Controller extends CI_Controller {
         $this->template['script'] = $this->load->view('Layout/Scripts.php', $this->data, true);
         $this->template['modal'] = $modal;
 
+        $this->load->view('Skeleton/main', $this->template);
+    }
 
+    public function instructor_template($middleParam = '',$modal='')
+    {
+        //Get status of email verification
+        $this->load->library('Set_custom_session');
+        $this->teacher_data = $this->set_custom_session->teacher_session();
+
+        if ($middleParam == '')
+        {
+
+            $middleParam = $this->middle;
+
+        }
+        //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
+        $this->template['title'] = 'SDCALMS';
+        $this->template['header'] = $this->load->view('InstructorLayout/Header.php', $this->data, true);
+        $this->template['navbar'] = $this->load->view('InstructorLayout/Navbar.php', $this->data, true);
+        $this->template['sidebar'] = $this->load->view('InstructorLayout/Sidebar.php', $this->data, true);
+        $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
+        $this->template['footer'] = '';//$this->load->view('InstructorLayout/Scripts.php', $this->data, true);
+        $this->template['script'] = $this->load->view('InstructorLayout/Scripts.php', $this->data, true);
+        $this->template['modal'] = $modal;
 
         $this->load->view('Skeleton/main', $this->template);
-
     }
 
     public function loginpage($middleParam = '')

@@ -13,7 +13,7 @@
         <?php if ($header) echo $header; ?>
 
 	</head>
-	<body>
+	<body style="background:url('<?php echo base_url(); ?>assets/images/altbg.jpg')">
 
     <!--Body-->
     <section class="body-sign">

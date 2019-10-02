@@ -11,15 +11,20 @@ class Main extends MY_Controller {
 		  $this->load->library('form_validation');
 		  $this->load->library('Set_custom_session');
 		  $this->load->model('Student_model/Student_login');
+		  $this->load->model('Instructor_model/Instructor_login');
 	}
 	public function index()
-	{
+	{	
 		//$this->load->view('welcome_message');
 		if($this->session->has_userdata('LoginData')){
 			redirect('Dashboard');
 		}
+		else if($this->session->has_userdata('Instructor_LoginData')){
+			//redirect('TeacherDashboard');
+		}
+		print_r($this->session->has_userdata('Instructor_LoginData'));
 		$this->loginpage($this->set_views->login());
-
+		
 	}
 	public function Login(){
 		
@@ -83,15 +88,76 @@ class Main extends MY_Controller {
 		}
 
 	}
+	public function Instructor_login(){
+
+		$login_button = $this->input->post('login_submit');
+		if(isset($login_button)){
+
+			$config = array(
+				array(
+					'field' => 'instructor_id',
+					'label' => 'Instructor_ID',
+					'rules' => 'required'
+				),
+				array(
+					'field' => 'passkey',
+					'label' => 'Password',
+					'rules' => 'required'
+				),
+			);
+
+			$this->form_validation->set_rules($config);
+
+			if($this->form_validation->run() == TRUE){
+
+				$array = array(
+					'Instructor_ID' => $this->input->post('instructor_id'),
+					'Passkey' => $this->input->post('passkey')
+				);
+
+				$result = $this->Instructor_login->verify_login($array);
+				//print_r($result);
+				if(empty($result)){
+
+					$this->session->set_flashdata('instructor_message','Invalid Instructor ID / Password');
+					redirect('Main');
+
+				}
+				else if($result[0]['Active'] == 0){
+					$this->session->set_flashdata('instructor_message','Cannot login, this account is deactivated');
+					redirect('Main');
+				}
+				else{
+
+					$account_session = array(
+						'Instructor_Unique_ID' => $result[0]['ID'],
+						'Instructor_ID' => $result[0]['Instructor_ID'],
+						'Instructor_Type' => $result[0]['Instructor_Type'],
+						'Instructor_Name' => $result[0]['Instructor_Name']
+					);
+					//print_r($this->session->userdata['LoginData']);
+					$this->session->set_userdata('Instructor_LoginData',$account_session);
+					redirect('TeacherDashboard');
+					//echo 'logged in';
+
+				}
+
+			}else{
+				
+				$this->session->set_flashdata('instructor_message',validation_errors());
+				redirect('Main');
+			
+			}
+		}
+
+	}
 	public function logout(){
 		$this->session->unset_userdata('LoginData');
 		redirect('Main');
 	}
-	public function sample()
-	{
-		//$this->load->view('welcome_message');
-		$this->template($this->set_views->Dashboard());
-
+	public function Instructor_logout(){
+		$this->session->unset_userdata('Instructor_LoginData');
+		redirect('Main');
 	}
 
 	

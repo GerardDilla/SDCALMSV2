@@ -10,13 +10,14 @@ class Rubrics extends MY_Controller {
 		$this->load->library("set_views");
 		$this->load->library("Set_custom_session");
 		$this->load->model('Rubric_Model/Rubric');
-		$this->student_data = $this->set_custom_session->student_session();
+		$this->teacher_data = $this->set_custom_session->teacher_session();
 
 	}
 	public function index()
 	{
-	    $this->data['GetRubrics'] =	$this->Rubric->SelectRubrics();
-		$this->template($this->set_views->rubrics_table());
+		$Instructor = $this->teacher_data['Instructor_Unique_ID'];
+	    $this->data['GetRubrics'] =	$this->Rubric->SelectRubrics($Instructor);
+		$this->instructor_template($this->set_views->rubrics_table());
 	}
 	public function ChooseButton()
 	{
@@ -40,11 +41,11 @@ class Rubrics extends MY_Controller {
 	   $this->data['RubricsEscale']      =	$this->Rubric->RubricsEscale($RubricsID);
 	   $this->data['RubricsCriteria']    =	$this->Rubric->RubricsCriteria($RubricsID);
 	   $this->data['RubricsDescription'] =	$this->Rubric->RubricsDescription($RubricsID);
-	   $this->template($this->set_views->rubrics_view());
+	   $this->instructor_template($this->set_views->rubrics_view());
 	}
 	public function Create_Rubrics()
 	{
-		$this->template($this->set_views->rubrics());
+		$this->instructor_template($this->set_views->rubrics());
 	}
 	public function Delete_Rubrics()
 	{
@@ -62,7 +63,8 @@ class Rubrics extends MY_Controller {
 		$Criteria             = $this->input->post('criteria');
 		$Description          = $this->input->post('description');
 	
-	    $insert['rubrics']             = $RubricsTitle;
+		$insert['rubrics']             = $RubricsTitle;
+		$insert['InstructorID']        = $this->teacher_data['Instructor_Unique_ID'];
 	    $insert['description']         = $RubricsDescription;
 
 	    
@@ -81,7 +83,6 @@ class Rubrics extends MY_Controller {
 			$criteria_id[$count]  =  $this->Rubric->InsertCriteriaRubric($insert2);
 			$count++;
 		}
-
 		$count = 0;
 		foreach($criteria_id as $rub_row){
 			foreach($escale_id as $rub_col){
@@ -93,10 +94,9 @@ class Rubrics extends MY_Controller {
 				$this->Rubric->InsertDescriptionRubric($insert3);
 				$count++;
 			}
-
 		}
-	
-     redirect('Rubrics/index/');
+		redirect('Rubrics/index/');
+	 
 	}
 	public function Update_Rubrics()
 	{

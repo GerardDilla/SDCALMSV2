@@ -12,8 +12,7 @@ class AssessmentBuilder extends MY_Controller {
 		  $this->load->library("Set_custom_session");
 		  //load file helper
 		  $this->load->helper('file');
-		  $this->student_data = $this->set_custom_session->student_session();
-		  $this->teacher_data = array();
+		  $this->teacher_data = $this->set_custom_session->teacher_session();
 		  $this->load->model('AssessmentModel');
 		  $this->load->model('Rubric_Model/Rubric');
 
@@ -28,7 +27,7 @@ class AssessmentBuilder extends MY_Controller {
 	{
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
 		$this->data['RubricsList'] = $this->Rubric->RubricsList();
-		$this->template($this->set_views->assesssment_builder());
+		$this->instructor_template($this->set_views->assesssment_builder());
 	}
 	public function Ajax_BuilderSession(){
 
@@ -179,7 +178,7 @@ class AssessmentBuilder extends MY_Controller {
 			$AssessmentData = array(
 				'AssessmentName' => $this->input->post('AssessmentName'),
 				'Description' => $this->input->post('AssessmentDescription'),
-				'InstructorID' => '3089',
+				'InstructorID' => $this->teacher_data['Instructor_Unique_ID'],
 				'rubrics_id' => $this->input->post('Rubrics'),
 				'StartDate' => $start,
 				'EndDate' => $end,

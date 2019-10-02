@@ -11,6 +11,10 @@ class set_views
 	{
 		return $this->main.'/Dashboard';
 	}
+	public function teacherdashboard()
+	{
+		return $this->main.'/TeacherDashboard';
+	}
 	public function portfolio()
 	{
 		return $this->main.'/Portfolio';

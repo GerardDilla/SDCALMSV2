@@ -40,10 +40,26 @@ class Set_custom_session
 		}
 
 	}
-	public function test(){
-		echo 'test';
+	public function teacher_session()
+	{
+		
+		if ( $this->CI->session->has_userdata('Instructor_LoginData' ) )
+		{
+			$data = array( 
+				'Instructor_Unique_ID' => $this->CI->session->userdata('Instructor_LoginData')['Instructor_Unique_ID'],
+				'Instructor_ID' => $this->CI->session->userdata('Instructor_LoginData')['Instructor_ID'],
+				'Instructor_Type' => $this->CI->session->userdata('Instructor_LoginData')['Instructor_Type'],
+				'Instructor_Name' => $this->CI->session->userdata('Instructor_LoginData')['Instructor_Name']	
+			);
+			return $data;
+		}
+		else
+		{
+			$this->CI->session->set_flashdata('instructor_message','You Must Login First');
+			redirect('Main');
+		}
+
 	}
-	
 
 	
 }
