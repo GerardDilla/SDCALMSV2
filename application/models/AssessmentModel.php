@@ -210,6 +210,7 @@ class AssessmentModel extends CI_Model{
         if(array_key_exists('Instructor_ID', $array)){
             $this->db->where('md5(InstructorID)',$array['Instructor_ID']);
         }
+        $this->db->order_by('AssessmentID','DESC');
 		$query = $this->db->get('lms_assessment as A');
         return $query->result_array();
 

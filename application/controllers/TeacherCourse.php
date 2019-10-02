@@ -47,8 +47,9 @@ class TeacherCourse extends MY_Controller {
 				$poststatus = $this->CoursePost($SchedCode);
 				echo $poststatus['Message'];
 				if($poststatus['Status'] == 1){
-					//echo $poststatus['Message'];
-					redirect('Course/index/'.$SchedCode.'/test');
+					echo 'bahu';
+					echo $poststatus['Message'];
+					redirect('TeacherCourse/index/'.$SchedCode.'/test');
 				}
 				$this->coursefeed($SchedCode);
 
@@ -105,7 +106,7 @@ class TeacherCourse extends MY_Controller {
 		else{
 
 			$array = array(
-				'Instructor_ID' => $this->teacher_data['Instructor_Uniqure_ID'],
+				'Instructor_ID' => $this->teacher_data['Instructor_Unique_ID'],
 				'SchedCode' => $SchedCode,
 				'Description' => $this->input->post('Post'),
 				'Date' => $this->logdatetime,

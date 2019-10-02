@@ -7,7 +7,7 @@ class Courseware extends CI_Model{
 	// STUDENT
 	public function GetCoursePosts($array)
 	{	
-		$this->db->select('post.CoursePost_ID,post.Description,SI.First_Name,SI.Last_Name,SI.Student_Number');
+		$this->db->select('post.CoursePost_ID,post.Description,SI.First_Name,SI.Last_Name,SI.Student_Number,I.Instructor_Name,I.Instructor_ID');
 		$this->db->select('TIMESTAMPDIFF(MONTH, `Date`, \''.$array['CurrentDate'].'\') AS ElapsedMonth');
 		$this->db->select('TIMESTAMPDIFF(WEEK,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedWeek');
 		$this->db->select('TIMESTAMPDIFF(DAY,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedDay');
@@ -18,7 +18,8 @@ class Courseware extends CI_Model{
 		$this->db->select('DATE_FORMAT(Date,\'%M\') as Month');
 		$this->db->where('post.SchedCode',$array['SchedCode']);
 		$this->db->where('post.Valid',1);		
-		$this->db->join('Student_Info as SI','SI.Student_Number = post.Student_Number','inner');
+		$this->db->join('Student_Info as SI','SI.Student_Number = post.Student_Number','left');
+		$this->db->join('Instructor as I','I.ID = post.Instructor_ID','left');
 		$this->db->join('Sched as Sc','post.SchedCode = Sc.Sched_Code','inner');
 		$this->db->join('Subject as Subj','Sc.Course_Code = Subj.Course_Code','left');
 		$this->db->order_by('post.Date', 'Desc');

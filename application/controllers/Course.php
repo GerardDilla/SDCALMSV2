@@ -223,7 +223,6 @@ class Course extends MY_Controller {
 				$monthcheck = $row['Month'];
 			}
 			$row['Attachments'] = $this->get_attachments($row['CoursePost_ID']);
-
 			$postview[$row['Month']][$count] = $this->load->view('PostTypes/Standard',$row,TRUE);
 			$count++;
 		}

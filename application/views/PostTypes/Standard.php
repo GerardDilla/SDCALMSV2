@@ -73,7 +73,18 @@
 	</div>
 	<div class="tm-meta">
 		<span>
-			<i class="fa fa-user"></i> By <a target="_blank" style="text-transform: capitalize" href="<?php echo base_url(); ?>index.php/Portfolio/Info/<?php echo $Student_Number; ?>"><?php echo ucfirst(strtolower($First_Name)); ?> <?php echo ucfirst(strtolower($Last_Name)); ?></a>
+
+			<i class="fa fa-user"></i> By 
+			<?php if($Student_Number != null): ?>
+				<a target="_blank" style="text-transform: capitalize" href="<?php echo base_url(); ?>index.php/Portfolio/Info/<?php echo $Student_Number; ?>">
+					<?php echo ucfirst(strtolower($First_Name)); ?> <?php echo ucfirst(strtolower($Last_Name)); ?>
+				</a>
+			<?php elseif($Instructor_ID  != null): ?>
+				<a target="_blank" style="text-transform: capitalize">
+					<?php echo ucfirst(strtolower($Instructor_Name)); ?>
+				</a>
+			<?php endIf; ?>
+
 		</span>
 		<span>
 			<i class="fa fa-tag"></i> 
