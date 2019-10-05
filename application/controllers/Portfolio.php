@@ -13,7 +13,7 @@ class Portfolio extends MY_Controller {
 		  $this->load->library("Activity_logtype");
 		  //load file helper
 		  $this->load->helper('file');
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 		  $this->load->model('PortfolioModel');
 		  $this->load->model('AssessmentModel');
@@ -41,7 +41,7 @@ class Portfolio extends MY_Controller {
 	public function index()
 	{
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Search' => '',
 			'Limit' => $this->sectionlimit,
 			'ActivitiesLimit' => $this->activitieslimit,
@@ -80,7 +80,7 @@ class Portfolio extends MY_Controller {
 			$this->template($this->set_views->error());
 			return;
 		}
-		if($Student_Number == $this->student_data['Student_Number']){
+		if($Student_Number == $this->user_data['Student_Number']){
 			redirect('Portfolio');
 		}
 
@@ -97,7 +97,7 @@ class Portfolio extends MY_Controller {
 	public function Ajax_ActivityFeed_Output(){
 
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Search' => '',
 			'Limit' => $this->sectionlimit,
 			'ActivitiesLimit' => $this->activitieslimit,
@@ -110,7 +110,7 @@ class Portfolio extends MY_Controller {
 	public function Ajax_Remove_ActivityLog(){
 
 		$data = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'ID' => $this->input->get_post('ActivityID')
 		);
 		$array = array(
@@ -123,7 +123,7 @@ class Portfolio extends MY_Controller {
 	public function Ajax_GetCertNumber(){
 
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Limit' => $this->input->get_post('Limit'),
 			'Search' => $this->input->get_post('Search'),
 		);
@@ -151,10 +151,10 @@ class Portfolio extends MY_Controller {
 
 			);
 			$array = array(
-				'Student_Number' => $this->student_data['Student_Number'],
+				'Student_Number' => $this->user_data['Student_Number'],
 				'Title' => $this->input->post('CertName'),
 				'Date' => $this->logdate,
-				'Certificate' => $this->Get_Unique_CertName($this->student_data['Student_Number'].'_'.trim($this->input->post('CertName')),5),
+				'Certificate' => $this->Get_Unique_CertName($this->user_data['Student_Number'].'_'.trim($this->input->post('CertName')),5),
 			);
 			$config['upload_path']= './personaldata/Certificates/';
 			$config['allowed_types']='jpg|png';
@@ -181,7 +181,7 @@ class Portfolio extends MY_Controller {
 					//Record Activity
 					
 					$ActivityLog = array(
-						'Student_Number' => $this->student_data['Student_Number'],
+						'Student_Number' => $this->user_data['Student_Number'],
 						'Activity' => $array['Title'],
 						'Type' => 'certificate',
 						'Date' =>  $this->logdatetime
@@ -243,7 +243,7 @@ class Portfolio extends MY_Controller {
 	public function remove_certificate(){
 
 		$info = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'ID' => $this->input->get_post('ID')
 		);
 		$array = array(
@@ -271,7 +271,7 @@ class Portfolio extends MY_Controller {
 			$array = array(
 				'Organization' => $this->input->get_post('OrgName'),
 				'Description' => $this->input->get_post('OrgDescription'),
-				'Student_Number' => $this->student_data['Student_Number'],
+				'Student_Number' => $this->user_data['Student_Number'],
 				'Date' => $this->logdatetime,
 			);
 			$orgstatus = $this->PortfolioModel->insert_organization($array);
@@ -281,7 +281,7 @@ class Portfolio extends MY_Controller {
 				$result['Message'] = 'Successfully added an Organization';
 
 				$ActivityLog = array(
-					'Student_Number' => $this->student_data['Student_Number'],
+					'Student_Number' => $this->user_data['Student_Number'],
 					'Activity' => $array['Organization'],
 					'Type' => 'organization',
 					'Date' =>  $this->logdatetime
@@ -321,7 +321,7 @@ class Portfolio extends MY_Controller {
 			}
 			$data = array(
 				'ID' => $this->input->get_post('OrgId'),
-				'Student_Number' => $this->student_data['Student_Number']
+				'Student_Number' => $this->user_data['Student_Number']
 			);
 			$array = array(
 				'Organization' => $this->input->get_post('OrganizationNameEdit'),
@@ -347,7 +347,7 @@ class Portfolio extends MY_Controller {
 		
 		$data = array(
 			'ID' => $this->input->get_post('OrgId'),
-			'Student_Number' => $this->student_data['Student_Number']
+			'Student_Number' => $this->user_data['Student_Number']
 		);
 		$array = array(
 			'Valid' => 0
@@ -377,7 +377,7 @@ class Portfolio extends MY_Controller {
 	public function Ajax_org_getlist(){
 
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Limit' => $this->input->get_post('Limit'),
 			'Search' => $this->input->get_post('Search'),
 		);
@@ -387,7 +387,7 @@ class Portfolio extends MY_Controller {
 	public function Ajax_org_getinfo(){
 
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Limit' => $this->input->get_post('Limit'),
 			'Search' => $this->input->get_post('Search'),
 		);
@@ -413,7 +413,7 @@ class Portfolio extends MY_Controller {
 			$array = array(
 				'Experience' => $this->input->get_post('ExpName'),
 				'Description' => $this->input->get_post('ExpDesc'),
-				'Student_Number' => $this->student_data['Student_Number'],
+				'Student_Number' => $this->user_data['Student_Number'],
 				'Date' => $this->logdatetime,
 			);
 			$expstatus = $this->PortfolioModel->insert_experiences($array);
@@ -423,7 +423,7 @@ class Portfolio extends MY_Controller {
 				$result['Message'] = 'Successfully added an Experience';
 
 				$ActivityLog = array(
-					'Student_Number' => $this->student_data['Student_Number'],
+					'Student_Number' => $this->user_data['Student_Number'],
 					'Activity' => $array['Experience'],
 					'Type' => 'experience',
 					'Date' =>  $this->logdatetime
@@ -463,7 +463,7 @@ class Portfolio extends MY_Controller {
 			}
 			$data = array(
 				'ID' => $this->input->get_post('ExpId'),
-				'Student_Number' => $this->student_data['Student_Number']
+				'Student_Number' => $this->user_data['Student_Number']
 			);
 			$array = array(
 				'Experience' => $this->input->get_post('ExpNameEdit'),
@@ -490,7 +490,7 @@ class Portfolio extends MY_Controller {
 		
 		$data = array(
 			'ID' => $this->input->get_post('ExpId'),
-			'Student_Number' => $this->student_data['Student_Number']
+			'Student_Number' => $this->user_data['Student_Number']
 		);
 		$array = array(
 			'Valid' => 0
@@ -520,7 +520,7 @@ class Portfolio extends MY_Controller {
 	public function Ajax_exp_getlist(){
 
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Limit' => $this->input->get_post('Limit'),
 			'Search' => $this->input->get_post('Search'),
 		);
@@ -530,7 +530,7 @@ class Portfolio extends MY_Controller {
 	public function Ajax_exp_getinfo(){
 
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Limit' => $this->input->get_post('Limit'),
 			'Search' => $this->input->get_post('Search'),
 		);

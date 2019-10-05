@@ -190,8 +190,8 @@
 
                 <!--Set 'status' to '1' if unverified, set 2 if not set, set 0 if none-->
                 <div class="profile-info">
-                    <span class="name"><?php echo $this->teacher_data['Instructor_Name']; ?></span>
-                    <span class="role"><?php echo $this->teacher_data['Instructor_Type']; ?></span>
+                    <span class="name"><?php echo $this->user_data['Instructor_Name']; ?></span>
+                    <span class="role"><?php echo $this->user_data['Instructor_Type']; ?></span>
                 </div>
         
                 <i class="fa custom-caret"></i>

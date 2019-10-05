@@ -12,7 +12,7 @@ class Grades extends MY_Controller {
 		  $this->load->model('Grading');
 		  $this->load->model("Legends");
 		  $this->load->model('API/Balance');
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 		  $this->data['Page_icon'] = 'fa-tasks';
 		  $this->data['Page_title'] = 'Grades';
@@ -41,15 +41,15 @@ class Grades extends MY_Controller {
 		}
 
 		//$this->load->view('welcome_message');
-		$this->data['SchoolYear_List'] = $this->Grading->Get_Grading_SchoolYear($this->student_data);
-		$this->data['Semester_List'] = $this->Grading->Get_Grading_Semester($this->student_data);
+		$this->data['SchoolYear_List'] = $this->Grading->Get_Grading_SchoolYear($this->user_data);
+		$this->data['Semester_List'] = $this->Grading->Get_Grading_Semester($this->user_data);
 		$this->template($this->set_views->grade());
 		
 		
 	}
 	private function Get_previous_balance(){
 
-		$array['Reference_Number'] = $this->student_data['Reference_Number'];
+		$array['Reference_Number'] = $this->user_data['Reference_Number'];
 		$outstanding = $this->Balance->getOutstandingbal($array);
 		$totalpaid = $this->Balance->gettotalpaid($array);
 

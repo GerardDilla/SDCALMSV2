@@ -20,33 +20,11 @@ class MY_Controller extends CI_Controller {
     {
         //Get status of email verification
         $this->load->library('user_sessionhandler');
-        //$this->student_data = $this->user_sessionhandler->user_session();
-        $this->data['Verified'] = $this->student_data['Verified'];
 
+        $this->user_data = $this->user_sessionhandler->user_session();
 
-        //Get Status of privacy policy agreement
-        $array = array(
-            'Reference_Number' => $this->student_data['Reference_Number'],
-            'System' => 'HEI Portal'
-        );
-        $privacy_data = $this->Student_info->Check_privacy_agreement($array);
-
-        if ($middleParam == '')
-        {
-
-            $middleParam = $this->middle;
-
-        }
-        if($this->data['Verified'] == 0){
-
-            $modal = $this->load->view('Main/Verification.php', $this->data, true);
-
-        }
-        else if($privacy_data == 0){
-
-            $modal = $this->load->view('Main/Privacy_Policy.php', $this->data, true);
-
-        }
+        $modal = $this->get_modal_content($this->user_data);
+        
         //$this->data['admin_data'] = $this->user_sessionhandler->navbar_session();
         $this->template['title'] = 'SDCALMS';
         $this->template['header'] = $this->load->view('Layout/Header.php', $this->data, true);
@@ -64,7 +42,7 @@ class MY_Controller extends CI_Controller {
     {
         //Get status of email verification
         $this->load->library('user_sessionhandler');
-        //$this->teacher_data = $this->user_sessionhandler->user_session();
+        //$this->user_data = $this->user_sessionhandler->user_session();
 
         if ($middleParam == '')
         {
@@ -115,6 +93,33 @@ class MY_Controller extends CI_Controller {
         $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
         $this->template['script'] = $this->load->view('Layout/Scripts.php', $this->data, true);
         $this->load->view('Skeleton/assessment', $this->template);
+
+    }
+
+    private function get_modal_content($data = array()){
+
+        
+        $modal = '';
+        if($data['UserType'] == 1){
+    
+            //Get Status of privacy policy agreement
+            $array = array(
+                'Reference_Number' => $data['Reference_Number'],
+                'System' => 'HEI Portal'
+            );
+            $privacy_data = $this->Student_info->Check_privacy_agreement($array);
+            if($data['Verified'] == 0){
+
+                $modal = $this->load->view('Main/Verification.php', $data, true);
+
+            }
+            else if($privacy_data == 0){
+
+                $modal = $this->load->view('Main/Privacy_Policy.php', $data, true);
+
+            }
+        }
+        return $modal;
 
     }
 

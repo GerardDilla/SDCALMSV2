@@ -558,7 +558,7 @@ class Registration extends MY_Controller {
 	}
 	private function verify_session_reset(){
 
-		$student_data = array(
+		$user_data = array(
 			'Verified' => 1,
 			'Student_Number' => $this->session->userdata('LoginData')['Student_Number'],
 			'Reference_Number' => $this->session->userdata('LoginData')['Reference_Number'],
@@ -569,7 +569,7 @@ class Registration extends MY_Controller {
 			'Email' => $this->session->userdata('LoginData')['Email'],
 			'ViaRegistration' => $this->session->userdata('LoginData')['ViaRegistration']
 		);
-		$this->session->set_userdata('LoginData',$student_data);
+		$this->session->set_userdata('LoginData',$user_data);
 
 	}
 	private function AccountValidate($inputarray){

@@ -12,7 +12,7 @@ class Assessment extends MY_Controller {
 		  $this->load->library("user_sessionhandler");
 		  //load file helper
 		  $this->load->helper('file');
-		  $this->student_data = $this->user_sessionhandler->user_session(array('1'));
+		  $this->user_data = $this->user_sessionhandler->user_session(array('1'));
 
 		  $this->load->model('AssessmentModel');
 
@@ -25,7 +25,7 @@ class Assessment extends MY_Controller {
 	}
 	public function index()
 	{
-		$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
+		$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
 		$this->template($this->set_views->assessmentlist());
 		
 	}
@@ -78,7 +78,7 @@ class Assessment extends MY_Controller {
 		$data = array(
 			'AssessmentCode' => $assessmentdata[0]['AssessmentCode'],
 			'TimeStarted' => $now->format('Y-m-d H:i:s'),
-			'Student_Number' => $this->student_data['Student_Number'] == null ? $this->input->post('Student_Number') : $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'] == null ? $this->input->post('Student_Number') : $this->user_data['Student_Number'],
 			'TimeEnd' => $now->modify('+'.$assessmentdata[0]['Timelimit'].' minutes')->format('Y-m-d H:i:s')
 		);
 
@@ -158,7 +158,7 @@ class Assessment extends MY_Controller {
 	}
 	public function Examination($Assessment_Code = ''){
 
-		//$this->student_data;
+		//$this->user_data;
 		if($Assessment_Code == ''){
 
 			redirect('Assessment');
@@ -192,7 +192,7 @@ class Assessment extends MY_Controller {
 
 		);
 		$data = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'AssessmentCode' => $AssessmentCode
 		);
 
@@ -211,7 +211,7 @@ class Assessment extends MY_Controller {
 		$RespondentData = array(
 			'AssessmentCode' => $data['AssessmentCode'],
 			'Student_Number' => $data['Student_Number'],
-			'RespondentName' => $this->student_data['Full_Name'],
+			'RespondentName' => $this->user_data['Full_Name'],
 			'Start' => $TimerData[0]['TimeStarted'],
 			'End' => $now->format('Y-m-d H:i:s'),
 		);
@@ -283,7 +283,7 @@ class Assessment extends MY_Controller {
 		$data = array(
 
 			'AssessmentCode' => $AssessmentCode,
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'Score' => 0,
 			'TotalPoints' => 0,
 			'CorrectCount' => 0,
@@ -443,7 +443,7 @@ class Assessment extends MY_Controller {
 			
 			'AssessmentCode' => $AsssessmentData[0]['AssessmentCode'],
 			'TimeStarted' => $now->format('Y-m-d H:i:s'),
-			'Student_Number' => $this->student_data['Student_Number']
+			'Student_Number' => $this->user_data['Student_Number']
 
 		);
 		

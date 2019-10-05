@@ -193,18 +193,18 @@
                     
                     data-lock-baseurl="<?php echo base_url(); ?>" 
                     
-                    data-lock-name="<?php echo $this->student_data['Full_Name']; ?>" 
+                    data-lock-name="<?php echo $this->user_data['General_Name']; ?>" 
                     
-                    data-lock-studentnumber="<?php echo $this->student_data['Student_Number']; ?>"
+                    data-lock-studentnumber="<?php echo $this->user_data['General_ID']; ?>"
 
-                    data-lock-status="<?php echo $this->student_data['Verified']; ?>"
+                    data-lock-status="<?php echo $this->user_data['Verified']; ?>"
 
-                    data-lock-email="<?php echo $this->student_data['Email']; ?>"
+                    data-lock-email="<?php echo $this->user_data['Email']; ?>"
 
                 >
 
-                    <span class="name"><?php echo $this->student_data['Full_Name']; ?></span>
-                    <span class="role"><?php echo $this->student_data['Student_Number']; ?></span>
+                    <span class="name"><?php echo $this->user_data['General_Name']; ?></span>
+                    <span class="role"><?php echo $this->user_data['General_ID']; ?></span>
                 </div>
         
                 <i class="fa custom-caret"></i>

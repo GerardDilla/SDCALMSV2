@@ -15,7 +15,7 @@ class Admin_Faculty extends MY_Controller {
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Prof_Search_Model');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Proffesor_Model');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Results_Model');
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 	}
 /// SEARCH STUDENTS  MOUDLE

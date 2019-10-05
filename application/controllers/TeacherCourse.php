@@ -12,7 +12,7 @@ class TeacherCourse extends MY_Controller {
 		$this->load->library("user_sessionhandler");
 		//load file helper
 		$this->load->helper('file');
-		$this->teacher_data = $this->user_sessionhandler->user_session();
+		$this->user_data = $this->user_sessionhandler->user_session();
 
 		$this->load->model("Legends");
 		$this->load->model('AssessmentModel');
@@ -30,7 +30,7 @@ class TeacherCourse extends MY_Controller {
 
 		//Defines the token needed for attachments to function properly
 		$this->data['Usertype'] = 'instructor';
-		$this->data['Usertoken'] = md5($this->teacher_data['Instructor_Unique_ID']); 
+		$this->data['Usertoken'] = md5($this->user_data['Instructor_Unique_ID']); 
 
 	}
 	public function index($SchedCode = '')
@@ -105,7 +105,7 @@ class TeacherCourse extends MY_Controller {
 		else{
 
 			$array = array(
-				'Instructor_ID' => $this->teacher_data['Instructor_Uniqure_ID'],
+				'Instructor_ID' => $this->user_data['Instructor_Uniqure_ID'],
 				'SchedCode' => $SchedCode,
 				'Description' => $this->input->post('Post'),
 				'Date' => $this->logdatetime,
@@ -168,7 +168,7 @@ class TeacherCourse extends MY_Controller {
 	private function courselist(){
 
 		$this->data['Subjects'] = $this->construct_course_output();
-		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->teacher_data);
+		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
 		$this->instructor_template($this->set_views->courselist());
 
 	}
@@ -185,7 +185,7 @@ class TeacherCourse extends MY_Controller {
 		$count = 0;
 		$legend = $this->Legends->Get_Legends();
 		$array = array(
-			'Student_Number' => $this->teacher_data['Instructor_ID'],
+			'Student_Number' => $this->user_data['Instructor_ID'],
 			'School_Year' => $legend[0]['School_Year'],
 			'Semester' => $legend[0]['Semester']
 		);

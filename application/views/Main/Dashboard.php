@@ -29,8 +29,8 @@
 														<img src="<?php echo base_url(); ?>personaldata/Profilepicture/default.png" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" />
 													</figure>
 													<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-														<span class="name"><?php echo $this->student_data['Full_Name']; ?></span>
-														<span class="name"><?php echo $this->student_data['Student_Number']; ?></span>
+														<span class="name"><?php echo $this->user_data['Full_Name']; ?></span>
+														<span class="name"><?php echo $this->user_data['Student_Number']; ?></span>
 													</div>
 												</a>
 										</div>
@@ -123,7 +123,7 @@
 <!-- Balance API Handler -->
 <script>
 $(document).ready(function() {
-    DashboardStart('<?php echo base_url(); ?>','<?php echo $this->student_data['Reference_Number']; ?>','2017-2018','FIRST');
+    DashboardStart('<?php echo base_url(); ?>','<?php echo $this->user_data['Reference_Number']; ?>','2017-2018','FIRST');
 });
 </script>
 <!-- Balance API Handler -->

@@ -12,7 +12,7 @@ class AssessmentBuilder extends MY_Controller {
 		  $this->load->library("user_sessionhandler");
 		  //load file helper
 		  $this->load->helper('file');
-		  $this->teacher_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 		  $this->load->model('AssessmentModel');
 		  $this->load->model('Rubric_Model/Rubric');
 
@@ -25,8 +25,8 @@ class AssessmentBuilder extends MY_Controller {
 	}
 	public function index()
 	{
-		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
-		$InstructorID = $this->teacher_data['Instructor_Unique_ID'];
+		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
+		$InstructorID = $this->user_data['Instructor_Unique_ID'];
 		$this->data['RubricsList'] = $this->Rubric->RubricsList($InstructorID);
 		$this->instructor_template($this->set_views->assesssment_builder());
 	}
@@ -35,7 +35,7 @@ class AssessmentBuilder extends MY_Controller {
 		/*
 		$data = array(
 
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'AssessmentName' =>  '',
 			'AssessmentDescription' => '',
 			'RubricsID' => '',
@@ -179,7 +179,7 @@ class AssessmentBuilder extends MY_Controller {
 			$AssessmentData = array(
 				'AssessmentName' => $this->input->post('AssessmentName'),
 				'Description' => $this->input->post('AssessmentDescription'),
-				'InstructorID' => $this->teacher_data['Instructor_Unique_ID'],
+				'InstructorID' => $this->user_data['Instructor_Unique_ID'],
 				'rubrics_id' => $this->input->post('Rubrics'),
 				'StartDate' => $start,
 				'EndDate' => $end,

@@ -12,7 +12,7 @@ class Course extends MY_Controller {
 		$this->load->library("user_sessionhandler");
 		//load file helper
 		$this->load->helper('file');
-		$this->student_data = $this->user_sessionhandler->user_session();
+		$this->user_data = $this->user_sessionhandler->user_session();
 
 		$this->load->model("Legends");
 		$this->load->model('AssessmentModel');
@@ -29,8 +29,15 @@ class Course extends MY_Controller {
 		$this->logdate = date("Y/m/d");
 
 		//Defines the token needed for attachments to function properly
-		$this->data['Usertype'] = 'student';
-		$this->data['Usertoken'] = md5($this->student_data['Student_Number']); 
+		if($this->user_data['UserType'] == '1'){
+			$this->data['Usertype'] = 'student';
+			$this->data['Usertoken'] = md5($this->user_data['Student_Number']); 
+		}
+		else if($this->user_data['UserType'] == '2'){
+			$this->data['Usertype'] = 'instructor';
+			$this->data['Usertoken'] = md5($this->user_data['Instructor_Unique_ID']); 
+		}
+
 
 	}
 	public function index($SchedCode = '')
@@ -63,7 +70,7 @@ class Course extends MY_Controller {
 	public function Ajax_get_assessments(){
 
 		//Temporary. Should be in teacher's side
-		echo json_encode($this->AssessmentModel->Get_Assessment_List());
+		echo json_encode($this->AssessmentModel->Get_Assessment_List(array('Instructor_ID' => $this->user_data['Instructor_Unique_ID'])));
 
 	}
 	private function CoursePost($SchedCode){
@@ -104,7 +111,8 @@ class Course extends MY_Controller {
 		else{
 
 			$array = array(
-				'Student_Number' => $this->student_data['Student_Number'],
+				'Student_Number' => $this->user_data['Student_Number'] ? $this->user_data['Student_Number'] : null,
+				'Instructor_ID' => $this->user_data['Instructor_Unique_ID'] ? $this->user_data['Instructor_Unique_ID'] : null,
 				'SchedCode' => $SchedCode,
 				'Description' => $this->input->post('Post'),
 				'Date' => $this->logdatetime,
@@ -168,7 +176,7 @@ class Course extends MY_Controller {
 	private function courselist(){
 
 		$this->data['Subjects'] = $this->construct_course_output();
-		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->student_data);
+		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
 		$this->template($this->set_views->courselist());
 
 	}
@@ -185,7 +193,7 @@ class Course extends MY_Controller {
 		$count = 0;
 		$legend = $this->Legends->Get_Legends();
 		$array = array(
-			'Student_Number' => $this->student_data['Student_Number'],
+			'Student_Number' => $this->user_data['Student_Number'],
 			'School_Year' => $legend[0]['School_Year'],
 			'Semester' => $legend[0]['Semester']
 		);

@@ -12,7 +12,7 @@ class Mailertest extends MY_Controller {
 		  $this->load->library('email');
 		  $this->load->model('Grading');
 		  $this->load->model("Legends");
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 		  //Gets Legends
 		  $this->legends = $this->Legends->Get_Legends("Legends")[0];

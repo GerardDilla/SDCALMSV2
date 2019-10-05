@@ -11,7 +11,7 @@ class Faculty_Evaluation extends MY_Controller {
 		  $this->load->library("user_sessionhandler");
 		  $this->load->model('Student_model/Student_info');
 		  $this->load->model('Faculty_Evaluation_Model/Faculty_Evaluation_Model');
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 	}
 
@@ -36,8 +36,8 @@ class Faculty_Evaluation extends MY_Controller {
 			$array = array(
 				'sem'     =>  $this->data['getlegend'][0]['semester'],
 				'sy'      =>  $this->data['getlegend'][0]['schoolyear'],
-				'stu_num' =>  $this->student_data['Student_Number'],
-				'ref'     =>  $this->Student_info->Student_Info_byREF($this->student_data)[0]['Reference_Number']
+				'stu_num' =>  $this->user_data['Student_Number'],
+				'ref'     =>  $this->Student_info->Student_Info_byREF($this->user_data)[0]['Reference_Number']
  			);
 		$this->data['data']             = $this->Faculty_Evaluation_Model->Get_Subjects($array);
 		$this->data['getenrolled']      = $this->Faculty_Evaluation_Model->Get_Enrolled($array);
@@ -46,7 +46,7 @@ class Faculty_Evaluation extends MY_Controller {
 			$array2 = array(
 				'sem'            =>  $this->data['getlegend'][0]['semester'],
 			     'sy'            =>  $this->data['getlegend'][0]['schoolyear'],
-				'stu_num'        =>  $this->student_data['Student_Number'],
+				'stu_num'        =>  $this->user_data['Student_Number'],
 				'instructor_id'  =>  $row['Instructor_ID'],
 				'sched_code'     =>  $row['Sched_Code']
 			  );
@@ -60,8 +60,8 @@ class Faculty_Evaluation extends MY_Controller {
 	public function Insert()
 	{
 		$instructor_id            = $this->input->post('instrutor_id');
-		$student_number           = $this->student_data['Student_Number'];
-		$Reference_Number         = $this->Student_info->Student_Info_byREF($this->student_data)[0]['Reference_Number'];
+		$student_number           = $this->user_data['Student_Number'];
+		$Reference_Number         = $this->Student_info->Student_Info_byREF($this->user_data)[0]['Reference_Number'];
 		$sem                      = $this->input->post('sem');
 		$term                     = $this->input->post('term');
 		$sy                       = $this->input->post('sy');

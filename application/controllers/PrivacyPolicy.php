@@ -13,7 +13,7 @@ class PrivacyPolicy extends MY_Controller {
 		  $this->load->library("api_input_validator");
 		  $this->load->library('email');
 		  $this->load->model('Student_model/Student_info');
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 		  //Department
 		  $this->system = 'HEI Portal';

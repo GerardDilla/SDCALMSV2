@@ -36,9 +36,9 @@ $(document).ready(function() {
                     <i class="fa fa-envelope-o"></i>
                 </div>
                 <div class="modal-text">
-                <h4>Welcome, <?php echo $this->student_data['First_Name']; ?>!</h4>
+                <h4>Welcome, <?php echo $this->user_data['First_Name']; ?>!</h4>
 
-                <?php if($this->student_data['ViaRegistration'] == 0): ?>
+                <?php if($this->user_data['ViaRegistration'] == 0): ?>
 
                     <br>
                     <p>You're one step away from accessing your Student Portal!<br>
@@ -56,7 +56,7 @@ $(document).ready(function() {
 
                     <div id="verification_panel">
                         <div class="input-group input-group-icon">
-                            <input type="text" class="form-control" id="emailverify" value="<?php echo $this->student_data['Email']; ?>">
+                            <input type="text" class="form-control" id="emailverify" value="<?php echo $this->user_data['Email']; ?>">
                             
                             <span class="input-group-addon">
                                 <span class="icon"><i class="fa fa-envelope-o"></i></span>
@@ -69,7 +69,7 @@ $(document).ready(function() {
                     </div>
 
                     
-                <?php elseif($this->student_data['ViaRegistration'] == 1): ?>
+                <?php elseif($this->user_data['ViaRegistration'] == 1): ?>
 
                     
                     <br>
@@ -83,7 +83,7 @@ $(document).ready(function() {
 
                         <hr>
                         
-                        <h5>Registered Email: <?php echo $this->student_data['Email']; ?></h5>
+                        <h5>Registered Email: <?php echo $this->user_data['Email']; ?></h5>
 
                     <br>
 
@@ -102,7 +102,7 @@ $(document).ready(function() {
 
                         <button class="btn btn-primary" onclick="refreshpage()">Refresh</button>
 
-                    <?php if($this->student_data['ViaRegistration'] == 0): ?>
+                    <?php if($this->user_data['ViaRegistration'] == 0): ?>
 
                         <button id="verify_button" class="btn btn-primary" onclick="INIT_mailer()">Send</button>
                         
@@ -165,7 +165,7 @@ function Check_if_emailverified(){
     return $.ajax( {
         url: '<?php echo base_url(); ?>index.php/Registration/Email_Verification_check',
         type: 'GET',
-        data: { Student_Number: '<?php echo $this->student_data['Student_Number']; ?>' },
+        data: { Student_Number: '<?php echo $this->user_data['Student_Number']; ?>' },
 
     });
 
@@ -197,7 +197,7 @@ function INIT_mailer(){
         url: '<?php echo base_url(); ?>index.php/Registration/Init_AjaxVerification',
         type: 'GET',
         data: { 
-            Student_Number: '<?php echo $this->student_data['Student_Number']; ?>',
+            Student_Number: '<?php echo $this->user_data['Student_Number']; ?>',
             Email: $('#emailverify').val(),
             g_recaptcha_response: $('#g-recaptcha-response').val()
         },

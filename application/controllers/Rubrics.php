@@ -10,12 +10,12 @@ class Rubrics extends MY_Controller {
 		$this->load->library("set_views");
 		$this->load->library("user_sessionhandler");
 		$this->load->model('Rubric_Model/Rubric');
-		$this->teacher_data = $this->user_sessionhandler->user_session();
+		$this->user_data = $this->user_sessionhandler->user_session();
 
 	}
 	public function index()
 	{
-		$Instructor = $this->teacher_data['Instructor_Unique_ID'];
+		$Instructor = $this->user_data['Instructor_Unique_ID'];
 	    $this->data['GetRubrics'] =	$this->Rubric->SelectRubrics($Instructor);
 		$this->instructor_template($this->set_views->rubrics_table());
 	}
@@ -64,7 +64,7 @@ class Rubrics extends MY_Controller {
 		$Description          = $this->input->post('description');
 	
 		$insert['rubrics']             = $RubricsTitle;
-		$insert['InstructorID']        = $this->teacher_data['Instructor_Unique_ID'];
+		$insert['InstructorID']        = $this->user_data['Instructor_Unique_ID'];
 	    $insert['description']         = $RubricsDescription;
 
 	    

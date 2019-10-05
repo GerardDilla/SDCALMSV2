@@ -9,7 +9,7 @@ class ParentDashboard extends MY_Controller {
 
 		  $this->load->library("set_views");
 		  $this->load->library("user_sessionhandler");
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 	}
 

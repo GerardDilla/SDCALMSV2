@@ -114,7 +114,7 @@
 <script>
     $(document).ready(function() {
         $("#Grade_finder").click(function() {
-            Init_GradingAPI('<?php echo base_url(); ?>index.php/API/GradingAPI','<?php echo $this->student_data['Reference_Number']; ?>');
+            Init_GradingAPI('<?php echo base_url(); ?>index.php/API/GradingAPI','<?php echo $this->user_data['Reference_Number']; ?>');
         });
     });
 </script>

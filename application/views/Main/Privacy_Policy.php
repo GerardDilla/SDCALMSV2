@@ -24,7 +24,7 @@ $(document).ready(function() {
             <div class="modal-body" style="padding-bottom:5px;">
                 <div id="PolicyContainer" style="overflow-y: scroll; max-height:300px; padding: 15px 0px 5px 0px; color:#000">
                     <p>
-                        I <u><strong><?php echo $this->student_data['Full_Name']; ?></strong></u> of legal age, hereby voluntarily and knowingly authorize St. Dominic College of Asia to collect, process or release my personal and sensitive information that may be used for internal and external school official and legal transactions.
+                        I <u><strong><?php echo $this->user_data['Full_Name']; ?></strong></u> of legal age, hereby voluntarily and knowingly authorize St. Dominic College of Asia to collect, process or release my personal and sensitive information that may be used for internal and external school official and legal transactions.
                         I agree on the following conditions:
                     </p>
                     <ol>
@@ -91,7 +91,7 @@ function Init_privacypolicy_agree(agree = '', parent_agree = ''){
         url: '<?php echo base_url(); ?>index.php/PrivacyPolicy',
         type: 'GET',
         data: { 
-            Reference_Number: '<?php echo $this->student_data['Reference_Number']; ?>',
+            Reference_Number: '<?php echo $this->user_data['Reference_Number']; ?>',
             agree: agree,
             parent_agree: parent_agree
         },

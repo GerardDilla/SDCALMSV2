@@ -11,7 +11,7 @@ class TeacherDashboard extends MY_Controller {
 		  $this->load->library("user_sessionhandler");
 		  $this->load->model('Grading');
 		  $this->load->model("Legends");
-		  $this->teacher_data = $this->user_sessionhandler->user_session(array('2'));
+		  $this->user_data = $this->user_sessionhandler->user_session(array('2'));
 		  //Gets Legends
 		  $this->legends = $this->Legends->Get_Legends("Legends")[0];
 		  

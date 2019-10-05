@@ -112,7 +112,7 @@
 <script>
     $(document).ready(function() {
         $("#Sched_finder").click(function() {
-            Init_ScheduleAPI('<?php echo base_url(); ?>index.php/API/ScheduleAPI','<?php echo $this->student_data['Reference_Number']; ?>');
+            Init_ScheduleAPI('<?php echo base_url(); ?>index.php/API/ScheduleAPI','<?php echo $this->user_data['Reference_Number']; ?>');
         });
     });
 </script>

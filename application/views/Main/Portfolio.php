@@ -28,8 +28,8 @@
 						<div class="thumb-info mb-md">
 							<img src="<?php echo base_url(); ?>personaldata/Profilepicture/default.png" class="rounded img-responsive" alt="John Doe">
 							<div class="thumb-info-title">
-								<span class="thumb-info-inner"><?php echo $this->student_data['Full_Name']; ?></span>
-								<span class="thumb-info-type"><?php echo $this->student_data['Student_Number']; ?></span>
+								<span class="thumb-info-inner"><?php echo $this->user_data['Full_Name']; ?></span>
+								<span class="thumb-info-type"><?php echo $this->user_data['Student_Number']; ?></span>
 							</div>
 						</div>
 
@@ -45,7 +45,7 @@
 
 						<hr class="dotted short">
 						<h6 class="text-muted">Email</h6>
-						<p style="color:green"><?php echo $this->student_data['Email']; ?></p>
+						<p style="color:green"><?php echo $this->user_data['Email']; ?></p>
 
 						<hr class="dotted short">
 						<h6 class="text-muted">Course</h6>
@@ -185,7 +185,7 @@
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="profileFirstName">Current Email</label>
 													<div class="col-md-8">
-														<input type="readonly" disabled class="form-control" value="<?php echo $this->student_data['Email']; ?>">
+														<input type="readonly" disabled class="form-control" value="<?php echo $this->user_data['Email']; ?>">
 													</div>
 												</div>
 												<div class="form-group">

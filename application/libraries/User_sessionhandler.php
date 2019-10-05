@@ -33,7 +33,12 @@ class User_sessionhandler
 					'ViaRegistration' => $this->CI->session->userdata('LoginData')['ViaRegistration'],
 					'Verified' => $this->CI->session->userdata('LoginData')['Verified'],
 					'UserType' => $this->CI->session->userdata('LoginData')['UserType'],
+
+					//For General displaying of user's information
+					'General_Name' => $this->CI->session->userdata('LoginData')['First_Name'].' '.$this->CI->session->userdata('LoginData')['Middle_Name'].' '.$this->CI->session->userdata('LoginData')['Last_Name'],
+					'General_ID' => $this->CI->session->userdata('LoginData')['Student_Number'],
 				);
+				
 
 			}
 			//IF user is Instructor
@@ -45,7 +50,15 @@ class User_sessionhandler
 					'Instructor_Type' => $this->CI->session->userdata('LoginData')['Instructor_Type'],
 					'Instructor_Name' => $this->CI->session->userdata('LoginData')['Instructor_Name'],
 					'UserType' => $this->CI->session->userdata('LoginData')['UserType'],
+
+					//For General displaying of user's information
+					'General_Name' => $this->CI->session->userdata('LoginData')['Instructor_Name'],
+					'General_ID' => $this->CI->session->userdata('LoginData')['Instructor_ID'],
+					'Email' => '',
+					'Verified' => '',
 				);
+				
+
 				
 			}
 			//IF user is admin
@@ -71,11 +84,11 @@ class User_sessionhandler
 	public function check_accessibility($granted_access = array() , $usertype){
 
 		/* 
-		Guide:
-		1 = student,
-		2 = instructor,
-		3 = parent,
-		0 = all users
+			Guide:
+			1 = student,
+			2 = instructor,
+			3 = parent,
+			0 = all users (may cause errors)
 		*/
 
 		//print_r($granted_access);
