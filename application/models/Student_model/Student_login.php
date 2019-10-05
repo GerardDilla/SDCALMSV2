@@ -25,7 +25,7 @@ class Student_login extends CI_Model{
 		$this->db->where('A.Student_Number <>','0');
 		$this->db->where('A.Active','1');
 		$this->db->join('Student_Info AS B','A.Student_Number = B.Student_Number');
-		$result = $this->db->get('highered_accounts AS A');
+		$result = $this->db->get('highered_accounts_v2 AS A');
 		return $result->result_array();
 	
 	}

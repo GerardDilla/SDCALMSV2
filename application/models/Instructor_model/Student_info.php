@@ -34,7 +34,7 @@ class Student_info extends CI_Model{
 
 		$this->db->where('Email',$array['Email']);
 		$this->db->where('Active',1);
-		$result = $this->db->get('highered_Accounts');
+		$result = $this->db->get('highered_accounts_v2');
 		return $result->result_array();
 
 	}
@@ -46,7 +46,7 @@ class Student_info extends CI_Model{
 		$this->db->where('A.Student_Number <>',NULL);
 		$this->db->where('A.Student_Number <>','0');
 		$this->db->where('B.Active','1');
-		$this->db->join('highered_accounts AS B','A.Student_Number = B.Student_Number');
+		$this->db->join('highered_accounts_v2 AS B','A.Student_Number = B.Student_Number');
 		$result = $this->db->get('Student_Info AS A');
 		return $result->result_array();
 		
@@ -59,7 +59,7 @@ class Student_info extends CI_Model{
 		$this->db->where('A.Student_Number <>','0');
 		$this->db->where('B.Active','1');
 		$this->db->group_by('A.Student_Number');
-		$this->db->join('highered_accounts AS B','A.Student_Number = B.Student_Number');
+		$this->db->join('highered_accounts_v2 AS B','A.Student_Number = B.Student_Number');
 		$result = $this->db->get('Student_Info AS A');
 		return $result->result_array();
 		
@@ -120,14 +120,14 @@ class Student_info extends CI_Model{
 	}
 	public function InsertNewAccount($array){
 
-		$this->db->insert('highered_accounts',$array);
+		$this->db->insert('highered_accounts_v2',$array);
 		return $this->db->insert_id();
 	}
 	public function VerifyEmail($array){
 
 		$this->db->where('Student_Number',$array['Student_Number']);
 		$this->db->where('Active',1);
-		$this->db->update('highered_accounts',$array);
+		$this->db->update('highered_accounts_v2',$array);
 		return $this->db->affected_rows();
 
 	}
@@ -136,7 +136,7 @@ class Student_info extends CI_Model{
 		$this->db->where('Student_Number',$array['Student_Number']);
 		$this->db->where('Verified',1);
 		$this->db->where('Active',1);
-		$result = $this->db->get('highered_accounts');
+		$result = $this->db->get('highered_accounts_v2');
 		return $result;
 	}
 	public function Check_privacy_agreement($array){

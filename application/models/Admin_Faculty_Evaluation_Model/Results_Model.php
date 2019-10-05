@@ -25,7 +25,7 @@ class Results_Model extends CI_Model{
 	public function Get_Prof($array_data)
 	{
 		$this->db->select('*');
-		$this->db->from('instructor');
+		$this->db->from('Instructor');
 		$this->db->where('Active =','1');
 		$this->db->like('Instructor_Name',$array_data['Proffesor']);
 		$this->db->limit($array_data['perpage'],$array_data['offset']);
@@ -37,7 +37,7 @@ class Results_Model extends CI_Model{
 	public function Get_Profs($array_data)
 	{
 		$this->db->select('*');
-		$this->db->from('instructor');
+		$this->db->from('Instructor');
 		$this->db->where('Active =','1');
 		$this->db->like('Instructor_Name',$array_data['Proffesor']);
 		$this->db->order_by('Instructor_Name','ASC');
@@ -49,7 +49,7 @@ class Results_Model extends CI_Model{
 	{
 		$this->db->select('*');
 		$this->db->from('ie_evaluationresult');
-		$this->db->where('instructor =',$array['Proffesor']);
+		$this->db->where('Instructor =',$array['Proffesor']);
 		$this->db->where('Semester =',$array['sem']);
 		$this->db->where('School_Year =',$array['sy']);
 		$this->db->group_by('Reference_Number');
@@ -95,7 +95,7 @@ class Results_Model extends CI_Model{
 		$this->db->from('ie_evaluationresult');
 		$this->db->where('Semester      =',$array['sem']);
 		$this->db->where('School_Year   =',$array['sy']);
-		$this->db->where('instructor    =',$array['Prof_id']);
+		$this->db->where('Instructor    =',$array['Prof_id']);
 		$this->db->where('area_id       =',$array['areaID']);
 		$this->db->where('question_id    =',$array['eval_id']);
 		$this->db->where('eval_answers  =',$array['ratings']);

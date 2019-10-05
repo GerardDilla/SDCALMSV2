@@ -9,10 +9,10 @@ class AssessmentBuilder extends MY_Controller {
 
 		  $this->load->library("set_views");
 		  $this->load->library('form_validation');
-		  $this->load->library("Set_custom_session");
+		  $this->load->library("user_sessionhandler");
 		  //load file helper
 		  $this->load->helper('file');
-		  $this->teacher_data = $this->set_custom_session->teacher_session();
+		  $this->teacher_data = $this->user_sessionhandler->user_session();
 		  $this->load->model('AssessmentModel');
 		  $this->load->model('Rubric_Model/Rubric');
 

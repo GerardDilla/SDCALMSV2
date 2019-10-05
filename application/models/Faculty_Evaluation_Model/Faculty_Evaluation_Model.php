@@ -34,7 +34,7 @@ class Faculty_Evaluation_Model extends CI_Model{
 		$this->db->where('student_number =',$array2['stu_num']);  
 		$this->db->where('Semester =',$array2['sem']);
 		$this->db->where('School_Year =',$array2['sy']);
-		$this->db->where('instructor =',$array2['instructor_id']);
+		$this->db->where('Instructor =',$array2['Instructor_id']);
 		$this->db->where('sched_code =',$array2['sched_code']);
 		$query = $this->db->get();
 		return $query;
@@ -119,11 +119,11 @@ class Faculty_Evaluation_Model extends CI_Model{
 		
 
 	//GET INSTRUCTOR
-	public function Get_instructor($instructor_id){
+	public function Get_Instructor($Instructor_id){
 		
 		$this->db->select('*');
-		$this->db->from('instructor');
-		$this->db->where('ID =',$instructor_id);
+		$this->db->from('Instructor');
+		$this->db->where('ID =',$Instructor_id);
 		$query = $this->db->get();
 		return $query->result_array();
 	}

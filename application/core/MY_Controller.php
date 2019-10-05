@@ -19,9 +19,10 @@ class MY_Controller extends CI_Controller {
     public function template($middleParam = '',$modal='')
     {
         //Get status of email verification
-        $this->load->library('Set_custom_session');
-        $this->student_data = $this->set_custom_session->student_session();
+        $this->load->library('user_sessionhandler');
+        //$this->student_data = $this->user_sessionhandler->user_session();
         $this->data['Verified'] = $this->student_data['Verified'];
+
 
         //Get Status of privacy policy agreement
         $array = array(
@@ -46,7 +47,7 @@ class MY_Controller extends CI_Controller {
             $modal = $this->load->view('Main/Privacy_Policy.php', $this->data, true);
 
         }
-        //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
+        //$this->data['admin_data'] = $this->user_sessionhandler->navbar_session();
         $this->template['title'] = 'SDCALMS';
         $this->template['header'] = $this->load->view('Layout/Header.php', $this->data, true);
         $this->template['navbar'] = $this->load->view('Layout/Navbar.php', $this->data, true);
@@ -62,8 +63,8 @@ class MY_Controller extends CI_Controller {
     public function instructor_template($middleParam = '',$modal='')
     {
         //Get status of email verification
-        $this->load->library('Set_custom_session');
-        $this->teacher_data = $this->set_custom_session->teacher_session();
+        $this->load->library('user_sessionhandler');
+        //$this->teacher_data = $this->user_sessionhandler->user_session();
 
         if ($middleParam == '')
         {
@@ -71,7 +72,7 @@ class MY_Controller extends CI_Controller {
             $middleParam = $this->middle;
 
         }
-        //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
+        //$this->data['admin_data'] = $this->user_sessionhandler->navbar_session();
         $this->template['title'] = 'SDCALMS';
         $this->template['header'] = $this->load->view('InstructorLayout/Header.php', $this->data, true);
         $this->template['navbar'] = $this->load->view('InstructorLayout/Navbar.php', $this->data, true);
@@ -91,7 +92,7 @@ class MY_Controller extends CI_Controller {
         {
             $middleParam = $this->middle;
         }
-        //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
+        //$this->data['admin_data'] = $this->user_sessionhandler->navbar_session();
         $this->template['title'] = 'SDCALMS';
         $this->template['header'] = $this->load->view('Layout/Header.php', $this->data, true);
         $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
@@ -108,7 +109,7 @@ class MY_Controller extends CI_Controller {
         {
             $middleParam = $this->middle;
         }
-        //$this->data['admin_data'] = $this->set_custom_session->navbar_session();
+        //$this->data['admin_data'] = $this->user_sessionhandler->navbar_session();
         $this->template['title'] = 'SDCALMS';
         $this->template['header'] = $this->load->view('Layout/Header.php', $this->data, true);
         $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
