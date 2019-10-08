@@ -112,7 +112,18 @@ class set_views
 
 
 
-    ///Rubrics ///////////////
+	///Rubrics ///////////////
+	
+
+	///Reports ///////////////
+
+	public function report_class_list()
+	{
+	    return $this->main.'/Report_Class_List';
+	}
+	 
+	///Reports ///////////////
+	 
 
 
 
