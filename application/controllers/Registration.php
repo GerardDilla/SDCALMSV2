@@ -9,7 +9,7 @@ class Registration extends MY_Controller {
 
 		  $this->load->library("set_views");
 		  $this->load->library('form_validation');
-		  $this->load->library('Set_custom_session');
+		  $this->load->library('user_sessionhandler');
 		  $this->load->library("api_input_validator");
 		  $this->load->library('email');
 		  $this->load->model('Student_model/Student_login');

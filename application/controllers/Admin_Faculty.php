@@ -8,14 +8,14 @@ class Admin_Faculty extends MY_Controller {
 		  parent::__construct();
 
 		  $this->load->library("set_views");
-		  $this->load->library("Set_custom_session");
+		  $this->load->library("user_sessionhandler");
 		  $this->load->library('pagination');
 		  $this->load->model('Student_model/Student_info');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Search_Student_Model');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Prof_Search_Model');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Proffesor_Model');
 		  $this->load->model('Admin_Faculty_Evaluation_Model/Results_Model');
-		  $this->student_data = $this->set_custom_session->student_session();
+		  $this->student_data = $this->user_sessionhandler->user_session();
 
 	}
 /// SEARCH STUDENTS  MOUDLE

@@ -7,7 +7,7 @@ class Instructor_login extends CI_Model{
 	{
 		$this->db->where('Instructor_ID',$array['Instructor_ID']);
 		$this->db->where('Passkey',$array['Passkey']);
-		$result = $this->db->get('instructor');
+		$result = $this->db->get('Instructor');
 		return $result->result_array();
 			
 	}

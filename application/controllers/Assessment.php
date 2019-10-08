@@ -9,10 +9,10 @@ class Assessment extends MY_Controller {
 
 		  $this->load->library("set_views");
 		  $this->load->library('form_validation');
-		  $this->load->library("Set_custom_session");
+		  $this->load->library("user_sessionhandler");
 		  //load file helper
 		  $this->load->helper('file');
-		  $this->student_data = $this->set_custom_session->student_session();
+		  $this->student_data = $this->user_sessionhandler->user_session(array('1'));
 
 		  $this->load->model('AssessmentModel');
 

@@ -1,7 +1,7 @@
 <div class="center-sign">
     
     <a href="/" class="logo pull-left">
-        <img src="<?php echo base_url(); ?>assets/images/logo-default.png" height="54" alt="Porto Admin" />
+        <img src="<?php echo base_url(); ?>assets/images/Logo_white.png" height="54" alt="Porto Admin" />
     </a>
 
     <div class="panel panel-sign">

@@ -8,9 +8,9 @@ class Rubrics extends MY_Controller {
 		parent::__construct();
 
 		$this->load->library("set_views");
-		$this->load->library("Set_custom_session");
+		$this->load->library("user_sessionhandler");
 		$this->load->model('Rubric_Model/Rubric');
-		$this->teacher_data = $this->set_custom_session->teacher_session();
+		$this->teacher_data = $this->user_sessionhandler->user_session();
 
 	}
 	public function index()

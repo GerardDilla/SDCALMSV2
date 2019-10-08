@@ -33,7 +33,7 @@ class Prof_Search_Model extends CI_Model{
 		$this->db->select('B.`Instructor_ID`,C.`ID`,C.`Instructor_Name`');
 		$this->db->from('sched AS A');
 		$this->db->join('sched_display AS B', 'A.`Sched_Code` = B.`Sched_Code`','LEFT');
-		$this->db->join('instructor AS C','C.`ID` = B.`Instructor_ID`','LEFT');
+		$this->db->join('Instructor AS C','C.`ID` = B.`Instructor_ID`','LEFT');
 		$this->db->where('A.`Semester`=', $array['sem']);
 		$this->db->where('A.`SchoolYear`=',$array['sy']);
 		$this->db->where('B.`Instructor_ID` !=','');
@@ -53,7 +53,7 @@ class Prof_Search_Model extends CI_Model{
 		$this->db->join('sched_display AS B', 'A.`Sched_Code` = B.`Sched_Code`','LEFT');
 		$this->db->join('subject AS D', 'A.`Course_Code` = D.`Course_Code`','LEFT');
 		$this->db->join('sections AS E', 'E.`Section_ID` = A.`Section_ID`','LEFT');
-		$this->db->join('instructor AS C','C.`ID` = B.`Instructor_ID`','LEFT');
+		$this->db->join('Instructor AS C','C.`ID` = B.`Instructor_ID`','LEFT');
 		$this->db->where('A.`Semester`=', $array['sem']);
 		$this->db->where('A.`SchoolYear`=',$array['sy']);
 		$this->db->where('B.`Instructor_ID` =',$array['proffesor']);
@@ -92,7 +92,7 @@ class Prof_Search_Model extends CI_Model{
 		$this->db->where('B.`Semester` =',$array['sem']);
 		$this->db->where('A.`School_Year`=',$array['sy']);
 		$this->db->where('B.`SchoolYear` =',$array['sy']);
-		$this->db->where('A.`instructor` =',$array['proffesor']);
+		$this->db->where('A.`Instructor` =',$array['proffesor']);
 		$this->db->where('C.`Section_Name` =',$array['Section']);
 		$this->db->group_by('A.`Reference_Number`');
 		$query = $this->db->get();

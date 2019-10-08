@@ -8,10 +8,10 @@ class TeacherDashboard extends MY_Controller {
 		  parent::__construct();
 
 		  $this->load->library("set_views");
-		  $this->load->library("Set_custom_session");
+		  $this->load->library("user_sessionhandler");
 		  $this->load->model('Grading');
 		  $this->load->model("Legends");
-
+		  $this->teacher_data = $this->user_sessionhandler->user_session(array('2'));
 		  //Gets Legends
 		  $this->legends = $this->Legends->Get_Legends("Legends")[0];
 		  
@@ -19,7 +19,6 @@ class TeacherDashboard extends MY_Controller {
 	public function index()
 	{
 		$this->instructor_template($this->set_views->teacherdashboard());
-		
 	}
 	
 }

@@ -8,10 +8,10 @@ class Schedule extends MY_Controller {
 		  parent::__construct();
 
 		  $this->load->library("set_views");
-		  $this->load->library("Set_custom_session");
+		  $this->load->library("user_sessionhandler");
 		  $this->load->model('Grading');
 		  $this->load->model("Legends");
-		  $this->student_data = $this->set_custom_session->student_session();
+		  $this->student_data = $this->user_sessionhandler->user_session();
 
 		  //Gets Legends
 		  $this->legends = $this->Legends->Get_Legends("Legends")[0];

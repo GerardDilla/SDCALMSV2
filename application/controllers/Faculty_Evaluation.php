@@ -8,10 +8,10 @@ class Faculty_Evaluation extends MY_Controller {
 		  parent::__construct();
 
 		  $this->load->library("set_views");
-		  $this->load->library("Set_custom_session");
+		  $this->load->library("user_sessionhandler");
 		  $this->load->model('Student_model/Student_info');
 		  $this->load->model('Faculty_Evaluation_Model/Faculty_Evaluation_Model');
-		  $this->student_data = $this->set_custom_session->student_session();
+		  $this->student_data = $this->user_sessionhandler->user_session();
 
 	}
 

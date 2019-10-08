@@ -9,9 +9,9 @@
             <h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign In</h2>
         </div>
         <div class="panel-body"style="padding:0px">
-            <div class="tabs tabs-bottom tabs-primary" style="margin-bottom:0px">
+            <div class="tabs tabs-primary" style="margin-bottom:0px">
                 <div class="tab-content">
-                    <div id="student_tab" class="tab-pane <?php echo $this->session->flashdata('instructor_message') == '' ? 'active' : '' ?>" style="padding:33px">
+                    <div id="student_tab" class="tab-pane <?php echo $this->session->flashdata('instructor_message') == '' ? 'active' : '' ?>" style="padding:33px; padding-bottom:0px">
 
                         <?php if($this->session->flashdata('message')): ?>
                             <div class="alert alert-info" style="color:#ff0000">
@@ -125,8 +125,8 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <button type="submit" name="login_submit" value="1" class="btn btn-primary hidden-xs">Sign In</button>
-                                    <button type="submit" name="login_submit" value="1" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Sign In</button>
+                                    <button type="submit" name="login_submit_instructor" value="1" class="btn btn-primary hidden-xs">Sign In</button>
+                                    <button type="submit" name="login_submit_instructor" value="1" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Sign In</button>
                                 </div>
                             </div>
 
@@ -140,16 +140,13 @@
                 </div>
                 <ul class="nav nav-tabs nav-justified">
                     <li class="<?php echo $this->session->flashdata('instructor_message') == '' ? 'active' : '' ?>">
-                        <a href="#student_tab" data-toggle="tab" class="text-center"><i class="fa fa-star"></i> Student</a>
+                        <a href="#student_tab" data-toggle="tab" class="text-center"><i class="fa fa-graduation-cap"></i> Student</a>
                     </li>
                     <li class="<?php echo $this->session->flashdata('instructor_message') != '' ? 'active' : '' ?>">
-                        <a href="#teacher_tab" data-toggle="tab" class="text-center">Teacher</a>
+                        <a href="#teacher_tab" data-toggle="tab" class="text-center"><i class="fa fa-group"></i>Teacher</a>
                     </li>
                 </ul>
             </div>
-
-            
-
         </div>
     </div>
 
