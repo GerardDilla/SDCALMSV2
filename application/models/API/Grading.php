@@ -69,6 +69,24 @@ class Grading extends CI_Model{
 		$result = $this->db->get('EnrolledStudent_Subjects as E');
 		return $result->result_array();
 	}
+	public function Get_Subject_Load($array){
+		
+		$this->db->select('
+		SC.Sched_Code,
+		S.Course_Title,
+		S.Course_Code
+		');
+		$this->db->where('SD.Instructor_ID',$array['Instructor_ID']);
+		$this->db->where('SC.SchoolYear',$array['School_Year']);
+		$this->db->where('SC.Semester',$array['Semester']);
+		$this->db->where('SC.Valid',1);
+		$this->db->join('Sched_Display as SD','SC.Sched_Code = SD.Sched_Code');
+		$this->db->join('Instructor as I','I.ID = SD.Instructor_ID');
+		$this->db->join('Subject as S','SC.Course_Code = S.Course_Code','left');
+		$this->db->group_by('SC.Sched_Code');
+		$result = $this->db->get('Sched as SC');
+		return $result->result_array();
+	}
 	public function Get_SchoolYear_Choices(){
 
 	}

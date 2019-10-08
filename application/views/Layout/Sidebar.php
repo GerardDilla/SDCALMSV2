@@ -19,6 +19,8 @@
         <div class="nano-content">
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
+                <?php if($this->user_data['UserType'] == 1): ?>
+
                     <li class="nav-active">
                         <a href="<?php echo site_url('Dashboard'); ?>">
                             <i class="fa fa-home" aria-hidden="true"></i>
@@ -60,28 +62,47 @@
                             <span>My Classroom</span>
                         </a>
                     </li>
-                    <!--
-                    <li class="nav">
-                        <a href="<?php echo base_url(); ?>index.php/AssessmentBuilder">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                            <span>Create Assessment</span>
-                        </a>
-                    </li>
-                    -->
                     <li class="nav">
                         <a href="<?php echo base_url(); ?>index.php/Assessment">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                             <span>Taken Assessments</span>
                         </a>
                     </li>
-                    <!--
+
+                <?php elseif($this->user_data['UserType'] == 2): ?>
+
+                    <li class="nav-active">
+                        <a href="<?php echo site_url('Dashboard/Instructor'); ?>">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/Course">
+                            <i class="fa fa-mortar-board" aria-hidden="true"></i>
+                            <span>My Classes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/AssessmentBuilder">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <span>Create Assessment</span>
+                        </a>
+                    </li>
+
                     <li class="nav">
                         <a href="<?php echo base_url(); ?>index.php/Rubrics">
                             <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
                             <span>Rubrics</span>
                         </a>
                     </li>
-                    -->
+
+                <?php endIf; ?>
+
+                
+
                     <!---
                     <li class="nav-parent">
                         <a disabled>

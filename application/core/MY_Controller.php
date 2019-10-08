@@ -38,31 +38,6 @@ class MY_Controller extends CI_Controller {
         $this->load->view('Skeleton/main', $this->template);
     }
 
-    public function instructor_template($middleParam = '',$modal='')
-    {
-        //Get status of email verification
-        $this->load->library('user_sessionhandler');
-        //$this->user_data = $this->user_sessionhandler->user_session();
-
-        if ($middleParam == '')
-        {
-
-            $middleParam = $this->middle;
-
-        }
-        //$this->data['admin_data'] = $this->user_sessionhandler->navbar_session();
-        $this->template['title'] = 'SDCALMS';
-        $this->template['header'] = $this->load->view('InstructorLayout/Header.php', $this->data, true);
-        $this->template['navbar'] = $this->load->view('InstructorLayout/Navbar.php', $this->data, true);
-        $this->template['sidebar'] = $this->load->view('InstructorLayout/Sidebar.php', $this->data, true);
-        $this->template['middle'] = $this->load->view($middleParam, $this->data, true);
-        $this->template['footer'] = '';//$this->load->view('InstructorLayout/Scripts.php', $this->data, true);
-        $this->template['script'] = $this->load->view('InstructorLayout/Scripts.php', $this->data, true);
-        $this->template['modal'] = $modal;
-
-        $this->load->view('Skeleton/main', $this->template);
-    }
-
     public function loginpage($middleParam = '')
     {
 

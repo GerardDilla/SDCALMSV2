@@ -18,7 +18,7 @@ class TeacherDashboard extends MY_Controller {
 	}
 	public function index()
 	{
-		$this->instructor_template($this->set_views->teacherdashboard());
+		$this->template($this->set_views->teacherdashboard());
 	}
 	
 }

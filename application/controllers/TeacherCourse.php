@@ -169,14 +169,14 @@ class TeacherCourse extends MY_Controller {
 
 		$this->data['Subjects'] = $this->construct_course_output();
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
-		$this->instructor_template($this->set_views->courselist());
+		$this->template($this->set_views->courselist());
 
 	}
 	private function coursefeed($SchedCode){
 
 		$this->data['SchedData'] = $this->Schedule->Get_sched_info($SchedCode);
 		$this->data['CourseFeed'] = $this->contruct_course_feed($SchedCode);
-		$this->instructor_template($this->set_views->coursewall());
+		$this->template($this->set_views->coursewall());
 
 	}
 	private function construct_course_output(){

@@ -28,7 +28,7 @@ class AssessmentBuilder extends MY_Controller {
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
 		$InstructorID = $this->user_data['Instructor_Unique_ID'];
 		$this->data['RubricsList'] = $this->Rubric->RubricsList($InstructorID);
-		$this->instructor_template($this->set_views->assesssment_builder());
+		$this->template($this->set_views->assesssment_builder());
 	}
 	public function Ajax_BuilderSession(){
 

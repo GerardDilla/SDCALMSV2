@@ -17,7 +17,7 @@ class Rubrics extends MY_Controller {
 	{
 		$Instructor = $this->user_data['Instructor_Unique_ID'];
 	    $this->data['GetRubrics'] =	$this->Rubric->SelectRubrics($Instructor);
-		$this->instructor_template($this->set_views->rubrics_table());
+		$this->template($this->set_views->rubrics_table());
 	}
 	public function ChooseButton()
 	{
@@ -41,11 +41,11 @@ class Rubrics extends MY_Controller {
 	   $this->data['RubricsEscale']      =	$this->Rubric->RubricsEscale($RubricsID);
 	   $this->data['RubricsCriteria']    =	$this->Rubric->RubricsCriteria($RubricsID);
 	   $this->data['RubricsDescription'] =	$this->Rubric->RubricsDescription($RubricsID);
-	   $this->instructor_template($this->set_views->rubrics_view());
+	   $this->template($this->set_views->rubrics_view());
 	}
 	public function Create_Rubrics()
 	{
-		$this->instructor_template($this->set_views->rubrics());
+		$this->template($this->set_views->rubrics());
 	}
 	public function Delete_Rubrics()
 	{

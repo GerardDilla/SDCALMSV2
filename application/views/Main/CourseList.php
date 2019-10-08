@@ -58,7 +58,7 @@
 
 				<?php if($this->data['Subjects']): ?>
 					<?php foreach($this->data['Subjects'] as $subject): ?>
-						<a href="<?php echo base_url(); ?>index.php/Course/index/<?php echo $subject['Sched_Code']; ?>" style="color:#000; text-decoration: none;" type="submit" class="col-md-6 col-lg-6 col-xl-3">
+						<a href="<?php echo base_url(); ?>index.php/Course/index/<?php echo $subject['Sched_Code']; ?>" style="color:#000; text-decoration: none; max-height:250px; min-height:250px" type="submit" class="col-md-6 col-lg-6 col-xl-3">
 							<section class="panel">
 								<header class="panel-heading bg-primary">
 									<div class="panel-heading-icon">
@@ -67,7 +67,12 @@
 								</header>
 								<div class="panel-body text-center">
 									<h3 class="text-semibold mt-sm text-center"><?php echo $subject['Course_Title']; ?></h3>
-									<p class="text-center"><?php echo $subject['Instructor_Name']; ?></p>
+									<?php if($this->user_data['UserType'] == 1): ?>
+										<p class="text-center"><?php echo $subject['Instructor_Name']; ?></p>
+									<?php endIf; ?>
+									<?php if($this->user_data['UserType'] == 2): ?>
+										<p class="text-center">Sched Code: <?php echo $subject['Sched_Code']; ?></p>
+									<?php endIf; ?>
 								</div>
 							</section>
 						</a>

@@ -175,7 +175,12 @@ class Course extends MY_Controller {
 	}
 	private function courselist(){
 
-		$this->data['Subjects'] = $this->construct_course_output();
+		if($this->user_data['UserType'] == 1){
+			$this->data['Subjects'] = $this->construct_course_output();
+		}
+		else if($this->user_data['UserType'] == 2){
+			$this->data['Subjects'] = $this->instructor_construct_course_output();
+		}
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
 		$this->template($this->set_views->courselist());
 
@@ -198,6 +203,31 @@ class Course extends MY_Controller {
 			'Semester' => $legend[0]['Semester']
 		);
 		$subjects = $this->Grading->Get_Subjects($array);
+		foreach($subjects as $row){
+
+			$output[$count]['Sched_Code'] = $row['Sched_Code'];
+			$output[$count]['Course_Title'] = $row['Course_Title'];
+			$output[$count]['Course_Code'] = $row['Course_Code'];
+
+			$sched_info = $this->Schedule->Get_sched_info($row['Sched_Code']);
+
+			$output[$count]['Instructor_Name'] = $sched_info[0]['Instructor_Name'];
+			$count++;
+		}
+		return $output;
+
+	}
+	private function instructor_construct_course_output(){
+
+		$output = array();
+		$count = 0;
+		$legend = $this->Legends->Get_Legends();
+		$array = array(
+			'Instructor_ID' => $this->user_data['Instructor_Unique_ID'],
+			'School_Year' => $legend[0]['School_Year'],
+			'Semester' => $legend[0]['Semester']
+		);
+		$subjects = $this->Grading->Get_Subject_Load($array);
 		foreach($subjects as $row){
 
 			$output[$count]['Sched_Code'] = $row['Sched_Code'];

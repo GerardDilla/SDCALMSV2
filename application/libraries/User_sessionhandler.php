@@ -58,7 +58,6 @@ class User_sessionhandler
 					'Verified' => '',
 				);
 				
-
 				
 			}
 			//IF user is admin
