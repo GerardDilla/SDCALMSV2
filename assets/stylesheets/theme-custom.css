@@ -95,6 +95,130 @@ color: #000;
     height:  30vh;
 }
 
-.fullwidth{
- width: 100%
+.heading-title{
+    background-color:#D3D3D3; 
+     color:#FFF;
 }
+.cert_thumbnail{
+
+    min-width:60px;
+    max-width:60px;
+    overflow: hidden;
+    min-height: 50px; 
+    max-height: 50px;
+
+}
+.cert_img{
+    
+    position: absolute; 
+    top: -1px; 
+    left: -5px; 
+    width:150%
+
+}
+.cert_link{
+
+    text-transform: uppercase; 
+    font-weight: bold; 
+    color:green
+
+}
+.cert_thumbnail_mngr{
+
+    overflow: hidden;
+
+}
+.cert_img_mngr{
+    
+    width:100px
+
+}
+.cert_link_mngr{
+
+    text-transform: uppercase; 
+    font-weight: bold; 
+    color:green
+
+}
+.nounderlinelink:hover{
+
+    text-decoration: none;
+
+}
+
+
+/* The container */
+.rbcontainer {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .rbcontainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .rbcontainer:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .rbcontainer input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .rbcontainer input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .rbcontainer .checkmark:after {
+       top: 9px;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+  }
+
+  .shadowed{
+
+    -webkit-box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.7);
+    -moz-box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.7);
+    box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.7);
+
+  }
+
+
+
+

@@ -1,6 +1,13 @@
 //GET SECTIONS
 $(document).ready(function(){
 
+  $('#example').DataTable({
+    dom: 'Bfrtip',
+    buttons: [
+      'copyHtml5', 'excelHtml5', 'pdfHtml5', 'csvHtml5'
+    ]
+  } );
+
   Get_CourseTitle();
 
   $('#sem').change(function(){ 

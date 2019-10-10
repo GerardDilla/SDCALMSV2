@@ -75,7 +75,11 @@ function Init_GradingAPI(url='',refnum='')
                         { "data": "Finals" },
                         { "data": "FINALGRADE" },
                         { "data": "REMARKS" }
-                    ]
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
                 })
                 $('html, body').animate({
                     scrollTop: $('.table').offset().top

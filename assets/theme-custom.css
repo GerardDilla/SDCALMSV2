@@ -15,7 +15,6 @@ ul.nav-main li .nav-children{
 .searchloader{
     display:none;
 }
-<<<<<<< Updated upstream
 .balance_table{
     color:#666 !important;
 
@@ -35,7 +34,6 @@ ul.nav-main li .nav-children{
 .balance_lower_value{
     background-color: #999999; color:#FFF; text-align:center; font-weight: 700;
 }
-=======
 
 .fa-times{
  color: red !important
@@ -96,4 +94,6 @@ color: #000;
 .parent-announcement{
     height:  30vh;
 }
->>>>>>> Stashed changes
+.circular-bar strong{
+    font-size:30px !important;
+}

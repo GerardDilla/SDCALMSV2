@@ -1,6 +1,7 @@
 
 
 
+
 <section role="main" class="content-body">
 	<header class="page-header">
 		<h2></h2>
@@ -19,7 +20,7 @@
 	</header>
 	<div id="particles-js"></div>
 		   <!-- start: page -->
-	 <form method="post" action="<?php echo base_url(); ?>index.php/Report/Classlist">
+	 <form method="post" action="<?php echo base_url(); ?>index.php/Report/Class_list">
 		   <input type="hidden" value="<?php echo base_url(); ?>"  id="base_urlSS">
 		   <div class="row">
 		      <div class="col-md-12">
@@ -113,10 +114,7 @@
                         <span class="searchloader">
                             <img src="http://10.0.0.65/SDCALMSv2/assets/images/loading.gif" height="42" width="42">
                         </span>
-						<div class="pull-right">
-						   <button type="button" class="btn btn-info">Save PDF</button>
-						   <button type="submit" name="export" class="btn btn-danger">Export</button>
-						</div>
+						
                     </footer>
                 </section>
 			  </div>
@@ -126,7 +124,7 @@
 		    <div class="col-md-12">
 				<section class="panel shadowed-box">
 						<div class="panel-body">
-						<table class="table table-bordered table-striped mb-none">
+						<table id="example" class="table table-bordered table-striped mb-none">
 							<thead>
 								<tr class="success">
 									<th>#</th>
@@ -145,7 +143,7 @@
 									   <tr style="text-transform: uppercase;">
 												<td><?php echo $count;  ?></td>
 												<td><?php echo $row['Student_Number'];  ?></td>
-												<td><?php echo $row['Last_Name'];  ?>,&nbsp;&nbsp; <?php echo $row['First_Name']; ?> &nbsp;&nbsp;<?php echo $row['Middle_Name']; ?></td>
+												<td><?php echo $row['Last_Name'];  ?>, <?php echo $row['First_Name']; ?>  <?php echo $row['Middle_Name']; ?></td>
 												<td><?php echo $row['Program'];  ?></td>
 												<td><?php echo $row['Year_Level'];  ?></td> 	
 
@@ -165,3 +163,6 @@
 
 
 <script src="<?php echo base_url(); ?>assets/javascripts/Report/Class_List.js"></script>
+
+
+

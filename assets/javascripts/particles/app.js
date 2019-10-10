@@ -16,7 +16,7 @@ particlesJS('particles-js',
   "particles": {
     "number": {
       //"value": 147,
-      "value": 147,
+      "value": 80,
       "density": {
         "enable": true,
         "value_area": 1763.753266952075
@@ -88,10 +88,10 @@ particlesJS('particles-js',
     "events": {
       "onhover": {
         "enable": true,
-        "mode": "repulse"
+        "mode": "bubble"
       },
       "onclick": {
-        "enable": true,
+        "enable": false,
         "mode": "push"
       },
       "resize": true
@@ -105,13 +105,13 @@ particlesJS('particles-js',
       },
       "bubble": {
         "distance": 400,
-        "size": 40,
+        "size": 5,
         "duration": 2,
-        "opacity": 8,
+        "opacity": 0.5,
         "speed": 3
       },
       "repulse": {
-        "distance": 200,
+        "distance": 50,
         "duration": 0.4
       },
       "push": {

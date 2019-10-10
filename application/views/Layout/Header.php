@@ -18,6 +18,9 @@
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/morris/morris.css" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/select2/select2.css" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+		<!-- NEW DATA TABLES -->
+		<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
 		
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
