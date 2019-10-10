@@ -12,7 +12,7 @@ class Assessment extends MY_Controller {
 		  $this->load->library("user_sessionhandler");
 		  //load file helper
 		  $this->load->helper('file');
-		  $this->user_data = $this->user_sessionhandler->user_session(array('1'));
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 		  $this->load->model('AssessmentModel');
 
@@ -25,9 +25,22 @@ class Assessment extends MY_Controller {
 	}
 	public function index()
 	{
-		$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
-		$this->template($this->set_views->assessmentlist());
-		
+		if($this->user_data['UserType'] == 1){
+
+			$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
+			$this->template($this->set_views->assessmentlist());
+
+		}else if($this->user_data['UserType'] == 2){
+
+			$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Instructor($this->user_data);
+			$this->template($this->set_views->assessmentlist_instructor());
+
+		}
+	}
+	public function Respondents(){
+
+		$this->template($this->set_views->assesssment_report());
+
 	}
 	public function PreAssessment($AssessmentCode = ''){
 		
@@ -40,8 +53,6 @@ class Assessment extends MY_Controller {
 			$this->data['EndTime'] = '';
 		}
 		$this->template($this->set_views->preassessment());
-
-
 	}
 	public function ExamStart(){
 
@@ -153,7 +164,6 @@ class Assessment extends MY_Controller {
 		echo ('<hr>');
 		*/
 		return $status;
-
 
 	}
 	public function Examination($Assessment_Code = ''){

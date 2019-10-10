@@ -59,6 +59,20 @@ class AssessmentModel extends CI_Model{
         return $query->result_array();
         
     }
+    public function GetAssessmentList_Instructor($array){
+
+        $this->db->select('
+        *,
+        DATE_FORMAT(A.DateCreated,"%M %d , %Y") as Date,
+        ',false);
+        $this->db->where('A.InstructorID',$array['Instructor_Unique_ID']);
+        if(array_key_exists('Limit', $array)){
+            $this->db->limit($array['Limit']);
+        }
+		$query = $this->db->get('lms_assessment as A');
+        return $query->result_array();
+        
+    }
     public function GetAssessmentInfo($array){
 
         $this->db->select('

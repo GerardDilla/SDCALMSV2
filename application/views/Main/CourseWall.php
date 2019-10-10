@@ -12,7 +12,7 @@
 					</li>
 					<li><span>Pages</span></li>
 					<li><span>User Profile</span>
-					<button id="sticky-primary" class="mt-sm mb-sm btn btn-primary">Primary</button>
+					 
 					</li>
 				</ol>
 			</div>

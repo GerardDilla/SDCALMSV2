@@ -20,7 +20,7 @@
 						<div class="input-group mb-md">
 							<span class="input-group-addon btn-default">
 								<div class="radio-custom radio-success  question-tick">
-									<input type="radio" name="Answer[]" value="TRUE">
+									<input type="radio" class="tof-choice" name="Answer[]" value="TRUE">
 									<label>True</label>
 								</div>
 							</span>
@@ -33,7 +33,7 @@
 						<div class="input-group mb-md">
 							<span class="input-group-addon btn-default">
 								<div class="radio-custom radio-success question-tick">
-									<input type="radio" name="Answer[]" value="FALSE">
+									<input type="radio" class="tof-choice" name="Answer[]" value="FALSE">
 									<label>False</label>
 								</div>
 							</span>

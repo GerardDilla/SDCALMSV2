@@ -18,6 +18,4 @@
             <?php endIf; ?>
         </div>
     </div>
-
-    
 </div>

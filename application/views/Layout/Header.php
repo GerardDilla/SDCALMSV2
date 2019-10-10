@@ -53,10 +53,11 @@
 		<script src="<?php echo base_url(); ?>assets/vendor/modernizr/modernizr.js"></script>
 
 		<!-- Calls Jquery -->
-		<script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.js"></script>
+		<!--<script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.js"></script>-->
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 		<!--Google recaptcha-->
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-		
+
 
 		

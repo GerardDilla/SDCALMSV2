@@ -10,7 +10,7 @@
 						</a>
 					</li>
 					<li><span>Pages</span></li>
-					<li><span>User Profile</span>
+					<li><span>My Assessments</span>
 					 
 					</li>
 				</ol>
@@ -19,9 +19,9 @@
 		<div id="particles-js"></div>
 		<!-- start: page -->
 
-		<h3 class="mt-lg">TAKEN ASSESSMENTS</h3>
+		<h3 class="mt-lg">MY ASSESSMENTS</h3>
 
-		<p class="mb-lg">Quizess and Tests made by instructors that are assigned to you.</p>
+		<p class="mb-lg">Quizess and Tests you constructed.</p>
 
 		<div class="row">
 
@@ -74,12 +74,10 @@
 								</header>
 								<div class="panel-body">
 									<h3 class="text-semibold mt-none text-center"><?php echo $row['AssessmentName']; ?></h3>
-									<h6 class="text-center" style="color:ccc"><?php echo $row['Instructor_Name']; ?></h6>
-									<h6 class="text-center" style="color:ccc"><?php echo $row['Date']; ?></h6>
+									<h6 class="text-center" style="color:ccc"><b>Created:</b> <?php echo $row['Date']; ?></h6>
 									<hr>
 									<div class="text-center">
-										<!--<a class="btn btn-default nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $row['AssessmentCode']; ?>">Take Exam (Temporary)</a>-->
-										<a class="btn btn-success nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/AssessmentResults/<?php echo $row['AssessmentCode']; ?>">Review Result</a>
+										<a class="btn btn-success nounderlinelink" href="">Review</a>
 									</div>
 								</div>
 							</div>

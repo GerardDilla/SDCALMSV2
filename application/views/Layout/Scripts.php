@@ -56,9 +56,12 @@
 		<script src="<?php echo base_url(); ?>assets/vendor/summernote/summernote.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/ios7-switch/ios7-switch.js"></script>
-		<script src="<?php echo base_url(); ?>assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+		
+		
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 		<script src="<?php echo base_url(); ?>assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		
 		
 		<!-- Specific Page Vendor -->
 		<script src="<?php echo base_url(); ?>assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
@@ -84,10 +87,11 @@
 		<!-- Examples -->
 		<script src="<?php echo base_url(); ?>assets/javascripts/forms/examples.advanced.form.js"></script>
 
-
+		
 		<script src="<?php echo base_url(); ?>assets/javascripts/tables/examples.datatables.default.js"></script>
 		<script src="<?php echo base_url(); ?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
 		<script src="<?php echo base_url(); ?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+		
 
 		<!-- scripts -->
 		<script src="<?php echo base_url(); ?>assets/javascripts/particles/particles.js"></script>
@@ -131,5 +135,3 @@
 			fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
 		</script>
-
-

@@ -377,19 +377,7 @@ class Registration extends MY_Controller {
 		$mail_status = 1;
 		//Using SMTP2GO // For local use
 
-		$config['protocol'] = 'smtp';
-		$config['smtp_host'] = 'mail.smtp2go.com';
-		$config['smtp_port'] = '2525'; 
-		$config['smtp_crypto'] = 'tls';
-		$config['smtp_user'] = 'gpdilla@sdca.edu.ph';
-		$config['smtp_pass'] = 'o7RYFpgxdTtX';
-		$config['charset'] = 'utf-8';
-		$config['mailtype'] = 'html';
-		$config['newline'] = "rn";
-		
-
 		//Server's SMTP config
-		/*
 		$config['protocol']    = 'smtp';
 
         $config['smtp_host']    = 'ssl://smtp.gmail.com';
@@ -413,7 +401,7 @@ class Registration extends MY_Controller {
 		$this->email->initialize($config);
 
 		$this->email->set_newline("\r\n");
-		*/
+	
 		
 		
 		$this->email->from('webmailer@sdca.edu.ph', 'St. Dominic College of Asia');

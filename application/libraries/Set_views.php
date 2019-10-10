@@ -59,6 +59,10 @@ class set_views
 	{
 		return $this->main.'/AssessmentList';
 	}
+	public function assessmentlist_instructor()
+	{
+		return $this->main.'/AssessmentList_Instructor';
+	}
 	public function preassessment()
 	{
 		return $this->main.'/PreAssessment';
@@ -68,6 +72,9 @@ class set_views
 	}
 	public function assesssment_results(){
 		return $this->main.'/AssessmentResults';
+	}
+	public function assesssment_report(){
+		return $this->main.'/AssessmentRespondents';
 	}
 	public function assesssment_builder(){
 		return $this->main.'/AssessmentBuild';

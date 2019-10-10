@@ -75,6 +75,14 @@ function QuestionNumbering(settings = {}){
             });
         }
 
+        //Special condition for True of false choice questions
+        if($(panel).data('question-type') == 'trueorfalse'){
+
+            $(panel).find('.tof-choice').attr({'name':'Answer['+i+']','required':'required'});
+
+        }
+        
+
         //Criteria assigning based on rubrics choice
         if($('#rubrics_choice').val() != 0){
 
@@ -86,25 +94,24 @@ function QuestionNumbering(settings = {}){
 
                 if($(panel).find('.rubrics_criteria_option').val() == 0 || settings['change'] == 1){
 
-                        $(panel).find('.rubrics_criteria_option').html(
+                    $(panel).find('.rubrics_criteria_option').html(
 
-                            $('<option>').attr({'selected':'selected', 'value':'0'})
-                            .text('No Criteria Selected')
-                            
-                        );
-                        $.each(rubricresult, function(i,rubdata){
-    
-                                $(panel).find('.rubrics_criteria_option').append(
-    
-                                    $('<option>').attr({'value':rubdata['criteria_id']})
-                                    .text(rubdata['criteria'])
-            
-                                );
-                            //<option selected value="0">No Rubrics Selected</option>
-                        });
+                        $('<option>').attr({'selected':'selected', 'value':'0'})
+                        .text('No Criteria Selected')
+                        
+                    );
+                    $.each(rubricresult, function(i,rubdata){
+
+                            $(panel).find('.rubrics_criteria_option').append(
+
+                                $('<option>').attr({'value':rubdata['criteria_id']})
+                                .text(rubdata['criteria'])
+        
+                            );
+                        //<option selected value="0">No Rubrics Selected</option>
+                    });
+
                 }
-                
-                
             });
         
         }

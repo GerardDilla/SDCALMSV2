@@ -93,6 +93,13 @@
                     </li>
 
                     <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/Assessment">
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                            <span>My Assessments</span>
+                        </a>
+                    </li>
+
+                    <li class="nav">
                         <a href="<?php echo base_url(); ?>index.php/Rubrics">
                             <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
                             <span>Rubrics</span>

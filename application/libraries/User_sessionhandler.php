@@ -65,7 +65,7 @@ class User_sessionhandler
 				$data = array();
 			}
 			else{
-				$this->CI->session->set_flashdata('message','Error: User type is not defined');
+				//$this->CI->session->set_flashdata('message','Error: User type is not defined');
 				redirect('Main');
 			}
 

@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
     verify_check = Check_if_emailverified();
-    verify_check.success(function(status){
+    verify_check.done(function(status){
 
         result = JSON.parse(status);
 
@@ -16,7 +16,100 @@ $(document).ready(function() {
     
 });
 </script>
+<div id="emailverification" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="panel-title">
+
+                    Email Verification
+                    <span class="searchloader">
+                        <img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
+                    </span>
+
+                </h2>
+            </div>
+            <div class="modal-body" style="padding-bottom:5px;">
+
+                <?php if($this->user_data['ViaRegistration'] == 0): ?>
+
+                    <br>
+                    <p>You're one step away from accessing your Student Portal!<br>
+                    We just need you to verify your email address.</p>
+
+                    <p>To do so, type your Email Address on the field below and press 'Send'.
+
+                    <br>We will send you a link to your email that will activate your account.
+
+                    <br><br>You can refresh this page after you've clicked the link.</p>
+
+                    <hr>
+
+                    <span id="verification_message" style="color:green"></span>
+
+                    <div id="verification_panel">
+                        <div class="input-group input-group-icon">
+                            <input type="text" class="form-control" id="emailverify" value="<?php echo $this->user_data['Email']; ?>">
+                            
+                            <span class="input-group-addon">
+                                <span class="icon"><i class="fa fa-envelope-o"></i></span>
+                            </span>
+                        </div>
+
+                        <br>
+
+                        <div class="g-recaptcha" data-sitekey="6LdiwqwUAAAAAC2PAa16nKnU_a5KUDcK-zl0hb29" style="display: inline-block;"></div>
+                    </div>
+
+
+                    <?php elseif($this->user_data['ViaRegistration'] == 1): ?>
+
+
+                    <br>
+                        <p>You're one step away from accessing your Student Portal!<br>
+                        We just need you to verify your email address.</p>
+
+                        <p>To do so, check your registered email address and look for the email we sent you.
+                        That email will contain the link to activate your account
+                        
+                        <br><br>You can refresh this page after you've clicked the link.</p>
+
+                        <hr>
+                        
+                        <h5>Registered Email: <?php echo $this->user_data['Email']; ?></h5>
+
+                    <br>
+
+                <?php else: ?>
+
+                    <p>Already verified</p>
+
+                <?php endIf; ?>
+
+            </div>
+            <div class="modal-footer" style="margin-top:0px;">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a href="<?php echo base_url(); ?>index.php/Main/logout" class="btn btn-default">Logout</a>
+
+                            <button class="btn btn-primary" onclick="refreshpage()">Refresh</button>
+
+                        <?php if($this->user_data['ViaRegistration'] == 0): ?>
+
+                            <button id="verify_button" class="btn btn-primary" onclick="INIT_mailer()">Send</button>
+                            
+                        <?php endIf; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 <!-- Email Verification Modal -->
+<!--
 <div id="emailverification" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
     <section class="panel">
         <header class="panel-heading">
@@ -112,47 +205,16 @@ $(document).ready(function() {
         </footer>
     </section>
 </div>
+-->
 <!-- End Modal -->
 
 <script>
 function open_verification_modal(){
 
-    $.magnificPopup.open({
 
-        items: {
-            src: '#emailverification'
-        },
-        type: 'inline',
-
-		fixedContentPos: false,
-		fixedBgPos: true,
-
-		overflowY: 'auto',
-
-		closeBtnInside: true,
-		preloader: false,
-		
-		midClick: true,
-		removalDelay: 300,
-		mainClass: 'my-mfp-slide-bottom',
-        modal: true,
-        callbacks: {
-
-            open: function() {
-                $('.inner-wrapper').css({'filter':'blur(4px)'});
-                $('.header').css({'filter':'blur(4px)'});
-                $.magnificPopup.instance.close = function() {
-
-                    $('.inner-wrapper').css({'filter':'blur(0px)'});
-                    $('.header').css({'filter':'blur(0px)'});
-                    // Call the original close method to close the popup
-                    $.magnificPopup.proto.close.call(this);
-                    
-                };
-            }
-        }
-
-    });
+    $('.inner-wrapper').css({'filter':'blur(4px)'});
+    $('.header').css({'filter':'blur(4px)'});
+    $('#emailverification').modal('show');
 
 }
 function refreshpage(){
