@@ -15,6 +15,8 @@ class Assessment extends MY_Controller {
 		  $this->user_data = $this->user_sessionhandler->user_session();
 
 		  $this->load->model('AssessmentModel');
+		  $this->load->model("Legends");
+		  $this->load->model("API/Grading");
 
 		  //Sets Timezone for
 		  date_default_timezone_set('Asia/Manila');
@@ -37,9 +39,54 @@ class Assessment extends MY_Controller {
 
 		}
 	}
-	public function Respondents(){
+	public function Respondents($AssessmentCode = ''){
 
-		$this->template($this->set_views->assesssment_report());
+		$data = array(
+			'AssessmentCode' => $AssessmentCode,
+			'InstructorID' => $this->user_data['Instructor_Unique_ID'],
+		);
+		$this->data['AssessmentData'] = $this->AssessmentModel->GetAssessmentInfo($data);
+		if($this->data['AssessmentData']){
+
+			$legend = $this->Legends->Get_Legends();
+			$array = array(
+				'Instructor_ID' => $this->user_data['Instructor_Unique_ID'],
+			);
+			if($this->input->post('SchoolYear')){
+				$array['School_Year'] = $this->input->post('SchoolYear');
+			}
+			if($this->input->post('Semester')){
+				$array['Semester'] = $this->input->post('Semester');
+			}
+			$this->data['Legend'] = $legend;
+			$this->data['HandledSubjects'] = $this->Grading->Get_Subject_Load($array);
+
+			$this->template($this->set_views->assesssment_report());
+		}
+		else{
+			redirect('Assessment');
+		}
+		
+	}
+	public function Ajax_Respondent_List(){
+
+		$array = array(
+			'SearchKey' => $this->input->get_post('SearchKey'),
+			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
+		);
+		$data = $this->AssessmentModel->GetRespondents($array);
+		echo json_encode($data);
+
+	}
+	public function Ajax_HandledSubjects(){
+
+		$array = array(
+			'Instructor_ID' => $this->user_data['Instructor_Unique_ID'],
+			'School_Year' => $this->input->get_post('School_Year'),
+			'Semester' => $this->input->get_post('Semester'),
+		);
+		$data = $this->Grading->Get_Subject_Load($array);
+		echo json_encode($data);
 
 	}
 	public function PreAssessment($AssessmentCode = ''){

@@ -80,7 +80,10 @@ class AssessmentModel extends CI_Model{
         UNIX_TIMESTAMP(A.`StartDate`) as StartDate,
         UNIX_TIMESTAMP(A.`EndDate`) as EndDate
         ');
-		$this->db->where('A.AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('A.AssessmentCode', $array['AssessmentCode']);
+        if(array_key_exists('InstructorID', $array)){
+            $this->db->where('C.ID',$array['InstructorID']);
+        }
         $this->db->where('A.Active', '1');
         $this->db->join('Instructor as C','C.ID = A.InstructorID');
 		$query = $this->db->get('lms_assessment as A');
@@ -253,6 +256,26 @@ class AssessmentModel extends CI_Model{
         $this->db->where('Active', '1');
         $query = $this->db->get('lms_assessment');
         return $query->result_array();
+
+    }
+    public function GetRespondents($array){
+
+        $this->db->where('Active',1);
+        $this->db->where('AssessmentCode',$array['AssessmentCode']);
+        if(array_key_exists('SearchKey', $array)){
+            if($array['SearchKey'] != ''){
+                $this->db->group_start();
+                $this->db->like('Student_Number',$array['SearchKey']);
+                $this->db->or_like('RespondentName',$array['SearchKey']);
+                $this->db->group_end();
+            }
+            
+        }
+        if(array_key_exists('Limit', $array)){
+            $this->db->limit($array['Limit']);
+        }
+        $result = $this->db->get('lms_assessment_respondents');
+        return $result->result_array();
 
     }
 

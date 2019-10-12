@@ -77,7 +77,7 @@
 									<h6 class="text-center" style="color:ccc"><b>Created:</b> <?php echo $row['Date']; ?></h6>
 									<hr>
 									<div class="text-center">
-										<a class="btn btn-success nounderlinelink" href="">Review</a>
+										<a class="btn btn-success nounderlinelink" href="<?php echo base_url(); ?>index.php/Assessment/Respondents/<?php echo $row['AssessmentCode']; ?>">Review</a>
 									</div>
 								</div>
 							</div>

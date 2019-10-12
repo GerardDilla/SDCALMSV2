@@ -31,7 +31,7 @@ class Prof_Search_Model extends CI_Model{
 	//GET STUDENTS WHO EVALUATE
 	public function Get_Instructor($array){
 		$this->db->select('B.`Instructor_ID`,C.`ID`,C.`Instructor_Name`');
-		$this->db->from('sched AS A');
+		$this->db->from('Sched AS A');
 		$this->db->join('sched_display AS B', 'A.`Sched_Code` = B.`Sched_Code`','LEFT');
 		$this->db->join('Instructor AS C','C.`ID` = B.`Instructor_ID`','LEFT');
 		$this->db->where('A.`Semester`=', $array['sem']);
@@ -49,7 +49,7 @@ class Prof_Search_Model extends CI_Model{
 	  //GET Course Title
 	public function Get_CourseTitle($array){
 		$this->db->select('*');
-		$this->db->from('sched AS A');
+		$this->db->from('Sched AS A');
 		$this->db->join('sched_display AS B', 'A.`Sched_Code` = B.`Sched_Code`','LEFT');
 		$this->db->join('subject AS D', 'A.`Course_Code` = D.`Course_Code`','LEFT');
 		$this->db->join('sections AS E', 'E.`Section_ID` = A.`Section_ID`','LEFT');
@@ -67,7 +67,7 @@ class Prof_Search_Model extends CI_Model{
 	  //GET Section
 	public function Get_Section($array){
 		$this->db->select('*');
-		$this->db->from('sched AS A');
+		$this->db->from('Sched AS A');
 		$this->db->join('sched_display AS B', 'A.`Sched_Code` = B.`Sched_Code`','LEFT');
 		$this->db->join('sections AS C', 'A.`Section_ID` = C.`Section_ID`','LEFT');
 		$this->db->where('A.`Semester`=', $array['sem']);

@@ -431,10 +431,10 @@ class Registration extends MY_Controller {
 		{
 			$mail_status == 0;
 		}
-
+		echo $this->email->print_debugger(array('headers'));
 		return $mail_status;
 		//---Uncomment code below to debug---
-		//echo $this->email->print_debugger(array('headers'));
+		
 
 	}
 	public function Test_SendActivationMail(){

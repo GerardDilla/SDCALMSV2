@@ -74,14 +74,20 @@ class Grading extends CI_Model{
 		$this->db->select('
 		SC.Sched_Code,
 		S.Course_Title,
-		S.Course_Code
+		S.Course_Code,
+		SC.SchoolYear,
+		SC.Semester
 		');
 		$this->db->where('SD.Instructor_ID',$array['Instructor_ID']);
-		$this->db->where('SC.SchoolYear',$array['School_Year']);
-		$this->db->where('SC.Semester',$array['Semester']);
+		if(array_key_exists('School_Year', $array)){
+            $this->db->where('SC.SchoolYear',$array['School_Year']);
+		}
+		if(array_key_exists('Semester', $array)){
+            $this->db->where('SC.Semester',$array['Semester']);
+        }
 		$this->db->where('SC.Valid',1);
 		$this->db->join('Sched_Display as SD','SC.Sched_Code = SD.Sched_Code');
-		$this->db->join('Instructor as I','I.ID = SD.Instructor_ID');
+		$this->db->join('Instructor as I','I.ID = SC.Instructor_ID OR I.ID = SD.Instructor_ID');
 		$this->db->join('Subject as S','SC.Course_Code = S.Course_Code','left');
 		$this->db->group_by('SC.Sched_Code');
 		$result = $this->db->get('Sched as SC');

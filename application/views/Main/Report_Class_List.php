@@ -111,9 +111,9 @@
                     <footer class="panel-footer">
                         <button type="submit" name="submit" class="btn btn-success">View Students</button>
                         <button type="button" class="btn btn-default"><i class="fa fa-refresh"></i></button>
-                        <span class="searchloader">
-                            <img src="http://10.0.0.65/SDCALMSv2/assets/images/loading.gif" height="42" width="42">
-                        </span>
+						<span class="searchloader" style="display: none;">
+							<img src="<?php echo base_url(); ?>/assets/images/loading.gif" height="42" width="42">
+						</span>
 						
                     </footer>
                 </section>

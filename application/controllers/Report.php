@@ -8,9 +8,9 @@ class Report extends MY_Controller {
 		  parent::__construct();
 		  
 		  $this->load->library("set_views");
-		  $this->load->library("Set_custom_session");
+		  $this->load->library("User_sessionhandler");
 		  $this->load->model('Report/Model_Class_List');
-		  $this->student_data = $this->set_custom_session->student_session();
+		  $this->student_data = $this->user_sessionhandler->user_session();
 
 	}
 
