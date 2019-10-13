@@ -30,9 +30,10 @@
 					</div>
 					<div class="col-md-12">
 						<?php if($this->data['Assessment_Data']): ?>
-						
-							<p class="pull-left">BY: <?php echo $this->data['Assessment_Data'][0]['Instructor_Name']; ?></p>
-						
+							<p class="pull-left">CONSTRUCTED BY: <u><?php echo $this->data['Assessment_Data'][0]['Instructor_Name']; ?></u></p>
+						<?php endIf; ?>
+						<?php if($this->data['Assessment_Respondent']): ?>
+							<p class="pull-right">TAKEN BY: <u><?php echo $this->data['Assessment_Respondent'][0]['RespondentName']; ?></u></p>
 						<?php endIf; ?>
 					</div>
 					<div class="col-md-12">

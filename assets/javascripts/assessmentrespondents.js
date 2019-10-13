@@ -2,7 +2,9 @@ $(document).ready(function(){
 
     search_handledsubjects();
 
-    $('#ms_filter').change(function(){
+    search_respondents();
+
+    $('#remark_filters').change(function(){
         search_respondents();
     });
 
@@ -22,7 +24,21 @@ $(document).ready(function(){
     });
 
     $('#active-filter-panel').on('click','.active-filter',function(){
-        $(this).parent().remove();
+        RemoveFilter(this);
+        
+    });
+
+    $('.assessment-summary').click(function(){
+
+        search_respondents();
+
+    });
+
+    $('#respondent_table').on('click','.tr_inspect_student',function(){
+
+        console.log($(this).data('assessmentcode'));
+        console.log($(this).data('student-number'));
+        window.open(base_url()+'index.php/Assessment/AssessmentResults/'+$(this).data('assessmentcode')+'?Student_Number='+$(this).data('student-number'), '_blank');
     });
    
 });
@@ -37,6 +53,7 @@ function search_handledsubjects(){
         classdata = get_handledclass_list(search_filter);
         classdata.done(function(result){
             result = JSON.parse(result);
+
             if(result.length === 0){
                 $('#class_filter_list').html('').fadeOut('fast');
                 $('#class_filter_list').html(
@@ -59,8 +76,8 @@ function search_handledsubjects(){
                         )
                     ).fadeIn('fast');
                 });
-
             }
+
             console.log(result);
         });
     }
@@ -70,44 +87,71 @@ function search_respondents(){
 
     //Gets filters
     filter_key = $('#filter_search').val();
-    ms_filters = $('#ms_filter').val();
+    remark_filters = $('#remark_filters').val();
     a_code = $('.assessment-info').data('assessment-code');
-    search_filter = {'SearchKey':filter_key,'AssessmentCode':a_code};
-    console.log(filter_key+' : '+ms_filters);
+    course_filter = {};
+    $('#active-filter-panel button').each(function(i,filtobj){
+        course_filter[i] = $(filtobj).val();
+    });
+    console.log('filter--');
+    console.log(course_filter);
+    search_filter = {
+        'SearchKey':filter_key,
+        'AssessmentCode':a_code,
+        'CourseFilter':course_filter,
+        'RemarkFilter':remark_filters
+    };
+    console.log(filter_key+' : '+remark_filters);
     display_respondents(search_filter);
 
 }
 function display_respondents(search_filter){
 
+        
         respondent_list = get_respondent_list(search_filter);
         respondent_list.done(function(result){
+            
             result = JSON.parse(result);
             if(result){
+                $('.passing-chart').data('easyPieChart').update(0);
+                count = 0;
                 tablecontainer = $('#respondent_table tbody');
-                tablecontainer.html('').fadeOut('fast');
+                tablecontainer.html('').fadeIn('slow');
                 $.each(result,function(i,panel){
 
-                    tablecontainer.
-                    append(
-                        $('<tr>')
-                        .append($('<td>').text(i + 1))
-                        .append($('<td>').text(panel['Student_Number']))
-                        .append($('<td>').text(panel['RespondentName']))
-                        .append($('<td>').text(panel['Score']))
-                    ).fadeIn('fast');
-                });
-                
+                    
+                    if(i != 'TotalPassers'){
+                        count = parseInt(i) + 1;
+                        tablecontainer.
+                        append(
+                            $('<tr>')
+                            .attr({'class':'tr_inspect_student','style':'cursor:pointer','data-assessmentcode':panel['AssessmentCode'],'data-student-number':panel['Student_Number']})
+                            .append($('<td>').text(count))
+                            .append($('<td>').text(panel['Student_Number']))
+                            .append($('<td>').text(panel['RespondentName']))
+                            .append($('<td>').text(panel['Program']))
+                            .append($('<td>').text(panel['Section']))
+                            .append($('<td>').text(panel['Score']))
+                            .append($('<td>').text(panel['Remarks']))
+                            .fadeIn('slow')
+                        );
+                    }
 
+                });
+                $('#passers_count').html(result['TotalPassers'] ? result['TotalPassers'] : 0).fadeIn('fast');
+                $('#respondent_count').html(count).fadeIn('fast');
+                percentage = (parseInt(result['TotalPassers']) / +parseInt(count)) * 100;
+                //alert(percentage);
+                //$('.passing-chart').attr('data-percent',percentage);
+               // $('.passing-chart-label').html(percentage);
+                //chart.update(percentage);
+                $('.passing-chart').data('easyPieChart').update(percentage ? percentage : 0);
             }else{
 
                 console.log('Error');
 
             }   
-            /*
-            $('#respondent_table').DataTable({
-                responsive: true
-            });
-            */
+            
         });
 
 } 
@@ -131,24 +175,32 @@ function get_handledclass_list(search_filter){
 }
 function ToggleFilter(CourseCode,SchedCode){
 
-    $('#checkArray:checkbox:checked').length != 0;
+    //$('#checkArray:checkbox:checked').length != 0;
     console.log('--');
     $('.class_filter_check:checkbox:checked').each(function(){
 
-        console.log($(this).attr('id'));
-        if($('#addedfilters button[value="'+$(this).attr('id')+'"]').length == 0){
-            $('#addedfilters').append(
+        console.log($(this).attr('id')+':add');
+        if($('#active-filter-panel button[value="'+$(this).attr('id')+'"]').length == 0){
+            $('#active-filter-panel').append(
                 $('<span>').attr('style','padding-left:5px').append(
                     $('<button>').attr({'type':'button','class':'btn btn-sm btn-default active-filter','value':SchedCode}).text(CourseCode+' : '+SchedCode)
                 ).fadeIn('fast')
             );
         }
     });
-
+    $('.class_filter_check:checkbox:not(:checked)').each(function(){
+        console.log($(this).attr('id')+':remove');
+        $('#active-filter-panel button[value="'+$(this).attr('id')+'"]').parent().remove();
+    });
+    console.log('--');
+    search_respondents();
 
 
 }
-function RemoveFilter(){
+function RemoveFilter(obj){
+
+    $(obj).parent().remove();
+    $('#'+$(obj).val()).prop('checked', false);
 
 }
 

@@ -112,6 +112,7 @@ class AssessmentModel extends CI_Model{
         C.QuestionTypeID,
         D.Instructor_Name
         ');
+        $this->db->select('SUM(B.Points) as TotalPoints','false');
         $this->db->join('lms_assessment_questions as B', 'A.AssessmentCode = B.AssessmentCode');
         $this->db->join('lms_assessment_question_types as C', 'B.QuestionType = C.QuestionTypeID');
         $this->db->join('Instructor as D', 'A.InstructorID = D.ID');
@@ -261,21 +262,37 @@ class AssessmentModel extends CI_Model{
     }
     public function GetRespondents($array){
 
-        $this->db->where('Active',1);
-        $this->db->where('AssessmentCode',$array['AssessmentCode']);
+        $this->db->where('R.Active',1);
+        $this->db->where('R.AssessmentCode',$array['AssessmentCode']);
+        $this->db->join('EnrolledStudent_Subjects as E','E.Student_Number = R.Student_Number');
         if(array_key_exists('SearchKey', $array)){
             if($array['SearchKey'] != ''){
                 $this->db->group_start();
-                $this->db->like('Student_Number',$array['SearchKey']);
-                $this->db->or_like('RespondentName',$array['SearchKey']);
+                $this->db->like('R.Student_Number',$array['SearchKey']);
+                $this->db->or_like('R.RespondentName',$array['SearchKey']);
                 $this->db->group_end();
             }
             
         }
+        if(array_key_exists('CourseFilter', $array)){
+            if($array['CourseFilter']){
+
+                $this->db->group_start();
+                foreach($array['CourseFilter'] as $key => $filter){
+                    if($key == 0){
+                        $this->db->where('E.Sched_Code',$filter);
+                    }else{
+                        $this->db->or_where('E.Sched_Code',$filter);
+                    }
+                }
+                $this->db->group_end();
+            }
+        }
         if(array_key_exists('Limit', $array)){
             $this->db->limit($array['Limit']);
         }
-        $result = $this->db->get('lms_assessment_respondents');
+        $this->db->group_by('E.Student_Number');
+        $result = $this->db->get('lms_assessment_respondents AS R');
         return $result->result_array();
 
     }

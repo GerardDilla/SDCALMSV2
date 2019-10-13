@@ -46,6 +46,7 @@ class Assessment extends MY_Controller {
 			'InstructorID' => $this->user_data['Instructor_Unique_ID'],
 		);
 		$this->data['AssessmentData'] = $this->AssessmentModel->GetAssessmentInfo($data);
+		$this->data['AssessmentQuestions'] = $this->AssessmentModel->GetAssessmentLayout($data);
 		if($this->data['AssessmentData']){
 
 			$legend = $this->Legends->Get_Legends();
@@ -70,12 +71,63 @@ class Assessment extends MY_Controller {
 	}
 	public function Ajax_Respondent_List(){
 
+		$passinggrade = 60;
+		$result = array('TotalPassers' => '');
 		$array = array(
 			'SearchKey' => $this->input->get_post('SearchKey'),
 			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
+			'CourseFilter' => $this->input->get_post('CourseFilter'),
+			'RemarkFilter' => $this->input->get_post('RemarkFilter'),
 		);
+		$TotalPoints = $this->AssessmentModel->GetAssessmentLayout($array)[0]['TotalPoints'];
 		$data = $this->AssessmentModel->GetRespondents($array);
-		echo json_encode($data);
+		foreach($data as $key => $row){
+
+			$percentage = 0;
+			$percentage = ($row['Score'] / $TotalPoints) * 100;
+			$remark = $percentage >= $passinggrade ? 'Passed' : 'Failed';
+			
+			if(!empty($array['RemarkFilter'])){
+				foreach($array['RemarkFilter'] as $filter){
+					if($filter == $remark){
+						$result[$key] = array(
+							'AssessmentCode' => $row['AssessmentCode'],
+							'Student_Number' => $row['Student_Number'],
+							'RespondentName' => $row['RespondentName'],
+							'Program' => $row['Program'],
+							'Section' => $row['Section'],
+							'Score' => $row['Score'].' ('.$percentage.'%)',
+							'Remarks' => ''
+						);
+						$result[$key]['Remarks'] = $remark;
+						if($percentage >= $passinggrade){
+							$result['TotalPassers']++;
+						}
+					}
+
+				}
+
+			}else{
+				$result[$key] = array(
+					'AssessmentCode' => $row['AssessmentCode'],
+					'Student_Number' => $row['Student_Number'],
+					'RespondentName' => $row['RespondentName'],
+					'Program' => $row['Program'],
+					'Section' => $row['Section'],
+					'Score' => $row['Score'].' ('.$percentage.'%)',
+					'Remarks' => '',
+				);
+				$result[$key]['Remarks'] = $remark;
+				if($percentage >= $passinggrade){
+					$result['TotalPassers']++;
+				}
+			}
+			
+
+			
+		}
+		//print_r($array['CourseFilter']);
+		echo json_encode($result);
 
 	}
 	public function Ajax_HandledSubjects(){
@@ -340,7 +392,7 @@ class Assessment extends MY_Controller {
 		$data = array(
 
 			'AssessmentCode' => $AssessmentCode,
-			'Student_Number' => $this->user_data['Student_Number'],
+			'Student_Number' => '',
 			'Score' => 0,
 			'TotalPoints' => 0,
 			'CorrectCount' => 0,
@@ -352,6 +404,14 @@ class Assessment extends MY_Controller {
 			'ScoreColor' => '0088CC',
 			'Outcome' => array(),
 		);
+		if($this->user_data['UserType'] == 1){
+			$data['Student_Number'] = $this->user_data['Student_Number'];
+		}
+		if($this->user_data['UserType'] == 2){
+			$data['Student_Number'] = $this->input->get_post('Student_Number');
+		}
+		
+
 		$outcomes = '';
 
 		//Gets Basic Info of Assessment

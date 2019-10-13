@@ -1,7 +1,7 @@
 <section role="main" class="content-body" id="CourseWall" data-base_url='<?php //echo base_url(); ?>' data-usertype="<?php //echo $this->data['Usertype']; ?>" data-usertoken="<?php //echo $this->data['Usertoken']; ?>">
 		<header class="page-header">
 			
-			<h2><i class="fa fa-book"></i> <?php //echo $this->data['SchedData'][0]['Course_Code']; ?> : <?php //echo $this->data['SchedData'][0]['Sched_Code']; ?></h2>
+			<h2><i class="fa fa-book"></i> <?php //echo $this->data['SchedData'][0]['Course_Code']; ?> : <?php echo $this->data['AssessmentData'][0]['AssessmentCode']; ?></h2>
 		
 			<div class="right-wrapper pull-right" style="padding-right:20px">
 				<ol class="breadcrumbs">
@@ -10,8 +10,8 @@
 							<i class="fa fa-home"></i>
 						</a>
 					</li>
-					<li><span>Pages</span></li>
-					<li><span>User Profile</span>
+					<li><span>Assessment</span></li>
+					<li><span>Respondent</span>
 					 
 					</li>
 				</ol>
@@ -31,12 +31,7 @@
 			<div class="col-sm-8 col-lg-8 order-2">
 				<h1>Assessment Takers</h1>
 				<hr>
-				<h3 id="active-filter-panel">Filters:	
-					<span id="addedfilters">		
-						<span class="active-filter" data-schedcode='20123213'>
-							<button class="btn btn-sm btn-default">Subject : 21231321</button>
-						</span>
-					</span>
+				<h3 id="active-filter-panel">Filters:
 				</h3>
 				<div class="tabs">
 					<ul class="nav nav-tabs nav-justified">
@@ -44,7 +39,7 @@
 							<a href="#popular10" data-toggle="tab" class="text-center"><i class="fa fa-star"></i> Assessment Report</a>
 						</li>
 						<li>
-							<a href="#recent10" data-toggle="tab" class="text-center"> Summary</a>
+							<a href="#recent10" data-toggle="tab" class="text-center assessment-summary"> Summary</a>
 						</li>
 					</ul>
 					<div class="tab-content">
@@ -64,11 +59,13 @@
 										<span class="input-group-addon">
 											<i class="fa fa-th-list"></i>
 										</span>
-										<select class="form-control" multiple="multiple" data-plugin-multiselect="" id="ms_filter" style="display: none;">
-											<option value="Recently">Recently Taken</option>
+										<select class="form-control" multiple="multiple" data-plugin-multiselect="" id="remark_filters" style="display: none;">
 											<option value="Passed">Passed</option>
 											<option value="Failed">Failed</option>
 										</select>
+										<span class="searchloader" style="margin-left:10px">
+											<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="34.60" width="42">
+										</span>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -82,7 +79,10 @@
 													<th>#</th>
 													<th>Student Number</th>
 													<th>Name</th>
+													<th>Course</th>
+													<th>Section</th>
 													<th>Score</th>
+													<th>Remarks (Passing: 70% above)</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -98,6 +98,84 @@
 						</div>
 						<div id="recent10" class="tab-pane">
 							<div class="row">
+								<div class="col-md-12 col-lg-12 col-xl-12">
+									<h2 id="active-filter-panel">Assessment Summary</h2>
+									<hr>
+								</div>
+								<div class="col-md-6" style="text-align: center; padding-top:50px">
+									<div class="circular-bar">
+										<div class="circular-bar-chart passing-chart" data-percent="0" data-plugin-options='{ "barColor": "#cc0000", "size": 300}'>
+												<strong style="font-size:25px; color:green">Passed</strong>
+												<label style="font-size:50px"><span class="percent">0</span>%</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6 col-xl-6">
+									<section class="panel panel-featured-left panel-featured-tertiary">
+										<div class="panel-body">
+											<div class="widget-summary">
+												<div class="widget-summary-col widget-summary-col-icon">
+													<div class="summary-icon bg-tertiary">
+														<i class="fa fa-check-circle"></i>
+													</div>
+												</div>
+												<div class="widget-summary-col">
+													<div class="summary">
+														<h4 class="title">Total Points:</h4>
+														<br>
+														<div class="info">
+															<strong class="amount" style="padding-top:10px; font-size:5rem;"><?php echo $this->data['AssessmentQuestions'][0]['TotalPoints']; ?></strong>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+								<div class="col-md-12 col-lg-6 col-xl-6">
+									<section class="panel panel-featured-left panel-featured-primary">
+										<div class="panel-body">
+											<div class="widget-summary">
+												<div class="widget-summary-col widget-summary-col-icon">
+													<div class="summary-icon bg-primary">
+														<i class="fa fa-check-circle"></i>
+													</div>
+												</div>
+												<div class="widget-summary-col">
+													<div class="summary">
+														<h4 class="title">Number of Takers:</h4>
+														<br>
+														<div class="info">
+															<strong class="amount" style="padding-top:10px; font-size:5rem;" id="respondent_count"></strong>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+								<div class="col-md-12 col-lg-6 col-xl-6">
+									<section class="panel panel-featured-left panel-featured-success">
+										<div class="panel-body">
+											<div class="widget-summary">
+												<div class="widget-summary-col widget-summary-col-icon">
+													<div class="summary-icon bg-success">
+														<i class="fa fa-check-circle"></i>
+													</div>
+												</div>
+												<div class="widget-summary-col">
+													<div class="summary">
+														<h4 class="title">Number of Passers:</h4>
+														<br>
+														<div class="info">
+															<strong class="amount" style="padding-top:10px; font-size:5rem;" id="passers_count"></strong>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
 
 							</div>
 						</div>
@@ -158,7 +236,12 @@
 											
 										</li>
 										<div style="overflow-y:auto; max-height:300px" id="class_filter_list">
-											
+											<li>
+												<div class="checkbox-custom checkbox-default">
+													<input type="checkbox" id="201810071" class="class_filter_check" onclick="ToggleFilter(&quot;IT314&quot;,&quot;201810071&quot;)">
+													<label for="201810071" class="todo-label"><span>IT314 : 201810071</span></label>
+												</div>
+											</li>
 										</div>
 									</ul>
 								</div>
