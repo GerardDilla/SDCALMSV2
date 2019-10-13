@@ -7,7 +7,7 @@ class Courseware extends CI_Model{
 	// STUDENT
 	public function GetCoursePosts($array)
 	{	
-		$this->db->select('post.CoursePost_ID,post.Description,SI.First_Name,SI.Last_Name,SI.Student_Number,I.Instructor_ID,I.Instructor_Name');
+		$this->db->select('post.CoursePost_ID,post.Description,SI.First_Name,SI.Last_Name,SI.Student_Number,I.Instructor_Name,I.Instructor_ID');
 		$this->db->select('TIMESTAMPDIFF(MONTH, `Date`, \''.$array['CurrentDate'].'\') AS ElapsedMonth');
 		$this->db->select('TIMESTAMPDIFF(WEEK,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedWeek');
 		$this->db->select('TIMESTAMPDIFF(DAY,  `Date`, \''.$array['CurrentDate'].'\') AS ElapsedDay');
