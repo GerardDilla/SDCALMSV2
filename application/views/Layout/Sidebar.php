@@ -114,6 +114,13 @@
                         </a>
                     </li>
 
+                    <li class="nav">
+                        <a href="<?php echo base_url(); ?>index.php/Report/Class_List">
+                            <i class="fa fa-list-alt" aria-hidden="true"></i>
+                            <span>My Files</span>
+                        </a>
+                    </li>
+
                 <?php endIf; ?>
 
                 
@@ -559,12 +566,15 @@
                 </div>
             </div>
             <hr class="separator" />
-            
-            <ul class="nav nav-main">
-                <li class="nav">
-                <a href="https://drive.google.com/drive/my-drive">Privacy Policy</a>
-                </li>
-            </ul>
+
+            <div class="sidebar-widget widget-tasks">
+                <div class="widget-content">
+                    <ul class="list-unstyled m-none">
+                        <li><a href="https://drive.google.com/drive/my-drive">Privacy Policy</a></a></li>
+                        
+                    </ul>
+                </div>
+            </div>
             <!--
             <hr class="separator" />
 

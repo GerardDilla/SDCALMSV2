@@ -20,7 +20,7 @@ class Assessment extends MY_Controller {
 
 		  //Sets Timezone for
 		  date_default_timezone_set('Asia/Manila');
-
+		  echo date("Y-m-d H:i:s");
 		  //Defines log date
 		  $this->logdate = date("Y/m/d");
 

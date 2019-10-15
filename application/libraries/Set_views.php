@@ -90,6 +90,9 @@ class set_views
 	public function coursewall(){
 		return $this->main.'/CourseWall';
 	}
+	public function filemanager(){
+		return $this->main.'/FileManager';
+	}
 	///Student Portal Dashboard
 
 		public function student_dashboard()
