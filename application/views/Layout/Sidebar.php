@@ -115,7 +115,7 @@
                     </li>
 
                     <li class="nav">
-                        <a href="<?php echo base_url(); ?>index.php/Report/Class_List">
+                        <a href="<?php echo base_url(); ?>index.php/Files">
                             <i class="fa fa-list-alt" aria-hidden="true"></i>
                             <span>My Files</span>
                         </a>

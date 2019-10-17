@@ -32,7 +32,7 @@ class Files extends MY_Controller {
 	}
 	public function index()
 	{
-
+		$this->data['InstructorID'] = md5($this->user_data['Instructor_Unique_ID']);
 		$this->template($this->set_views->filemanager());
 	
 	}

@@ -75,37 +75,6 @@
 								</div>
 							</section>
 
-							<section class="panel">
-								<header class="panel-heading">
-									<h2 class="panel-title green">  <i class="fa fa-money black"  aria-hidden="true"></i> Balance</h2>
-									<span class="searchloader">
-										<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="42" width="42">
-									</span>
-								</header>
-								<div class="panel-body">
-								        <div class="table-responsive">
-											<table class="table table-bordered mb-none">
-												<thead>
-													<tr>
-													    <th></th>
-														<th>Amount</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td class="sem-balance">Semestral Balance</td>
-														<td class="balance-amount" id="dash_sem-balance">0.00</td>
-													</tr>
-													<tr>
-													   <td class="outstanding-balance">PREVIOUS BALANCE :</td>
-														<td class="balance-amount" id="dash_oustanding-balance">0.00</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-								</div>
-							</section>
-
                         </div>
                      <div class="col-md-5">
 						<section class="panel">

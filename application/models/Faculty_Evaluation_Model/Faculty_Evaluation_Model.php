@@ -16,7 +16,7 @@ class Faculty_Evaluation_Model extends CI_Model{
 	 public function Get_Enrolled($array){
 		
 		$this->db->select('*');
-		$this->db->from('fees_enrolled_college');
+		$this->db->from('Fees_Enrolled_College');
 		$this->db->where('Reference_Number =',$array['ref']);    
 		$this->db->where('Semester =',$array['sem']);
 		$this->db->where('schoolyear =',$array['sy']);
@@ -35,7 +35,7 @@ class Faculty_Evaluation_Model extends CI_Model{
 		$this->db->where('Semester =',$array2['sem']);
 		$this->db->where('School_Year =',$array2['sy']);
 		$this->db->where('Instructor =',$array2['Instructor_id']);
-		$this->db->where('sched_code =',$array2['sched_code']);
+		$this->db->where('Sched_Code =',$array2['sched_code']);
 		$query = $this->db->get();
 		return $query;
 	}
@@ -61,7 +61,7 @@ class Faculty_Evaluation_Model extends CI_Model{
 		$this->db->join('Instructor AS C','C.ID = B.`Instructor_ID`','left');
 		$this->db->join('Sched AS D','D.`Sched_Code` = B.`Sched_Code`','left');
 		$this->db->join('Subject AS E','E.`Course_Code` = D.`Course_Code`','left');
-		$this->db->join('sections AS F','F.`Section_ID` = D.`Section_ID`','left');
+		$this->db->join('Sections AS F','F.`Section_ID` = D.`Section_ID`','left');
 		$this->db->where('A.Reference_Number =',$array['ref']);    
 		$this->db->where('A.Student_Number =',$array['stu_num']);  
 		$this->db->where('A.Semester =',$array['sem']);

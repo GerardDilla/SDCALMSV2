@@ -1,7 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ScheduleAPI extends CI_Controller {
+abstract class filetype{
+
+	
+	const image = 1;
+	const video = 2;
+	const document = 3;
+	
+
+}
+class FileManagerAPI extends CI_Controller {
 
 	function __construct() 
 	{
@@ -13,10 +22,7 @@ class ScheduleAPI extends CI_Controller {
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->library("api_input_validator");
-		$this->load->model("API/Schedule");
-		$this->load->model("API/Grading");
-		$this->load->model("Student_model/Student_info");
-
+		$this->load->model("API/FileManager");
 
 		//ONLY USE THE FOLLOWING INDEXES
 		$this->data_input = array(
@@ -35,39 +41,54 @@ class ScheduleAPI extends CI_Controller {
 
 		$Value = array(
 			array(
-				'field' => 'Reference_Number',
-				'label' => 'Reference Number',
+				'field' => 'Command',
+				'label' => 'Command',
 				'rules' => 'required',
-				'value' => $this->input->get('Reference_Number')
+				'value' => $this->input->get_post('Command')
 			),
 			array(
-				'field' => 'School_Year',
-				'label' => 'School Year',
+				'field' => 'InstructorID',
+				'label' => 'User Token',
 				'rules' => 'required',
-				'value' => $this->input->get('School_Year')
+				'value' => $this->input->get_post('InstructorID')
 			),
-			array(
-				'field' => 'Semester',
-				'label' => 'Semester',
-				'rules' => 'required',
-				'value' => $this->input->get('Semester')
-			)
 		);
+		
 		$validate = $this->api_input_validator->validate_input($Value);
 		if($validate['Status'] == TRUE){
 
-			$input_array = array(
-
-				'Reference_Number' => $this->input->get('Reference_Number'),
-				'School_Year' => $this->input->get('School_Year'),
-				'Semester' => $this->input->get('Semester')
-
+			$inputarray = array(
+				'Command' => $this->input->get_post('Command'),
+				'InstructorID' => $this->input->get_post('InstructorID'),
+				'Folder_ID' => $this->input->get_post('Folder_ID'),
+				'File_ID' => $this->input->get_post('File_ID'),
+				'FileType' => $this->input->get_post('FileType'),
 			);
-			//Validates reference number hash and returns student number
-			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 
-			//Constructs and displays the schedule
-			$sched_data = $this->sched_constructor($input_array);
+			if($inputarray['Command'] == 'getfolder'){
+
+				$this->getfolder($inputarray);
+
+			}
+			else if($inputarray['Command'] == 'getfiles'){
+
+				$this->getfiles($inputarray);
+
+			}
+			else if($inputarray['Command'] == 'file_path'){
+
+				$this->data_input['data'] = $this->file_path($inputarray);
+				$this->Output($this->data_input);
+
+			}
+			else if($inputarray['Command'] == 'get_file_output'){
+
+				//echo $inputarray['FileType'];
+				$this->data_input['data'] = $this->get_file_output($inputarray);
+				$this->Output($this->data_input);
+
+			}
+			
 
 		}
 		else{
@@ -80,87 +101,69 @@ class ScheduleAPI extends CI_Controller {
 		}
 
 	}
-	private function sched_constructor($input_array){
-	
-		
-		$sched_array = array();
-		$count = 0;
-		$subjects = $this->get_subjects($input_array);
-		
-		foreach($subjects as $row){
+	private function getfolder($inputs){
 
-			
-			$sched = $this->get_sched($row['Sched_Code']);
+		$result = $this->FileManager->get_folders($inputs);
+		if($result){
 
-			$sched_array[$count] = array(
-				'Sched_Code' => $row['Sched_Code'],
-				'Course_Code' => $row['Course_Code'] != null ? $row['Course_Code'] : 'Available in Old Portal',
-				'Course_Title' => $row['Course_Title'] != null ? $row['Course_Title'] : '-',
-				'Day' => '',
-				'Time' => '',
-				'Instructor' => '',
-				'sched_display_id' => ''
-			);
-			$separator = '';
-			$sched_count = 0;
-			foreach($sched as $schedrow){
+			$this->data_input['data'] = $result;
+			$this->data_input['ResultCount'] = count($result);
 
-				$separator = $sched_count != 0 ? ' , ' : $separator;
-				$sched_array[$count]['Day'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['Day'] : '-';
-				$sched_array[$count]['Time'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['stime'].' - '.$schedrow['etime'] : '-';
-				$sched_array[$count]['Instructor'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['Instructor_Name'] : '-';
-				$sched_array[$count]['sched_display_id'] .= $schedrow['sched_display_id'] != null ? $separator.''.$schedrow['sched_display_id'] : '-';
-				$sched_count++;
+		}else{
+			$this->data_input['Error'] = 1;
 
-			}
-			$sched_array[$count]['Day'] = $sched_array[$count]['Day'] != '' ? $sched_array[$count]['Day'] : '-'; 
-			$sched_array[$count]['Time'] = $sched_array[$count]['Time'] != '' ? $sched_array[$count]['Time'] : '-'; 
-			$sched_array[$count]['Instructor'] = $sched_array[$count]['Instructor'] != '' ? $sched_array[$count]['Instructor'] : '-'; 
-			$sched_array[$count]['Schedule_Array'] = $sched;
-
-			$count++;	
 		}
 
-		if(empty($subjects)){
+		$this->Output($this->data_input);
 
-			$this->data_input['Error'] = 1;
-			$this->data_input['ErrorMessage'] = 'No Schedule Data';
-			$this->Output($this->data_input);
+	}
+	private function getfiles($inputs){
+		
+		$result = $this->FileManager->get_files($inputs);
+		if($result){
+
+			$this->data_input['data'] = $result;
+			$this->data_input['ResultCount'] = count($result);
+
 
 		}else{
 
-			$this->data_input['data'] = $sched_array;
-			$this->data_input['ResultCount'] = count($sched_array);
-			$this->Output($this->data_input);
-			
-		}
-		//return $sched_array;
-
-	}
-	private function validate_reference_number($input_array){
-
-		//Check if reference number is valid
-		$sn_result = $this->Student_info->Student_Info_byREF($input_array);
-		if(empty($sn_result)){
-			
 			$this->data_input['Error'] = 1;
-			$this->data_input['ErrorMessage'] = 'Invalid Reference Number Key';
-			$this->Output($this->data_input);
 
 		}
-		return $sn_result[0]['Student_Number'];
-		
-	}
-	private function get_subjects($array){
 
-		$result = $this->Grading->Get_Subjects($array);
-		return $result;
+		$this->Output($this->data_input);
 
 	}
-	private function get_sched($SchedCode){
+	private function file_path(){
 
-		$result = $this->Schedule->Get_sched_info($SchedCode);
-		return $result;
+		return $this->FileManager->get_filepath()[0]['FileStorage_Path'];
+
+	}
+	private function get_file_output($input){
+
+		//echo filetype::jpeg.'test';
+
+		$result = $this->FileManager->get_file_info($input);
+		$data = $result[0];
+		$this->data_input['data'] = $input['FileType'];
+		if($input['FileType'] == filetype::image){
+
+			$this->data_input['data'] = $this->load->view('FileTypes/Image',$data,TRUE);
+
+		}
+		else if($input['FileType'] == filetype::video){
+
+			$this->data_input['data'] = $this->load->view('FileTypes/Image',$data, TRUE);
+			
+		}
+		else if($input['FileType'] == filetype::document){
+
+			$this->data_input['data'] = $this->load->view('FileTypes/Image',$data, TRUE);
+
+
+		}
+		$this->Output($this->data_input);
 
 	}
 	private function Output($data = array()){
