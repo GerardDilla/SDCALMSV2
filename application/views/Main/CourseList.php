@@ -57,10 +57,12 @@
 		<div class="row">
 
 				<?php if($this->data['Subjects']): ?>
-					<?php foreach($this->data['Subjects'] as $subject): ?>
+				<?php $colorcount = 0;?>
+					<?php foreach($this->data['Subjects'] as $key => $subject): ?>
+
 						<a href="<?php echo base_url(); ?>index.php/Course/index/<?php echo $subject['Sched_Code']; ?>" style="color:#000; text-decoration: none; max-height:250px; min-height:250px" type="submit" class="col-md-6 col-lg-6 col-xl-3">
 							<section class="panel">
-								<header class="panel-heading bg-primary">
+								<header class="panel-heading bg-primary" style="background-color:#<?php echo $this->randcolors[$colorcount]; ?>">
 									<div class="panel-heading-icon">
 										<i class="fa fa-book" style="line-height:2"></i>
 									</div>
@@ -71,10 +73,17 @@
 										<p class="text-center"><?php echo $subject['Instructor_Name']; ?></p>
 									<?php endIf; ?>
 									<?php if($this->user_data['UserType'] == 2): ?>
-										<p class="text-center">Sched Code: <?php echo $subject['Sched_Code']; ?></p>
+										<p class="text-center">Sched Code: <?php echo $subject['Sched_Code']; ?>::</p>
 									<?php endIf; ?>
 								</div>
 							</section>
+							<?php 
+								if($colorcount != 6){
+									$colorcount++;
+								}else{
+									$colorcount = 0;
+								}
+							?>
 						</a>
 						<!--<h2>No Subjects found</h2>-->
 					<?php endForeach; ?>

@@ -5,29 +5,55 @@ $(document).ready(function(){
 
     getfolders();
 
-    $('.side-folders').on('click','li', function(){
-        
-        open_folder(this);
+    open_folder($('#parent-folder'));
 
+    $('.side-folders').on('click','li', function(){
+        open_folder(this);
     });
+
+    $('#parent-folder').click(function(){
+        open_folder(this);
+    });
+
+    $('.uploadbutton').click(function(){
+        $('#UploadFileModal').modal('show');
+    });
+
+    $('#upload_form').submit(function(e){
+        e.preventDefault(); 
+        upload_init(this);
+    });
+
+    $('.storage-files').on('click','.delete_file', function(){
+        if (confirm('Are you sure you want to delete?')) {
+
+            //alert($(this).data('file-id'));
+            delete_init(this);
+
+        }else{
+
+           return;
+
+        }
+    });
+
 
     
 
 });
 function open_folder(obj){
 
-    alert($(obj).data('folder-id'));
+    //alert($(obj).data('folder-id'));
 
     $('.folder-directory').html($(obj).data('folder-name')).fadeIn('fast');
     folder_id = $(obj).data('folder-id');
     //alert('Getting File: init');
-
+    $('.folder_id_upload').val($(obj).data('folder-id'));
 
     filesdatavar = filesdata(folder_id);
     filesdatavar.done(function(result){
 
         //alert('Getting File: Done');
-
         result = JSON.parse(result);
         $('.storage-files').fadeOut('fast').html('');
         $.each(result['data'], function(index,filedata){
@@ -36,10 +62,12 @@ function open_folder(obj){
             fileoutput = get_file_output(filedata);
             fileoutput.done(function(output){
 
-                output = JSON.parse(output);
-                console.log(output);
-                //alert(output['data']);
-                $('.storage-files').fadeIn('fast').append(output['data']);
+                //alert('Getting File: Done');
+                    output = JSON.parse(output);
+                    console.log(output);
+                    //alert(output['data']);
+                    $('.storage-files').fadeIn('fast').append(output['data']);
+
 
             });
            
@@ -58,6 +86,10 @@ function getfolders(){
     folderdata.done(function(result){
         result = JSON.parse(result);
         folders = result['data'];
+
+        if(result['ResultCount'] == 0){
+            return;
+        }
         $('.side-folders').fadeOut('fast').html('');
         $.each(folders, function(index, result){
 
@@ -85,15 +117,18 @@ function getfolders(){
                         $('<i>').attr({'class':'fa fa-folder'})
                     ).append(result['FolderName'])
                 ).append(
-                    $('<div>').attr({'class':'item-options'}).append(
+                    $('<div>').attr({'class':'item-options'})
+                    /*
+                    .append(
                         $('<a>').attr({'href':'#'}).append(
                             $('<i>').attr({'class':'fa fa-edit'})
-                        )
-                    ).append(
+                        ))
+                    .append(
                         $('<a>').attr({'href':'#','class':'text-danger'}).append(
                             $('<i>').attr({'class':'fa fa-times'})
                         )
                     )
+                    */
                 )
             ).fadeIn('fast');
 
@@ -101,11 +136,6 @@ function getfolders(){
         console.log(result);
     });
     
-}
-function getfiles(){
-
-
-
 }
 function folderdata(){
 
@@ -146,6 +176,61 @@ function get_file_output(filedata){
             FileType:filedata['FileType'],
             InstructorID: user_token(),
         }
+    });
+
+}
+function upload_init(obj){
+
+
+    uploadstatus = upload_file(obj);
+    uploadstatus.done(function(result){
+
+        result = JSON.parse(result);
+        if(result['Error'] == 0){
+            $('#UploadFileModal').modal('hide');
+            $("#UploadFile").val('');
+            open_folder($('#parent-folder'));
+        }else{
+            alert(result['Message']);
+        }
+
+    });
+}
+function delete_init(obj){
+
+    deletestatus = delete_file(obj);
+    deletestatus.done(function(result){
+
+        open_folder($('#parent-folder'));
+
+
+    });
+
+}
+function delete_file(obj){
+
+    return $.ajax({
+        url: FileAPI_URL(),
+        type: 'GET', 
+        data: {
+            Command: 'delete_file',
+            File_ID:$(obj).data('file-id'),
+            InstructorID: user_token(),
+        }
+    });
+
+}
+function upload_file(obj){
+
+    
+    return $.ajax({
+        url: $(obj).attr('action'),
+        type: $(obj).attr('method'),
+        data:new FormData(obj),
+        processData:false,
+        contentType:false,
+        cache:false,
+        async:false,
     });
 
 }

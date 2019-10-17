@@ -38,6 +38,16 @@ class Course extends MY_Controller {
 			$this->data['Usertoken'] = md5($this->user_data['Instructor_Unique_ID']); 
 		}
 
+		$this->randcolors = array(
+			0 => 'C7B540',
+			1 => 'A3B0BC',
+			2 => '979E92',
+			3 => '404357', 
+			4 => 'E91E63', 
+			5 => '2196F3', 
+			6 => '4caf50'
+		);
+
 
 	}
 	public function index($SchedCode = '')
@@ -80,6 +90,7 @@ class Course extends MY_Controller {
 
 		$AttachmentTypeArray = $this->input->post('AttachmentType');
 		$AttachmentValueArray = $this->input->post('AttachmentValue');
+		$FileAttachments = $this->input->post('File_ID');
 		$attachment_error_status = 0;
 		if(isset($AttachmentTypeArray)){
 			foreach($AttachmentTypeArray as $key => $typeID){
@@ -91,6 +102,13 @@ class Course extends MY_Controller {
 		if(isset($AttachmentValueArray)){
 			foreach($AttachmentValueArray as $key1 => $AttchValue){
 				if($AttchValue == ''){
+					$attachment_error_status = 1;
+				}
+			}
+		}
+		if(isset($FileAttachments)){
+			foreach($FileAttachments as $key2 => $AttchFileVal){
+				if($AttchFileVal == ''){
 					$attachment_error_status = 1;
 				}
 			}
@@ -159,6 +177,19 @@ class Course extends MY_Controller {
 					
 
 
+				}
+
+				if(isset($FileAttachments)){
+
+					foreach($FileAttachments as $index2 => $AttachFile){
+
+						$array = array(
+							'PostID' => $post_status,
+							'AttachmentType' => $AttachFile
+						);
+						$this->Courseware->attach_file($array);
+						
+					}
 				}
 
 			}else{
@@ -235,8 +266,9 @@ class Course extends MY_Controller {
 			$output[$count]['Course_Code'] = $row['Course_Code'];
 
 			$sched_info = $this->Schedule->Get_sched_info($row['Sched_Code']);
-
-			$output[$count]['Instructor_Name'] = $sched_info[0]['Instructor_Name'];
+			if($sched_info){
+				$output[$count]['Instructor_Name'] = $sched_info[0]['Instructor_Name'];
+			}
 			$count++;
 		}
 		return $output;
@@ -261,6 +293,7 @@ class Course extends MY_Controller {
 				$monthcheck = $row['Month'];
 			}
 			$row['Attachments'] = $this->get_attachments($row['CoursePost_ID']);
+			$row['FileAttachments'] = $this->get_file_attachments($row['CoursePost_ID']);
 			$postview[$row['Month']][$count] = $this->load->view('PostTypes/Standard',$row,TRUE);
 			$count++;
 		}
@@ -287,6 +320,23 @@ class Course extends MY_Controller {
 
 			$result['Status'] = 1;
 			$result['Assessment'] = $assessments;
+
+		}
+		return $result;
+
+	}
+	private function get_file_attachments($postID){
+
+		$result = array(
+			'Status' => 0,
+			'Files' => array(),
+			'PostID' => $postID
+		);
+		$files = $this->Courseware->get_file_attachments($result);
+		if($files){
+
+			$result['Status'] = 1;
+			$result['Files'] = $files;
 
 		}
 		return $result;

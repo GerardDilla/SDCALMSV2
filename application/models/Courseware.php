@@ -49,7 +49,20 @@ class Courseware extends CI_Model{
 		return $result->result_array();
 
 	}
+	public function get_file_attachments($array){
+
+		$this->db->where('PA.PostID',$array['PostID']);
+		$this->db->where('PA.Valid',1);
+		$this->db->join('lms_files as F','F.File_ID = PA.AttachmentType','inner');
+		$result = $this->db->get('lms_post_attachments as PA');
+		return $result->result_array();
+
+	}
+	public function attach_file($array){
 	
+		$this->db->insert('lms_post_attachments',$array);
+		return $this->db->insert_id();
+	}
 	
 
 

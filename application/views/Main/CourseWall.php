@@ -42,15 +42,14 @@
 									</div>
 									<div class="compose-box-footer">
 										<ul class="compose-toolbar">
+										<?php if($this->user_data['UserType'] == 2): ?>
 											<li>
 												<a href="#" id="AssessmentAttach"><i class="fa fa-file-text-o"></i></a>
 											</li>
 											<li>
-												<a disabled href="#"><i class="fa fa-camera"></i></a>
+												<a href="#" id="FileAttach"><i class="fa fa-paperclip"></i></a>
 											</li>
-											<li>
-												<a disabled href="#"><i class="fa fa-map-marker"></i></a>
-											</li>
+										<?php endIF; ?>
 										</ul>
 										<ul class="compose-btn">
 											<li>
@@ -389,9 +388,228 @@
 	</div>
 	<!-- /Assessment Attachment Modal -->
 
+	<!-- Assessment Attachment Modal -->
+	<div id="FileAttachmentModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg" style="width:1500px">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Attach a File
+						<span class="searchloader">
+							<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body row">
+					<div class="form-group">
+						<div class="col-md-7">
+							<input type="text"  class="form-control" id="exp_manager_search" autofocus placeholder="Search with Title..">
+						</div>
+						<button style="height:34px" class="col-md-1 btn btn-sm btn-default" id="Expsearch"><i class="fa fa-search"></i></button>
+					</div>
+					<div class="col-md-12">
+						<div class="message_box"></div>
+						<br>
+						<div class="table-responsive col-md-12 ">
+							<div class="storage-files row">
+								<div class="col-md-6 col-lg-6 col-xl-3">
+									<section class="panel">
+										<header class="panel-heading bg-primary">
+											<div class="panel-heading-icon">
+												<i class="fa fa-globe"></i>
+											</div>
+										</header>
+										<div class="panel-body text-center">
+											<h3 class="text-semibold mt-sm text-center">Simple Block Title</h3>
+											<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+										</div>
+									</section>
+								</div>
+							</div>
+						</div>
+					</div>		
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Assessment Attachment Modal -->
+
 	<script>
+
+	$(document).ready(function(){
+		filesdata(0);
+
+		$('#FileAttach').click(function(){
+			//alert('test');
+			open_folder();
+		});
+
+		$('.storage-files').on('click', '.post_attachment', function(){
+
+			//alert($(this).data('file-id'));
+
+			post_attachment(this);
+
+		});
+
+	});
+
 	function base_url(){
 		return '<?php echo base_url(); ?>';
+	}
+
+	function FileAPI_URL(){
+
+		return '<?php echo base_url(); ?>index.php/API/FileManagerAPI';
+	}
+	function user_token(){
+
+		return '<?php echo md5($this->user_data['Instructor_Unique_ID']); ?>';
+		
+	}
+	function open_folder(){
+
+		$('#FileAttachmentModal').modal('show');
+		filesdatavar = filesdata();
+		filesdatavar.done(function(result){
+
+			//alert('Getting File: Done');
+			result = JSON.parse(result);
+			$('.storage-files').fadeOut('fast').html('');
+			$.each(result['data'], function(index,filedata){
+
+
+				/*
+					<div class="col-md-6 col-lg-6 col-xl-3">
+						<section class="panel">
+							<header class="panel-heading bg-primary">
+								<div class="panel-heading-icon">
+									<i class="fa fa-globe"></i>
+								</div>
+							</header>
+							<div class="panel-body text-center">
+								<h3 class="text-semibold mt-sm text-center">Simple Block Title</h3>
+								<p class="text-center">Nullam quiris risus eget urna mollis ornare vel eu leo. Soccis natoque penatibus et magnis dis parturient montes. Soccis natoque penatibus et magnis dis parturient montes.</p>
+							</div>
+						</section>
+					</div>
+				*/
+				if(filedata['FileType'] == 1){
+					$('.storage-files').fadeIn('fast').append('\
+					\
+						<a class="col-md-6 col-lg-6 col-xl-3 post_attachment" data-file-id="'+filedata['File_ID']+'"  data-file-name="'+filedata['Name']+''+filedata['FileExtension']+'">\
+							<section class="panel">\
+								<header class="panel-heading bg-primary" style="background: url('+base_url()+'filestorage/'+filedata['FileName']+''+filedata['FileExtension']+'); min-height: 150px;\
+  								  background-size: cover;">\
+								</header>\
+								<div class="panel-body text-center">\
+									<h3 class="text-semibold mt-sm text-center">'+filedata['Name']+''+filedata['FileExtension']+'</h3>\
+									<p class="text-center">'+filedata['FolderName']+'</p>\
+								</div>\
+							</section>\
+						</a>\
+						\
+					');
+				}
+				if(filedata['FileType'] == 2){
+					$('.storage-files').fadeIn('fast').append('\
+					\
+						<a  class="col-md-6 col-lg-6 col-xl-3 post_attachment"  data-file-id="'+filedata['File_ID']+'" data-file-name="'+filedata['Name']+''+filedata['FileExtension']+'">\
+							<section class="panel">\
+								<header class="panel-heading bg-primary">\
+									<div class="panel-heading-icon">\
+										<i class="fa fa-book"></i>\
+									</div>\
+								</header>\
+								<div class="panel-body text-center">\
+									<h3 class="text-semibold mt-sm text-center">'+filedata['Name']+''+filedata['FileExtension']+'</h3>\
+									<p class="text-center">'+filedata['FolderName']+'</p>\
+								</div>\
+							</section>\
+						</a>\
+						\
+					');
+				}
+				if(filedata['FileType'] == 3){
+					$('.storage-files').fadeIn('fast').append('\
+					\
+						<a class="col-md-6 col-lg-6 col-xl-3 post_attachment" data-file-id="'+filedata['File_ID']+'" data-file-name="'+filedata['Name']+''+filedata['FileExtension']+'">\
+							<section class="panel">\
+								<header class="panel-heading bg-primary">\
+									<div class="panel-heading-icon">\
+										<i class="fa fa-play-circle"></i>\
+									</div>\
+								</header>\
+								<div class="panel-body text-center">\
+									<h3 class="text-semibold mt-sm text-center">'+filedata['Name']+''+filedata['FileExtension']+'</h3>\
+									<p class="text-center">'+filedata['FolderName']+'</p>\
+								</div>\
+							</section>\
+						</a>\
+						\
+					');
+				}
+			
+
+			});
+
+		});
+
+
+	}
+	function post_attachment(obj){
+	
+		queue = $('#Attachment_Queue');
+		name = $(obj).data('file-name');
+		id = $(obj).data('file-id');
+		queue.fadeOut('fast');
+		$queuelist = 
+			'\
+			<div class="col-md-2 removable_attachment" style="text-align:center">\
+				<button type="button" class="close removeattach" >&times;</button>\
+				<h1><i class="fa fa-file-text-o"></i></h1>\
+					<span><h3>'+name+'</h3></span>\
+					<input type="hidden" name="File_ID[]" value="'+id+'">\
+				<hr>\
+			</div>\
+			';
+		setTimeout(function() {
+			queue.append($queuelist).fadeIn('fast');
+		}, 500);
+
+	}
+	function get_file_output(filedata){
+
+		return $.ajax({
+			url: FileAPI_URL(),
+			type: 'GET', 
+			data: {
+				Command: 'get_file_output',
+				File_ID:filedata['File_ID'],
+				FileType:filedata['FileType'],
+				InstructorID: user_token(),
+			}
+		});
+
+	}
+	function filesdata(folder_id = 0){
+
+		return $.ajax({
+
+			url: FileAPI_URL(),
+			type: 'GET',
+			data: {
+				Command: 'getfiles',
+				InstructorID: user_token(),
+				Folder_ID:folder_id
+			}
+		});
+
 	}
 	</script>
 	<script src="<?php echo base_url(); ?>assets/javascripts/courseware.js"></script>

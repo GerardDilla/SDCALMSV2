@@ -29,6 +29,7 @@
 					</a>
 				</div>
 				
+				
 				<menu id="content-menu" class="inner-menu" role="menu">
 					<div class="nano">
 						<div class="nano-content">
@@ -43,33 +44,26 @@
 							</div>
 				
 							<div class="inner-menu-content">
-				
-								<a class="btn btn-block btn-primary btn-md pt-sm pb-sm text-md">
-									<i class="fa fa-upload mr-xs"></i>
-									Upload Files
-								</a>
-				
-								<hr class="separator" />
-				
+
+								<div class="row">
+									<div class="col-md-12">
+									<h2>My Files</h2>
+									</div>
+								</div>
+								<hr>
 								<div class="sidebar-widget m-none">
 									<div class="widget-header clearfix">
 										<h6 class="title pull-left mt-xs">Folders</h6>
 										<div class="pull-right">
-											<a href="#" class="btn btn-dark btn-sm btn-widget-act">Add Folder</a>
+											<!--<a href="#" class="btn btn-dark btn-sm btn-widget-act">Add Folder</a>-->
 										</div>
 									</div>
 									<div class="widget-content">
 										<ul class="mg-folders">
 
-											<li data-folder-id="all" data-folder-name="My Files">
-												<a href="#" class="menu-item"><i class="fa fa-folder"></i> My Files</a>
+											<li id="parent-folder" data-folder-id="0" data-folder-name="All Files">
+												<a href="#" class="menu-item"><i class="fa fa-folder"></i> All Files</a>
 												<div class="item-options">
-													<a href="#">
-														<i class="fa fa-edit"></i>
-													</a>
-													<a href="#" class="text-danger">
-														<i class="fa fa-times"></i>
-													</a>
 												</div>
 											</li>
 
@@ -85,19 +79,17 @@
 				
 								<div class="sidebar-widget m-none">
 									<div class="widget-header">
-										<h6 class="title">Labels</h6>
+										<h6 class="title">Allowed Files</h6>
 										<span class="widget-toggle">+</span>
 									</div>
 									<div class="widget-content">
 										<ul class="mg-tags">
-											<li><a href="#">Design</a></li>
-											<li><a href="#">Projects</a></li>
-											<li><a href="#">Photos</a></li>
-											<li><a href="#">Websites</a></li>
-											<li><a href="#">Documentation</a></li>
-											<li><a href="#">Download</a></li>
-											<li><a href="#">Images</a></li>
-											<li><a href="#">Vacation</a></li>
+											<li><a href="#">PDF</a></li>
+											<li><a href="#">DOCX</a></li>
+											<li><a href="#">XLS</a></li>
+											<li><a href="#">JPG</a></li>
+											<li><a href="#">PNG</a></li>
+											<li><a href="#">MP4</a></li>
 										</ul>
 									</div>
 								</div>
@@ -110,41 +102,31 @@
 					<div class="inner-toolbar clearfix">
 						<ul>
 							<li>
-								<a href="#" id="mgSelectAll"><i class="fa fa-check-square"></i> <span data-all-text="Select All" data-none-text="Select None">Select All</span></a>
+								<a disabled href="#" id="mgSelectAll"><i class="fa fa-check-square"></i> <span data-all-text="Select All" data-none-text="Select None">Select All</span></a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-pencil"></i> Edit</a>
+								<a disabled href="#"><i class="fa fa-pencil"></i> Edit</a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-trash-o"></i> Delete</a>
-							</li>
-							<li class="right" data-sort-source data-sort-id="media-gallery">
-								<ul class="nav nav-pills nav-pills-primary">
-									<li>
-										<label>Filter:</label>
-									</li>
-									<li class="active">
-										<a data-option-value="*" href="#all">All</a>
-									</li>
-									<li>
-										<a data-option-value=".document" href="#document">Documents</a>
-									</li>
-									<li>
-										<a data-option-value=".image" href="#image">Images</a>
-									</li>
-									<li>
-										<a data-option-value=".video" href="#video">Videos</a>
-									</li>
-								</ul>
+								<a disabled href="#"><i class="fa fa-trash-o"></i> Delete</a>
 							</li>
 						</ul>
 					</div>
 					<div class="row mg-files" data-sort-destination data-sort-id="media-gallery">
 
-						<div class="col-md-12">
+						<div class="col-md-2">
 							<h2 class="folder-directory"></h2> 
+						</div>
+						<div class="col-md-2">
+							<a class="btn btn-block btn-primary btn-md pt-sm pb-sm text-md uploadbutton" style="margin-top: 15px;">
+								<i class="fa fa-upload mr-xs"></i>
+								Upload File
+							</a>
+						</div>
+						<div class="col-md-12">
 							<hr>
 						</div>
+
 
 						<div class="storage-files">
 
@@ -158,8 +140,8 @@
 	</section>
 
 
-	<!-- Assessment Attachment Modal -->
-	<div id="AssessmentAttachmentModal" class="modal fade" role="dialog">
+	<!-- Upload File Modal -->
+	<div id="UploadFileModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
@@ -174,23 +156,40 @@
 				</div>
 				<div class="modal-body row">
 					<div class="form-group">
-						<div class="message_box"></div>
+						<label class="col-md-3 control-label" for="profileFirstName">Upload File(JPG/PNG)</label>
 						<div class="col-md-8">
-							<input type="text"  class="form-control" id="add_folder_input" autofocus placeholder="Folder Name">
+							<?php 
+								$attributes = array(
+									'id' => 'upload_form',
+									'method' => 'post',
+								); 
+							?>
+							<?php echo form_open_multipart(base_url().'index.php/API/FileManagerAPI',$attributes); ?>
+
+								<input type="hidden" name="Command" value="file_upload" />
+								<input type="hidden" class="instructor_id_token" name="InstructorID" value="" />
+								<input type="hidden" class="folder_id_upload" name="FolderID" value="0" />
+
+								<input type="text" name="FileName" class="form-control assessment_required_input" placeholder="Enter File Name">
+
+								<input class="btn btn-info form-control"  type="file" id="UploadFile" name="CertFile" size="20" onchange="display_image(this)" />
+								<hr>
+								<button type="submit" class="btn btn-sm btn-success">Upload</button>
+							</form>
 						</div>
-						<button style="height:34px" class="col-md-3 btn btn-sm btn-default" id="add_folder_button">Add Folder</button>
 					</div>
 				</div>
 			</div>
 
 		</div>
 	</div>
-	<!-- /Assessment Attachment Modal -->
+	<!-- /Upload File Modal -->
 
 	<script>
 		//Initially hides sidebar
 		$(document).ready(function(){
 			$('.custom-scroll').addClass('sidebar-left-collapsed');
+			$('.instructor_id_token').val(user_token());
 		});
 		function FileAPI_URL(){
 			return '<?php echo base_url(); ?>index.php/API/FileManagerAPI';

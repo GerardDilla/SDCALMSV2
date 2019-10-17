@@ -560,6 +560,7 @@
                 <div class="widget-content">
                     <ul class="list-unstyled m-none">
                         <li><a target="_blank" href="http://portal.stdominiccollege.edu.ph/">SDCA Old Portal</a></li>
+                        <li><a target="_blank" href="http://stdominiccollege.edu.ph/sdcap/index.php/Student/Customer_Satisfactory">SDCA RMUSIC Evaluation</a></li>
                         <li><a target="_blank" href="http://www.stdominiccollege.edu.ph/index.php/research">RDO Microsite</a></li>
                         <li><a target="_blank" href="http://www.stdominiccollege.edu.ph">St. Dominic College Of Asia Website</a></li>
                     </ul>

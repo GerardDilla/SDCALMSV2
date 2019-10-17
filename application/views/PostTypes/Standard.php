@@ -57,19 +57,70 @@
 		<?php echo $Description; ?>
 	</h4>
 	<div class="row">
+	<hr>
 	<?php if($Attachments['Status'] == 1): ?>
 		<?php foreach($Attachments['Assessment'] as $assessment): ?>
-			<div class="col-md-3" style="text-align:center;">
-				<hr>
-				<a href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $assessment['AssessmentCode']; ?>" style="text-decoration: none; color:#000">
-					<h2><i class="fa fa-file-text-o"></i></h2>
-					<span><h4><?php echo $assessment['AssessmentName']; ?></h4></span>
-					<p><?php echo $assessment['Instructor_Name']; ?></p>
+
+			<div class="col-md-6 col-lg-6 col-xl-6">
+				<a href="<?php echo base_url(); ?>index.php/Assessment/PreAssessment/<?php echo $assessment['AssessmentCode']; ?>" target="_blank">
+				<section href="" class="panel panel-featured-left panel-featured-primary">
+					<div class="panel-body">
+						<div class="widget-summary">
+							<div class="widget-summary-col widget-summary-col-icon">
+								<div class="summary-icon bg-primary">
+									<i class="fa fa-pencil"></i>
+								</div>
+							</div>
+							<div class="widget-summary-col">
+								<div class="summary">
+									<h2 class="title"><?php echo $assessment['AssessmentName']; ?></h2>
+									<div class="info">
+										<strong class="amount"></strong>
+									</div>
+								</div>
+								<div class="summary-footer">
+									<a class="text-muted text-uppercase"><?php echo $assessment['Instructor_Name']; ?></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 				</a>
-				<hr>
+			</div>
+
+		<?php endForeach; ?>
+	<?php endIf; ?>		
+
+	<?php if($FileAttachments['Status'] == 1): ?>
+		<?php foreach($FileAttachments['Files'] as $files): ?>
+			<div class="col-md-6 col-lg-6 col-xl-6">
+				<a href="<?php echo base_url(); ?>/filestorage/<?php echo $files['FileName']; ?><?php echo $files['FileExtension']; ?>" target="_blank">
+				<section href="" class="panel panel-featured-left panel-featured-primary">
+					<div class="panel-body">
+						<div class="widget-summary">
+							<div class="widget-summary-col widget-summary-col-icon">
+								<div class="summary-icon bg-primary">
+									<i class="fa fa-paperclip"></i>
+								</div>
+							</div>
+							<div class="widget-summary-col">
+								<div class="summary">
+									<h2 class="title"><?php echo $files['Name']; ?><?php echo $files['FileExtension']; ?></h2>
+									<div class="info">
+										<strong class="amount"></strong>
+									</div>
+								</div>
+								<div class="summary-footer">
+									<a class="text-muted text-uppercase"><?php echo $files['Date']; ?></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				</a>
 			</div>
 		<?php endForeach; ?>
-	<?php endIf; ?>	
+	<?php endIf; ?>
 	</div>
 	<div class="tm-meta">
 		<span>

@@ -10,7 +10,7 @@ class Report extends MY_Controller {
 		  $this->load->library("set_views");
 		  $this->load->library("User_sessionhandler");
 		  $this->load->model('Report/Model_Class_List');
-		  $this->student_data = $this->user_sessionhandler->user_session();
+		  $this->user_data = $this->user_sessionhandler->user_session();
 
 	}
 
@@ -31,7 +31,7 @@ class Report extends MY_Controller {
 		$array = array(
 			'sy'         => $this->input->get('sy'),
 			'sem'        => $this->input->get('sem'),
-			'Prof'       => '2668',//ID NG PROF
+			'Prof'       => $this->user_data['Instructor_Unique_ID'],//ID NG PROF
 		  );
 		  
 		   $resultdata = $this->Model_Class_List->Get_CourseTitle($array);
