@@ -15,18 +15,32 @@ class AssessmentBuilder extends MY_Controller {
 		  $this->user_data = $this->user_sessionhandler->user_session();
 		  $this->load->model('AssessmentModel');
 		  $this->load->model('Rubric_Model/Rubric');
+		  $this->load->model("API/Grading");
+		  $this->load->model("Legends");
+		  $this->load->model("Courseware");
 
 		  //Sets Timezone for
 		  date_default_timezone_set('Asia/Manila');
 
 		  //Defines log date
+		  $this->now = new DateTime();
+		  $this->logdatetime =  $this->now->format('Y-m-d H:i:s');
 		  $this->logdate = date("Y/m/d");
+		  
 
 	}
 	public function index()
 	{
 		//$this->data['Assessment_List'] = $this->AssessmentModel->GetAssessmentList_Student($this->user_data);
 		$InstructorID = $this->user_data['Instructor_Unique_ID'];
+		$legend = $this->Legends->Get_Legends();
+		$array['Instructor_ID'] = $InstructorID;
+		if($legend){
+			$array['School_Year'] = $legend[0]['School_Year'];
+			$array['Semester'] = $legend[0]['Semester'];
+		}
+
+		$this->data['HandledSubjects'] = $this->Grading->Get_Subject_Load($array);
 		$this->data['RubricsList'] = $this->Rubric->RubricsList($InstructorID);
 		$this->template($this->set_views->assesssment_builder());
 	}
@@ -137,11 +151,6 @@ class AssessmentBuilder extends MY_Controller {
 					'rules' => 'required'
 			),
 			array(
-					'field' => 'AssessmentDescription',
-					'label' => 'Assessment Description',
-					'rules' => 'required'
-			),
-			array(
 				'field' => 'start_date',
 				'label' => 'Start Date',
 				'rules' => 'required'
@@ -228,10 +237,44 @@ class AssessmentBuilder extends MY_Controller {
 		}else{
 
 			$assesesment_info_status = $this->AssessmentModel->InsertAssessmentInfo($AssessmentData);
+			//Inserts question
 			foreach($QuestionData as $q_data){
 				$q_data['AssessmentCode'] = $AssessmentData['AssessmentCode'];
 				$assessment_question_status = $this->AssessmentModel->InsertAssessmentQuestion($q_data);
 			}
+
+			//Inserts outcomes
+			$outcomes = $this->input->post('outcome');
+			foreach($outcomes as $outcome){
+
+				$outcomedata['Outcome'] = $outcome;
+				$outcomedata['AssessmentCode'] = $AssessmentData['AssessmentCode'];
+				$assessment_question_status = $this->AssessmentModel->AddOutcome($outcomedata);
+
+			}
+
+			//Post depending on subject chosen
+			$schedcode = $this->input->post('handled_schedcode');
+			if(isset($schedcode)){
+				$array = array(
+					
+					'Instructor_ID' => $this->user_data['Instructor_Unique_ID'],
+					'SchedCode' => $schedcode,
+					'Description' => 'New Assessment Available!',
+					'Date' => $this->logdatetime,
+				);
+				$post_status = $this->Courseware->insert_post($array);
+				if($post_status){
+
+					$attachment_array = array(
+						'AssessmentCode' => $AssessmentData['AssessmentCode'],
+						'PostID' => $post_status
+					);
+					$assessment_status = $this->Courseware->attach_assessment($attachment_array);
+
+				}
+			}
+
 			$this->session->set_flashdata('message','Successfully created Assessment! Assessment Code:'.$AssessmentData['AssessmentCode']);
 			redirect('AssessmentBuilder');
 		}

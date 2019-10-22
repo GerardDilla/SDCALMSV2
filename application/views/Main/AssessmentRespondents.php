@@ -176,6 +176,12 @@
 										</div>
 									</section>
 								</div>
+								<div class="col-md-12 col-lg-12 col-xl-12">
+									<hr>
+										<h1>Outcome-Based Results</h1>
+									<hr>
+								</div>
+								
 
 							</div>
 						</div>
@@ -239,7 +245,7 @@
 											<li>
 												<div class="checkbox-custom checkbox-default">
 													<input type="checkbox" id="201810071" class="class_filter_check" onclick="ToggleFilter(&quot;IT314&quot;,&quot;201810071&quot;)">
-													<label for="201810071" class="todo-label"><span>IT314 : 201810071</span></label>
+													
 												</div>
 											</li>
 										</div>

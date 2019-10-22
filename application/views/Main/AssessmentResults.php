@@ -158,7 +158,7 @@
 
 							<div class="row">
 								<div class="col-md-12">
-									<h1 class="pull-left">Outcome Based Statistics</h1>
+									<h1 class="pull-left">Student Outcomes</h1>
 								</div>
 								<div class="col-md-12">
 										<hr>

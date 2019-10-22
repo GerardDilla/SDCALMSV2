@@ -296,6 +296,12 @@ class AssessmentModel extends CI_Model{
         return $result->result_array();
 
     }
+    public function AddOutcome($array){
+
+        $this->db->insert('lms_outcomes', $array);
+        return $this->db->insert_id();
+        
+    }
 
 }
 ?>

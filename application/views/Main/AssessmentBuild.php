@@ -49,10 +49,40 @@
 							<input type="text" name="AssessmentName" class="form-control assessment_required_input" id="inputDefault">
 						</div>
 					</div>
+
 					<div class="form-group">
-						<label class="col-md-3 control-label">Description*</label>
+						<label class="col-md-3 control-label">Handled Subjects</label>
 						<div class="col-md-8">
-						<textarea class="form-control assessment_required_input" rows="3" name="AssessmentDescription"></textarea>
+							<select name="handled_schedcode" data-plugin-selectTwo class="form-control populate"  id="rubrics_choice">
+								<option selected value="0">Choose where to post this Assessment</option>
+								<?php if($this->data['HandledSubjects']): ?>
+									<?php foreach($this->data['HandledSubjects'] as $subjects): ?>
+									<option value="<?php echo $subjects['Sched_Code']; ?>"><?php echo $subjects['Course_Title']; ?> : <?php echo $subjects['Course_Code']; ?></option>
+									<?php endForeach; ?>
+								<?php else: ?>
+									<option selected value="0">No Handled Subjects</option>
+								<?php endIf; ?>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label">Outcomes-Based*
+						<button type="button" class="pull-right btn btn-success add-outcome">+</button>
+						</label>
+						<div class="col-md-8">
+							<div class="row outcome-list form-group" style="padding:0px 10px 0px 15px">
+
+								<div class="input-group mb-md">
+									<input type="text" class="form-control" placeholder="Place Outcome here..." name="outcome[]">
+									<span class="input-group-btn">
+										<button class="btn btn-danger remove-outcome" type="button">Remove</button>
+									</span>
+								</div>
+
+							</div>
+						<!--<textarea class="form-control assessment_required_input" rows="3" name="AssessmentDescription"></textarea>-->
+							
 						</div>
 					</div>
 

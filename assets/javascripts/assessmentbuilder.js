@@ -34,8 +34,49 @@ $(document).ready(function(){
     $('#rubrics_choice').change(function(){
         QuestionNumbering({'change':1});
     });
+
+    $('.add-outcome').click(function(){
+
+        AddOutcome();
+
+    });
+    
+    $('.outcome-list').on('click','.remove-outcome',function(){
+
+        RemoveOutcome(this);
+
+    });
     
 });
+function AddOutcome(){
+
+    object = $('.outcome-list');
+
+    /*
+    <div class="input-group mb-md">
+        <input type="text" class="form-control" placeholder="Place Outcome here...">
+        <span class="input-group-btn">
+            <button class="btn btn-danger remove-outcome" type="button">Remove</button>
+        </span>
+    </div>
+    */
+
+    object.append(
+        $('<div>').attr({'class':'input-group mb-md'}).append(
+            $('<input>').attr({'type':'text','class':'form-control','placeholder':'Place Outcome here...','name':'outcome[]'})
+        ).append(
+            $('<span>').attr({'class':'input-group-btn'}).append(
+                $('<button>').attr({'class':'btn btn-danger remove-outcome','type':'button'}).text('Remove')
+            )
+        )
+    );
+
+}
+function RemoveOutcome(obj = ''){
+
+    $(obj).parent().parent().remove();
+
+}
 function assessment_input_checker(){
 
     inputerror = 0;

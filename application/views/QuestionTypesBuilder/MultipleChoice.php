@@ -79,11 +79,6 @@
 					<div class="col-md-2">
 						<input type="number" class="form-control question-point" placeholder="Points" name="Points[]" value="<?php echo $QuestionPoints ? $QuestionPoints : ''; ?>">
 					</div>
-					<div class="col-md-3">
-						<select name="Criteria[]" data-plugin-selectTwo class="form-control populate rubrics_criteria_option">
-								<option selected value="0">No Rubrics Selected</option>
-						</select>
-					</div>
 					<div class="col-md-6">
 						<button class="btn btn-default remove_question_button pull-right">Remove</button>
 					</div>
