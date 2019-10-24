@@ -302,6 +302,27 @@ class AssessmentModel extends CI_Model{
         return $this->db->insert_id();
         
     }
+    public function GetOutcomes($array){
+
+        $this->db->where('AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('valid', '1');
+        $query = $this->db->get('lms_outcomes');
+        return $query->result_array();
+
+    }
+    public function GetOutcomePassers($array){
+
+        $this->db->where('Q.AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('Q.Outcome', $array['Outcome']);
+        $this->db->where('O.valid', '1');
+        $this->db->where('A.Active', '1');
+        $this->db->where('Q.Active', '1');
+        $this->db->join('lms_assessment_questions as Q','A.QuestionID = Q.QuestionID');
+        $this->db->join('lms_outcomes as O','Q.Outcome = O.Outcome');
+        $query = $this->db->get('lms_assessment_answers as A');
+        return $query->result_array();
+
+    }
 
 }
 ?>

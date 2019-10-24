@@ -40,6 +40,12 @@ $(document).ready(function(){
         console.log($(this).data('student-number'));
         window.open(base_url()+'index.php/Assessment/AssessmentResults/'+$(this).data('assessmentcode')+'?Student_Number='+$(this).data('student-number'), '_blank');
     });
+
+    $('.td-outcome').click(function(){
+
+        outcome_result(this);
+
+    });
    
 });
 function search_handledsubjects(){
@@ -202,6 +208,61 @@ function RemoveFilter(obj){
     $(obj).parent().remove();
     $('#'+$(obj).val()).prop('checked', false);
 
+}
+function outcome_result(obj){
+
+    $('.outcome-title').html($(obj).data('outcome-name'));
+
+        var ctx = $('#outcome_indiv_report');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                datasets: [{
+                    //label: '# of Votes',
+                    data: [0, 10, 50, 30, 40, 50, 60, 70, 80, 90, 100],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: $(obj).data('outcome-name')
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+
+    $('#Outcome_indiv_result').modal('show');
 }
 
 

@@ -30,9 +30,15 @@
 								
 						</select>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-3">
+						<select name="Q_Outcomes[]" data-plugin-selectTwo class="form-control populate outcome-dropdown">
+								<option selected value="0">No Outcomes Added</option>
+						</select>
+					</div>
+					<div class="col-md-3">
 						<button class="btn btn-default remove_question_button pull-right">Remove</button>
 					</div>
+
 				</div>
 			</div>
 		</footer>

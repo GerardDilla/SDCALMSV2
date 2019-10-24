@@ -54,7 +54,7 @@
 										</span>
 									</div>
 								</div>
-								<div class="col-md-5">
+								<div class="col-md-6">
 									<div class="input-group btn-group" style="width:100%" >
 										<span class="input-group-addon">
 											<i class="fa fa-th-list"></i>
@@ -72,8 +72,9 @@
 									<hr>
 								</div>
 								<div class="col-md-12">
-									<div class="table-responsive">
+									<div class="table-responsive" style="overflow:auto; max-width:700vw; min-height:200px">
 										<table id="respondent_table" class="table table-hover mb-none">
+											<p>Click on the Outcomes to view results</p>
 											<thead>
 												<tr>
 													<th>#</th>
@@ -82,7 +83,16 @@
 													<th>Course</th>
 													<th>Section</th>
 													<th>Score</th>
-													<th>Remarks (Passing: 70% above)</th>
+													<th>Remarks</th>
+													<?php if($this->data['AssessmentOutcomes']): ?>
+														<?php foreach($this->data['AssessmentOutcomes'] as $outcomes): ?>
+															<th>
+																<button class="btn btn-default btn-sm td-outcome" data-outcome-name="<?php echo $outcomes['Outcome']; ?>">
+																	<span><?php echo $outcomes['Outcome']; ?></span>
+																</button>
+															</th>
+														<?php endForeach; ?>
+													<?php endIf; ?>
 												</tr>
 											</thead>
 											<tbody>
@@ -180,6 +190,74 @@
 									<hr>
 										<h1>Outcome-Based Results</h1>
 									<hr>
+									<section class="panel">
+										<header class="panel-heading">
+											<div class="panel-actions">
+												<a href="#" class="fa fa-caret-down"></a>
+												<a href="#" class="fa fa-times"></a>
+											</div>
+							
+											<h2 class="panel-title">Stacked Chart</h2>
+											<p class="panel-subtitle">Stacked Bar Chart.</p>
+										</header>
+										<div class="panel-body">
+							
+											<!-- Morris: Area -->
+											<div class="chart chart-md" id="morrisStacked"></div>
+											<script type="text/javascript">
+							
+												var morrisStackedData = [{
+													y: '2004',
+													a: 10,
+													b: 30
+												}, {
+													y: '2005',
+													a: 100,
+													b: 25
+												}, {
+													y: '2006',
+													a: 60,
+													b: 25
+												}, {
+													y: '2007',
+													a: 75,
+													b: 35
+												}, {
+													y: '2008',
+													a: 90,
+													b: 20
+												}, {
+													y: '2009',
+													a: 75,
+													b: 15
+												}, {
+													y: '2010',
+													a: 50,
+													b: 10
+												}, {
+													y: '2011',
+													a: 75,
+													b: 25
+												}, {
+													y: '2012',
+													a: 30,
+													b: 10
+												}, {
+													y: '2013',
+													a: 75,
+													b: 5
+												}, {
+													y: '2014',
+													a: 60,
+													b: 8
+												}];
+							
+												// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
+							
+											</script>
+							
+										</div>
+									</section>
 								</div>
 								
 
@@ -188,7 +266,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-4 col-lg-4 order-2">
+			<div class="col-sm-2 col-lg-3 order-2">
 				<section class="panel panel-group">
 					<header class="panel-heading bg-primary">
 
@@ -261,6 +339,36 @@
 		<!--//Class Feed-->
 		<!-- end: page -->
 	</section>
+
+
+	<!-- Outcome result modal -->
+	<div id="Outcome_indiv_result" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="width:70%">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" style="text-transform:uppercase">Results for: <strong><span class="outcome-title">test</strong></u>
+						<span class="searchloader">
+							<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body row">
+					<!-- Morris: Area -->
+					<canvas id="outcome_indiv_report" width="300" height="150"></canvas>
+					<h3 style="text-align:center">By Percentage %</h3>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Outcome result modal -->
+
+
+
 	<script>
 		function base_url(){
 			return '<?php echo base_url(); ?>';	

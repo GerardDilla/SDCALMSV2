@@ -31,6 +31,7 @@ $(document).ready(function(){
         $('#AssessmentForm').submit();
     });
 
+    
     $('#rubrics_choice').change(function(){
         QuestionNumbering({'change':1});
     });
@@ -46,6 +47,13 @@ $(document).ready(function(){
         RemoveOutcome(this);
 
     });
+
+    $('.outcome-list').on('keyup','.outcome-input',function(){
+
+        generate_outcome_dropdown();
+
+    });
+
     
 });
 function AddOutcome(){
@@ -60,10 +68,10 @@ function AddOutcome(){
         </span>
     </div>
     */
-
+    increment = $('.outcome-input').length;
     object.append(
         $('<div>').attr({'class':'input-group mb-md'}).append(
-            $('<input>').attr({'type':'text','class':'form-control','placeholder':'Place Outcome here...','name':'outcome[]'})
+            $('<input>').attr({'type':'text','class':'form-control outcome-input','placeholder':'Place Outcome here...','name':'outcome[]','data-index':increment})
         ).append(
             $('<span>').attr({'class':'input-group-btn'}).append(
                 $('<button>').attr({'class':'btn btn-danger remove-outcome','type':'button'}).text('Remove')
@@ -71,10 +79,55 @@ function AddOutcome(){
         )
     );
 
+    
+
+}
+function generate_outcome_dropdown(){
+
+    if($('.outcome-input').length != 0){
+
+        //<option selected value="0">No Outcomes Added</option>
+        //Add default choice
+        $('.outcome-dropdown').each(function(i,dropdown){
+
+            //Gets index of existing answer before refreshing choices
+            if($(dropdown).val() != ''){
+                index = $('option:selected', dropdown).attr('data-outcome-index');
+            }
+
+            //Refreshes outcome choices
+            $(dropdown).html('');
+            $(dropdown).append(
+                $('<option>').attr({'value':'0'}).text('No Outcome Chosen')
+            );
+            dropdownindex = $(dropdown).data('index');
+            $('.outcome-input').each(function(i2,obj){
+                //console.log($(obj).data('index')+' : '+$(obj).val());
+                $(dropdown).append(
+                    $('<option>').attr({'value':$(obj).val(),'data-outcome-index':i2}).text($(obj).val())
+                );
+            });
+
+            //Reselect previous choice
+            if(index != ''){
+               
+                $(dropdown).find('[data-outcome-index="'+index+'"]').attr('selected','selected');
+
+            }
+
+
+
+        });
+
+
+
+    }
+
 }
 function RemoveOutcome(obj = ''){
 
     $(obj).parent().parent().remove();
+    generate_outcome_dropdown();
 
 }
 function assessment_input_checker(){
@@ -155,6 +208,10 @@ function QuestionNumbering(settings = {}){
                 }
             });
         
+        }else{
+            $('.rubrics_criteria_option').html(
+                $('<option>').attr({'value':'0'}).text('No Rubrics selected')
+            )
         }
 
         //console.log($(panel).data('question-type'));
@@ -167,6 +224,7 @@ function display_question(QuestionData = {}){
     questionformat.done(function(output){
         $('.QuestionsPanel').append(output).fadeIn('fast');
         QuestionNumbering();
+        generate_outcome_dropdown();
     });
 
 }

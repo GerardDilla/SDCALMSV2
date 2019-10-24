@@ -47,6 +47,7 @@ class Assessment extends MY_Controller {
 		);
 		$this->data['AssessmentData'] = $this->AssessmentModel->GetAssessmentInfo($data);
 		$this->data['AssessmentQuestions'] = $this->AssessmentModel->GetAssessmentLayout($data);
+		$this->data['AssessmentOutcomes'] = $this->AssessmentModel->GetOutcomes($data);
 		if($this->data['AssessmentData']){
 
 			$legend = $this->Legends->Get_Legends();
@@ -61,13 +62,31 @@ class Assessment extends MY_Controller {
 			}
 			$this->data['Legend'] = $legend;
 			$this->data['HandledSubjects'] = $this->Grading->Get_Subject_Load($array);
+			$this->data['Outcomes'] = $this->Grading->Get_Outcomes($data);
 
 			$this->template($this->set_views->assesssment_report());
 		}
 		else{
+
 			redirect('Assessment');
+
 		}
-		
+
+	}
+	public function Ajax_outcome_data($AssessmentCode = ''){
+
+		$array = array(
+			'AssessmentCode' => $AssessmentCode,
+			'Outcome' => 'outcome 1'
+		);
+
+		//Gets number of passers per outcome
+		$result = $this->AssessmentModel->GetOutcomePassers($array);
+
+		echo json_encode($result);
+
+		//Compute percentage
+
 	}
 	public function Ajax_Respondent_List(){
 
@@ -88,6 +107,7 @@ class Assessment extends MY_Controller {
 			$remark = $percentage >= $passinggrade ? 'Passed' : 'Failed';
 			
 			if(!empty($array['RemarkFilter'])){
+
 				foreach($array['RemarkFilter'] as $filter){
 					if($filter == $remark){
 						$result[$key] = array(
@@ -104,7 +124,6 @@ class Assessment extends MY_Controller {
 							$result['TotalPassers']++;
 						}
 					}
-
 				}
 
 			}else{
@@ -122,7 +141,6 @@ class Assessment extends MY_Controller {
 					$result['TotalPassers']++;
 				}
 			}
-			
 
 			
 		}
@@ -387,7 +405,7 @@ class Assessment extends MY_Controller {
 		*/
 
 	}
-	public function AssessmentResults($AssessmentCode = ''){
+	public function AssessmentResults($AssessmentCode = '',$ajax = ''){
 
 		$data = array(
 
@@ -505,8 +523,6 @@ class Assessment extends MY_Controller {
 					,0,'.','');
 
 				}
-
-
 			
 			}
 			

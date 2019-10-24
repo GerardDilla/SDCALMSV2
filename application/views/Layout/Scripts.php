@@ -74,6 +74,7 @@
 
 		<!-- Examples -->
 		<script src="<?php echo base_url(); ?>assets/javascripts/pages/examples.calendar.js"></script>
+		
 
 		
 		<!-- Theme Base, Components and Settings -->

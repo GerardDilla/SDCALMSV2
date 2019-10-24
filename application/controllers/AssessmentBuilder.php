@@ -106,10 +106,13 @@ class AssessmentBuilder extends MY_Controller {
 		$QuestionData = array();
 		$choicearray = array('Choice_A','Choice_B','Choice_C','Choice_D');
 		$Questions = $this->input->post('Question') ? $this->input->post('Question') : array();
+
+
 		foreach($Questions as $key => $question){
 
 			$QuestionData[$key]['Question'] = $question;
 			$QuestionData[$key]['QuestionType'] = $this->input->post('Type['.$key.']');
+			$QuestionData[$key]['Outcome'] = $this->input->post('Q_Outcomes['.$key.']');
 			$QuestionData[$key]['Answer'] = ''; // Set as default for questions without answers
 			$QuestionData[$key]['criteria_id'] = 0;
 
@@ -247,11 +250,13 @@ class AssessmentBuilder extends MY_Controller {
 			$outcomes = $this->input->post('outcome');
 			foreach($outcomes as $outcome){
 
+				$outcome_ids;
 				$outcomedata['Outcome'] = $outcome;
 				$outcomedata['AssessmentCode'] = $AssessmentData['AssessmentCode'];
 				$assessment_question_status = $this->AssessmentModel->AddOutcome($outcomedata);
 
 			}
+
 
 			//Post depending on subject chosen
 			$schedcode = $this->input->post('handled_schedcode');

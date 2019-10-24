@@ -42,7 +42,6 @@
 						<?php endIf; ?>
 					</span>
 
-					
 					<div class="form-group">
 						<label class="col-md-3 control-label">Assessment Name*</label>
 						<div class="col-md-8">
@@ -53,7 +52,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label">Handled Subjects</label>
 						<div class="col-md-8">
-							<select name="handled_schedcode" data-plugin-selectTwo class="form-control populate"  id="rubrics_choice">
+							<select name="handled_schedcode" data-plugin-selectTwo class="form-control populate" >
 								<option selected value="0">Choose where to post this Assessment</option>
 								<?php if($this->data['HandledSubjects']): ?>
 									<?php foreach($this->data['HandledSubjects'] as $subjects): ?>
@@ -74,7 +73,7 @@
 							<div class="row outcome-list form-group" style="padding:0px 10px 0px 15px">
 
 								<div class="input-group mb-md">
-									<input type="text" class="form-control" placeholder="Place Outcome here..." name="outcome[]">
+									<input type="text" class="form-control outcome-input" placeholder="Place Outcome here..." name="outcome[]" data-index="0" value=''>
 									<span class="input-group-btn">
 										<button class="btn btn-danger remove-outcome" type="button">Remove</button>
 									</span>
