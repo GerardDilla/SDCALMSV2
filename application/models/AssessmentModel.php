@@ -112,7 +112,7 @@ class AssessmentModel extends CI_Model{
         C.QuestionTypeID,
         D.Instructor_Name
         ');
-        $this->db->select('SUM(B.Points) as TotalPoints','false');
+        //$this->db->select('SUM(B.Points) as TotalPoints','false');
         $this->db->join('lms_assessment_questions as B', 'A.AssessmentCode = B.AssessmentCode');
         $this->db->join('lms_assessment_question_types as C', 'B.QuestionType = C.QuestionTypeID');
         $this->db->join('Instructor as D', 'A.InstructorID = D.ID');
@@ -314,12 +314,13 @@ class AssessmentModel extends CI_Model{
 
         $this->db->where('Q.AssessmentCode', $array['AssessmentCode']);
         $this->db->where('Q.Outcome', $array['Outcome']);
+        $this->db->where('A.Student_Number', $array['Student_Number']);
         $this->db->where('O.valid', '1');
         $this->db->where('A.Active', '1');
         $this->db->where('Q.Active', '1');
-        $this->db->join('lms_assessment_questions as Q','A.QuestionID = Q.QuestionID');
+        $this->db->join('lms_assessment_answers as A','A.QuestionID = Q.QuestionID','left');
         $this->db->join('lms_outcomes as O','Q.Outcome = O.Outcome');
-        $query = $this->db->get('lms_assessment_answers as A');
+        $query = $this->db->get('lms_assessment_questions as Q');
         return $query->result_array();
 
     }

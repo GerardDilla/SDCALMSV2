@@ -134,7 +134,7 @@
 														<h4 class="title">Total Points:</h4>
 														<br>
 														<div class="info">
-															<strong class="amount" style="padding-top:10px; font-size:5rem;"><?php echo $this->data['AssessmentQuestions'][0]['TotalPoints']; ?></strong>
+															<strong class="amount" style="padding-top:10px; font-size:5rem;"><?php echo $this->data['TotalPoints']; ?></strong>
 														</div>
 													</div>
 												</div>
@@ -358,7 +358,7 @@
 				<div class="modal-body row">
 					<!-- Morris: Area -->
 					<canvas id="outcome_indiv_report" width="300" height="150"></canvas>
-					<h3 style="text-align:center">By Percentage %</h3>
+					<h3 style="text-align:center">Grade Percentage %</h3>
 
 				</div>
 			</div>

@@ -82,6 +82,8 @@ function search_handledsubjects(){
                         )
                     ).fadeIn('fast');
                 });
+
+
             }
 
             console.log(result);
@@ -146,7 +148,7 @@ function display_respondents(search_filter){
                 });
                 $('#passers_count').html(result['TotalPassers'] ? result['TotalPassers'] : 0).fadeIn('fast');
                 $('#respondent_count').html(count).fadeIn('fast');
-                percentage = (parseInt(result['TotalPassers']) / +parseInt(count)) * 100;
+                percentage = (parseInt(result['TotalPassers']) / parseInt(count)) * 100;
                 //alert(percentage);
                 //$('.passing-chart').attr('data-percent',percentage);
                // $('.passing-chart-label').html(percentage);
@@ -211,16 +213,18 @@ function RemoveFilter(obj){
 }
 function outcome_result(obj){
 
-    $('.outcome-title').html($(obj).data('outcome-name'));
+        $('.outcome-title').html($(obj).data('outcome-name'));
+
+
 
         var ctx = $('#outcome_indiv_report');
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                labels: ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
                 datasets: [{
                     //label: '# of Votes',
-                    data: [0, 10, 50, 30, 40, 50, 60, 70, 80, 90, 100],
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -238,7 +242,6 @@ function outcome_result(obj){
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1,
-                    
                 }]
             },
             options: {
@@ -262,9 +265,69 @@ function outcome_result(obj){
             }
         });
 
+
+        search_filter = {
+            'AssessmentCode':$('.assessment-info').data('assessment-code'),
+            'Outcome':$(obj).data('outcome-name'),
+            'Student_Number':'',
+        };
+        respondentsdata = get_respondent_list(search_filter)
+        respondentsdata.done(function(result){
+
+            
+            result = JSON.parse(result);
+            $.each(result,function(i,row){
+
+                search_filter['Student_Number'] = row['Student_Number'];
+                outcomedata = get_outcome_result(search_filter);
+                outcomedata.done(function(data){
+
+                        data = JSON.parse(data);
+                        total_outcome_question = 0;
+                        total_outcome_scored = 0;
+
+                        $.each(data,function(i2,outdetail){
+
+                            if(outdetail['Correct'] == 1){
+                                total_outcome_scored++;
+                            }
+                            total_outcome_question++;
+    
+                            console.log(outdetail)
+                            console.log((parseInt(total_outcome_scored) / parseInt(total_outcome_question)) * 100);
+                            
+                            myChart.data.datasets[0].data[i2] = (parseInt(total_outcome_scored) / parseInt(total_outcome_question)) * 100;
+                            myChart.update();
+                        });
+                })     
+
+
+            });
+           
+        });
+
+
+
+       
+
+
+
     $('#Outcome_indiv_result').modal('show');
 }
+function get_outcome_result(search_filter){
 
+    return $.ajax({
+        url: base_url()+'index.php/Assessment/Ajax_outcome_data',
+        type: 'GET',
+        data: search_filter
+    });
+
+}
+function fuckyou(){
+    
+    chart.data.datasets[0].data = 80;
+    chart.update();
+}
 
 
 

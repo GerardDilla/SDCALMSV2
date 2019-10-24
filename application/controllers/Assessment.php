@@ -47,6 +47,15 @@ class Assessment extends MY_Controller {
 		);
 		$this->data['AssessmentData'] = $this->AssessmentModel->GetAssessmentInfo($data);
 		$this->data['AssessmentQuestions'] = $this->AssessmentModel->GetAssessmentLayout($data);
+
+		//Gets total points
+		$this->data['TotalPoints'] = 0;
+		$TotalPointsData = $this->AssessmentModel->GetAssessmentLayout($data);
+		foreach($TotalPointsData as $row){
+			$this->data['TotalPoints'] = $this->data['TotalPoints'] + $row['Points'];
+		}
+
+		
 		$this->data['AssessmentOutcomes'] = $this->AssessmentModel->GetOutcomes($data);
 		if($this->data['AssessmentData']){
 
@@ -76,8 +85,9 @@ class Assessment extends MY_Controller {
 	public function Ajax_outcome_data($AssessmentCode = ''){
 
 		$array = array(
-			'AssessmentCode' => $AssessmentCode,
-			'Outcome' => 'outcome 1'
+			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
+			'Student_Number' => $this->input->get_post('Student_Number'),
+			'Outcome' => $this->input->get_post('Outcome')
 		);
 
 		//Gets number of passers per outcome
@@ -98,7 +108,11 @@ class Assessment extends MY_Controller {
 			'CourseFilter' => $this->input->get_post('CourseFilter'),
 			'RemarkFilter' => $this->input->get_post('RemarkFilter'),
 		);
-		$TotalPoints = $this->AssessmentModel->GetAssessmentLayout($array)[0]['TotalPoints'];
+		$TotalPoints = 0;
+		$TotalPointsData = $this->AssessmentModel->GetAssessmentLayout($array);
+		foreach($TotalPointsData as $row){
+			$TotalPoints = $TotalPoints + $row['Points'];
+		}
 		$data = $this->AssessmentModel->GetRespondents($array);
 		foreach($data as $key => $row){
 
@@ -127,6 +141,7 @@ class Assessment extends MY_Controller {
 				}
 
 			}else{
+
 				$result[$key] = array(
 					'AssessmentCode' => $row['AssessmentCode'],
 					'Student_Number' => $row['Student_Number'],
@@ -140,6 +155,7 @@ class Assessment extends MY_Controller {
 				if($percentage >= $passinggrade){
 					$result['TotalPassers']++;
 				}
+
 			}
 
 			
