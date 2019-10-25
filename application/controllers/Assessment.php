@@ -71,7 +71,15 @@ class Assessment extends MY_Controller {
 			}
 			$this->data['Legend'] = $legend;
 			$this->data['HandledSubjects'] = $this->Grading->Get_Subject_Load($array);
+
 			$this->data['Outcomes'] = $this->Grading->Get_Outcomes($data);
+			foreach($this->data['Outcomes'] as $outcomes){
+
+				$data['Outcome'] = $outcomes['Outcome'];
+				$outcomeresult = $this->AssessmentModel->GetOutcomeTotalScore($data);
+				$this->data['OutcomeTotal'][$outcomes['Outcome']] = $outcomeresult[0]['TotalPoints'] != null ? $outcomeresult[0]['TotalPoints'] : 0;
+
+			}
 
 			$this->template($this->set_views->assesssment_report());
 		}
@@ -82,7 +90,7 @@ class Assessment extends MY_Controller {
 		}
 
 	}
-	public function Ajax_outcome_data($AssessmentCode = ''){
+	public function Ajax_outcome_data(){
 
 		$array = array(
 			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
@@ -90,17 +98,81 @@ class Assessment extends MY_Controller {
 			'Outcome' => $this->input->get_post('Outcome')
 		);
 
-		//Gets number of passers per outcome
-		$result = $this->AssessmentModel->GetOutcomePassers($array);
+		$percentage_no = array(
+			'0' => '',
+			'10' => '',
+			'20' => '',
+			'30' => '',
+			'40' => '',
+			'50' => '',
+			'60' => '',
+			'70' => '',
+			'80' => '',
+			'90' => '',
+			'100' => ''
+		);
+		$returndata = array();
 
-		echo json_encode($result);
+		$respondents = $this->AssessmentModel->GetRespondents($array);
+		foreach($respondents as $taker){
 
-		//Compute percentage
+			
+			$array['Student_Number'] = $taker['Student_Number'];
+
+			$outcomescore = $this->AssessmentModel->GetOutcomeScore($array);
+			$outcomescoretally = 0;
+			$outcometally = 0;
+			foreach($outcomescore as $tally){
+				if($tally['Correct'] == 1){
+					$outcomescoretally++;
+				}
+				$outcometally++;
+			}
+			if($outcomescoretally == 0){
+				$student_percent = 0;
+			}else{
+				$student_percent  = round(($outcomescoretally / $outcometally) * 100,-1);
+			}
+			
+			//echo (($outcomescoretally / $outcometally) * 100).' : '.$student_percent.'<br>';
+			$percentage_no[$student_percent]++;
+			
+
+		}
+		echo json_encode($percentage_no);
+		//echo json_encode($result);
+
+	}
+	public function Ajax_outcome_overall(){
+
+		$array = array(
+			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
+			'Outcome' => $this->input->get_post('Outcome')
+		);
+		$returndata = array();
+		$outcomescoretally = 0;
+		$taker_status = $this->AssessmentModel->GetOutcomeTakers($array);
+		foreach($taker_status as $status){
+			if($status['Correct'] == 1){
+				$outcomescoretally++;
+			}
+		}
+		echo json_encode($outcomescoretally);
+
+	}
+	public function Ajax_outcome_list(){
+
+		$array = array(
+			'AssessmentCode' => $this->input->get_post('AssessmentCode')
+		);
+		$Outcomes = $this->AssessmentModel->GetOutcomes($array);
+		echo json_encode($Outcomes);
+
 
 	}
 	public function Ajax_Respondent_List(){
 
-		$passinggrade = 60;
+		$passinggrade = 70;
 		$result = array('TotalPassers' => '');
 		$array = array(
 			'SearchKey' => $this->input->get_post('SearchKey'),
@@ -133,10 +205,28 @@ class Assessment extends MY_Controller {
 							'Score' => $row['Score'].' ('.$percentage.'%)',
 							'Remarks' => ''
 						);
+
+						$Outcomes = $this->AssessmentModel->GetOutcomes($array);
+						foreach($Outcomes as $outcome_row){
+
+							$array['Student_Number'] = $row['Student_Number'];
+							$array['Outcome'] = $outcome_row['Outcome'];
+							$outcomepoints = 0;
+							$outcomescore = $this->AssessmentModel->GetOutcomeScore($array);
+							foreach($outcomescore as $outcomeresult){
+								if($outcomeresult['Correct'] == 1){
+									$outcomepoints = $outcomepoints + $outcomeresult['Points'];
+								}
+							}
+							$result[$key]['Outcomedata'][$outcome_row['Outcome']] = $outcomepoints;
+
+						}
+
 						$result[$key]['Remarks'] = $remark;
 						if($percentage >= $passinggrade){
 							$result['TotalPassers']++;
 						}
+
 					}
 				}
 
@@ -151,6 +241,23 @@ class Assessment extends MY_Controller {
 					'Score' => $row['Score'].' ('.$percentage.'%)',
 					'Remarks' => '',
 				);
+
+				$Outcomes = $this->AssessmentModel->GetOutcomes($array);
+				foreach($Outcomes as $outcome_row){
+
+					$array['Student_Number'] = $row['Student_Number'];
+					$array['Outcome'] = $outcome_row['Outcome'];
+					$outcomepoints = 0;
+					$outcomescore = $this->AssessmentModel->GetOutcomeScore($array);
+					foreach($outcomescore as $outcomeresult){
+						if($outcomeresult['Correct'] == 1){
+							$outcomepoints = $outcomepoints + $outcomeresult['Points'];
+						}
+					}
+					$result[$key]['Outcomedata'][$outcome_row['Outcome']] = $outcomepoints;
+
+				}
+
 				$result[$key]['Remarks'] = $remark;
 				if($percentage >= $passinggrade){
 					$result['TotalPassers']++;

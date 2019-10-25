@@ -88,7 +88,7 @@
 														<?php foreach($this->data['AssessmentOutcomes'] as $outcomes): ?>
 															<th>
 																<button class="btn btn-default btn-sm td-outcome" data-outcome-name="<?php echo $outcomes['Outcome']; ?>">
-																	<span><?php echo $outcomes['Outcome']; ?></span>
+																	<span><?php echo $outcomes['Outcome']; ?> (<?php echo $this->data['OutcomeTotal'][$outcomes['Outcome']]; ?>)</span>
 																</button>
 															</th>
 														<?php endForeach; ?>
@@ -191,72 +191,7 @@
 										<h1>Outcome-Based Results</h1>
 									<hr>
 									<section class="panel">
-										<header class="panel-heading">
-											<div class="panel-actions">
-												<a href="#" class="fa fa-caret-down"></a>
-												<a href="#" class="fa fa-times"></a>
-											</div>
-							
-											<h2 class="panel-title">Stacked Chart</h2>
-											<p class="panel-subtitle">Stacked Bar Chart.</p>
-										</header>
-										<div class="panel-body">
-							
-											<!-- Morris: Area -->
-											<div class="chart chart-md" id="morrisStacked"></div>
-											<script type="text/javascript">
-							
-												var morrisStackedData = [{
-													y: '2004',
-													a: 10,
-													b: 30
-												}, {
-													y: '2005',
-													a: 100,
-													b: 25
-												}, {
-													y: '2006',
-													a: 60,
-													b: 25
-												}, {
-													y: '2007',
-													a: 75,
-													b: 35
-												}, {
-													y: '2008',
-													a: 90,
-													b: 20
-												}, {
-													y: '2009',
-													a: 75,
-													b: 15
-												}, {
-													y: '2010',
-													a: 50,
-													b: 10
-												}, {
-													y: '2011',
-													a: 75,
-													b: 25
-												}, {
-													y: '2012',
-													a: 30,
-													b: 10
-												}, {
-													y: '2013',
-													a: 75,
-													b: 5
-												}, {
-													y: '2014',
-													a: 60,
-													b: 8
-												}];
-							
-												// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-							
-											</script>
-							
-										</div>
+										<canvas id="outcome_report" width="300" height="150"></canvas>
 									</section>
 								</div>
 								
@@ -343,7 +278,7 @@
 
 	<!-- Outcome result modal -->
 	<div id="Outcome_indiv_result" class="modal fade" role="dialog">
-		<div class="modal-dialog" style="width:70%">
+		<div class="modal-dialog" style="width:50%">
 
 			<!-- Modal content-->
 			<div class="modal-content">
