@@ -39,6 +39,7 @@ $(document).ready(function(){
         console.log($(this).data('assessmentcode'));
         console.log($(this).data('student-number'));
         window.open(base_url()+'index.php/Assessment/AssessmentResults/'+$(this).data('assessmentcode')+'?Student_Number='+$(this).data('student-number'), '_blank');
+
     });
 
     $('.td-outcome').click(function(){
@@ -46,7 +47,28 @@ $(document).ready(function(){
         outcome_result(this);
 
     });
+
+    $('.print-summary').click(function(){
+
+        print_summary();
+        
+    });
    
+});
+$(document).ajaxStop(function() {
+
+    if ( ! $.fn.DataTable.isDataTable( '#respondent_table' ) ) {
+        $('#respondent_table').DataTable({
+        "ordering": false,
+        "columnDefs": [
+            { "width": "200px"}
+          ],
+        dom: 'Bfrtip',
+        buttons: [
+            'pdf'
+        ]
+        });
+    }
 });
 function search_handledsubjects(){
 
@@ -83,7 +105,6 @@ function search_handledsubjects(){
                     ).fadeIn('fast');
                 });
 
-
             }
 
             console.log(result);
@@ -116,7 +137,7 @@ function search_respondents(){
 }
 function display_respondents(search_filter){
 
-        
+       
         respondent_list = get_respondent_list(search_filter);
         respondent_list.done(function(result){
             
@@ -138,10 +159,9 @@ function display_respondents(search_filter){
                         append(
                             $('<tr>')
                             .attr({'class':'tr_inspect_student inspect_td_'+i,'style':'cursor:pointer','data-assessmentcode':panel['AssessmentCode'],'data-student-number':panel['Student_Number']})
-                            .append($('<td>').text(count))
+                            //.append($('<td>').text(count))
                             .append($('<td>').text(panel['Student_Number']))
                             .append($('<td>').text(panel['RespondentName']))
-                            .append($('<td>').text(panel['Program']))
                             .append($('<td>').text(panel['Section']))
                             .append($('<td>').text(panel['Score']))
                             .append($('<td>').text(panel['Remarks']))
@@ -149,7 +169,7 @@ function display_respondents(search_filter){
                         );
                         $.each(panel['Outcomedata'],function(index,outcomerow){
 
-                            $('.inspect_td_'+i).append($('<td>').text(outcomerow))
+                            $('.inspect_td_'+i).append($('<td>').text(outcomerow));
 
                         });
 
@@ -173,7 +193,9 @@ function display_respondents(search_filter){
                         labels: [],
                         datasets: [{
                             //label: '# of Votes',
-                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            //data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            data: [],
+                            /*
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
@@ -182,6 +204,10 @@ function display_respondents(search_filter){
                                 'rgba(153, 102, 255, 0.2)',
                                 'rgba(255, 159, 64, 0.2)'
                             ],
+                            */
+                            backgroundColor: [],
+                            borderColor: [],
+                            /*
                             borderColor: [
                                 'rgba(255, 99, 132, 1)',
                                 'rgba(54, 162, 235, 1)',
@@ -190,6 +216,7 @@ function display_respondents(search_filter){
                                 'rgba(153, 102, 255, 1)',
                                 'rgba(255, 159, 64, 1)'
                             ],
+                            */
                             borderWidth: 1,
                         }]
                     },
@@ -215,12 +242,30 @@ function display_respondents(search_filter){
 
                 outcomelist = get_outcome_list({'AssessmentCode':$('.assessment-info').data('assessment-code')});
                 outcomelist.done(function(outcomedata){
-                    
+
+                    overallchart.data.datasets[0].data[100] = 100;
+
+                    outcome_breakdown = $('.outcome-breakdown');
+                    outcome_breakdown.html('');
+
                     outcomedata = JSON.parse(outcomedata);
                     $.each(outcomedata,function(index,outcome){
                         console.log(index+'test');
+                        barcolor = 'rgba(0, 0, 0, 0)';
                         overallchart.data.labels.push(outcome['Outcome']);
-                        //overallchart.data.datasets[0].data[chartindex] = row;
+                        
+                        /*
+                        <div class="col-md-12" style="margin:10px 0px 10px 0px">
+                        <span class="highlight" style="background-color:rgba(255, 0, 0, 1)">70% below</span> 70% below
+                        </div> 
+                        */
+
+                        outcome_breakdown.append(
+                            $('<div>').attr({'class':'col-md-4 outcome-break-'+index,'style':'padding:10px'}).append(
+                                $('<span>').attr({'class':'highlight'}).text(outcome['Outcome'])
+                            ).append($('<br>'))
+                        );
+
                         overallchart.update();
 
                         overall = get_overall_outcome_list({
@@ -231,7 +276,45 @@ function display_respondents(search_filter){
                             overall_result = JSON.parse(overall_result);
                             console.log(overall_result);
                             overallchart.data.datasets[0].data[index] = overall_result;
+
+                            outcome_breakdown_msg = '';
+                            if(overall_result < 70){
+                                outcome_breakdown_msg = 'Needs better understanding towards the skill.';
+                            }
+                            if(overall_result > 70 && overall_result < 80){
+
+                                outcome_breakdown_msg = 'Has good undestanding of the skill.';
+
+                            }
+                            if(overall_result > 80){
+
+                                outcome_breakdown_msg = 'Acquires exemplary knowledge towards the skill';
+
+                            }
+                            
+                            $('.outcome-break-'+index).append(outcome_breakdown_msg);
+
+                            if(overall_result >= 70 && overall_result < 100){
+
+                                //Orange
+                                barcolor = 'rgba(255, 165, 0, 1)';
+
+                            }
+                            else if(overall_result >= 100){
+
+                                //Green
+                                barcolor = 'rgba(124,252,0, 1)';
+
+                            }
+                            if(overall_result < 70){
+
+                                //Red
+                                barcolor = 'rgba(255, 0, 0, 1)';
+
+                            }
+                            overallchart.data.datasets[0].backgroundColor[index] = barcolor;
                             overallchart.update();
+                            
                         });
 
 
@@ -248,6 +331,7 @@ function display_respondents(search_filter){
             
         });
 
+       
 } 
 function get_respondent_list(search_filter){
 
@@ -356,7 +440,7 @@ function outcome_result(obj){
         };
         outcomedata = get_outcome_result(search_filter);
         outcomedata.done(function(data){
-            
+        barcolor = 'rgba(0, 0, 0)';     
             if(data){
                 data = JSON.parse(data);
                 $.each(data,function(i,row){
@@ -364,6 +448,27 @@ function outcome_result(obj){
                     console.log(i+':'+row);
                     chartindex = convert_percentage_param(i);
                     myChart.data.datasets[0].data[chartindex] = row;
+                    
+                    if(row <= 5){
+
+                        //Red
+                        barcolor = 'rgba(255, 0, 0, 1)';
+
+                    }
+                    if(row > 5 && row < 15){
+
+                        
+                        //Orange
+                        barcolor = 'rgba(255, 165, 0, 1)';
+
+                    }
+                    if(row > 15){
+
+                       //Green
+                       barcolor = 'rgba(124,252,0, 1)';
+
+                    }
+                    myChart.data.datasets[0].backgroundColor[chartindex] = barcolor;
                     myChart.update();
                     
                 });
@@ -439,5 +544,39 @@ function get_overall_outcome_list(search_filter){
     });
 
 }
+function print_summary(){
 
+    $("html, body").animate({ scrollTop: 0 }, "fast",function(){
+
+        html2canvas(document.querySelector("#summary-report")).then(canvas => {
+            //document.body.appendChild(canvas);
+
+            let windowContent = '<!DOCTYPE html>';
+            windowContent += '<html>';
+            windowContent += '<head>';
+            windowContent += '<title>Print Assessment Summary</title>';
+            windowContent += '</head>';
+            windowContent += '<body>';
+            //windowContent += '<body onafterprint="assessment_form_log(&apos;'+ref+'&apos;,&apos;'+sy+'&apos;,&apos;'+sm+')">';
+            windowContent += '<img src="' + canvas.toDataURL() + '">';
+            windowContent += '</body>';
+            windowContent += '</html>';
+            
+            const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
+            printWin.document.open();
+            printWin.document.write(windowContent); 
+            
+            printWin.document.addEventListener('load', function() {
+                printWin.focus();
+                printWin.print();
+                printWin.document.close();
+                printWin.close();        
+            }, true);
+        });
+        
+
+    });
+
+
+}
 
