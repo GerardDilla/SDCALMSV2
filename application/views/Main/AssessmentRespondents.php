@@ -109,16 +109,25 @@
 						<div id="recent10" class="tab-pane">
 							<div class="row" id="summary-report">
 								<div class="col-md-12 col-lg-12 col-xl-12">
-									<h2 id="active-filter-panel">Assessment Summary</h2>
+									<h2 id="active-filter-panel">Skill-Based Results</h2>
 									<hr>
 								</div>
 								<div class="col-md-12" style="text-align: center; padding-top:50px">
+
+									<!--
 									<div class="circular-bar">
 										<div class="circular-bar-chart passing-chart" data-percent="0" data-plugin-options='{ "barColor": "#cc0000", "size": 250}'>
 												<strong style="font-size:25px; color:green">Passed</strong>
 												<label style="font-size:50px"><span class="percent">0</span>%</label>
 										</div>
 									</div>
+									-->
+
+
+									<canvas id="pie_outcome" width="300" height="150"></canvas>
+
+
+
 								</div>
 								<!--
 									<div class="col-md-12 col-lg-6 col-xl-6">
@@ -190,7 +199,6 @@
 								-->
 								<div class="col-md-12 col-lg-12 col-xl-12">
 									<hr>
-										<h1>Skill-Based Results</h1>
 										<h4>Legends:</h4>
 										<span class="highlight" style="background-color:rgba(255, 0, 0, 1)">70% below</span> 
 										<span class="highlight" style="background-color:rgba(255, 165, 0, 1)">70% Above</span> 

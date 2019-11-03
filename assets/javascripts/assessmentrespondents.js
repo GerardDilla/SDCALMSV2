@@ -144,7 +144,7 @@ function display_respondents(search_filter){
             result = JSON.parse(result);
             if(result){
                 
-                $('.passing-chart').data('easyPieChart').update(0);
+                //$('.passing-chart').data('easyPieChart').update(0);
                 count = 0;
                 tablecontainer = $('#respondent_table tbody');
                 tablecontainer.html('').fadeIn('slow');
@@ -177,12 +177,40 @@ function display_respondents(search_filter){
 
                 });
 
+
+                /*
                 //Updates Pie Chart
                 $('#passers_count').html(result['TotalPassers'] ? result['TotalPassers'] : 0).fadeIn('fast');
                 $('#respondent_count').html(count).fadeIn('fast');
                 percentage = (parseInt(result['TotalPassers']) / parseInt(count)) * 100;
                 $('.passing-chart').data('easyPieChart').update(percentage ? percentage : 0);
+                */
 
+                                
+                //Starts Pie Chart
+                var pie = $('#pie_outcome');
+                var pie_overallchart = new Chart(pie, {
+                    type: 'doughnut',
+                    data: {
+
+                        datasets: [{
+                            data: [],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ]
+                        }],
+                        labels: [
+                        ]
+
+                    },
+                    options: {
+                    }
+                });
 
                 //Starts Bar Graph
                 var ctx = $('#outcome_report');
@@ -253,6 +281,7 @@ function display_respondents(search_filter){
                         console.log(index+'test');
                         barcolor = 'rgba(0, 0, 0, 0)';
                         overallchart.data.labels.push(outcome['Outcome']);
+                        pie_overallchart.data.labels.push(outcome['Outcome']);
                         
                         /*
                         <div class="col-md-12" style="margin:10px 0px 10px 0px">
@@ -276,6 +305,7 @@ function display_respondents(search_filter){
                             overall_result = JSON.parse(overall_result);
                             console.log(overall_result);
                             overallchart.data.datasets[0].data[index] = overall_result;
+                            pie_overallchart.data.datasets[0].data[index] = overall_result;
 
                             outcome_breakdown_msg = '';
                             if(overall_result < 70){
