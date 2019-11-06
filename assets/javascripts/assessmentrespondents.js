@@ -137,7 +137,7 @@ function search_respondents(){
 }
 function display_respondents(search_filter){
 
-       
+        search_filter['Passing'] = $('#pass_select').val();
         respondent_list = get_respondent_list(search_filter);
         respondent_list.done(function(result){
             
@@ -194,7 +194,8 @@ function display_respondents(search_filter){
                     data: {
 
                         datasets: [{
-                            data: [],
+                            data: []
+                            /*
                             backgroundColor: [
                                 'rgba(255, 99, 132, 1)',
                                 'rgba(54, 162, 235, 1)',
@@ -203,6 +204,7 @@ function display_respondents(search_filter){
                                 'rgba(153, 102, 255, 1)',
                                 'rgba(255, 159, 64, 1)'
                             ]
+                            */
                         }],
                         labels: [
                         ]
@@ -219,34 +221,24 @@ function display_respondents(search_filter){
                     data: {
                         //labels: ['', '', '', '', '', '', '', '', '', '', ''],
                         labels: [],
-                        datasets: [{
-                            //label: '# of Votes',
-                            //data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            data: [],
-                            /*
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            */
-                            backgroundColor: [],
-                            borderColor: [],
-                            /*
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            */
-                            borderWidth: 1,
-                        }]
+                        datasets: [
+                            {
+                                label: 'Fail',
+                                //data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                data: [],
+                                backgroundColor: ['rgba(255, 0, 0, 1)'],
+                                borderColor: [],
+                                borderWidth: 1,
+                            },
+                            {
+                                label: 'Passed',
+                                //data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                data: [],
+                                backgroundColor: ['rgba(1, 128, 0, 1)'],
+                                borderColor: [],
+                                borderWidth: 1,
+                            }
+                        ]
                     },
                     options: {
                         legend: {
@@ -271,86 +263,127 @@ function display_respondents(search_filter){
                 outcomelist = get_outcome_list({'AssessmentCode':$('.assessment-info').data('assessment-code')});
                 outcomelist.done(function(outcomedata){
 
-                    overallchart.data.datasets[0].data[100] = 100;
+                    
 
                     outcome_breakdown = $('.outcome-breakdown');
                     outcome_breakdown.html('');
-
                     outcomedata = JSON.parse(outcomedata);
+                    //overallchart.data.datasets[0].data[0] = '25';
+                    //overallchart.data.datasets[1].data[0] = '50';
+                    count = 0;
                     $.each(outcomedata,function(index,outcome){
-                        console.log(index+'test');
-                        barcolor = 'rgba(0, 0, 0, 0)';
+
                         overallchart.data.labels.push(outcome['Outcome']);
                         pie_overallchart.data.labels.push(outcome['Outcome']);
-                        
-                        /*
-                        <div class="col-md-12" style="margin:10px 0px 10px 0px">
-                        <span class="highlight" style="background-color:rgba(255, 0, 0, 1)">70% below</span> 70% below
-                        </div> 
-                        */
-
-                        outcome_breakdown.append(
-                            $('<div>').attr({'class':'col-md-4 outcome-break-'+index,'style':'padding:10px'}).append(
-                                $('<span>').attr({'class':'highlight'}).text(outcome['Outcome'])
-                            ).append($('<br>'))
-                        );
-
-                        overallchart.update();
 
                         overall = get_overall_outcome_list({
                             'AssessmentCode':$('.assessment-info').data('assessment-code'),
                             'Outcome':outcome['Outcome']
                         });
                         overall.done(function(overall_result){
+
                             overall_result = JSON.parse(overall_result);
-                            console.log(overall_result);
-                            overallchart.data.datasets[0].data[index] = overall_result;
-                            pie_overallchart.data.datasets[0].data[index] = overall_result;
+                            ///overallchart.data.datasets[index].data[0] = overall_result['Total'];
+                            overallchart.data.datasets[1].data[index] = overall_result['Total'];
+                            overallchart.data.datasets[1].backgroundColor[index] = 'rgba(255, 0, 0, 1)';
 
-                            outcome_breakdown_msg = '';
-                            if(overall_result < 70){
-                                outcome_breakdown_msg = 'Needs better understanding towards the skill.';
-                            }
-                            if(overall_result > 70 && overall_result < 80){
-
-                                outcome_breakdown_msg = 'Has good undestanding of the skill.';
-
-                            }
-                            if(overall_result > 80){
-
-                                outcome_breakdown_msg = 'Acquires exemplary knowledge towards the skill';
-
-                            }
+                            overallchart.data.datasets[0].data[index] = overall_result['Total'];
+                            overallchart.data.datasets[0].backgroundColor[index] = 'rgba(1, 128, 0, 1)';
                             
-                            $('.outcome-break-'+index).append(outcome_breakdown_msg);
-
-                            if(overall_result >= 70 && overall_result < 100){
-
-                                //Orange
-                                barcolor = 'rgba(255, 165, 0, 1)';
-
-                            }
-                            else if(overall_result >= 100){
-
-                                //Green
-                                barcolor = 'rgba(124,252,0, 1)';
-
-                            }
-                            if(overall_result < 70){
-
-                                //Red
-                                barcolor = 'rgba(255, 0, 0, 1)';
-
-                            }
-                            overallchart.data.datasets[0].backgroundColor[index] = barcolor;
                             overallchart.update();
-                            
+                            console.log(index+': '+overall_result['Total']);
+
                         });
-
-
+                        count++;
+                        
                     });
+                    
 
                 });
+
+                /*
+                    outcomelist = get_outcome_list({'AssessmentCode':$('.assessment-info').data('assessment-code')});
+                    outcomelist.done(function(outcomedata){
+
+                        
+
+                        outcome_breakdown = $('.outcome-breakdown');
+                        outcome_breakdown.html('');
+
+                        outcomedata = JSON.parse(outcomedata);
+
+                        overallchart.data.datasets[0].data[100] = outcomedata.length;
+
+                        $.each(outcomedata,function(index,outcome){
+                            console.log(index+'test');
+                            barcolor = 'rgba(0, 0, 0, 0)';
+                            overallchart.data.labels.push(outcome['Outcome']);
+                            pie_overallchart.data.labels.push(outcome['Outcome']);
+
+
+                            outcome_breakdown.append(
+                                $('<div>').attr({'class':'col-md-4 outcome-break-'+index,'style':'padding:10px'}).append(
+                                    $('<span>').attr({'class':'highlight'}).text(outcome['Outcome'])
+                                ).append($('<br>'))
+                            );
+
+                            overallchart.update();
+
+                            overall = get_overall_outcome_list({
+                                'AssessmentCode':$('.assessment-info').data('assessment-code'),
+                                'Outcome':outcome['Outcome']
+                            });
+                            overall.done(function(overall_result){
+                                overall_result = JSON.parse(overall_result);
+                                console.log(overall_result);
+                                overallchart.data.datasets[0].data[index] = overall_result;
+                                pie_overallchart.data.datasets[1].data[index] = overall_result;
+
+                                outcome_breakdown_msg = '';
+                                if(overall_result < 70){
+                                    outcome_breakdown_msg = 'Needs better understanding towards the skill.';
+                                }
+                                if(overall_result > 70 && overall_result < 80){
+
+                                    outcome_breakdown_msg = 'Has good undestanding of the skill.';
+
+                                }
+                                if(overall_result > 80){
+
+                                    outcome_breakdown_msg = 'Acquires exemplary knowledge towards the skill';
+
+                                }
+                                
+                                $('.outcome-break-'+index).append(outcome_breakdown_msg);
+
+                                if(overall_result >= 70 && overall_result < 100){
+
+                                    //Orange
+                                    barcolor = 'rgba(255, 165, 0, 1)';
+
+                                }
+                                else if(overall_result >= 100){
+
+                                    //Green
+                                    barcolor = 'rgba(124,252,0, 1)';
+
+                                }
+                                if(overall_result < 70){
+
+                                    //Red
+                                    barcolor = 'rgba(255, 0, 0, 1)';
+
+                                }
+                                overallchart.data.datasets[0].backgroundColor[index] = barcolor;
+                                overallchart.update();
+                                
+                            });
+
+
+                        });
+
+                    });
+                */
 
 
             }else{
@@ -402,7 +435,6 @@ function ToggleFilter(CourseCode,SchedCode){
     });
     console.log('--');
     search_respondents();
-
 
 }
 function RemoveFilter(obj){
@@ -495,7 +527,7 @@ function outcome_result(obj){
                     if(row > 15){
 
                        //Green
-                       barcolor = 'rgba(124,252,0, 1)';
+                       barcolor = 'rgba(0, 128, 0, 1)';
 
                     }
                     myChart.data.datasets[0].backgroundColor[chartindex] = barcolor;

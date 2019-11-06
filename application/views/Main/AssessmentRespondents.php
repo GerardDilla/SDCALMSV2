@@ -199,18 +199,44 @@
 								-->
 								<div class="col-md-12 col-lg-12 col-xl-12">
 									<hr>
-										<h4>Legends:</h4>
-										<span class="highlight" style="background-color:rgba(255, 0, 0, 1)">70% below</span> 
-										<span class="highlight" style="background-color:rgba(255, 165, 0, 1)">70% Above</span> 
-										<span class="highlight" style="background-color:rgba(124,252,0, 1); color:#000">100%</span>
+										<table>
+											<th>
+												<td>
+													<h4>Legends:</h4>
+												</td>
+												<td>
+													<span class="highlight" style="background-color:rgba(1, 128, 0, 1)">
+														Pass
+													</span> 
+												</td>
+												<td>
+													<span class="highlight" style="background-color:rgba(255, 0, 0, 1)">
+														Fail
+													</span> 
+												</td>
+												<td style="padding:0px 0px 0px 5px">
+													<select class="form-control input-sm mb-md" id="pass_select" style="margin-top:10px">
+														<option value="50">50%</option>
+														<option value="60">60%</option>
+														<option value="70">70%</option>
+													</select>
+												</td>
+											</th>
+										</table>
+										
 									<hr>
 									<section class="panel row">
 										<div class="col-md-1 h-100" style="margin-top:20%">
 											<h3 style="transform: rotate(-90deg); width:120px">Student %</h3>
 										</div>
 										<div class="col-md-11">
+
 											<canvas id="outcome_report" width="300" height="150"></canvas>
 											<hr>
+
+											<canvas id="outcome_report_stacked" width="300" height="150"></canvas>
+											<hr>
+
 										</div>
 										<div class="col-md-12 row outcome-breakdown">
 

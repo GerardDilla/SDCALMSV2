@@ -149,15 +149,26 @@ class Assessment extends MY_Controller {
 			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
 			'Outcome' => $this->input->get_post('Outcome')
 		);
-		$returndata = array();
-		$outcomescoretally = 0;
+
+		$return = array(
+			'Total' => 0
+		);
+
+		$current_sn = '';
+		
 		$taker_status = $this->AssessmentModel->GetOutcomeTakers($array);
-		foreach($taker_status as $status){
-			if($status['Correct'] == 1){
-				$outcomescoretally++;
+		foreach($taker_status as $row){
+
+			if($current_sn != $row['Student_Number']){
+				$current_sn = $row['Student_Number'];
+				$return['Total']++;
 			}
+			else{
+				
+			}
+
 		}
-		echo json_encode($outcomescoretally);
+		echo json_encode($return);
 
 	}
 	public function Ajax_outcome_list(){
@@ -172,13 +183,13 @@ class Assessment extends MY_Controller {
 	}
 	public function Ajax_Respondent_List(){
 
-		$passinggrade = 70;
 		$result = array('TotalPassers' => '');
 		$array = array(
 			'SearchKey' => $this->input->get_post('SearchKey'),
 			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
 			'CourseFilter' => $this->input->get_post('CourseFilter'),
 			'RemarkFilter' => $this->input->get_post('RemarkFilter'),
+			'Passing' => $this->input->get_post('Passing'),
 		);
 		$TotalPoints = 0;
 		$TotalPointsData = $this->AssessmentModel->GetAssessmentLayout($array);
@@ -190,7 +201,7 @@ class Assessment extends MY_Controller {
 
 			$percentage = 0;
 			$percentage = ($row['Score'] / $TotalPoints) * 100;
-			$remark = $percentage >= $passinggrade ? 'Passed' : 'Failed';
+			$remark = $percentage >= $array['Passing'] ? 'Passed' : 'Failed';
 			
 			if(!empty($array['RemarkFilter'])){
 
@@ -223,7 +234,7 @@ class Assessment extends MY_Controller {
 						}
 
 						$result[$key]['Remarks'] = $remark;
-						if($percentage >= $passinggrade){
+						if($percentage >= $array['Passing']){
 							$result['TotalPassers']++;
 						}
 
@@ -259,7 +270,7 @@ class Assessment extends MY_Controller {
 				}
 
 				$result[$key]['Remarks'] = $remark;
-				if($percentage >= $passinggrade){
+				if($percentage >= $array['Passing']){
 					$result['TotalPassers']++;
 				}
 
