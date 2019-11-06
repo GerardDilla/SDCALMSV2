@@ -24,6 +24,7 @@ class Grades extends MY_Controller {
 	}
 	public function index()
 	{
+		/*
 		$PreviousBalance = $this->Get_previous_balance();
 		if($PreviousBalance > 1){
 
@@ -39,7 +40,7 @@ class Grades extends MY_Controller {
 			return;
 
 		}
-
+*/
 		//$this->load->view('welcome_message');
 		$this->data['SchoolYear_List'] = $this->Grading->Get_Grading_SchoolYear($this->user_data);
 		$this->data['Semester_List'] = $this->Grading->Get_Grading_Semester($this->user_data);
