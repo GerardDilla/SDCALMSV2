@@ -53,20 +53,26 @@ $(document).ready(function(){
         print_summary();
         
     });
+
+    $('#pass_select').change(function(){
+
+        search_respondents();
+        
+    });
    
 });
 $(document).ajaxStop(function() {
 
     if ( ! $.fn.DataTable.isDataTable( '#respondent_table' ) ) {
         $('#respondent_table').DataTable({
-        "ordering": false,
-        "columnDefs": [
-            { "width": "200px"}
-          ],
-        dom: 'Bfrtip',
-        buttons: [
-            'pdf'
-        ]
+            "ordering": false,
+            "columnDefs": [
+                { "width": "200px"}
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                'pdf'
+            ]
         });
     }
 });
@@ -153,7 +159,7 @@ function display_respondents(search_filter){
                 $.each(result,function(i,panel){
 
                     
-                    if(i != 'TotalPassers'){
+                    if(i != 'TotalPassers' && i != 'TotalFailed'){
                         count = parseInt(i) + 1;
                         tablecontainer.
                         append(
@@ -177,16 +183,6 @@ function display_respondents(search_filter){
 
                 });
 
-
-                /*
-                //Updates Pie Chart
-                $('#passers_count').html(result['TotalPassers'] ? result['TotalPassers'] : 0).fadeIn('fast');
-                $('#respondent_count').html(count).fadeIn('fast');
-                percentage = (parseInt(result['TotalPassers']) / parseInt(count)) * 100;
-                $('.passing-chart').data('easyPieChart').update(percentage ? percentage : 0);
-                */
-
-                                
                 //Starts Pie Chart
                 var pie = $('#pie_outcome');
                 var pie_overallchart = new Chart(pie, {
@@ -194,17 +190,8 @@ function display_respondents(search_filter){
                     data: {
 
                         datasets: [{
-                            data: []
-                            /*
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ]
-                            */
+                            data: [],
+                            backgroundColor: []
                         }],
                         labels: [
                         ]
@@ -223,18 +210,18 @@ function display_respondents(search_filter){
                         labels: [],
                         datasets: [
                             {
-                                label: 'Fail',
-                                //data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                data: [],
-                                backgroundColor: ['rgba(255, 0, 0, 1)'],
-                                borderColor: [],
-                                borderWidth: 1,
-                            },
-                            {
                                 label: 'Passed',
                                 //data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                                 data: [],
                                 backgroundColor: ['rgba(1, 128, 0, 1)'],
+                                borderColor: [],
+                                borderWidth: 1,
+                            },
+                            {
+                                label: 'Fail',
+                                //data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                data: [],
+                                backgroundColor: ['rgba(255, 0, 0, 1)'],
                                 borderColor: [],
                                 borderWidth: 1,
                             }
@@ -262,44 +249,84 @@ function display_respondents(search_filter){
 
                 outcomelist = get_outcome_list({'AssessmentCode':$('.assessment-info').data('assessment-code')});
                 outcomelist.done(function(outcomedata){
-
                     
-
                     outcome_breakdown = $('.outcome-breakdown');
                     outcome_breakdown.html('');
                     outcomedata = JSON.parse(outcomedata);
                     //overallchart.data.datasets[0].data[0] = '25';
                     //overallchart.data.datasets[1].data[0] = '50';
                     count = 0;
+                    total_passers = 0;
+                    total_failing = 0;
                     $.each(outcomedata,function(index,outcome){
 
                         overallchart.data.labels.push(outcome['Outcome']);
-                        pie_overallchart.data.labels.push(outcome['Outcome']);
-
+                        outcome_breakdown.append(
+                            $('<div>').attr({'class':'col-md-4 outcome-break-'+index,'style':'padding:10px'}).append(
+                                $('<span>').attr({'class':'highlight'}).text(outcome['Outcome'])
+                            ).append($('<br>'))
+                        );
                         overall = get_overall_outcome_list({
                             'AssessmentCode':$('.assessment-info').data('assessment-code'),
-                            'Outcome':outcome['Outcome']
+                            'Outcome':outcome['Outcome'],
+                            'Passing':$('#pass_select').val()
                         });
                         overall.done(function(overall_result){
 
                             overall_result = JSON.parse(overall_result);
                             ///overallchart.data.datasets[index].data[0] = overall_result['Total'];
-                            overallchart.data.datasets[1].data[index] = overall_result['Total'];
+                            overallchart.data.datasets[1].data[index] = overall_result['Passing'];
                             overallchart.data.datasets[1].backgroundColor[index] = 'rgba(255, 0, 0, 1)';
 
-                            overallchart.data.datasets[0].data[index] = overall_result['Total'];
+                            overallchart.data.datasets[0].data[index] = overall_result['Fail'];
                             overallchart.data.datasets[0].backgroundColor[index] = 'rgba(1, 128, 0, 1)';
                             
                             overallchart.update();
                             console.log(index+': '+overall_result['Total']);
+                            total_passers = total_passers + overall_result['Passing'];
+                            total_failing = total_failing + overall_result['Fail'];
+                            console.log('totalpass:'+total_passers+': totalfail'+total_failing);
 
+
+                            
+                            outcome_breakdown_msg = '';
+                            if(overall_result['Passing'] < search_filter['Passing']){
+                                outcome_breakdown_msg = 'Needs better understanding towards the skill.';
+                            }
+                            if(overall_result['Passing'] > search_filter['Passing'] && overall_result['Passing'] < (search_filter['Passing'] + 20)){
+
+                                outcome_breakdown_msg = 'Has good undestanding of the skill.';
+
+                            }
+                            if(overall_result['Passing'] > search_filter['Passing']){
+
+                                outcome_breakdown_msg = 'Acquires exemplary knowledge towards the skill';
+
+                            }
+                            $('.outcome-break-'+index).append(outcome_breakdown_msg);
+                            
                         });
+
                         count++;
+                         
                         
                     });
                     
+                    
 
                 });
+
+
+                //Updates Doughnut chart
+                pie_overallchart.data.labels.push('Passed');
+                pie_overallchart.data.labels.push('Fail');
+                pie_overallchart.data.datasets[0].data[0] = result['TotalPassers'];
+                pie_overallchart.data.datasets[0].data[1] = result['TotalFailed'];
+                pie_overallchart.data.datasets[0].backgroundColor[0] = 'rgba(1, 128, 0, 1)';
+                pie_overallchart.data.datasets[0].backgroundColor[1] = 'rgba(255, 0, 0, 1)';
+                pie_overallchart.update();
+
+
 
                 /*
                     outcomelist = get_outcome_list({'AssessmentCode':$('.assessment-info').data('assessment-code')});
@@ -353,7 +380,6 @@ function display_respondents(search_filter){
                                     outcome_breakdown_msg = 'Acquires exemplary knowledge towards the skill';
 
                                 }
-                                
                                 $('.outcome-break-'+index).append(outcome_breakdown_msg);
 
                                 if(overall_result >= 70 && overall_result < 100){
@@ -453,7 +479,7 @@ function outcome_result(obj){
             data: {
                 labels: ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
                 datasets: [{
-                    label: '# of Takers',
+                    label: '',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',

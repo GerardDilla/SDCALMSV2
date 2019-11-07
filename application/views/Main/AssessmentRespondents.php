@@ -31,8 +31,21 @@
 			<div class="col-sm-8 col-lg-8 order-2">
 				<h1>Assessment Takers</h1>
 				<hr>
-				<h3 id="active-filter-panel">Filters:
+				<h3 id="active-filter-panel">
+					Filters:
 				</h3>
+				<h3 id="active-filter-panel">
+					Passing Grade:
+					<span style="display: inline-block;">
+						<select class="form-control input-sm mb-md" id="pass_select" style="margin-top:10px">
+							<option value="50">50%</option>
+							<option value="60">60%</option>
+							<option value="70">70%</option>
+						</select>
+					</span>
+				</h3>
+
+
 				<div class="tabs">
 					<ul class="nav nav-tabs nav-justified">
 						<li class="active">
@@ -215,11 +228,7 @@
 													</span> 
 												</td>
 												<td style="padding:0px 0px 0px 5px">
-													<select class="form-control input-sm mb-md" id="pass_select" style="margin-top:10px">
-														<option value="50">50%</option>
-														<option value="60">60%</option>
-														<option value="70">70%</option>
-													</select>
+
 												</td>
 											</th>
 										</table>
@@ -227,14 +236,11 @@
 									<hr>
 									<section class="panel row">
 										<div class="col-md-1 h-100" style="margin-top:20%">
-											<h3 style="transform: rotate(-90deg); width:120px">Student %</h3>
+											<h3 style="transform: rotate(-90deg); width:120px">Student</h3>
 										</div>
 										<div class="col-md-11">
 
 											<canvas id="outcome_report" width="300" height="150"></canvas>
-											<hr>
-
-											<canvas id="outcome_report_stacked" width="300" height="150"></canvas>
 											<hr>
 
 										</div>

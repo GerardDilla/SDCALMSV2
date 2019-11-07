@@ -147,26 +147,40 @@ class Assessment extends MY_Controller {
 
 		$array = array(
 			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
-			'Outcome' => $this->input->get_post('Outcome')
+			'Outcome' => $this->input->get_post('Outcome'),
+			'Passing' => $this->input->get_post('Passing'),
 		);
-
 		$return = array(
-			'Total' => 0
+			'Total' => 0,
+			'Passing' => 0,
+			'Fail' => 0
 		);
-
-		$current_sn = '';
-		
+		$initial_studentdata = array();
 		$taker_status = $this->AssessmentModel->GetOutcomeTakers($array);
+		$outcome_count = $this->AssessmentModel->GetOutcomeQuestionCount($array);
+		$current_sn = '';
 		foreach($taker_status as $row){
 
 			if($current_sn != $row['Student_Number']){
+				$initial_studentdata[$row['Student_Number']] = 0;
 				$current_sn = $row['Student_Number'];
 				$return['Total']++;
 			}
-			else{
-				
+			if($row['Correct'] == 1){
+				$initial_studentdata[$row['Student_Number']]++;
 			}
 
+		}
+		foreach($initial_studentdata as $key => $studentdata){
+			
+			$percentage = 0;
+			$percentage = ($studentdata / $outcome_count) * 100;
+			if($percentage >= $array['Passing']){
+				$return['Passing']++;
+			}else{
+				$return['Fail']++;
+			}
+			//echo $key.':'.$studentdata.':'.$percentage.'<br>';
 		}
 		echo json_encode($return);
 
@@ -179,11 +193,13 @@ class Assessment extends MY_Controller {
 		$Outcomes = $this->AssessmentModel->GetOutcomes($array);
 		echo json_encode($Outcomes);
 
-
 	}
 	public function Ajax_Respondent_List(){
 
-		$result = array('TotalPassers' => '');
+		$result = array(
+			'TotalPassers' => '',
+			'TotalFailed' => '',
+		);
 		$array = array(
 			'SearchKey' => $this->input->get_post('SearchKey'),
 			'AssessmentCode' => $this->input->get_post('AssessmentCode'),
@@ -272,6 +288,8 @@ class Assessment extends MY_Controller {
 				$result[$key]['Remarks'] = $remark;
 				if($percentage >= $array['Passing']){
 					$result['TotalPassers']++;
+				}else{
+					$result['TotalFailed']++;
 				}
 
 			}
