@@ -347,14 +347,6 @@ class AssessmentModel extends CI_Model{
         return $query->result_array();
 
     }
-    public function GetOutcomeQuestionCount($array){
 
-        $this->db->where('Q.AssessmentCode', $array['AssessmentCode']);
-        $this->db->where('Q.Outcome', $array['Outcome']);
-        $this->db->where('Q.Active', '1');
-        $query = $this->db->get('lms_assessment_questions as Q');
-        return $query->num_rows();
-
-    }
 }
 ?>

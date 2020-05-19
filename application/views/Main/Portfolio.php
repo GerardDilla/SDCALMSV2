@@ -312,6 +312,7 @@
 														); 
 													?>
 													<?php echo form_open(base_url().'index.php/Portfolio/Ajax_org_save',$attributes); ?>
+														
 														<div class="form-group">
 															<label class="col-md-3 control-label" for="profileFirstName">Organization Name</label>
 															<div class="col-md-8">
@@ -328,6 +329,7 @@
 														<br />
 														<button type="button" class="btn btn-default" href="#" id="OrgManagerShow">Manage Organizations</button>
 														<input class="btn btn-success pull-right" type="submit" value="Submit" />
+													
 													</form>
 												</div>
 											</section>

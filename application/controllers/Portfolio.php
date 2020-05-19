@@ -34,8 +34,6 @@ class Portfolio extends MY_Controller {
 		  $this->sectionlimit = 5;
 
 		  $this->activitieslimit = 10;
-
-		  
 		  
 	}
 	public function index()
@@ -222,7 +220,6 @@ class Portfolio extends MY_Controller {
 		if(empty($this->PortfolioModel->Check_Certname_Availability($data))){
 
 			$data['final'] = $data['Certificate'];
-		
 
 		}else{
 

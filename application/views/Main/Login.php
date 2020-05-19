@@ -37,7 +37,6 @@
                             <div class="form-group mb-lg">
                                 <div class="clearfix">
                                     <label class="pull-left">Password</label>
-                                    <a href="pages-recover-password.html" class="pull-right">Forgot Password?</a>
                                 </div>
                                 <div class="input-group input-group-icon">
                                     <input name="student_password" type="password" class="form-control input-lg" placeholder="Password"/>

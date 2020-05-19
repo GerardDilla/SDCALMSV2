@@ -251,7 +251,7 @@ function get_rubrics_data(RubricsData = {}){
         type: 'post',
         data: RubricsData
     });
-
+    
 }
 function question_toggle(command = 0){
 

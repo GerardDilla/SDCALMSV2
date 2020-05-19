@@ -6,7 +6,7 @@ function display_image(file){
     //$('#cert_lightbox').attr("href", imagelink);
 } 
 $(document).ready(function(){
-     data = [];
+    data = [];
     $('#cert_form').submit(function(e){
 
         e.preventDefault(); 
