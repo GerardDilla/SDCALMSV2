@@ -143,6 +143,17 @@ class Balance extends CI_Model{
 	}
 	public function GetBreakDown($array){
 		
+		$AdditionalFIlter = '';
+
+		if($array['School_Year'] != '' && $array['Semester'] != ''){
+
+			$AdditionalFIlter = '
+				AND fees.semester = "'.$array['Semester'].'"
+				AND fees.`schoolyear` = "'.$array['School_Year'].'"
+			';
+
+		}
+
 		$query = '
 			SELECT 
 			SUM(`TOTAL`) AS `TOTAL`,
@@ -212,7 +223,8 @@ class Balance extends CI_Model{
 				INNER JOIN `Fees_Enrolled_College_Item` AS `FECI` 
 				ON `fees`.`id` = `FECI`.`Fees_Enrolled_College_Id` 
 				AND `FECI`.`valid` 
-			WHERE MD5(`fees`.`Reference_Number`) = "'.$array['Reference_Number'].'" 
+			WHERE MD5(`fees`.`Reference_Number`) = "'.$array['Reference_Number'].'"
+			'.$AdditionalFIlter.'
 			GROUP BY schoolyear,semester) a 
 			GROUP BY schoolyear,semester
 		';
