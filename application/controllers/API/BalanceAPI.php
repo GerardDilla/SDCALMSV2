@@ -66,8 +66,7 @@ class BalanceAPI extends CI_Controller {
 			$input_array['Student_Number'] = $this->validate_reference_number($input_array);
 			
 			//Gets and Displays Balance
-			$this->
-			($input_array);
+			$this->balance_constructor2($input_array);
 
 			$this->Output($this->data_output);
 		}
@@ -185,8 +184,7 @@ class BalanceAPI extends CI_Controller {
 		$this->Output($this->data_output);
 
 	}
-	private function 
-	($input_array){
+	private function balance_constructor2($input_array){
 
 		$data = array(
 			'Overall_Fees' => 0,
@@ -213,7 +211,7 @@ class BalanceAPI extends CI_Controller {
 
 		//Check if Currently Enrolled
 		$CurrentlyEnrolled = $this->Balance->CheckFeesData($input_array);
-		
+
 		//Sets SY and Sem to default
 		if($CurrentlyEnrolled == 0){
 			$input_array = array(
@@ -224,10 +222,6 @@ class BalanceAPI extends CI_Controller {
 
 		//Get All Fees Data 
 		$Breakdown = $this->Balance->GetBreakDown($input_array);
-
-		
-
-
 
 		foreach($Breakdown as $index=>$fee){
 
