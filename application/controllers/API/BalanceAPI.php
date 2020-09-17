@@ -214,10 +214,8 @@ class BalanceAPI extends CI_Controller {
 
 		//Sets SY and Sem to default
 		if($CurrentlyEnrolled == 0){
-			$input_array = array(
-				'School_Year' => '',
-				'Semester' => ''
-			);
+			$input_array['School_Year'] = '';
+			$input_array['Semester'] = '';
 		}
 
 		//Get All Fees Data 
