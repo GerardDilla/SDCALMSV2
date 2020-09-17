@@ -233,6 +233,16 @@ class Balance extends CI_Model{
 
 
 	}
+	public function CheckFeesData($array){
+
+		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
+		$this->db->where('schoolyear',$array['School_Year']);
+		$this->db->where('semester',$array['Semester']);
+		$this->db->limit(1);
+		$result = $this->db->get('Fees_Enrolled_College');
+		return $result->num_rows();
+
+	}
 	public function gettotalpaid($array){
 
 		$this->db->select('
