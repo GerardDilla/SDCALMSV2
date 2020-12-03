@@ -1,6 +1,7 @@
 
-function Init_BalanceAPI(url='',refnum='')
+function Init_BalanceAPI(url='',refnum='',sy = '',sem = '')
 {   
+    alert('test');
     //console.log(url);
     if(url == ''){
         config = {
@@ -20,7 +21,7 @@ function Init_BalanceAPI(url='',refnum='')
         message_handler(config);
         return;
     }
-    if($('#SYlegend').val() == ''){
+    if(sy == ''){
         config = {
             'message':'Error: No School Year passed',
             'type':'warning'
@@ -28,7 +29,7 @@ function Init_BalanceAPI(url='',refnum='')
         message_handler(config);
         return;
     }
-    if($('#Semlegend').val() == ''){
+    if(sem == ''){
         config = {
             'message':'Error: No Semester passed',
             'type':'warning'
@@ -43,15 +44,15 @@ function Init_BalanceAPI(url='',refnum='')
         type: 'GET',
         data: {
             Reference_Number: refnum,
-            School_Year: $('#SYlegend').val(),
-            Semester: $('#Semlegend').val()
+            School_Year: sy,
+            Semester: sem
         },
         success: function(response){
 
             result = JSON.parse(response);
             console.log(result);
             if(result['Error'] == 0){
-                balance_display(result['data']);
+                balance_display(result['Output']);
 
             }else{
                 config = {
@@ -78,11 +79,29 @@ function Init_BalanceAPI(url='',refnum='')
 function balance_display(resultdata)
 {   
 
-    $('#sem_balance').html(resultdata['Semestral_Balance']);
+    //$('#sem_balance').html(resultdata['Semestral_Balance']);
+    //$('#sem_paid').html(resultdata['Semestral_Paid']);
+    //$('#sem_total_balance').html(resultdata['Semestral_Total']);
+    //$('#previous_balance').html(resultdata['Outstanding_Balance_SemSy_Excluded']);
+    //$('#outstanding_balance').html(resultdata['Outstanding_Balance']);
+
+
+    $('#uponregistration').html(resultdata['InitialPayment']);
+    $('#prelim').html(resultdata['Prelim']);
+    $('#midterm').html(resultdata['Midterm']);
+    $('#finals').html(resultdata['Finals']);
+
+    $('#uponregistrationbalance').html(resultdata['UponRegistrationBalance']);
+    $('#prelimbalance').html(resultdata['PrelimBalance']);
+    $('#midtermbalance').html(resultdata['MidtermBalance']);
+    $('#finalsbalance').html(resultdata['FinalsBalance']);
+
+    $('#sem_balance').html(resultdata['Semestral_Fee']);
     $('#sem_paid').html(resultdata['Semestral_Paid']);
-    $('#sem_total_balance').html(resultdata['Semestral_Total']);
-    $('#previous_balance').html(resultdata['Outstanding_Balance_SemSy_Excluded']);
+    $('#sem_total_balance').html(resultdata['Semestral_Balance']);
+    $('#previous_balance').html(resultdata['Previous_Balance']);
     $('#outstanding_balance').html(resultdata['Outstanding_Balance']);
+    $('#pay_amount').val(resultdata['Outstanding_Balance']);
 
 }
 function message_handler(settings){

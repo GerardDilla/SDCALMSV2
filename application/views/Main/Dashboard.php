@@ -42,8 +42,8 @@
 									   <!-- Inputs for Balance -->
 										<input type="hidden" value="<?php echo $this->legends['School_Year']; ?>" id="SYlegend">
 										<input type="hidden" value="<?php echo $this->legends['Semester']; ?>" id="Semlegend">
-									   <p>Academic Year:<span class="red-bold"> 2018-2019</span></p>
-									   <p class="acad-semester">Semester:     <span  class="red-bold"> Second</span></p>
+									   <p>Academic Year:<span class="red-bold"> <?php echo $this->legends['School_Year']; ?></span></p>
+									   <p class="acad-semester">Semester:     <span  class="red-bold"> <?php echo $this->legends['Semester']; ?></span></p>
 									 </div>
 									 <div class="col-md-3">
 									 </div>
@@ -123,7 +123,7 @@
 <!-- Balance API Handler -->
 <script>
 $(document).ready(function() {
-    DashboardStart('<?php echo base_url(); ?>','<?php echo $this->user_data['Reference_Number']; ?>','2017-2018','FIRST');
+    DashboardStart('<?php echo base_url(); ?>','<?php echo $this->user_data['Reference_Number']; ?>',$('#SYlegend').val(),$('#Semlegend').val());
 });
 </script>
 <!-- Balance API Handler -->

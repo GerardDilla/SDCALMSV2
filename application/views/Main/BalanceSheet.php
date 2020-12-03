@@ -48,6 +48,7 @@
                     <p class="panel-subtitle">
                     Your balance is displayed based on the current School year and Semester
                     </p>
+                    <!--
                     <table class="table table-striped" id="balance_table">
                         <thead>
                             <tr>
@@ -84,6 +85,76 @@
                         </tr>
                         </tbody>
                     </table>
+                    --> 
+
+                    <table class="table table-striped" style="color:#666">
+                        <thead>
+                            <tr>
+                            <th></th>
+                            <th>Amount</th>
+                            <th>Remaining</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <td style="background-color:#55c2ac; color:#FFF;">Upon Registration</td>
+                        <td style="font-weight: 700; color: #800; text-align:right;"  id="uponregistration"></td>
+                        <td style="background-color:#ccc; font-weight: 700; color: #800; text-align:right;"  id="uponregistrationbalance"></td>
+                        </tr>
+                        <tr>
+                        <td style="background-color:#55c2ac; color:#FFF;">Prelim</td>
+                        <td style="font-weight: 700; color: #800; text-align:right;"  id="prelim"></td>
+                        <td style="background-color:#ccc; font-weight: 700; color: #800; text-align:right;"  id="prelimbalance"></td>
+                        </tr>
+                        <tr>
+                        <td style="background-color:#55c2ac; color:#FFF;">Midterm</td>
+                        <td style="font-weight: 700; color: #800; text-align:right;"  id="midterm"></td>
+                        <td style="background-color:#ccc; font-weight: 700; color: #800; text-align:right;"  id="midtermbalance"></td>
+                        </tr>
+                        <tr>
+                        <td style="background-color:#55c2ac; color:#FFF;">Finals</td>
+                        <td style="font-weight: 700; color: #800; text-align:right;"  id="finals"></td>
+                        <td style="background-color:#ccc; font-weight: 700; color: #800; text-align:right;"  id="finalsbalance"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-striped" style="color:#666">
+                        <thead>
+                            <tr>
+                            <th></th>
+                            <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <td style="background-color:#16A085; color:#FFF;">Total Assesment</td>
+                        <td style="font-weight: 700; color: #800; text-align:right;"  id="sem_balance"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#16A085; color:#FFF;">Payments</td>
+                            <td style="font-weight: 700; color: #800; text-align:right;"  id="sem_paid"></td>
+                        </tr>
+                        <tr>
+                        <td style="background-color:#666; color:#FFF; text-align: center;">Semestral Balance :</td>
+                        <td style="background-color:#666; color:#FFF; text-align:right; font-weight: 700;" id="sem_total_balance">
+
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="background-color:#666; color:#FFF; text-align: center;">Previous Balance :</td>
+                        <td style="background-color:#666; color:#FFF; text-align:right; font-weight: 700;" id="previous_balance">
+
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="background-color:#666; color:#FFF; text-align: center;">OUTSTANDING BALANCE :</td>
+                        <td style="background-color:#666; color:#FFF; text-align:right; font-weight: 700;" id="outstanding_balance">
+                            
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
 
                 </header>
             </section>
@@ -97,7 +168,7 @@
 <!-- Balance API Handler -->
 <script>
 $(document).ready(function() {
-    Init_BalanceAPI('<?php echo base_url(); ?>index.php/API/BalanceAPI','<?php echo $this->user_data['Reference_Number']; ?>');
+    Init_BalanceAPI('<?php echo base_url(); ?>index.php/API/BalanceAPI','<?php echo $this->user_data['Reference_Number']; ?>',$('#SYlegend').val(),$('#Semlegend').val());
 });
 </script>
 <!-- Balance API Handler -->

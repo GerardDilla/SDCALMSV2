@@ -64,10 +64,11 @@ class Main extends MY_Controller {
 			print_r($result);
 			if(empty($result)){
 
-				$this->session->set_flashdata('message','Invalid Student Number / Password');
+				$this->session->set_flashdata('message','Incorrect Student Number / Password');
 				redirect('Main');
 
 			}else{
+
 				$this->session->unset_userdata('LoginData');
 				$account_session = array(
 					'Student_Number' => $result[0]['Student_Number'],

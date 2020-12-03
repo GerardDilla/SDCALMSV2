@@ -5,7 +5,7 @@ function refresh_grading(){
 
     return false; // prevent submitting
 }
-function Init_GradingAPI(url='',refnum='')
+function Init_GradingAPI(url='',refnum='',sy = '',sem = '')
 {   
     //console.log(url);
     if(url == ''){
@@ -26,7 +26,7 @@ function Init_GradingAPI(url='',refnum='')
         message_handler(config);
         return;
     }
-    if($('#Grade_sy').val() == ''){
+    if(sy == ''){
         //message_handler('You must provide School Year');
         config = {
             'message':'You must provide School Year',
@@ -35,7 +35,7 @@ function Init_GradingAPI(url='',refnum='')
         message_handler(config);
         return;
     }
-    if($('#Grade_sem').val() == ''){
+    if(sem == ''){
         //message_handler('You must provide Semester');
         config = {
             'message':'You must provide Semester',
@@ -51,11 +51,13 @@ function Init_GradingAPI(url='',refnum='')
         type: 'GET',
         data: {
             Reference_Number: refnum,
-            School_Year: $('#Grade_sy').val(),
-            Semester: $('#Grade_sem').val(),
+            School_Year: sy,
+            Semester: sem,
             Checkbal: 1,
         },
         success: function(response){
+
+            Init_BalanceAPI(url,refnum,sy,sem);
 
             result = JSON.parse(response);
             if(result['ResultCount']  != 0){

@@ -19,6 +19,7 @@ function DashboardStart(url = '',reference_number = '', sy = '', sem = ''){
         message_handler(config);
         return;
     }
+    /*
     if(sy == ''){
         //message_handler('You must provide School Year');
         config = {
@@ -37,6 +38,7 @@ function DashboardStart(url = '',reference_number = '', sy = '', sem = ''){
         message_handler(config);
         return;
     }
+    */
     //Contructs Array of inputs
     inputs = {
         'Base_url':url,
@@ -115,16 +117,18 @@ function Get_Balance(inputs){
             console.log(result);
             if(result['Error'] == 0){
 
-                $('#dash_sem-balance').html(result['data']['Semestral_Total']);
-                $('#dash_oustanding-balance').html(result['data']['Outstanding_Balance_SemSy_Excluded']);
+                $('#dash_sem-balance').html(result['Output']['Semestral_Balance']);
+                $('#dash_oustanding-balance').html(result['Output']['Outstanding_Balance']);
 
             }else{
+                
                 config = {
                     'message':result['ErrorMessage'],
                     'type':'warning'
                 }
                 message_handler(config);
                 return;
+
             }
             
         },

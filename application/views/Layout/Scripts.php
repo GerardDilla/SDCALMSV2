@@ -136,6 +136,9 @@
 		requestAnimationFrame(update);
         </script>
 
+		<!--API URL Handler-->
+		<script src="<?php echo base_url(); ?>assets/api_handler/api_url.js"></script>
+		<script>set_baseurl()</script>
 
 		<!-- API HANDLERS -->
 		<script src="<?php echo base_url(); ?>assets/api_handler/Grading_handler.js"></script>
