@@ -1,30 +1,32 @@
 <?php
 
 
-class Balance extends CI_Model{
-	
-	
-	public function getPaymentBreakdown($input){
+class Balance extends CI_Model
+{
 
-		$this->db->where('md5(Reference_Number)',$input['Reference_Number']);
-		$this->db->where('schoolyear',$input['schoolyear']);
-		$this->db->where('semester',$input['semester']);
+
+	public function getPaymentBreakdown($input)
+	{
+
+		$this->db->where('md5(Reference_Number)', $input['Reference_Number']);
+		$this->db->where('schoolyear', $input['schoolyear']);
+		$this->db->where('semester', $input['semester']);
 		$this->db->limit(1);
 		$result = $this->db->get('Fees_Enrolled_College');
 		return $result->result_array();
-		
 	}
-	public function GetLatestBalDate_query($array){
+	public function GetLatestBalDate_query($array)
+	{
 
-		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
-		$this->db->order_by('schoolyear','DESC');
-		$this->db->order_by('semester','DESC');
+		$this->db->where('md5(Reference_Number)', $array['Reference_Number']);
+		$this->db->order_by('schoolyear', 'DESC');
+		$this->db->order_by('semester', 'DESC');
 		$this->db->limit(1);
 		$result = $this->db->get('Fees_Enrolled_College');
 		return $result->result_array();
-
 	}
-	public function semestralbalance($array){
+	public function semestralbalance($array)
+	{
 
 		$this->db->select('Fees.InitialPayment, Fees.First_Pay, Fees.Second_Pay, Fees.Third_Pay,discount,
 		SUM(InitialPayment + First_Pay + Second_Pay + Third_Pay + Fourth_Pay) AS Fees
@@ -33,40 +35,39 @@ class Balance extends CI_Model{
 		$this->db->join('
 		Fees_Enrolled_College_Item AS fees_item','Fees.id = fees_item.Fees_Enrolled_College_Id AND fees_item.valid = 1','inner');
 		*/
-		$this->db->where('md5(Fees.Reference_Number)',$array['Reference_Number']);
-		$this->db->where('Fees.semester',$array['Semester']);
-		$this->db->where('Fees.schoolyear',$array['School_Year']);
+		$this->db->where('md5(Fees.Reference_Number)', $array['Reference_Number']);
+		$this->db->where('Fees.semester', $array['Semester']);
+		$this->db->where('Fees.schoolyear', $array['School_Year']);
 		$result = $this->db->get('Fees_Enrolled_College AS Fees');
 		return $result->result_array();
-
 	}
-	public function gettotalpaidsemester($array){
-		
+	public function gettotalpaidsemester($array)
+	{
+
 		$this->db->select('
 		SUM(AmountofPayment) AS AmountofPayment,semester, schoolyear
 		');
-		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
-		$this->db->where('Semester',$array['Semester']);
-		$this->db->where('SchoolYear',$array['School_Year']);
-		$this->db->where('valid',1);
+		$this->db->where('md5(Reference_Number)', $array['Reference_Number']);
+		$this->db->where('Semester', $array['Semester']);
+		$this->db->where('SchoolYear', $array['School_Year']);
+		$this->db->where('valid', 1);
 		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
 		return $result->result_array();
-
 	}
-	public function getOutstandingbal($array){
+	public function getOutstandingbal($array)
+	{
 
 		$this->db->select('
 		SUM(discount) as Discounts, SUM(InitialPayment + First_Pay + Second_Pay + Third_Pay + Fourth_Pay) AS Fees,
 		semester,
 		schoolyear
 		');
-		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
+		$this->db->where('md5(Reference_Number)', $array['Reference_Number']);
 		$result = $this->db->get('Fees_Enrolled_College');
 		return $result->result_array();
-
-		
 	}
-	public function GetTotalAndPaid($array){
+	public function GetTotalAndPaid($array)
+	{
 
 		$query = '
 			SELECT 
@@ -113,7 +114,7 @@ class Balance extends CI_Model{
 					`fees`.`withdrawalfee` 
 				FROM
 					WithdrawInformation 
-				WHERE Student_Number = '.$array['Student_Number'].' 
+				WHERE Student_Number = ' . $array['Student_Number'] . ' 
 					AND semester = `fees`.`semester` 
 					AND SchoolYear = `fees`.SchoolYear 
 				LIMIT 1)
@@ -133,25 +134,24 @@ class Balance extends CI_Model{
 				INNER JOIN `Fees_Enrolled_College_Item` AS `FECI` 
 				ON `fees`.`id` = `FECI`.`Fees_Enrolled_College_Id` 
 				AND `FECI`.`valid` 
-			WHERE md5(`fees`.`Reference_Number`) = "'.$array['Reference_Number'].'" 
+			WHERE md5(`fees`.`Reference_Number`) = "' . $array['Reference_Number'] . '" 
 			GROUP BY `SEMESTER|SY` 
 			) a 
 		';
 		$result = $this->db->query($query);
 		return $result->result_array();
-
 	}
-	public function GetBreakDown($array){
-		
+	public function GetBreakDown($array)
+	{
+
 		$AdditionalFIlter = '';
 
-		if($array['School_Year'] != '' && $array['Semester'] != ''){
+		if ($array['School_Year'] != '' && $array['Semester'] != '') {
 
 			$AdditionalFIlter = '
-				AND fees.semester = "'.$array['Semester'].'"
-				AND fees.`schoolyear` = "'.$array['School_Year'].'"
+				AND fees.semester = "' . $array['Semester'] . '"
+				AND fees.`schoolyear` = "' . $array['School_Year'] . '"
 			';
-
 		}
 
 		$query = '
@@ -203,7 +203,7 @@ class Balance extends CI_Model{
 					`fees`.`withdrawalfee` 
 				FROM
 					WithdrawInformation 
-				WHERE Student_Number = '.$array['Student_Number'].' 
+				WHERE Student_Number = ' . $array['Student_Number'] . ' 
 					AND semester = `fees`.`semester` 
 					AND SchoolYear = `fees`.SchoolYear 
 				LIMIT 1)
@@ -223,42 +223,35 @@ class Balance extends CI_Model{
 				INNER JOIN `Fees_Enrolled_College_Item` AS `FECI` 
 				ON `fees`.`id` = `FECI`.`Fees_Enrolled_College_Id` 
 				AND `FECI`.`valid` 
-			WHERE MD5(`fees`.`Reference_Number`) = "'.$array['Reference_Number'].'"
-			'.$AdditionalFIlter.'
+			WHERE MD5(`fees`.`Reference_Number`) = "' . $array['Reference_Number'] . '"
+			' . $AdditionalFIlter . '
 			GROUP BY schoolyear,semester) a 
 			GROUP BY schoolyear,semester
 		';
 		$result = $this->db->query($query);
 		return $result->result_array();
-
-
 	}
-	public function CheckFeesData($array){
+	public function CheckFeesData($array)
+	{
 
-		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
-		$this->db->where('schoolyear',$array['School_Year']);
-		$this->db->where('semester',$array['Semester']);
+		$this->db->where('md5(Reference_Number)', $array['Reference_Number']);
+		$this->db->where('schoolyear', $array['School_Year']);
+		$this->db->where('semester', $array['Semester']);
 		$this->db->limit(1);
 		$result = $this->db->get('Fees_Enrolled_College');
 		return $result->num_rows();
-
 	}
-	public function gettotalpaid($array){
+	public function gettotalpaid($array)
+	{
 
 		$this->db->select('
 			SUM(AmountofPayment) AS AmountofPayment,
 			semester, 
 			schoolyear
 		');
-		$this->db->where('md5(Reference_Number)',$array['Reference_Number']);
-		$this->db->where('valid',1);
+		$this->db->where('md5(Reference_Number)', $array['Reference_Number']);
+		$this->db->where('valid', 1);
 		$result = $this->db->get('EnrolledStudent_Payments_Throughput');
 		return $result->result_array();
-
 	}
-
-	
-		
 }
-
-?>

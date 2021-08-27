@@ -309,18 +309,13 @@ class BalanceAPI extends CI_Controller
 			//echo $fee['schoolyear'].'='.$fee['semester'].'-'.$fee['TOTAL'].':'.$fee['PAID'].':'.$fee['BALANCE'].'<br>';
 
 		}
-		if (empty($data['SemestralData'])) {
-			$lastSemesterData['balance'] = 0.00;
-			$data['Outstanding_Balance'] = 0.00;
-		} else {
-			$lastSemesterData = $data['SemestralData'][array_key_last($data['SemestralData'])];
-		}
+		$lastSemesterData = $data['SemestralData'][array_key_last($data['SemestralData'])];
 
 		$data['Previous_Balance'] = $data['Outstanding_Balance'] - $lastSemesterData['balance'];
 
 		$this->data_output['Output'] = $data;
 	}
-	private function ComputePaymentBreakdown($data = array(), $payment = 0)
+	private function ComputePaymentBreakdown($data = array(), $payment)
 	{
 
 		$return = array();
@@ -340,7 +335,6 @@ class BalanceAPI extends CI_Controller
 
 		//Check if reference number is valid
 		$sn_result = $this->Student_info->Student_Info_byREF($input_array);
-		// echo json_encode($sn_result);
 		if (empty($sn_result)) {
 
 			$this->data_output['Error'] = 1;

@@ -9,7 +9,7 @@ function set_baseurl(url = ''){
     schedule_url = BASEURL+'index.php/API/ScheduleAPI';
     */
     localStorage.setItem('test','1234');
-    alert(localStorage.getItem('test'));
+    //alert(localStorage.getItem('test'));
 }
 
 

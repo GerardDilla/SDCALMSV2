@@ -1,7 +1,7 @@
 
 function Init_BalanceAPI(url='',refnum='',sy = '',sem = '')
 {   
-    alert('test');
+
     //console.log(url);
     if(url == ''){
         config = {
