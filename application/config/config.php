@@ -26,8 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //Live Settings 
 /*
 */
-//$config['base_url'] = 'http://stdominiccollege.edu.ph/SDCALMSv2';
-$config['base_url'] = '';
+// $config['base_url'] = 'https://stdominiccollege.edu.ph/SDCALMSv2';
+$config['base_url'] = 'http://10.0.0.81/SDCALMSv2';
+//$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------

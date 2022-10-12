@@ -93,6 +93,14 @@ class Grading extends CI_Model{
 		$result = $this->db->get('Sched as SC');
 		return $result->result_array();
 	}
+	public function Get_Outcomes($array){
+
+		$this->db->where('AssessmentCode',$array['AssessmentCode']);
+		$this->db->where('valid',1);
+		$result = $this->db->get('lms_outcomes');
+		return $result->result_array();
+
+	}
 	public function Get_SchoolYear_Choices(){
 
 	}

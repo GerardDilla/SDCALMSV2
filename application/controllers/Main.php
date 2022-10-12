@@ -161,5 +161,9 @@ class Main extends MY_Controller {
 		redirect('Main');
 	}
 
+	public function encryptSomething($param = ''){
+		echo MD5($param);
+	}
+
 	
 }

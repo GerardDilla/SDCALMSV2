@@ -112,7 +112,7 @@ class AssessmentModel extends CI_Model{
         C.QuestionTypeID,
         D.Instructor_Name
         ');
-        $this->db->select('SUM(B.Points) as TotalPoints','false');
+        //$this->db->select('SUM(B.Points) as TotalPoints','false');
         $this->db->join('lms_assessment_questions as B', 'A.AssessmentCode = B.AssessmentCode');
         $this->db->join('lms_assessment_question_types as C', 'B.QuestionType = C.QuestionTypeID');
         $this->db->join('Instructor as D', 'A.InstructorID = D.ID');
@@ -296,6 +296,65 @@ class AssessmentModel extends CI_Model{
         return $result->result_array();
 
     }
+    public function AddOutcome($array){
 
+        $this->db->insert('lms_outcomes', $array);
+        return $this->db->insert_id();
+        
+    }
+    public function GetOutcomes($array){
+
+        $this->db->where('AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('valid', '1');
+        $query = $this->db->get('lms_outcomes');
+        return $query->result_array();
+
+    }
+    public function GetOutcomeScore($array){
+
+        $this->db->where('Q.AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('Q.Outcome', $array['Outcome']);
+        $this->db->where('A.Student_Number', $array['Student_Number']);
+        $this->db->where('O.valid', '1');
+        $this->db->where('A.Active', '1');
+        $this->db->where('Q.Active', '1');
+        $this->db->join('lms_assessment_answers as A','A.QuestionID = Q.QuestionID','left');
+        $this->db->join('lms_outcomes as O','Q.Outcome = O.Outcome');
+        $query = $this->db->get('lms_assessment_questions as Q');
+        return $query->result_array();
+
+    }
+    public function GetOutcomeTakers($array){
+
+        $this->db->where('Q.AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('Q.Outcome', $array['Outcome']);
+        $this->db->where('O.valid', '1');
+        $this->db->where('A.Active', '1');
+        $this->db->where('Q.Active', '1');
+        $this->db->join('lms_assessment_answers as A','A.QuestionID = Q.QuestionID','left');
+        $this->db->join('lms_outcomes as O','Q.Outcome = O.Outcome');
+        $query = $this->db->get('lms_assessment_questions as Q');
+        return $query->result_array();
+
+    }
+    public function GetOutcomeTotalScore($array){
+
+        $this->db->select('SUM(Q.Points) as TotalPoints','false');
+        $this->db->where('Q.AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('Q.Outcome', $array['Outcome']);
+        $this->db->where('Q.Active', '1');
+        $query = $this->db->get('lms_assessment_questions as Q');
+        return $query->result_array();
+
+    }
+    public function GetOutcomeQuestionCount($array){
+
+        $this->db->where('Q.AssessmentCode', $array['AssessmentCode']);
+        $this->db->where('Q.Outcome', $array['Outcome']);
+        $this->db->where('Q.Active', '1');
+        $query = $this->db->get('lms_assessment_questions as Q');
+        return $query->num_rows();
+
+    }
 }
 ?>

@@ -1,3 +1,21 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href='<?= base_url('assets/vendor/fullcalendar-5.11.3/lib/main.css') ?>' rel='stylesheet' />
+<script src='<?= base_url('assets/vendor/fullcalendar-5.11.3/lib/main.js') ?>'></script>
+<style>
+	.fc-today-button.fc-button.fc-button-primary{
+		display:none;
+	}
+	.fc-prev-button.fc-button.fc-button-primary{
+		display:none;
+	}
+	.fc-next-button.fc-button.fc-button-primary{
+		display:none;
+	}
+	/* .fc-toolbar-chunk{
+		display:none;
+	} */
+</style>
+<input type="hidden" id="base_url" value="<?= base_url(); ?>">
 <section role="main" class="content-body">
 	<header class="page-header">
 		<h2>Dashboard</h2>
@@ -42,8 +60,8 @@
 									   <!-- Inputs for Balance -->
 										<input type="hidden" value="<?php echo $this->legends['School_Year']; ?>" id="SYlegend">
 										<input type="hidden" value="<?php echo $this->legends['Semester']; ?>" id="Semlegend">
-									   <p>Academic Year:<span class="red-bold"> 2018-2019</span></p>
-									   <p class="acad-semester">Semester:     <span  class="red-bold"> Second</span></p>
+									   <p>Academic Year:<span class="red-bold"> <?php echo $this->legends['School_Year']; ?></span></p>
+									   <p class="acad-semester">Semester:     <span  class="red-bold"> <?php echo $this->legends['Semester']; ?></span></p>
 									 </div>
 									 <div class="col-md-3">
 									 </div>
@@ -112,6 +130,19 @@
 							<div class="panel-body">
 							<h3>Events</h3>
 							<hr>
+							<div align="center" class="calendar-title">
+
+							</div>
+							
+							<div align="right">
+								<select name="filterDayType" id="filterDayType">
+									<option value="dayGridMonth">Month</option>
+									<option value="dayGridWeek">Day</option>
+									<option value="timeGridWeek">Time</option>
+								</select>
+							</div>
+							<br>
+							<div align="right"><button class="btn btn-dark btn-sm">Today</button>&nbsp;<button class="btn btn-info btn-sm">Prev</button>&nbsp;<button class="btn btn-info btn-sm">Next</button></div>
 							<div id="calendar"></div>
 							</div>
 						</section>
@@ -123,7 +154,10 @@
 <!-- Balance API Handler -->
 <script>
 $(document).ready(function() {
-    DashboardStart('<?php echo base_url(); ?>','<?php echo $this->user_data['Reference_Number']; ?>','2017-2018','FIRST');
+    DashboardStart('<?php echo base_url(); ?>','<?php echo $this->user_data['Reference_Number']; ?>','<?php echo $this->legends['School_Year']; ?>','<?php echo $this->legends['Semester']; ?>');
+	
 });
+
 </script>
+<script src='<?= base_url('assets/javascripts/dashboard_calendar.js') ?>' defer></script>
 <!-- Balance API Handler -->

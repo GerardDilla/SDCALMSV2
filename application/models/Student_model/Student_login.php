@@ -21,6 +21,7 @@ class Student_login extends CI_Model{
 		');
 		$this->db->where('A.Student_Number',$array['student_id']);
 		$this->db->where('A.Password',MD5($array['student_password']));
+		// $this->db->where('A.Password',$array['student_password']);
 		$this->db->where('A.Student_Number <>',NULL);
 		$this->db->where('A.Student_Number <>','0');
 		$this->db->where('A.Active','1');

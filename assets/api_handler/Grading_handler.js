@@ -52,7 +52,8 @@ function Init_GradingAPI(url='',refnum='')
         data: {
             Reference_Number: refnum,
             School_Year: $('#Grade_sy').val(),
-            Semester: $('#Grade_sem').val()
+            Semester: $('#Grade_sem').val(),
+            Checkbal: 1,
         },
         success: function(response){
 

@@ -31,8 +31,21 @@
 			<div class="col-sm-8 col-lg-8 order-2">
 				<h1>Assessment Takers</h1>
 				<hr>
-				<h3 id="active-filter-panel">Filters:
+				<h3 id="active-filter-panel">
+					Filters:
 				</h3>
+				<h3 id="active-filter-panel">
+					Passing Grade:
+					<span style="display: inline-block;">
+						<select class="form-control input-sm mb-md" id="pass_select" style="margin-top:10px">
+							<option value="50">50%</option>
+							<option value="60">60%</option>
+							<option value="70">70%</option>
+						</select>
+					</span>
+				</h3>
+
+
 				<div class="tabs">
 					<ul class="nav nav-tabs nav-justified">
 						<li class="active">
@@ -42,7 +55,7 @@
 							<a href="#recent10" data-toggle="tab" class="text-center assessment-summary"> Summary</a>
 						</li>
 					</ul>
-					<div class="tab-content">
+					<div class="tab-content" style="height:100%;">
 						<div id="popular10" class="tab-pane active ">
 							<br>
 							<div class="form-group row">
@@ -54,7 +67,7 @@
 										</span>
 									</div>
 								</div>
-								<div class="col-md-5">
+								<div class="col-md-6">
 									<div class="input-group btn-group" style="width:100%" >
 										<span class="input-group-addon">
 											<i class="fa fa-th-list"></i>
@@ -72,17 +85,27 @@
 									<hr>
 								</div>
 								<div class="col-md-12">
-									<div class="table-responsive">
+									<div class="table-responsive" style="overflow:auto; max-width:700vw; min-height:200px">
 										<table id="respondent_table" class="table table-hover mb-none">
+											<p>Click on the Outcomes to view results</p>
 											<thead>
 												<tr>
-													<th>#</th>
 													<th>Student Number</th>
 													<th>Name</th>
-													<th>Course</th>
 													<th>Section</th>
 													<th>Score</th>
-													<th>Remarks (Passing: 70% above)</th>
+													<th>Remarks</th>
+													<?php if($this->data['AssessmentOutcomes']): ?>
+														<?php $addedoutcome = 5; ?>
+														<?php foreach($this->data['AssessmentOutcomes'] as $outcomes): ?>
+														<?php $addedoutcome++; ?>
+															<th class="added-outcome" data-outcome-no="<?php echo $addedoutcome; ?>">
+																<button class="btn btn-default btn-sm td-outcome" data-outcome-name="<?php echo $outcomes['Outcome']; ?>">
+																	<span><?php echo $outcomes['Outcome']; ?> (<?php echo $this->data['OutcomeTotal'][$outcomes['Outcome']]; ?>)</span>
+																</button>
+															</th>
+														<?php endForeach; ?>
+													<?php endIf; ?>
 												</tr>
 											</thead>
 											<tbody>
@@ -97,92 +120,152 @@
 							</div>
 						</div>
 						<div id="recent10" class="tab-pane">
-							<div class="row">
+							<div class="row" id="summary-report">
 								<div class="col-md-12 col-lg-12 col-xl-12">
-									<h2 id="active-filter-panel">Assessment Summary</h2>
+									<h2 id="active-filter-panel">Skill-Based Results</h2>
 									<hr>
 								</div>
-								<div class="col-md-6" style="text-align: center; padding-top:50px">
+								<div class="col-md-12" style="text-align: center; padding-top:50px">
+
+									<!--
 									<div class="circular-bar">
-										<div class="circular-bar-chart passing-chart" data-percent="0" data-plugin-options='{ "barColor": "#cc0000", "size": 300}'>
+										<div class="circular-bar-chart passing-chart" data-percent="0" data-plugin-options='{ "barColor": "#cc0000", "size": 250}'>
 												<strong style="font-size:25px; color:green">Passed</strong>
 												<label style="font-size:50px"><span class="percent">0</span>%</label>
 										</div>
 									</div>
+									-->
+
+
+									<canvas id="pie_outcome" width="300" height="150"></canvas>
+
+
+
 								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-tertiary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-tertiary">
-														<i class="fa fa-check-circle"></i>
+								<!--
+									<div class="col-md-12 col-lg-6 col-xl-6">
+										<section class="panel panel-featured-left panel-featured-tertiary">
+											<div class="panel-body">
+												<div class="widget-summary">
+													<div class="widget-summary-col widget-summary-col-icon">
+														<div class="summary-icon bg-tertiary">
+															<i class="fa fa-check-circle"></i>
+														</div>
 													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">Total Points:</h4>
-														<br>
-														<div class="info">
-															<strong class="amount" style="padding-top:10px; font-size:5rem;"><?php echo $this->data['AssessmentQuestions'][0]['TotalPoints']; ?></strong>
+													<div class="widget-summary-col">
+														<div class="summary">
+															<h4 class="title">Total Points:</h4>
+															<br>
+															<div class="info">
+																<strong class="amount" style="padding-top:10px; font-size:5rem;"><?php echo $this->data['TotalPoints']; ?></strong>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</section>
-								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-primary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-primary">
-														<i class="fa fa-check-circle"></i>
+										</section>
+									</div>
+									<div class="col-md-12 col-lg-6 col-xl-6">
+										<section class="panel panel-featured-left panel-featured-primary">
+											<div class="panel-body">
+												<div class="widget-summary">
+													<div class="widget-summary-col widget-summary-col-icon">
+														<div class="summary-icon bg-primary">
+															<i class="fa fa-check-circle"></i>
+														</div>
 													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">Number of Takers:</h4>
-														<br>
-														<div class="info">
-															<strong class="amount" style="padding-top:10px; font-size:5rem;" id="respondent_count"></strong>
+													<div class="widget-summary-col">
+														<div class="summary">
+															<h4 class="title">Number of Takers:</h4>
+															<br>
+															<div class="info">
+																<strong class="amount" style="padding-top:10px; font-size:5rem;" id="respondent_count"></strong>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</section>
-								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-success">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-success">
-														<i class="fa fa-check-circle"></i>
+										</section>
+									</div>
+									<div class="col-md-12 col-lg-6 col-xl-6">
+										<section class="panel panel-featured-left panel-featured-success">
+											<div class="panel-body">
+												<div class="widget-summary">
+													<div class="widget-summary-col widget-summary-col-icon">
+														<div class="summary-icon bg-success">
+															<i class="fa fa-check-circle"></i>
+														</div>
 													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">Number of Passers:</h4>
-														<br>
-														<div class="info">
-															<strong class="amount" style="padding-top:10px; font-size:5rem;" id="passers_count"></strong>
+													<div class="widget-summary-col">
+														<div class="summary">
+															<h4 class="title">Number of Passers:</h4>
+															<br>
+															<div class="info">
+																<strong class="amount" style="padding-top:10px; font-size:5rem;" id="passers_count"></strong>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
+										</section>
+									</div>
+								-->
+								<div class="col-md-12 col-lg-12 col-xl-12">
+									<hr>
+										<table>
+											<th>
+												<td>
+													<h4>Legends:</h4>
+												</td>
+												<td>
+													<span class="highlight" style="background-color:rgba(1, 128, 0, 1)">
+														Pass
+													</span> 
+												</td>
+												<td>
+													<span class="highlight" style="background-color:rgba(255, 0, 0, 1)">
+														Fail
+													</span> 
+												</td>
+												<td style="padding:0px 0px 0px 5px">
+
+												</td>
+											</th>
+										</table>
+										
+									<hr>
+									<section class="panel row">
+										<div class="col-md-1 h-100" style="margin-top:20%">
+											<h3 style="transform: rotate(-90deg); width:120px">Student</h3>
 										</div>
+										<div class="col-md-11">
+
+											<canvas id="outcome_report" width="300" height="150"></canvas>
+											<hr>
+
+										</div>
+										<div class="col-md-12 row outcome-breakdown">
+
+
+										</div>
+										
 									</section>
 								</div>
+								
 
 							</div>
+							<div class="row">
+								<hr>
+								<div class="col-md-12" style="text-align:center">
+									<button class="btn btn-info print-summary pull-right">Print Summary</button>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-4 col-lg-4 order-2">
+			<div class="col-sm-2 col-lg-3 order-2">
 				<section class="panel panel-group">
 					<header class="panel-heading bg-primary">
 
@@ -239,7 +322,7 @@
 											<li>
 												<div class="checkbox-custom checkbox-default">
 													<input type="checkbox" id="201810071" class="class_filter_check" onclick="ToggleFilter(&quot;IT314&quot;,&quot;201810071&quot;)">
-													<label for="201810071" class="todo-label"><span>IT314 : 201810071</span></label>
+													
 												</div>
 											</li>
 										</div>
@@ -255,6 +338,35 @@
 		<!--//Class Feed-->
 		<!-- end: page -->
 	</section>
+
+	<!-- Outcome result modal -->
+	<div id="Outcome_indiv_result" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="width:50%">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" style="text-transform:uppercase">Results for: <strong><span class="outcome-title">test</strong></u>
+						<span class="searchloader">
+							<img src="<?php echo base_url(); ?>assets/images/loading.gif"  height="20" width="auto">
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body row">
+					<!-- Morris: Area -->
+					<canvas id="outcome_indiv_report" width="300" height="150"></canvas>
+					<h3 style="text-align:center">Grade Percentage %</h3>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Outcome result modal -->
+
+
+
 	<script>
 		function base_url(){
 			return '<?php echo base_url(); ?>';	

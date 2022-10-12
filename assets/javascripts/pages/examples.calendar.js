@@ -79,6 +79,11 @@
 
 			},
 			events: [
+				{
+					start: '10:00', //starts at 10 on monday
+					end:   '03:00', //ends at 3 on monday? gets ignored
+					dow: [1]
+				}
 				/*
 				{
 					title: 'All Day Event',
